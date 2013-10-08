@@ -1,0 +1,37 @@
+<h1>Listing classrooms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Period</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Grade level</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @classrooms.each do |classroom| %>
+      <tr>
+        <td><%= classroom.name %></td>
+        <td><%= classroom.period %></td>
+        <td><%= classroom.start_date %></td>
+        <td><%= classroom.end_date %></td>
+        <td><%= classroom.grade_level %></td>
+        <td><%= classroom.user_id %></td>
+        <td><%= link_to 'Show', classroom %></td>
+        <td><%= link_to 'Edit', edit_classroom_path(classroom) %></td>
+        <td><%= link_to 'Destroy', classroom, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Classroom', new_classroom_path %>
