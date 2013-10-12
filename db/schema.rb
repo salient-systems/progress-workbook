@@ -11,15 +11,93 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130929041531) do
+ActiveRecord::Schema.define(version: 20131012180923) do
 
-  create_table "classrooms", force: true do |t|
+  create_table "assessment_grades", force: true do |t|
+    t.float    "total"
+    t.integer  "assessment_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "assessment_types", force: true do |t|
+    t.integer  "name"
+    t.integer  "view"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "assessments", force: true do |t|
+    t.integer  "data_type"
+    t.string   "subject"
     t.string   "name"
-    t.integer  "period"
+    t.integer  "section_id"
+    t.integer  "assessment_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "class_students", force: true do |t|
+    t.integer  "section_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cohort_students", force: true do |t|
+    t.integer  "student_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cohorts", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "criterion_grades", force: true do |t|
+    t.float    "score"
+    t.integer  "student_id"
+    t.integer  "criterion_id"
+    t.integer  "assessment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "criterions", force: true do |t|
+    t.float    "max"
+    t.string   "name"
+    t.integer  "assessment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sections", force: true do |t|
+    t.string   "name"
+    t.integer  "grade_level"
     t.date     "start_date"
     t.date     "end_date"
-    t.integer  "grade_level"
+    t.integer  "subject_id"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "students", force: true do |t|
+    t.string   "fname"
+    t.string   "lname"
+    t.string   "gender"
+    t.integer  "grade_level"
+    t.boolean  "is_active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subjects", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

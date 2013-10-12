@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-  has_many :classrooms
+  has_many :sections
 end
