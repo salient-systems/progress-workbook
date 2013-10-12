@@ -15,3 +15,9 @@
 /log/*.log
 /tmp
 /nbproject/private/
+
+# Ignore Aptana files
+.project
+
+# Ignore lock files
+Gemfile.lock
