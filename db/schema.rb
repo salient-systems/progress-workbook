@@ -11,87 +11,108 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131012180923) do
+ActiveRecord::Schema.define(version: 20131012184740) do
 
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
-    t.integer  "assessment_id"
-    t.integer  "student_id"
+    t.integer  "assessment_id", null: false
+    t.integer  "student_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "assessment_grades", ["assessment_id"], name: "index_assessment_grades_on_assessment_id", using: :btree
+  add_index "assessment_grades", ["student_id"], name: "index_assessment_grades_on_student_id", using: :btree
+
   create_table "assessment_types", force: true do |t|
-    t.integer  "name"
-    t.integer  "view"
+    t.string   "name",       null: false
+    t.integer  "view",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "assessments", force: true do |t|
-    t.integer  "data_type"
-    t.string   "subject"
-    t.string   "name"
-    t.integer  "section_id"
-    t.integer  "assessment_type_id"
+    t.integer  "data_type",          null: false
+    t.string   "subject",            null: false
+    t.string   "name",               null: false
+    t.integer  "section_id",         null: false
+    t.integer  "assessment_type_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "assessments", ["assessment_type_id"], name: "index_assessments_on_assessment_type_id", using: :btree
+  add_index "assessments", ["section_id"], name: "index_assessments_on_section_id", using: :btree
 
   create_table "class_students", force: true do |t|
-    t.integer  "section_id"
-    t.integer  "student_id"
+    t.integer  "section_id", null: false
+    t.integer  "student_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "class_students", ["section_id"], name: "index_class_students_on_section_id", using: :btree
+  add_index "class_students", ["student_id"], name: "index_class_students_on_student_id", using: :btree
 
   create_table "cohort_students", force: true do |t|
-    t.integer  "student_id"
-    t.integer  "user_id"
+    t.integer  "student_id", null: false
+    t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "cohort_students", ["student_id"], name: "index_cohort_students_on_student_id", using: :btree
+  add_index "cohort_students", ["user_id"], name: "index_cohort_students_on_user_id", using: :btree
+
   create_table "cohorts", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "criterion_grades", force: true do |t|
     t.float    "score"
-    t.integer  "student_id"
-    t.integer  "criterion_id"
-    t.integer  "assessment_id"
+    t.integer  "student_id",    null: false
+    t.integer  "criterion_id",  null: false
+    t.integer  "assessment_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "criterion_grades", ["assessment_id"], name: "index_criterion_grades_on_assessment_id", using: :btree
+  add_index "criterion_grades", ["criterion_id"], name: "index_criterion_grades_on_criterion_id", using: :btree
+  add_index "criterion_grades", ["student_id"], name: "index_criterion_grades_on_student_id", using: :btree
 
   create_table "criterions", force: true do |t|
-    t.float    "max"
-    t.string   "name"
-    t.integer  "assessment_id"
+    t.float    "max",           null: false
+    t.string   "name",          null: false
+    t.integer  "assessment_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "criterions", ["assessment_id"], name: "index_criterions_on_assessment_id", using: :btree
 
   create_table "sections", force: true do |t|
-    t.string   "name"
-    t.integer  "grade_level"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "subject_id"
-    t.integer  "user_id"
+    t.string   "name",        null: false
+    t.integer  "grade_level", null: false
+    t.date     "start_date",  null: false
+    t.date     "end_date",    null: false
+    t.integer  "subject_id",  null: false
+    t.integer  "user_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "sections", ["subject_id"], name: "index_sections_on_subject_id", using: :btree
+  add_index "sections", ["user_id"], name: "index_sections_on_user_id", using: :btree
+
   create_table "students", force: true do |t|
-    t.string   "fname"
-    t.string   "lname"
-    t.string   "gender"
-    t.integer  "grade_level"
-    t.boolean  "is_active"
+    t.string   "fname",       null: false
+    t.string   "lname",       null: false
+    t.string   "gender",      null: false
+    t.integer  "grade_level", null: false
+    t.boolean  "is_active",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -103,13 +124,14 @@ ActiveRecord::Schema.define(version: 20131012180923) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "fname"
-    t.string   "lname"
-    t.boolean  "is_active"
-    t.boolean  "is_admin"
-    t.string   "password"
+    t.string   "fname",      null: false
+    t.string   "lname",      null: false
+    t.boolean  "is_active",  null: false
+    t.boolean  "is_admin",   null: false
+    t.string   "password",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "username",   null: false
   end
 
 end
