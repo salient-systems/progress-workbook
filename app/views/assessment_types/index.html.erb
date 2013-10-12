@@ -1,0 +1,29 @@
+<h1>Listing assessment_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>View</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assessment_types.each do |assessment_type| %>
+      <tr>
+        <td><%= assessment_type.name %></td>
+        <td><%= assessment_type.view %></td>
+        <td><%= link_to 'Show', assessment_type %></td>
+        <td><%= link_to 'Edit', edit_assessment_type_path(assessment_type) %></td>
+        <td><%= link_to 'Destroy', assessment_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Assessment type', new_assessment_type_path %>

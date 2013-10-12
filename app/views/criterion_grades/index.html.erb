@@ -1,0 +1,33 @@
+<h1>Listing criterion_grades</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Score</th>
+      <th>Student</th>
+      <th>Criterion</th>
+      <th>Assessment</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @criterion_grades.each do |criterion_grade| %>
+      <tr>
+        <td><%= criterion_grade.score %></td>
+        <td><%= criterion_grade.student_id %></td>
+        <td><%= criterion_grade.criterion_id %></td>
+        <td><%= criterion_grade.assessment_id %></td>
+        <td><%= link_to 'Show', criterion_grade %></td>
+        <td><%= link_to 'Edit', edit_criterion_grade_path(criterion_grade) %></td>
+        <td><%= link_to 'Destroy', criterion_grade, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Criterion grade', new_criterion_grade_path %>

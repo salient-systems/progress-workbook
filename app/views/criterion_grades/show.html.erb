@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @criterion_grade.score %>
+</p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @criterion_grade.student_id %>
+</p>
+
+<p>
+  <strong>Criterion:</strong>
+  <%= @criterion_grade.criterion_id %>
+</p>
+
+<p>
+  <strong>Assessment:</strong>
+  <%= @criterion_grade.assessment_id %>
+</p>
+
+<%= link_to 'Edit', edit_criterion_grade_path(@criterion_grade) %> |
+<%= link_to 'Back', criterion_grades_path %>

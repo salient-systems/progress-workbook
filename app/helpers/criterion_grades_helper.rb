@@ -1,0 +1,2 @@
+module CriterionGradesHelper
+end

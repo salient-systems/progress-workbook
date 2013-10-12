@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @assessment_type.name %>
+</p>
+
+<p>
+  <strong>View:</strong>
+  <%= @assessment_type.view %>
+</p>
+
+<%= link_to 'Edit', edit_assessment_type_path(@assessment_type) %> |
+<%= link_to 'Back', assessment_types_path %>

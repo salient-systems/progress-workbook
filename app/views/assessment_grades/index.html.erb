@@ -1,0 +1,31 @@
+<h1>Listing assessment_grades</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Total</th>
+      <th>Assessment</th>
+      <th>Student</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assessment_grades.each do |assessment_grade| %>
+      <tr>
+        <td><%= assessment_grade.total %></td>
+        <td><%= assessment_grade.assessment_id %></td>
+        <td><%= assessment_grade.student_id %></td>
+        <td><%= link_to 'Show', assessment_grade %></td>
+        <td><%= link_to 'Edit', edit_assessment_grade_path(assessment_grade) %></td>
+        <td><%= link_to 'Destroy', assessment_grade, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Assessment grade', new_assessment_grade_path %>

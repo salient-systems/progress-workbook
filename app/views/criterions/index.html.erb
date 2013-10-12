@@ -1,0 +1,31 @@
+<h1>Listing criterions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Max</th>
+      <th>Name</th>
+      <th>Assessment</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @criterions.each do |criterion| %>
+      <tr>
+        <td><%= criterion.max %></td>
+        <td><%= criterion.name %></td>
+        <td><%= criterion.assessment_id %></td>
+        <td><%= link_to 'Show', criterion %></td>
+        <td><%= link_to 'Edit', edit_criterion_path(criterion) %></td>
+        <td><%= link_to 'Destroy', criterion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Criterion', new_criterion_path %>

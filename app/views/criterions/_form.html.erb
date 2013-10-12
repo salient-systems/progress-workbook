@@ -1,0 +1,29 @@
+<%= form_for(@criterion) do |f| %>
+  <% if @criterion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@criterion.errors.count, "error") %> prohibited this criterion from being saved:</h2>
+
+      <ul>
+      <% @criterion.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :max %><br>
+    <%= f.text_field :max %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :assessment_id %><br>
+    <%= f.number_field :assessment_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  max: 1.5
+  name: MyString
+  assessment_id: 1
+
+two:
+  max: 1.5
+  name: MyString
+  assessment_id: 1

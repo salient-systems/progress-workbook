@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Data type:</strong>
+  <%= @assessment.data_type %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @assessment.subject %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @assessment.name %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @assessment.section_id %>
+</p>
+
+<p>
+  <strong>Assessment type:</strong>
+  <%= @assessment.assessment_type_id %>
+</p>
+
+<%= link_to 'Edit', edit_assessment_path(@assessment) %> |
+<%= link_to 'Back', assessments_path %>

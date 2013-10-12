@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Max:</strong>
+  <%= @criterion.max %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @criterion.name %>
+</p>
+
+<p>
+  <strong>Assessment:</strong>
+  <%= @criterion.assessment_id %>
+</p>
+
+<%= link_to 'Edit', edit_criterion_path(@criterion) %> |
+<%= link_to 'Back', criterions_path %>

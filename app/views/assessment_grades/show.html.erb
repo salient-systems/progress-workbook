@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @assessment_grade.total %>
+</p>
+
+<p>
+  <strong>Assessment:</strong>
+  <%= @assessment_grade.assessment_id %>
+</p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @assessment_grade.student_id %>
+</p>
+
+<%= link_to 'Edit', edit_assessment_grade_path(@assessment_grade) %> |
+<%= link_to 'Back', assessment_grades_path %>

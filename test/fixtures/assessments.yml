@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  data_type: 1
+  subject: MyString
+  name: MyString
+  section_id: 1
+  assessment_type_id: 1
+
+two:
+  data_type: 1
+  subject: MyString
+  name: MyString
+  section_id: 1
+  assessment_type_id: 1

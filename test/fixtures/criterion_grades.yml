@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  score: 1.5
+  student_id: 1
+  criterion_id: 1
+  assessment_id: 1
+
+two:
+  score: 1.5
+  student_id: 1
+  criterion_id: 1
+  assessment_id: 1
