@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131012184740) do
+ActiveRecord::Schema.define(version: 20131012201928) do
 
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20131012184740) do
   create_table "students", force: true do |t|
     t.string   "fname",       null: false
     t.string   "lname",       null: false
-    t.string   "gender",      null: false
+    t.string   "gender"
     t.integer  "grade_level", null: false
     t.boolean  "is_active",   null: false
     t.datetime "created_at"
