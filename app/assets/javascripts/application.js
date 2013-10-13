@@ -11,4 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap.min.js
+//= require angular.js
+//= require progress-workbook
 //= require_tree .

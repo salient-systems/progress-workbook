@@ -21,15 +21,19 @@ Pwtest::Application.routes.draw do
 
   resources :students
 
+  resources :users
+  
   get "static_pages/home"
   get "static_pages/help"
-  resources :users
+  
+  # catch-all route for angular templates 
+  get 'templates/:action' => 'templates#:action'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'static_pages#home'
+  root 'templates#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
