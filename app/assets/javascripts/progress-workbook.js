@@ -42,7 +42,7 @@ app.config(function($routeProvider) {
 var rest = angular.module('rest', ['ngResource']);
 
 rest.factory('Users', function($resource) {
-	return $resource('/users', {});
+	return $resource('/users/:id', {});
 });
 
 rest.factory('Students', function($resource) {
@@ -77,23 +77,17 @@ controllers.controller('ClassCtrl', ['$scope', 'Students',
   }]);
 
 // student list
-controllers.controller('StudentListCtrl', ['$scope', '$location', 'Students',
-  function($scope, $location, Students) {
+controllers.controller('StudentListCtrl', ['$scope', 'Students',
+  function($scope, Students) {
     $scope.data = {};
 
     Students.query(function(response) {
       $scope.data.students = response;
     });
-
-    /*$scope.view = function(student) {
-      console.log('#/students/' + student.id);
-      $location.path('/students/' + student.id);
-    };*/
   }]);
 
-// student details
+// student details page
 controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
   function($scope, $routeParams, Students) {
     $scope.student = Students.get({id: $routeParams.id});
-    console.log($scope.student);
   }]);
