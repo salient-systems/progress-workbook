@@ -1,4 +1,5 @@
 class CohortsController < ApplicationController
+  layout 'scaffold'
   before_action :set_cohort, only: [:show, :edit, :update, :destroy]
 
   # GET /cohorts

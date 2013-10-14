@@ -1,9 +1,6 @@
 class AddForeignKeysAndOtherConstraints < ActiveRecord::Migration
   def change
     
-    #add username
-    add_column :users, :username, :string
-    
     # add foreign keys
     add_index :cohort_students, :student_id 
     add_index :cohort_students, :user_id 

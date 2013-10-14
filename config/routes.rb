@@ -1,4 +1,6 @@
 Pwtest::Application.routes.draw do
+  resources :users
+
   resources :class_students
 
   resources :assessment_grades
@@ -20,8 +22,6 @@ Pwtest::Application.routes.draw do
   resources :cohorts
 
   resources :students
-
-  resources :users
   
   get "static_pages/home"
   get "static_pages/help"

@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20131012201928) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "username",   null: false
     t.string   "fname",      null: false
     t.string   "lname",      null: false
     t.boolean  "is_active",  null: false
@@ -131,7 +132,6 @@ ActiveRecord::Schema.define(version: 20131012201928) do
     t.string   "password",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",   null: false
   end
 
 end

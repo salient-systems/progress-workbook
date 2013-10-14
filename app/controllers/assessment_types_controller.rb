@@ -1,4 +1,5 @@
 class AssessmentTypesController < ApplicationController
+  layout 'scaffold'
   before_action :set_assessment_type, only: [:show, :edit, :update, :destroy]
 
   # GET /assessment_types

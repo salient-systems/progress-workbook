@@ -16,6 +16,24 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Students</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Grade</th>
+            <th>Active</th>
+          </tr>
+        <thead>
+        <tbody>
+          <tr ng-repeat="student in data.students">
+            <td>{{student.fname}}</td>
+            <td>{{student.lname}}</td>
+            <td>{{student.grade_level}}</td>
+            <td>{{student.is_active}}</td>
+          </tr>
+        </tbody>
+      </table>
 	  </div>
 	</div>
   </div>

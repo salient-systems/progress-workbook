@@ -1,4 +1,5 @@
 class CriterionGradesController < ApplicationController
+  layout 'scaffold'
   before_action :set_criterion_grade, only: [:show, :edit, :update, :destroy]
 
   # GET /criterion_grades

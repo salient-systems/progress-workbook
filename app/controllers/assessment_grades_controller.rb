@@ -1,4 +1,5 @@
 class AssessmentGradesController < ApplicationController
+  layout 'scaffold'
   before_action :set_assessment_grade, only: [:show, :edit, :update, :destroy]
 
   # GET /assessment_grades

@@ -1,4 +1,5 @@
 class ClassStudentsController < ApplicationController
+  layout 'scaffold'
   before_action :set_class_student, only: [:show, :edit, :update, :destroy]
 
   # GET /class_students

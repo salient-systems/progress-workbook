@@ -1,8 +1,9 @@
 <h1>Listing users</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
+      <th>Username</th>
       <th>Fname</th>
       <th>Lname</th>
       <th>Is active</th>
@@ -17,6 +18,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= user.username %></td>
         <td><%= user.fname %></td>
         <td><%= user.lname %></td>
         <td><%= user.is_active %></td>

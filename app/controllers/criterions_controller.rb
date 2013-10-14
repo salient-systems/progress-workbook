@@ -1,4 +1,5 @@
 class CriterionsController < ApplicationController
+  layout 'scaffold'
   before_action :set_criterion, only: [:show, :edit, :update, :destroy]
 
   # GET /criterions

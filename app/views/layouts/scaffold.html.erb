@@ -4,11 +4,18 @@
   <title>Progress Workbook</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag 'jquery_ujs' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="container">  
+    <div class="row">
+	  <div class="col-md-12">
+	    <div class="box">
+		  <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

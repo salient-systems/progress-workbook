@@ -3,7 +3,6 @@ class Student < ActiveRecord::Base
   validates :lname, :presence => true
   validates_inclusion_of :gender, :in => %w( m f )
   validates :grade_level, :presence => true
-  validates :is_active, :presence => true
   
   has_many :class_students
   has_many :criterion_grades

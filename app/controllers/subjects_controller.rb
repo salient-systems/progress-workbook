@@ -1,4 +1,5 @@
 class SubjectsController < ApplicationController
+  layout 'scaffold'
   before_action :set_subject, only: [:show, :edit, :update, :destroy]
 
   # GET /subjects

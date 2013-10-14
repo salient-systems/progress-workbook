@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  layout 'scaffold'
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -69,6 +70,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:fname, :lname, :is_active, :is_admin, :password)
+      params.require(:user).permit(:username, :fname, :lname, :is_active, :is_admin, :password)
     end
 end
