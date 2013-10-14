@@ -8,13 +8,13 @@
       </button>
       <a class="navbar-brand" href="#">Progress Workbook</a>
     </div>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" ng-controller="NavCtrl">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#classes">Classes</a></li>
-        <li><a href="#/students">Students</a></li>
-        <li><a href="#/performance">Performance</a></li>
-        <li><a href="#/users">Users</a></li>
-        <li><a href="#/cohorts">Cohorts</a></li>
+        <li class="{{classes}}"><a href="#classes">Classes</a></li>
+        <li class="{{students}}"><a href="#/students">Students</a></li>
+        <li class="{{performance}}"><a href="#/performance">Performance</a></li>
+        <li class="{{users}}"><a href="#/users">Users</a></li>
+        <li class="{{cohorts}}"><a href="#/cohorts">Cohorts</a></li>
       </ul>
     </div>
   </div>

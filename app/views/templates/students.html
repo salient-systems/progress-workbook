@@ -13,7 +13,7 @@
           <thead>
           <tbody>
             <tr ng-repeat="student in data.students">
-              <td><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
+              <td><a ng-href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
               <td>{{student.grade_level}}</td>
               <td>{{student.is_active}}</td>
             </tr>

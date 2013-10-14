@@ -91,3 +91,15 @@ controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
   function($scope, $routeParams, Students) {
     $scope.student = Students.get({id: $routeParams.id});
   }]);
+
+// controller to highlight the active navigation link
+function NavCtrl($scope, $location, $route) {
+  var path;
+  $scope.$on('$routeChangeSuccess', function() {
+    $scope[path] = "";
+    path = $location.path().substring(1);
+    var end = path.indexOf('/');
+    path = path.substring(0, end > 0 ? end : path.length);
+    $scope[path] = "active";
+  });
+}
