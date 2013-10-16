@@ -5,7 +5,11 @@ class SectionsController < ApplicationController
   # GET /sections
   # GET /sections.json
   def index
-    @sections = Section.all
+    if params[:user_id] != nil
+      @sections = User.find(params[:user_id]).sections
+    else
+      @sections = Section.all
+    end
   end
 
   # GET /sections/1

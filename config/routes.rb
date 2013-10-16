@@ -1,5 +1,7 @@
 Pwtest::Application.routes.draw do
-  resources :users
+  resources :users do
+    resources :sections
+  end
 
   resources :class_students
 
@@ -22,11 +24,11 @@ Pwtest::Application.routes.draw do
   resources :cohorts
 
   resources :students
-  
+
   get "static_pages/home"
   get "static_pages/help"
-  
-  # catch-all route for angular templates 
+
+  # catch-all route for angular templates
   get 'templates/:action' => 'templates#:action'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -69,7 +71,7 @@ Pwtest::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'
