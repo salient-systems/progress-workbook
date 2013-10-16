@@ -114,21 +114,10 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
 controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
   function($scope, $routeParams, Students) {
     $scope.student = Students.get({id: $routeParams.id});
+    console.log($scope.student);
   }]);
 
-// controller to highlight the active navigation link
-function NavCtrl($scope, $location, $route) {
-  var path;
-  $scope.$on('$routeChangeSuccess', function() {
-    $scope[path] = "";
-    path = $location.path().substring(1);
-    var end = path.indexOf('/');
-    path = path.substring(0, end > 0 ? end : path.length);
-    $scope[path] = "active";
-  });
-}
-
-// student list
+// Class list
 controllers.controller('ClassListCtrl', ['$scope', 'Sections',
   function($scope, Sections) {
     $scope.data = {};
@@ -154,7 +143,17 @@ controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts',
     $scope.cohort = Cohorts.get({id: $routeParams.id});
   }]);
 
-
+// controller to highlight the active navigation link
+function NavCtrl($scope, $location, $route) {
+  var path;
+  $scope.$on('$routeChangeSuccess', function() {
+    $scope[path] = "";
+    path = $location.path().substring(1);
+    var end = path.indexOf('/');
+    path = path.substring(0, end > 0 ? end : path.length);
+    $scope[path] = "active";
+  });
+}
 
 //Sample code used for the Angular JS To Do sample
 function TodoCtrl($scope) {
