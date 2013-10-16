@@ -1,9 +1,22 @@
-<div class="container">  
+<div class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Cohorts</h3>
-	  	<p>Cohort list goes here</p>
+	  	<table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+          </tr>
+        <thead>
+        <tbody>
+          <tr ng-repeat="cohort in data.cohorts">
+            <td><a ng-href="#/cohorts/{{cohort.id}}">{{cohort.name}}</a></td>
+            <td>TBD</td>
+          </tr>
+        </tbody>
+      </table>
 	  </div>
 	</div>
   </div>

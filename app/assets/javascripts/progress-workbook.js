@@ -30,7 +30,12 @@ app.config(function($routeProvider) {
       controller: 'UserListCtrl'
     }).
     when('/cohorts', {
-      templateUrl: 'templates/cohorts.html'
+      templateUrl: 'templates/cohorts.html',
+      controller: 'CohortListCtrl'
+    }).
+      when('/cohorts/:id', {
+      templateUrl: 'templates/cohort.html',
+      controller: 'CohortCtrl'
     }).
     otherwise({redirectTo: '/classes'});
 });
@@ -50,8 +55,12 @@ rest.factory('Students', function($resource) {
   return $resource('/students/:id', {});
 });
 
-rest.factory('Sections', function($resource) { //Is this code correct?
+rest.factory('Sections', function($resource) {
   return $resource('/sections/:id', {});
+});
+
+rest.factory('Cohorts', function($resource) {
+  return $resource('/cohorts/:id', {});
 });
 
 /*
@@ -119,6 +128,22 @@ controllers.controller('ClassListCtrl', ['$scope', 'Sections',
     });
   }]);
 
+// cohort list
+controllers.controller('CohortListCtrl', ['$scope', 'Cohorts',
+  function($scope, Cohorts) {
+    $scope.data = {};
+
+    Cohorts.query(function(response) {
+      $scope.data.cohorts = response;
+    });
+  }]);
+
+// cohort details page
+controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts',
+  function($scope, $routeParams, Cohorts) {
+    $scope.cohort = Cohorts.get({id: $routeParams.id});
+  }]);
+
 
 
 //Sample code used for the Angular JS To Do sample
@@ -126,12 +151,12 @@ function TodoCtrl($scope) {
   $scope.todos = [
     {text:'learn angular', done:true},
     {text:'build an angular app', done:false}];
- 
+
   $scope.addTodo = function() {
     $scope.todos.push({text:$scope.todoText, done:false});
     $scope.todoText = '';
   };
- 
+
   $scope.remaining = function() {
     var count = 0;
     angular.forEach($scope.todos, function(todo) {
@@ -139,7 +164,7 @@ function TodoCtrl($scope) {
     });
     return count;
   };
- 
+
   $scope.archive = function() {
     var oldTodos = $scope.todos;
     $scope.todos = [];
