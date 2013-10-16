@@ -124,6 +124,7 @@ controllers.controller('ClassListCtrl', ['$scope', 'Sections',
 
     Sections.query(function(response) {
       $scope.data.sections = response;
+      console.log($scope.data.sections);
     });
   }]);
 
