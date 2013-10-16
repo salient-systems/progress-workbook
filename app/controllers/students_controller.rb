@@ -5,7 +5,13 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = Student.all
+    if params[:user_id] != nil
+      @students = User.find(params[:user_id]).students
+    elsif params[:section_id] != nil
+      @students = Section.find(params[:section_id]).students;
+    else
+      @students = Student.all
+    end
   end
 
   # GET /students/1
