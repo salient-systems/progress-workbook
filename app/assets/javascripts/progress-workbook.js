@@ -90,7 +90,6 @@ controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
     $scope.user = Users.get({id: $routeParams.id});
   }]);
 
-
 // class details
 controllers.controller('ClassCtrl', ['$scope', 'Students',
   function($scope, Students) {
