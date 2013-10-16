@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   validates :lname, :presence => true
   validates :password, :presence => true
   validates :username, :presence => true, :uniqueness => true
-  
+
   has_many :sections
+  has_many :students, through: :sections
 end

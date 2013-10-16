@@ -1,6 +1,7 @@
 Pwtest::Application.routes.draw do
   resources :users do
     resources :sections
+    resources :students
   end
 
   resources :class_students
@@ -15,7 +16,9 @@ Pwtest::Application.routes.draw do
 
   resources :assessment_types
 
-  resources :sections
+  resources :sections do
+    resources :students
+  end
 
   resources :subjects
 
