@@ -29,6 +29,10 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/users.html',
       controller: 'UserListCtrl'
     }).
+      when('/users/:id', {
+      templateUrl: 'templates/user.html',
+      controller: 'UserCtrl'
+    }).
     when('/cohorts', {
       templateUrl: 'templates/cohorts.html',
       controller: 'CohortListCtrl'
@@ -79,6 +83,13 @@ controllers.controller('UserListCtrl', ['$scope', 'Users',
   		$scope.data.users = response;
   	});
   }]);
+
+// user details page
+controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
+  function($scope, $routeParams, Users) {
+    $scope.user = Users.get({id: $routeParams.id});
+  }]);
+
 
 // class details
 controllers.controller('ClassCtrl', ['$scope', 'Students',
