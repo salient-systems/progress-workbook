@@ -3,8 +3,25 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Classes</h3>
-	  	<p><a href="#class">Period 1 - Science</a></p>
-	  </div>
+	  	<table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Period</th>
+            <!-- We'll need to add a period field to the database if we want to match the mockups -->
+            <th>Teacher</th>
+          </tr>
+        <thead>
+        <tbody>
+          <tr ng-repeat="section in data.sections">
+            <td><a ng-href="#/class/{{section.id}}">{{section.name}}</a></td>
+            <td>{{section.subject_id}}</td>
+            <td>{{section.grade_level}}</td>
+            <td>{{section.user_id}}</td>
+          </tr>
+        </tbody>
+      </table> 
 	</div>
   </div>
 </div>

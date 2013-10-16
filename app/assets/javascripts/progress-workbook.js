@@ -7,7 +7,8 @@ var app = angular.module('pw', ['controllers']);
 app.config(function($routeProvider) {
   $routeProvider.
     when('/classes', {
-      templateUrl: 'templates/classes.html'
+      templateUrl: 'templates/classes.html',
+      controller: 'ClassListCtrl'
     }).
     when('/class', {
       templateUrl: 'templates/class.html',
@@ -47,6 +48,10 @@ rest.factory('Users', function($resource) {
 
 rest.factory('Students', function($resource) {
   return $resource('/students/:id', {});
+});
+
+rest.factory('Sections', function($resource) { //Is this code correct?
+  return $resource('/sections/:id', {});
 });
 
 /*
@@ -102,4 +107,44 @@ function NavCtrl($scope, $location, $route) {
     path = path.substring(0, end > 0 ? end : path.length);
     $scope[path] = "active";
   });
+}
+
+// student list
+controllers.controller('ClassListCtrl', ['$scope', 'Sections',
+  function($scope, Sections) {
+    $scope.data = {};
+
+    Sections.query(function(response) {
+      $scope.data.sections = response;
+    });
+  }]);
+
+
+
+//Sample code used for the Angular JS To Do sample
+function TodoCtrl($scope) {
+  $scope.todos = [
+    {text:'learn angular', done:true},
+    {text:'build an angular app', done:false}];
+ 
+  $scope.addTodo = function() {
+    $scope.todos.push({text:$scope.todoText, done:false});
+    $scope.todoText = '';
+  };
+ 
+  $scope.remaining = function() {
+    var count = 0;
+    angular.forEach($scope.todos, function(todo) {
+      count += todo.done ? 0 : 1;
+    });
+    return count;
+  };
+ 
+  $scope.archive = function() {
+    var oldTodos = $scope.todos;
+    $scope.todos = [];
+    angular.forEach(oldTodos, function(todo) {
+      if (!todo.done) $scope.todos.push(todo);
+    });
+  };
 }
