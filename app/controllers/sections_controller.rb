@@ -8,7 +8,7 @@ class SectionsController < ApplicationController
     if params[:user_id] != nil
       @sections = User.find(params[:user_id]).sections
     else
-      @sections = Section.includes([:user]).all;
+      @sections = Section.includes(:user, :subject).all;
     end
   end
 

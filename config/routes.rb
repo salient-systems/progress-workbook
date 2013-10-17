@@ -1,5 +1,5 @@
 Pwtest::Application.routes.draw do
-  resources :users, shallow: true do
+  resources :users do
     resources :sections
     resources :students
   end
@@ -16,7 +16,7 @@ Pwtest::Application.routes.draw do
 
   resources :assessment_types
 
-  resources :sections, shallow: true do
+  resources :sections do
     resources :students # or use - only: [:index, :new, :create]
   end
 
