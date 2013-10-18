@@ -3,23 +3,26 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Students</h3>
+	  	<!-- <div>The following students are checked: {{checked_students}}</div> -->
 	  	  <!-- Search box -->
 	  	  <p>
-          <input type="text" class="form-control" placeholder="Search for a name or student ID..." />
-        </p>
+          <input type="text" ng-model="search.$" ng-model="studentnamee.lname" class="form-control" placeholder="Search for a name or student ID..." />
+       </p>
 
         <!-- Table -->
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Grade</th>
-              <th>Active</th>
+              <th><a href="" ng-click="predicate = 'fname'; reverse=!reverse">First Name</a><input type="text" ng-model="search.fname" class="form-control input-sm"/></th>
+              <th><a href="" ng-click="predicate = 'lname'; reverse=!reverse">Last Name</a><input type="text" ng-model="search.lname" class="form-control input-sm" /></th>
+              <th><a href="" ng-click="predicate = 'grade_level'; reverse=!reverse">Grade</a><input type="text" ng-model="search.grade_level" class="form-control input-sm" /></th>
+              <th><a href="" ng-click="predicate = 'is_active'; reverse=!reverse">Active</a><input type="text" ng-model="search.is_active" class="form-control input-sm" /></th>
             </tr>
           <thead>
           <tbody>
-            <tr ng-repeat="student in data.students">
-              <td><a ng-href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
+            <tr ng-repeat="student in data.students | filter:search | orderBy:predicate:reverse">
+              <td><input type='checkbox' value="{{student.id}}" check-list='checked_students'> <a ng-href="#/students/{{student.id}}">{{student.fname}}</a></td>
+              <td><a ng-href="#/students/{{student.id}}">{{student.lname}}</a></td>
               <td>{{student.grade_level}}</td>
               <td>{{student.is_active}}</td>
             </tr>
@@ -43,7 +46,8 @@
         <button type="button" class="btn btn-default">Show Inactive</button>
 
         <!-- Right-aligned button -->
-        <button type="button" class="btn btn-default pull-right">Add Student</button>
+        <button type="button" class="btn btn-default pull-right" >Add Student</button>
+        
       </p>
 	  </div>
 	</div>

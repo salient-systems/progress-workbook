@@ -78,6 +78,7 @@ var controllers = angular.module('controllers', ['rest']);
 controllers.controller('UserListCtrl', ['$scope', 'Users',
   function($scope, Users) {
   	$scope.data	= {};
+  	$scope.predicate = 'lname';
 
   	Users.query(function(response) {
   		$scope.data.users = response;
@@ -104,10 +105,15 @@ controllers.controller('ClassCtrl', ['$scope', 'Students',
 controllers.controller('StudentListCtrl', ['$scope', 'Students',
   function($scope, Students) {
     $scope.data = {};
-
+	$scope.checked_students = [];
+	$scope.predicate = 'lname';
+    
     Students.query(function(response) {
       $scope.data.students = response;
     });
+    
+    
+    
   }]);
 
 // student details page
@@ -121,6 +127,7 @@ controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
 controllers.controller('ClassListCtrl', ['$scope', 'Sections',
   function($scope, Sections) {
     $scope.data = {};
+    $scope.predicate = 'name';
 
     Sections.query(function(response) {
       $scope.data.sections = response;
@@ -183,3 +190,34 @@ function TodoCtrl($scope) {
     });
   };
 }
+
+app.directive('checkList', function() {
+  return {
+    scope: {
+      list: '=checkList',
+      value: '@'
+    },
+    link: function(scope, elem, attrs) {
+      var handler = function(setup) {
+        var checked = elem.prop('checked');
+        var index = scope.list.indexOf(scope.value);
+
+        if (checked && index == -1) {
+          if (setup) elem.prop('checked', false);
+          else scope.list.push(scope.value);
+        } else if (!checked && index != -1) {
+          if (setup) elem.prop('checked', true);
+          else scope.list.splice(index, 1);
+        }
+      };
+      
+      var setupHandler = handler.bind(null, true);
+      var changeHandler = handler.bind(null, false);
+            
+      elem.on('change', function() {
+        scope.$apply(changeHandler);
+      });
+      scope.$watch('list', setupHandler, true);
+    }
+  };
+});
