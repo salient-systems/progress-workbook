@@ -11,6 +11,7 @@ NUM_USERS = 100
 NUM_SUBJECTS = 20
 NUM_SECTIONS = 500
 NUM_STUDENTS = 2000
+NUM_COHORTS = 20
 
 puts "-- seeding database"
 
@@ -31,17 +32,6 @@ subjects = Array.new
 	subjects[num] = Subject.create(name: "Subject #{num}")
 end
 
-puts "   -> creating sections"
-sections = Array.new
-1.upto(NUM_SECTIONS) do |num|
-	sections[num] = Section.create(name: "Underwater Basketweaving Section #{num}",
-		grade_level: num % 3 + 6,
-		start_date: "07/01/2013",
-		end_date: "06/01/2014",
-		user_id: users[num % NUM_USERS + 1].id,
-		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
-end
-
 puts "   -> creating students"
 genders = ["m", "f", nil]
 students = Array.new
@@ -53,11 +43,38 @@ students = Array.new
 		is_active: num % 11 != 0)
 end
 
+puts "   -> creating cohorts"
+cohorts = Array.new
+1.upto(NUM_COHORTS) do |num|
+	cohorts[num] = Cohort.create(name: "Cohort #{num}")
+end
+
+puts "   -> creating cohortstudent associations"
+i=1
+1.upto(NUM_COHORTS) do |cohort|
+	1.upto(100) do |student_mod|
+		CohortStudent.create(cohort_id: cohorts[cohort].id, student: students[i % NUM_STUDENTS + 1])
+		i = i + 1
+	end
+end
+
+puts "   -> creating sections"
+sections = Array.new
+1.upto(NUM_SECTIONS) do |num|
+	sections[num] = Section.create(name: "Underwater Basketweaving Section #{num}",
+		grade_level: num % 3 + 6,
+		start_date: "07/01/2013",
+		end_date: "06/01/2014",
+		user_id: users[num % NUM_USERS + 1].id,
+		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
+end
+
 puts "   -> creating classstudent associations"
-i = 0
+i = 1
 1.upto(NUM_SECTIONS) do |section_id|
 	1.upto(25) do |student_mod|
 		ClassStudent.create(section: sections[section_id], student: students[i % NUM_STUDENTS + 1])
 		i = i + 1
 	end
 end
+
