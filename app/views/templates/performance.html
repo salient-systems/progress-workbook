@@ -1,31 +1,79 @@
-<div class="container">  
+<div class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Performance</h3>
 	  	<p>Performance app goes here</p>
-	  	
-	  	<div class="container">
-			<div ng-app>
-			    <h2>Todo</h2>
-			    <div ng-controller="TodoCtrl">
-			      <span>{{remaining()}} of {{todos.length}} remaining</span>
-			      [ <a href="" ng-click="archive()">archive</a> ]
-			      <ul class="unstyled">
-			        <li ng-repeat="todo in todos">
-			          <input type="checkbox" ng-model="todo.done">
-			          <span class="done-{{todo.done}}">{{todo.text}}</span>
-			        </li>
-			      </ul>
-			      <form ng-submit="addTodo()">
-			        <input type="text" ng-model="todoText"  size="30"
-			               placeholder="add new todo here">
-			        <input class="btn-primary" type="submit" value="add">
-			      </form>
-			    </div>
-		    </div>
-		</div>
-		</p>
+
+	  	<!-- Panel -->
+	  	<div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Data Set 1</h3>
+        </div>
+        <div class="panel-body">
+          <!-- Term drop-down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Term <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">2013-2014</a></li>
+              <li><a href="#">2012-2013</a></li>
+              <li><a href="#">2011-2012</a></li>
+              <li><a href="#">2010-2011</a></li>
+              <li><a href="#">2009-2010</a></li>
+            </ul>
+          </div>
+
+          <!-- Search Box -->
+          <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search tachers, students, and cohorts..." />
+
+          <!-- Class drop-down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Class <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Physical Science</a></li>
+              <li><a href="#">Math</a></li>
+              <li><a href="#">Underwater Basketweaving</a></li>
+            </ul>
+          </div>
+
+          <!-- Assessment drop-down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Term <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Learning Check</a></li>
+              <li><a href="#">I Can...</a></li>
+              <li><a href="#">Lab Report</a></li>
+              <li><a href="#">Tech Design</a></li>
+            </ul>
+          </div>
+
+          <!-- Data drop-down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Data <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Total Score</a></li>
+              <li><a href="#">Class Average</a></li>
+              <li><a href="#">Students Present</a></li>
+              <li><a href="#">Assessment Total</a></li>
+              <li><a href="#">Grade</a></li>
+            </ul>
+          </div>
+          <br><br>
+
+          <!-- Right-aligned buttons -->
+          <button type="button" class="btn btn-default pull-right btn-action">Save</button>
+          <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
+          <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
+        </div>
+      </div>
 	  </div>
 	</div>
   </div>
