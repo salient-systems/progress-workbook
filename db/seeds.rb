@@ -34,10 +34,11 @@ end
 		       subject_id: num % NUM_SUBJECTS + 1)
 end
 
+genders = ["m", "f", nil]
 1.upto(NUM_STUDENTS) do |num|
-	student = Student.create(fname: "TestStudent",
+	Student.create(fname: "TestStudent",
 		       lname: "Number#{num}",
-		       gender: (num % 2 == 0 ? "m" : "f"),
+		       gender: genders[num % 3],
 		       grade_level: num % 3 + 6,
 		       is_active: num % 11 != 0)
 end

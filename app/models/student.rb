@@ -1,7 +1,7 @@
 class Student < ActiveRecord::Base
   validates :fname, :presence => true
   validates :lname, :presence => true
-  validates_inclusion_of :gender, :in => %w( m f )
+  validates_inclusion_of :gender, :in => %w( m f ), :allow_nil => true
   validates :grade_level, :presence => true
 
   has_many :class_students
