@@ -12,33 +12,52 @@ NUM_SUBJECTS = 20
 NUM_SECTIONS = 500
 NUM_STUDENTS = 2000
 
+puts "-- seeding database"
+
+puts "   -> creating users"
+users = Array.new
 1.upto(NUM_USERS) do |num|
-	User.create(fname: "TestUser",
-		    lname: "Number#{num}",
-		    username: "user#{num}",
-		    password: "pass#{num}",
-		    is_active: num % 11 != 0,
-		    is_admin: num % 7 == 0)
+	users[num] = User.create(fname: "TestUser",
+		lname: "Number#{num}",
+		username: "user#{num}",
+		password: "pass#{num}",
+		is_active: num % 11 != 0,
+		is_admin: num % 7 == 0)
 end
 
+puts "   -> creating subjects"
+subjects = Array.new
 1.upto(NUM_SUBJECTS) do |num|
-	Subject.create(name: "Subject #{num}")
+	subjects[num] = Subject.create(name: "Subject #{num}")
 end
 
+puts "   -> creating sections"
+sections = Array.new
 1.upto(NUM_SECTIONS) do |num|
-	Section.create(name: "Underwater Basketweaving Section #{num}",
-		       grade_level: num % 3 + 6,
-		       start_date: "07/01/2013",
-		       end_date: "06/01/2014",
-		       user_id: num % NUM_USERS + 1,
-		       subject_id: num % NUM_SUBJECTS + 1)
+	sections[num] = Section.create(name: "Underwater Basketweaving Section #{num}",
+		grade_level: num % 3 + 6,
+		start_date: "07/01/2013",
+		end_date: "06/01/2014",
+		user_id: users[num % NUM_USERS + 1].id,
+		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
 end
 
+puts "   -> creating students"
 genders = ["m", "f", nil]
+students = Array.new
 1.upto(NUM_STUDENTS) do |num|
-	Student.create(fname: "TestStudent",
-		       lname: "Number#{num}",
-		       gender: genders[num % 3],
-		       grade_level: num % 3 + 6,
-		       is_active: num % 11 != 0)
+	students[num] = Student.create(fname: "TestStudent",
+		lname: "Number#{num}",
+		gender: genders[num % 3],
+		grade_level: num % 3 + 6,
+		is_active: num % 11 != 0)
+end
+
+puts "   -> creating classstudent associations"
+i = 0
+1.upto(NUM_SECTIONS) do |section_id|
+	1.upto(25) do |student_mod|
+		ClassStudent.create(section: sections[section_id], student: students[i % NUM_STUDENTS + 1])
+		i = i + 1
+	end
 end
