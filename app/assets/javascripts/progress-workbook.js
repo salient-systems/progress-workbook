@@ -2,7 +2,15 @@
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
  */
-var app = angular.module('pw', ['controllers']);
+var app = angular.module('pw', ['controllers','ngGrid']);
+
+angular.module('pw').filter('startFrom', function() {
+    return function(input, start) {         
+        return input.slice(start);
+	};
+});
+
+
 
 app.config(function($routeProvider) {
   $routeProvider.
@@ -110,18 +118,41 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
     $scope.data = {};
 	$scope.checked_students = [];
 	$scope.predicate = 'lname';
-
-    Students.query(function(response) {
-      $scope.data.students = response;
-    });
-
-
-
+	$scope.students = Students.query();
+	$scope.myData = $scope.students;
+	$scope.mySelections = [];
+	var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" type=\"number\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row)\"/>";
+	
+    $scope.gridOptions = { 
+	    data: 'myData',
+	    selectedItems: $scope.mySelections,
+	    multiSelect: true,
+	    showSelectionCheckbox: true,
+	    selectWithCheckboxOnly: true,
+	    enableCellEditOnFocus: true,
+	    filterOptions: {filterText: '', useExternalFilter: false},
+	    columnDefs: [ { field: 'fname', displayName: 'First Name', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(col.field)}}</a></div>'},
+	                  { field: 'lname', displayName: 'Last Name', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(col.field)}}</a></div>'},
+	                  { field: 'grade_level', displayName: 'Grade Level', enableCellEdit: true, editableCellTemplate: cellEditableTemplate},
+	                  //{ displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'}
+	                ],
+	    afterSelectionChange: function () {
+	    $scope.selectedIDs = [];
+		    angular.forEach($scope.mySelections, function ( item ) {
+		        $scope.selectedIDs.push( item.id );
+		    });
+        }
+    };
+    
+   	$scope.updateEntity = function(column, row) {
+    	console.log(row.entity);
+    	console.log(column.field);
+  	};	  
   }]);
 
 // student details page
 controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
-  function($scope, $routeParams, Students) {
+  function($scope, $routeParams, Students) { 	
     $scope.student = Students.get({id: $routeParams.id});
     console.log($scope.student);
   }]);
@@ -164,4 +195,46 @@ function NavCtrl($scope, $location, $route) {
     path = path.substring(0, end > 0 ? end : path.length);
     $scope[path] = "active";
   });
-}
+};
+
+
+
+app.directive('ngBlur', function () {
+    return function (scope, elem, attrs) {
+        elem.bind('blur', function () {
+            scope.$apply(attrs.ngBlur);
+        });
+    };
+});
+
+
+app.directive('checkList', function() {
+  return {
+    scope: {
+      list: '=checkList',
+      value: '@'
+    },
+    link: function(scope, elem, attrs) {
+      var handler = function(setup) {
+        var checked = elem.prop('checked');
+        var index = scope.list.indexOf(scope.value);
+
+        if (checked && index == -1) {
+          if (setup) elem.prop('checked', false);
+          else scope.list.push(scope.value);
+        } else if (!checked && index != -1) {
+          if (setup) elem.prop('checked', true);
+          else scope.list.splice(index, 1);
+        }
+      };
+
+      var setupHandler = handler.bind(null, true);
+      var changeHandler = handler.bind(null, false);
+
+      elem.bind('change', function() {
+        scope.$apply(changeHandler);
+      });
+      scope.$watch('list', setupHandler, true);
+    }
+  };
+});
