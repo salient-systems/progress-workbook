@@ -2,7 +2,7 @@
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
  */
-var app = angular.module('pw', ['controllers','ngGrid','pasvaz.bindonce']);
+var app = angular.module('pw', ['controllers','ngGrid']);
 
 angular.module('pw').filter('startFrom', function() {
     return function(input, start) {         
@@ -193,6 +193,7 @@ function NavCtrl($scope, $location, $route) {
     $scope[path] = "active";
   });
 };
+
 
 
 app.directive('ngBlur', function () {
