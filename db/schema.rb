@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131019184620) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
     t.integer  "assessment_id", null: false
