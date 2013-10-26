@@ -110,5 +110,5 @@ puts "   -> creating assessments"
 		subject: "Subject #{num}",
 		name: "Assessment #{num}",
 		section_id: num / 8 + 1,
-		assessment_type_id: num / NUM_ASS_TYPES + 1)
+		assessment_type_id: num % NUM_ASS_TYPES + 1)
 end
