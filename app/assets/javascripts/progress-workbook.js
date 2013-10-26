@@ -10,7 +10,7 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/classes.html',
       controller: 'ClassListCtrl'
     }).
-    when('/class', {
+    when('/classes/:id', {
       templateUrl: 'templates/class.html',
       controller: 'ClassCtrl'
     }).
@@ -67,6 +67,10 @@ rest.factory('Cohorts', function($resource) {
   return $resource('/cohorts/:id', {});
 });
 
+rest.factory('ClassStudents', function($resource) {
+  return $resource('/sections/:id/students', {});
+});
+
 /*
  * Controller definitions. Notice that we pass 'rest' into
  * the controllers constructor, which gives us access to
@@ -92,13 +96,12 @@ controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
   }]);
 
 // class details
-controllers.controller('ClassCtrl', ['$scope', 'Students',
-  function($scope, Students) {
+controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
+  function($scope, $routeParams, Students, ClassStudents) {
     $scope.data = {};
 
-    Students.query(function(response) {
-      $scope.data.students = response;
-    });
+    $scope.data.students = ClassStudents.query({id: $routeParams.id});
+    console.log($scope.data.students);
   }]);
 
 // student list

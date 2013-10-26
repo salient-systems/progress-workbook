@@ -1,5 +1,5 @@
 json.array!(@sections) do |section|
-  json.extract! section, :name, :grade_level, :start_date, :end_date, :subject_id, :user_id
+  json.extract! section, :id, :name, :grade_level, :start_date, :end_date, :subject_id, :user_id
   
   json.set! :user do
     json.extract! section.user, :fname, :lname
