@@ -16,10 +16,13 @@ NUM_COHORTS = 20
 puts "-- seeding database"
 
 puts "   -> creating users"
+fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya"]
+lnames = ["Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas"]
+names = fnames.product(lnames)
 users = Array.new
 1.upto(NUM_USERS) do |num|
-	users[num] = User.create(fname: "TestUser",
-		lname: "Number#{num}",
+	users[num] = User.create(fname: names[num-1][0],
+		lname: names[num-1][1],
 		username: "user#{num}",
 		password: "pass#{num}",
 		is_active: num % 11 != 0,
@@ -33,11 +36,16 @@ subjects = Array.new
 end
 
 puts "   -> creating students"
+fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Victor", "David", "Robert"]
+lnames1 = ["Torvalds", "Jobs", "Turing", "Bush", "Obama", "Jones", "Sagan", "Field", "Gordon", "Clevenger", "Jin", "Cruz", "Reagan"]
+lnames2 = ["Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas", "Wall", "Devereux", "Kramer"]
+lnames = lnames1.product(lnames2).map{|x| x[0] + "-" + x[1]}
+names = fnames.product(lnames)
 genders = ["m", "f", nil]
 students = Array.new
 1.upto(NUM_STUDENTS) do |num|
-	students[num] = Student.create(fname: "TestStudent",
-		lname: "Number#{num}",
+	students[num] = Student.create(fname: names[num-1][0],
+		lname: names[num-1][1],
 		gender: genders[num % 3],
 		grade_level: num % 3 + 6,
 		is_active: num % 11 != 0)
