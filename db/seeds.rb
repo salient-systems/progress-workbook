@@ -6,12 +6,20 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# Numbers chosen by taking SRS estimates and doubling them
-NUM_USERS = 100
-NUM_SUBJECTS = 20
-NUM_SECTIONS = 500
-NUM_STUDENTS = 2000
-NUM_COHORTS = 20
+# Numbers taken from SRS
+NUM_MODIFIER = 1
+
+NUM_USERS = 50 * NUM_MODIFIER
+NUM_SUBJECTS = 10 * NUM_MODIFIER
+NUM_SECTIONS = 250 * NUM_MODIFIER
+NUM_STUDENTS = 1000 * NUM_MODIFIER
+NUM_COHORTS = 20 * NUM_MODIFIER
+NUM_ASS_TYPES = 30 * NUM_MODIFIER
+NUM_ASSESSMENTS = 8 * NUM_SECTIONS * NUM_MODIFIER
+NUM_CRITERIA = 50 * NUM_SECTIONS * NUM_MODIFIER
+NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
+NUM_ASSESSMENT_GRADES = 1 * NUM_ASSESSMENTS * NUM_MODIFIER
+
 
 puts "-- seeding database"
 
@@ -91,3 +99,16 @@ i = 1
 	end
 end
 
+puts "   -> creating assessment types"
+1.upto(NUM_ASS_TYPES) do |num|
+	AssessmentType.create(name: "Assessment Type #{num}", view: (num % 3) + 1)
+end
+
+puts "   -> creating assessments"
+1.upto(NUM_ASSESSMENTS) do |num|
+	Assessment.create(data_type: num%2 + 1,
+		subject: "Subject #{num}",
+		name: "Assessment #{num}",
+		section_id: num / 8 + 1,
+		assessment_type_id: num / NUM_ASS_TYPES + 1)
+end
