@@ -14,7 +14,7 @@ NUM_SUBJECTS = 10 * NUM_MODIFIER
 NUM_SECTIONS = 250 * NUM_MODIFIER
 NUM_STUDENTS = 1000 * NUM_MODIFIER
 NUM_COHORTS = 20 * NUM_MODIFIER
-NUM_ASS_TYPES = 30 * NUM_MODIFIER
+NUM_ASS_TYPES = NUM_SECTIONS * NUM_MODIFIER
 NUM_ASSESSMENTS = 8 * NUM_SECTIONS * NUM_MODIFIER
 NUM_CRITERIA = 50 * NUM_SECTIONS * NUM_MODIFIER
 NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
@@ -99,11 +99,22 @@ i = 1
 	end
 end
 
+=begin Original Code
 puts "   -> creating assessment types"
 1.upto(NUM_ASS_TYPES) do |num|
 	AssessmentType.create(name: "Assessment Type #{num}",
 	   section_id: num / 3 + 1,
 	   view: (num % 3) + 1)
+end
+=end
+
+# '#{num} appears to be required in order for subsequent iterations to appear in the database
+puts "   -> creating assessment types"
+1.upto(NUM_ASS_TYPES) do |num|
+  AssessmentType.create(name: "Learning Check - Section #{num}", section_id: num, view: 1)
+  AssessmentType.create(name: "I Can... - Section #{num}", section_id: num, view: 2)
+  AssessmentType.create(name: "Lab Report - Section #{num}", section_id: num, view: 3)
+  AssessmentType.create(name: "Tech Design - Section #{num}", section_id: num, view: 3)
 end
 
 puts "   -> creating assessments"
@@ -120,5 +131,3 @@ puts "   -> creating criteria"
 		name: "Criterion #{num}",
 		assessment_id: num % NUM_ASSESSMENTS + 1)
 end
-
-
