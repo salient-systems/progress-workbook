@@ -1,9 +1,8 @@
 // cohort list
-app.controller('CohortListCtrl', ['$scope', 'Cohorts',
-  function($scope, Cohorts) {
-    $scope.data = {};
+app.controller('CohortListCtrl', function($scope, Cohorts) {
+  $scope.data = {};
 
-    Cohorts.query(function(response) {
-      $scope.data.cohorts = response;
-    });
-  }]);
+  Cohorts.query(function(response) {
+    $scope.data.cohorts = response;
+  });
+});

@@ -1,4 +1,4 @@
-var app = angular.module('pw', ['ngGrid', 'ngResource']);
+var app = angular.module('pw', ['restangular', 'ngGrid', 'ngResource']);
 
 /*
  * Maps routes to controllers. Notice that the controller
@@ -132,7 +132,7 @@ app.directive('checkList', function() {
 });
 
 // controller to highlight the active navigation link
-function NavCtrl($scope, $location, $route) {
+app.controller('NavCtrl', function($scope, $location, $route) {
   var path;
   $scope.$on('$routeChangeSuccess', function() {
     $scope[path] = "";
@@ -141,4 +141,4 @@ function NavCtrl($scope, $location, $route) {
     path = path.substring(0, end > 0 ? end : path.length);
     $scope[path] = "active";
   });
-};
+});
