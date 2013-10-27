@@ -3,7 +3,6 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
   $scope.students = Restangular.all('students').getList();
   $scope.checked_students = [];
   $scope.mySelections = [];
-  $scope.cellValue;
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty("fname")}} {{row.getProperty("lname")}}</a></div>';
 
