@@ -77,7 +77,7 @@ end
 puts "   -> creating sections"
 periods = ["1", "2", "3", "4", "5", "6"]
 level = ["Beginner", "Intermediate", "Advanced", "AP", "Honors"]
-topic = ["Math", "English", "Underwater Basketweaving", "Star Wars", "Quantum Mechanics", "Physical Science", "UNIX", "Women's Studies", "Senior Project", "Statistics"]
+topic = ["Math", "English", "Underwater Basketweaving", "Star Wars", "Quantum Mechanics", "Physical Science", "UNIX", "Physics", "Senior Project", "Statistics"]
 modifier = ["for Engineers", "for Art Majors", "for Business Majors"]
 sectionnames = (periods.product(level).product(topic).product(modifier)).map{|x| x[0][0][1] + " " + x[0][1] + " " + x[1] + " (" + x[0][0][0] + ")"}
 sections = Array.new
@@ -101,7 +101,9 @@ end
 
 puts "   -> creating assessment types"
 1.upto(NUM_ASS_TYPES) do |num|
-	AssessmentType.create(name: "Assessment Type #{num}", view: (num % 3) + 1)
+	AssessmentType.create(name: "Assessment Type #{num}",
+	   section_id: num / 3 + 1,
+	   view: (num % 3) + 1)
 end
 
 puts "   -> creating assessments"
@@ -109,7 +111,6 @@ puts "   -> creating assessments"
 	Assessment.create(data_type: num%2 + 1,
 		subject: "Subject #{num}",
 		name: "Assessment #{num}",
-		section_id: num / 8 + 1,
 		assessment_type_id: num % NUM_ASS_TYPES + 1)
 end
 

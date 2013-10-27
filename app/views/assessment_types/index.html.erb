@@ -4,8 +4,8 @@
   <thead>
     <tr>
       <th>Name</th>
+	  <th>Section</th>
       <th>View</th>
-      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -15,6 +15,7 @@
     <% @assessment_types.each do |assessment_type| %>
       <tr>
         <td><%= assessment_type.name %></td>
+		<td><%= assessment_type.section_id %></td>
         <td><%= assessment_type.view %></td>
         <td><%= link_to 'Show', assessment_type %></td>
         <td><%= link_to 'Edit', edit_assessment_type_path(assessment_type) %></td>
