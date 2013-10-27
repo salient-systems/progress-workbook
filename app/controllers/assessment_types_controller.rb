@@ -5,7 +5,11 @@ class AssessmentTypesController < ApplicationController
   # GET /assessment_types
   # GET /assessment_types.json
   def index
-    @assessment_types = AssessmentType.all
+    if params[:section_id] != nil
+      @assessment_types = Section.find(params[:section_id]).assessment_types
+    else
+      @assessment_types = AssessmentType.all
+    end
   end
 
   # GET /assessment_types/1

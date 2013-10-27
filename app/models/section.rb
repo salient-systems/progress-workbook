@@ -7,7 +7,7 @@ class Section < ActiveRecord::Base
     belongs_to :subject
     belongs_to :user
 
-    has_many :assessments
+    has_many :assessment_types
     has_many :class_students
 
     has_many :students, through: :class_students

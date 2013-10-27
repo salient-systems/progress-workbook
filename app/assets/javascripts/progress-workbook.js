@@ -86,6 +86,10 @@ rest.factory('UserClasses', function($resource) {
   return $resource('/users/:id/sections', {});
 });
 
+rest.factory('SectionAssessments', function($resource) {
+  return $resource('/sections/:id/assessment_types', {});
+});
+
 /*
  * Directives
  */
