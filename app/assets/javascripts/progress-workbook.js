@@ -5,7 +5,7 @@
 var app = angular.module('pw', ['controllers','ngGrid']);
 
 angular.module('pw').filter('startFrom', function() {
-    return function(input, start) {         
+    return function(input, start) {
         return input.slice(start);
 	};
 });
@@ -64,7 +64,7 @@ rest.factory('Users', function($resource) {
 });
 
 rest.factory('Students', function($resource) {
-  return $resource('/students/:id', {});
+  return $resource('/students/:id', {}, {update: {method: 'PUT'}});
 });
 
 rest.factory('Sections', function($resource) {
@@ -120,8 +120,8 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
 	$scope.mySelections = [];
 	$scope.cellValue;
 	var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" type=\"number\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row, cellValue)\" ng-model='cellValue'/>";
-	
-    $scope.gridOptions = { 
+
+    $scope.gridOptions = {
 	    data: 'myData',
 	    selectedItems: $scope.mySelections,
 	    multiSelect: true,
@@ -141,28 +141,28 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
 		    });
         }
     };
-    
+
    	$scope.updateEntity = function(column, row, cellValue) {
 	    console.log(row.entity);
 	    console.log(column.field);
 	    console.log('Cell Value prior: ' + row.entity[column.field]);
 	    console.log('Cell Value after: ' + cellValue);
-	    var student = Students.query({id: row.entity.id});
+	    var student = $scope.students.query({id: row.entity.id});
 	    console.log('students id: ' + $scope.students[row].id);
-	    
+
 	    // back end logic to update new cell value
 	    if (cellValue != row.entity[column.field]){
 	    	student.grade_level = cellValue;
 	    	student.$save();
 	    }
-	    // Upon sucessfull back end update 
+	    // Upon sucessfull back end update
 	    row.entity[column.field] = cellValue;
-  	};	  
+  	};
   }]);
 
 // student details page
 controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
-  function($scope, $routeParams, Students) { 	
+  function($scope, $routeParams, Students) {
     $scope.student = Students.get({id: $routeParams.id});
     console.log($scope.student);
   }]);
@@ -209,7 +209,7 @@ function NavCtrl($scope, $location, $route) {
 
 
 app.directive('ngBlur', function () {
-  // AngularJS does not support the onBlur event (as well as the onFocus). 
+  // AngularJS does not support the onBlur event (as well as the onFocus).
   // However, this can be overcome by adding a "simple" directive.
   // http://stackoverflow.com/questions/15647981/angularjs-and-ng-grid-auto-save-data-to-the-server-after-a-cell-was-changed
   return function (scope, elem, attrs) {
