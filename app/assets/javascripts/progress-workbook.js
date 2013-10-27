@@ -1,16 +1,9 @@
+var app = angular.module('pw', ['controllers','ngGrid']);
+
 /*
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
  */
-var app = angular.module('pw', ['controllers','ngGrid']);
-
-angular.module('pw').filter('startFrom', function() {
-    return function(input, start) {
-        return input.slice(start);
-	};
-});
-
-
 
 app.config(function($routeProvider) {
   $routeProvider.
@@ -18,7 +11,7 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/classes.html',
       controller: 'ClassListCtrl'
     }).
-    when('/class', {
+    when('/classes/:id', {
       templateUrl: 'templates/class.html',
       controller: 'ClassCtrl'
     }).
@@ -108,16 +101,11 @@ controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
   }]);
 
 // class details
-controllers.controller('ClassCtrl', ['$scope', 'Students',
-  function($scope, Students) {
+controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
+  function($scope, $routeParams, Students, ClassStudents) {
     $scope.data = {};
 
     $scope.data.students = ClassStudents.query({id: $routeParams.id});
-
-    Students.query(function(response) {
-      $scope.data.students = response;
-    });
-
   }]);
 
 // student list
@@ -182,7 +170,6 @@ controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
 controllers.controller('ClassListCtrl', ['$scope', 'Sections',
   function($scope, Sections) {
     $scope.data = {};
-    $scope.predicate = 'name';
 
     Sections.query(function(response) {
       $scope.data.sections = response;
