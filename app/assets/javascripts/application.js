@@ -11,7 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap.min
+//= require lodash.compat.min
 //= require angular
-//= require progress-workbook
-//= require_tree .
+//= require angular-resource
+//= require restangular.min
+//= require ng-grid.min
+//= require bootstrap.min
+//= require_directory
