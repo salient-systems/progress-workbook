@@ -28,7 +28,9 @@ Pwtest::Application.routes.draw do
     resources :students
   end
 
-  resources :students
+  resources :students do
+    resources :sections
+  end
 
   get "static_pages/home"
   get "static_pages/help"

@@ -78,6 +78,14 @@ rest.factory('CohortStudents', function($resource) {
   return $resource('/cohorts/:id/students', {});
 });
 
+rest.factory('StudentClasses', function($resource) {
+  return $resource('/students/:id/sections', {});
+});
+
+rest.factory('UserClasses', function($resource) {
+  return $resource('/users/:id/sections', {});
+});
+
 /*
  * Directives
  */

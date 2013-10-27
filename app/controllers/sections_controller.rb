@@ -6,9 +6,11 @@ class SectionsController < ApplicationController
   # GET /sections.json
   def index
     if params[:user_id] != nil
-      @sections = User.find(params[:user_id]).sections
+      @sections = User.find(params[:user_id]).sections.includes(:subject)
+    elsif params[:student_id] != nil
+      @sections = Student.find(params[:student_id]).sections.includes(:user, :subject)
     else
-      @sections = Section.includes(:user, :subject).all;
+      @sections = Section.includes(:user, :subject).all
     end
   end
 

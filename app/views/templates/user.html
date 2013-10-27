@@ -6,16 +6,16 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Grade</th>
-              <th>Active</th>
+              <th>Title</th>
+              <th>Subject</th>
+              <th>Period</th>
             </tr>
           <thead>
           <tbody>
-            <tr>
-              <td>{{user.fname}} {{user.lname}}</td>
-              <td>{{user.grade_level}}</td>
-              <td>{{user.is_active}}</td>
+            <tr ng-repeat="section in data.sections">
+              <td><a ng-href="#/classes/{{section.id}}">{{section.name}}</a></td>
+              <td>{{section.subject.name}}</td>
+              <td>{{section.grade_level}}</td>
             </tr>
          </tbody>
        </table>

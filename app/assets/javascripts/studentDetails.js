@@ -1,6 +1,8 @@
 // student details page
-controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
-  function($scope, $routeParams, Students) {
+controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students', 'StudentClasses',
+  function($scope, $routeParams, Students, StudentClasses) {
     $scope.student = Students.get({id: $routeParams.id});
-    console.log($scope.student);
+
+    $scope.data = {};
+    $scope.data.sections = StudentClasses.query({id: $routeParams.id});
   }]);
