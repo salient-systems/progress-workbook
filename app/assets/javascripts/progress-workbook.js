@@ -64,7 +64,7 @@ rest.factory('Users', function($resource) {
 });
 
 rest.factory('Students', function($resource) {
-  return $resource('/students/:id', {});
+  return $resource('/students/:id', {}, {update: {method: 'PUT'}});
 });
 
 rest.factory('Sections', function($resource) {
@@ -158,7 +158,7 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
 	    console.log(column.field);
 	    console.log('Cell Value prior: ' + row.entity[column.field]);
 	    console.log('Cell Value after: ' + cellValue);
-	    var student = Students.query({id: row.entity.id});
+	    var student = $scope.students.query({id: row.entity.id});
 	    console.log('students id: ' + $scope.students[row].id);
 
 	    // back end logic to update new cell value
