@@ -1,4 +1,6 @@
-var app = angular.module('pw', ['controllers','ngGrid']);
+var app = angular.module('pw', ['controllers', 'ngGrid']);
+
+var controllers = angular.module('controllers', ['rest']);
 
 /*
  * Maps routes to controllers. Notice that the controller
@@ -77,138 +79,8 @@ rest.factory('CohortStudents', function($resource) {
 });
 
 /*
- * Controller definitions. Notice that we pass 'rest' into
- * the controllers constructor, which gives us access to
- * the REST module and its resources created above.
+ * Directives
  */
-var controllers = angular.module('controllers', ['rest']);
-
-// user list
-controllers.controller('UserListCtrl', ['$scope', 'Users',
-  function($scope, Users) {
-  	$scope.data	= {};
-  	$scope.predicate = 'lname';
-
-  	Users.query(function(response) {
-  		$scope.data.users = response;
-  	});
-  }]);
-
-// user details page
-controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
-  function($scope, $routeParams, Users) {
-    $scope.user = Users.get({id: $routeParams.id});
-  }]);
-
-// class details
-controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
-  function($scope, $routeParams, Students, ClassStudents) {
-    $scope.data = {};
-
-    $scope.data.students = ClassStudents.query({id: $routeParams.id});
-  }]);
-
-// student list
-controllers.controller('StudentListCtrl', ['$scope', 'Students',
-  function($scope, Students) {
-    $scope.data = {};
-	$scope.checked_students = [];
-	$scope.predicate = 'lname';
-	$scope.students = Students.query();
-	$scope.myData = $scope.students;
-	$scope.mySelections = [];
-	$scope.cellValue;
-	var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" type=\"number\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row, cellValue)\" ng-model='cellValue'/>";
-
-    $scope.gridOptions = {
-	    data: 'myData',
-	    selectedItems: $scope.mySelections,
-	    multiSelect: true,
-	    showSelectionCheckbox: true,
-	    selectWithCheckboxOnly: true,
-	    enableCellEditOnFocus: true,
-	    filterOptions: {filterText: '', useExternalFilter: false},
-	    columnDefs: [ { field: 'fname', displayName: 'First Name', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(col.field)}}</a></div>'},
-	                  { field: 'lname', displayName: 'Last Name', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(col.field)}}</a></div>'},
-	                  { field: 'grade_level', displayName: 'Grade Level', enableCellEdit: true, editableCellTemplate: cellEditableTemplate},
-	                  //{ displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'}
-	                ],
-	    afterSelectionChange: function () {
-	    $scope.selectedIDs = [];
-		    angular.forEach($scope.mySelections, function ( item ) {
-		        $scope.selectedIDs.push( item.id );
-		    });
-        }
-    };
-
-   	$scope.updateEntity = function(column, row, cellValue) {
-	    console.log(row.entity);
-	    console.log(column.field);
-	    console.log('Cell Value prior: ' + row.entity[column.field]);
-	    console.log('Cell Value after: ' + cellValue);
-	    var student = $scope.students.query({id: row.entity.id});
-	    console.log('students id: ' + $scope.students[row].id);
-
-	    // back end logic to update new cell value
-	    if (cellValue != row.entity[column.field]){
-	    	student.grade_level = cellValue;
-	    	student.$save();
-	    }
-	    // Upon sucessfull back end update
-	    row.entity[column.field] = cellValue;
-  	};
-  }]);
-
-// student details page
-controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
-  function($scope, $routeParams, Students) {
-    $scope.student = Students.get({id: $routeParams.id});
-    console.log($scope.student);
-  }]);
-
-// Class list
-controllers.controller('ClassListCtrl', ['$scope', 'Sections',
-  function($scope, Sections) {
-    $scope.data = {};
-
-    Sections.query(function(response) {
-      $scope.data.sections = response;
-      console.log($scope.data.sections);
-    });
-  }]);
-
-// cohort list
-controllers.controller('CohortListCtrl', ['$scope', 'Cohorts',
-  function($scope, Cohorts) {
-    $scope.data = {};
-
-    Cohorts.query(function(response) {
-      $scope.data.cohorts = response;
-    });
-  }]);
-
-// cohort details page
-controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts', 'CohortStudents',
-  function($scope, $routeParams, Cohorts, CohortStudents) {
-    $scope.cohort = Cohorts.get({id: $routeParams.id});
-
-    $scope.data = {};
-    $scope.data.students = CohortStudents.query({id: $routeParams.id});
-  }]);
-
-// controller to highlight the active navigation link
-function NavCtrl($scope, $location, $route) {
-  var path;
-  $scope.$on('$routeChangeSuccess', function() {
-    $scope[path] = "";
-    path = $location.path().substring(1);
-    var end = path.indexOf('/');
-    path = path.substring(0, end > 0 ? end : path.length);
-    $scope[path] = "active";
-  });
-};
-
-
 app.directive('ngBlur', function () {
   // AngularJS does not support the onBlur event (as well as the onFocus).
   // However, this can be overcome by adding a "simple" directive.
@@ -250,3 +122,15 @@ app.directive('checkList', function() {
     }
   };
 });
+
+// controller to highlight the active navigation link
+function NavCtrl($scope, $location, $route) {
+  var path;
+  $scope.$on('$routeChangeSuccess', function() {
+    $scope[path] = "";
+    path = $location.path().substring(1);
+    var end = path.indexOf('/');
+    path = path.substring(0, end > 0 ? end : path.length);
+    $scope[path] = "active";
+  });
+};
