@@ -112,3 +112,12 @@ puts "   -> creating assessments"
 		section_id: num / 8 + 1,
 		assessment_type_id: num % NUM_ASS_TYPES + 1)
 end
+
+puts "   -> creating criteria"
+1.upto(NUM_CRITERIA) do |num|
+	Criterion.create(max: 10,
+		name: "Criterion #{num}",
+		assessment_id: num % NUM_ASSESSMENTS + 1)
+end
+
+

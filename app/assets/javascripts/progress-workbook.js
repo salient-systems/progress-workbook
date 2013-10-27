@@ -4,13 +4,21 @@
  */
 var app = angular.module('pw', ['controllers','ngGrid']);
 
+angular.module('pw').filter('startFrom', function() {
+    return function(input, start) {
+        return input.slice(start);
+	};
+});
+
+
+
 app.config(function($routeProvider) {
   $routeProvider.
     when('/classes', {
       templateUrl: 'templates/classes.html',
       controller: 'ClassListCtrl'
     }).
-    when('/classes/:id', {
+    when('/class', {
       templateUrl: 'templates/class.html',
       controller: 'ClassCtrl'
     }).
@@ -100,11 +108,16 @@ controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users',
   }]);
 
 // class details
-controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
-  function($scope, $routeParams, Students, ClassStudents) {
+controllers.controller('ClassCtrl', ['$scope', 'Students',
+  function($scope, Students) {
     $scope.data = {};
 
     $scope.data.students = ClassStudents.query({id: $routeParams.id});
+
+    Students.query(function(response) {
+      $scope.data.students = response;
+    });
+
   }]);
 
 // student list
@@ -116,7 +129,8 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
 	$scope.students = Students.query();
 	$scope.myData = $scope.students;
 	$scope.mySelections = [];
-	var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" type=\"number\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row)\"/>";
+	$scope.cellValue;
+	var cellEditableTemplate = "<input style=\"width: 90%\" step=\"any\" type=\"number\" ng-class=\"'colt' + col.index\" ng-input=\"COL_FIELD\" ng-blur=\"updateEntity(col, row, cellValue)\" ng-model='cellValue'/>";
 
     $scope.gridOptions = {
 	    data: 'myData',
@@ -139,9 +153,21 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
         }
     };
 
-   	$scope.updateEntity = function(column, row) {
-    	console.log(row.entity);
-    	console.log(column.field);
+   	$scope.updateEntity = function(column, row, cellValue) {
+	    console.log(row.entity);
+	    console.log(column.field);
+	    console.log('Cell Value prior: ' + row.entity[column.field]);
+	    console.log('Cell Value after: ' + cellValue);
+	    var student = Students.query({id: row.entity.id});
+	    console.log('students id: ' + $scope.students[row].id);
+
+	    // back end logic to update new cell value
+	    if (cellValue != row.entity[column.field]){
+	    	student.grade_level = cellValue;
+	    	student.$save();
+	    }
+	    // Upon sucessfull back end update
+	    row.entity[column.field] = cellValue;
   	};
   }]);
 
@@ -156,6 +182,7 @@ controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students',
 controllers.controller('ClassListCtrl', ['$scope', 'Sections',
   function($scope, Sections) {
     $scope.data = {};
+    $scope.predicate = 'name';
 
     Sections.query(function(response) {
       $scope.data.sections = response;
@@ -194,10 +221,45 @@ function NavCtrl($scope, $location, $route) {
   });
 };
 
+
 app.directive('ngBlur', function () {
-    return function (scope, elem, attrs) {
-        elem.bind('blur', function () {
-            scope.$apply(attrs.ngBlur);
-        });
-    };
+  // AngularJS does not support the onBlur event (as well as the onFocus).
+  // However, this can be overcome by adding a "simple" directive.
+  // http://stackoverflow.com/questions/15647981/angularjs-and-ng-grid-auto-save-data-to-the-server-after-a-cell-was-changed
+  return function (scope, elem, attrs) {
+    elem.bind('blur', function () {
+      scope.$apply(attrs.ngBlur);
+    });
+  };
+});
+
+app.directive('checkList', function() {
+  return {
+    scope: {
+      list: '=checkList',
+      value: '@'
+    },
+    link: function(scope, elem, attrs) {
+      var handler = function(setup) {
+        var checked = elem.prop('checked');
+        var index = scope.list.indexOf(scope.value);
+
+        if (checked && index == -1) {
+          if (setup) elem.prop('checked', false);
+          else scope.list.push(scope.value);
+        } else if (!checked && index != -1) {
+          if (setup) elem.prop('checked', true);
+          else scope.list.splice(index, 1);
+        }
+      };
+
+      var setupHandler = handler.bind(null, true);
+      var changeHandler = handler.bind(null, false);
+
+      elem.bind('change', function() {
+        scope.$apply(changeHandler);
+      });
+      scope.$watch('list', setupHandler, true);
+    }
+  };
 });

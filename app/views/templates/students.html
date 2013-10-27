@@ -9,11 +9,11 @@
           <input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search for a name or student ID..." />
        </p>
 
-        <!-- Table -->
+        <!-- Table --> 
         <div style="height: 400px;" ng-grid="gridOptions"></div>
-
-       </div>
-
+       	  
+       </div>    
+       
        <p>
         <!-- Drop-down button -->
         <div class="btn-group">
@@ -21,23 +21,23 @@
             Bulk Actions <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Compare</a></li>
-            <li><a href="#">Add to Cohort</a></li>
+            <li><a href="#">Delete</a></li>
             <li><a href="#">Activate/Deactivate</a></li>
-            <li><a href="#">Delete Student</a></li>
+            <li><a href="#">Add to Cohort</a></li>
+            <li><a href="#">Compare</a></li>
           </ul>
         </div>
-
+        
         <!-- Button -->
-        <button type="button" class="btn btn-default">Show Inactive</button> <!-- Change to Show Active when clicked -->
+        <button type="button" class="btn btn-default">Show Inactive</button>
 
         <!-- Right-aligned button -->
-        <button type="button" class="btn btn-default pull-right">Add Student</button>
+        <button type="button" class="btn btn-default pull-right" >Add Student</button>
 
       </p>
 	  </div>
-
+	  
 	</div>
-
+	
   </div>
 </div>
