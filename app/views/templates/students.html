@@ -4,15 +4,15 @@
 	  <div class="box">
 	  	<h3>Students</h3>
 	  	<!-- <div>The following students are checked: {{checked_students}}</div> -->
-	      <!-- Search box -->
-	  	  <p>
-          <input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search for a name or student ID..." />
-        </p>
+	    <!-- Search box -->
+  	  <p>
+        <input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search for a name or student ID..." />
+      </p>
 
-       <!-- Table -->
-       <div style="height: 400px;" ng-grid="gridOptions"></div>
+      <!-- Table -->
+      <div style="height: 400px;" ng-grid="gridOptions"></div>
 
-       </div>
+   </div>
 
        <p>
         <!-- Drop-down button -->
@@ -30,7 +30,7 @@
 
         <!-- Button -->
         <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
-        
+
 
         <!-- Right-aligned button -->
         <button type="button" class="btn btn-default pull-right" >Add Student</button>

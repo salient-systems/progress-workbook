@@ -1,8 +1,4 @@
 // cohort list
-app.controller('CohortListCtrl', function($scope, Cohorts) {
-  $scope.data = {};
-
-  Cohorts.query(function(response) {
-    $scope.data.cohorts = response;
-  });
+app.controller('CohortListCtrl', function($scope, Restangular) {
+  $scope.cohorts = Restangular.all('cohorts').getList();
 });

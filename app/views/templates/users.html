@@ -13,7 +13,7 @@
       		  </tr>
   		    <thead>
   		    <tbody>
-      		  <tr ng-repeat="user in data.users | filter:search | orderBy:predicate:reverse">
+      		  <tr ng-repeat="user in users | filter:search | orderBy:predicate:reverse">
       		    <td><a ng-href="#/users/{{user.id}}">{{user.fname}}</a></td>
       		    <td><a ng-href="#/users/{{user.id}}">{{user.lname}}</a></td>
       		    <td>{{user.username}}</td>

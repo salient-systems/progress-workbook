@@ -18,7 +18,7 @@
           </tr>
         <thead>
         <tbody>
-          <tr ng-repeat="cohort in data.cohorts | filter:search | orderBy:predicate:reverse">
+          <tr ng-repeat="cohort in cohorts | filter:search | orderBy:predicate:reverse">
             <td><a ng-href="#/cohorts/{{cohort.id}}">{{cohort.name}}</a></td>
             <td>TBD</td>
           </tr>

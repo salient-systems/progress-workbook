@@ -4,7 +4,7 @@
         <div class="box">
         	<h3>Assessments</h3>
           <p>
-            <div ng-repeat="assessment_type in data.assessment_types">
+            <div ng-repeat="assessment_type in assessment_types">
               <a href="#">{{assessment_type.name}}</a>
             </div>
           </p>
@@ -33,7 +33,7 @@
           </tr>
         <thead>
         <tbody>
-          <tr ng-repeat="student in data.students">
+          <tr ng-repeat="student in students">
             <td><a ng-href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
             <td>{{student.grade_level}}</td>
             <td>{{student.is_active}}</td>

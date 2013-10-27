@@ -1,8 +1,7 @@
 // cohort details page
 app.controller('CohortCtrl',
-function($scope, $routeParams, Cohorts, CohortStudents) {
-  $scope.cohort = Cohorts.get({id: $routeParams.id});
-
-  $scope.data = {};
-  $scope.data.students = CohortStudents.query({id: $routeParams.id});
+function($scope, $routeParams, Restangular) {
+  var cohort = Restangular.one('cohorts', $routeParams.id);
+  $scope.cohort = cohort.get();
+  $scope.students = cohort.getList('students');
 });

@@ -1,9 +1,8 @@
 // student list
-app.controller('StudentListCtrl', function($scope, Students) {
-  $scope.data = {};
+app.controller('StudentListCtrl', function($scope, Restangular) {
   $scope.checked_students = [];
   $scope.predicate = 'lname';
-  $scope.students = Students.query();
+  $scope.students = Restangular.all('students').getList();
   $scope.myData = $scope.students;
   $scope.mySelections = [];
   $scope.cellValue;

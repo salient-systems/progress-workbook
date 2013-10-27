@@ -1,10 +1,6 @@
 // user list
-app.controller('UserListCtrl', function($scope, Users) {
-  $scope.data = {};
-
-  Users.query(function(response) {
-    $scope.data.users = response;
-  });
+app.controller('UserListCtrl', function($scope, Restangular) {
+  $scope.users = Restangular.all('users').getList();
 
 	$scope.activateUsersButton = function() {
 		$scope.active = !$scope.active;

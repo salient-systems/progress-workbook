@@ -14,7 +14,7 @@
           </tr>
         <thead>
         <tbody>
-          <tr ng-repeat="section in data.sections | filter:search | orderBy:predicate:reverse">
+          <tr ng-repeat="section in sections | filter:search | orderBy:predicate:reverse">
             <td><a ng-href="#/classes/{{section.id}}">{{section.name}}</a></td>
             <td>{{section.subject.name}}</td>
             <td>{{section.grade_level}}</td>
