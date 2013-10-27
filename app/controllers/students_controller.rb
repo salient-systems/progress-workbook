@@ -9,6 +9,8 @@ class StudentsController < ApplicationController
       @students = User.find(params[:user_id]).students
     elsif params[:section_id] != nil
       @students = Section.find(params[:section_id]).students;
+    elsif params[:cohort_id] != nil
+      @students = Cohort.find(params[:cohort_id]).students;
     else
       @students = Student.all
     end

@@ -71,6 +71,10 @@ rest.factory('ClassStudents', function($resource) {
   return $resource('/sections/:id/students', {});
 });
 
+rest.factory('CohortStudents', function($resource) {
+  return $resource('/cohorts/:id/students', {});
+});
+
 /*
  * Controller definitions. Notice that we pass 'rest' into
  * the controllers constructor, which gives us access to
@@ -101,7 +105,6 @@ controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'Clas
     $scope.data = {};
 
     $scope.data.students = ClassStudents.query({id: $routeParams.id});
-    console.log($scope.data.students);
   }]);
 
 // student list
@@ -171,9 +174,12 @@ controllers.controller('CohortListCtrl', ['$scope', 'Cohorts',
   }]);
 
 // cohort details page
-controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts',
-  function($scope, $routeParams, Cohorts) {
+controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts', 'CohortStudents',
+  function($scope, $routeParams, Cohorts, CohortStudents) {
     $scope.cohort = Cohorts.get({id: $routeParams.id});
+
+    $scope.data = {};
+    $scope.data.students = CohortStudents.query({id: $routeParams.id});
   }]);
 
 // controller to highlight the active navigation link

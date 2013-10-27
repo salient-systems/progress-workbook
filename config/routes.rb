@@ -24,7 +24,9 @@ Pwtest::Application.routes.draw do
 
   resources :cohort_students
 
-  resources :cohorts
+  resources :cohorts do
+    resources :students
+  end
 
   resources :students
 
