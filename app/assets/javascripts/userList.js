@@ -7,4 +7,9 @@ controllers.controller('UserListCtrl', ['$scope', 'Users',
     Users.query(function(response) {
       $scope.data.users = response;
     });
+    
+	$scope.activateUsersButton = function()
+	{
+		$scope.active = !$scope.active;
+	};
   }]);

@@ -23,13 +23,14 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Compare</a></li>
             <li><a href="#">Add to Cohort</a></li>
-            <li><a href="#">Activate/Deactivate</a></li>
+            <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
             <li><a href="#">Delete Student</a></li>
           </ul>
         </div>
 
         <!-- Button -->
-        <button type="button" class="btn btn-default">Show Inactive</button> <!-- Change to Show Active when clicked -->
+        <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
+        
 
         <!-- Right-aligned button -->
         <button type="button" class="btn btn-default pull-right" >Add Student</button>
