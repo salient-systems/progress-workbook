@@ -1,5 +1,5 @@
 // section details
-controllers.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
+app.controller('ClassCtrl', ['$scope', '$routeParams', 'Students', 'ClassStudents',
   function($scope, $routeParams, Students, ClassStudents) {
     $scope.data = {};
 

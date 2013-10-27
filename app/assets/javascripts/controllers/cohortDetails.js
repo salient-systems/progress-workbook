@@ -1,5 +1,5 @@
 // cohort details page
-controllers.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts', 'CohortStudents',
+app.controller('CohortCtrl', ['$scope', '$routeParams', 'Cohorts', 'CohortStudents',
   function($scope, $routeParams, Cohorts, CohortStudents) {
     $scope.cohort = Cohorts.get({id: $routeParams.id});
 

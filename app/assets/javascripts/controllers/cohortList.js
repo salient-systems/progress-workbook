@@ -1,5 +1,5 @@
 // cohort list
-controllers.controller('CohortListCtrl', ['$scope', 'Cohorts',
+app.controller('CohortListCtrl', ['$scope', 'Cohorts',
   function($scope, Cohorts) {
     $scope.data = {};
 

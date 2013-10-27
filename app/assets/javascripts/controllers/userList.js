@@ -1,5 +1,5 @@
 // user list
-controllers.controller('UserListCtrl', ['$scope', 'Users',
+app.controller('UserListCtrl', ['$scope', 'Users',
   function($scope, Users) {
     $scope.data = {};
     $scope.predicate = 'lname';
@@ -7,7 +7,7 @@ controllers.controller('UserListCtrl', ['$scope', 'Users',
     Users.query(function(response) {
       $scope.data.users = response;
     });
-    
+
 	$scope.activateUsersButton = function()
 	{
 		$scope.active = !$scope.active;

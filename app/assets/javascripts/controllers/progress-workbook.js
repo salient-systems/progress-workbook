@@ -1,6 +1,4 @@
-var app = angular.module('pw', ['controllers', 'ngGrid']);
-
-var controllers = angular.module('controllers', ['rest']);
+var app = angular.module('pw', ['ngGrid', 'ngResource']);
 
 /*
  * Maps routes to controllers. Notice that the controller
@@ -52,41 +50,39 @@ app.config(function($routeProvider) {
  * the $resource function is the url of the REST API
  * corresponding to that resource.
  */
-var rest = angular.module('rest', ['ngResource']);
-
-rest.factory('Users', function($resource) {
+app.factory('Users', function($resource) {
 	return $resource('/users/:id', {});
 });
 
-rest.factory('Students', function($resource) {
+app.factory('Students', function($resource) {
   return $resource('/students/:id', {}, {update: {method: 'PUT'}});
 });
 
-rest.factory('Sections', function($resource) {
+app.factory('Sections', function($resource) {
   return $resource('/sections/:id', {});
 });
 
-rest.factory('Cohorts', function($resource) {
+app.factory('Cohorts', function($resource) {
   return $resource('/cohorts/:id', {});
 });
 
-rest.factory('ClassStudents', function($resource) {
+app.factory('ClassStudents', function($resource) {
   return $resource('/sections/:id/students', {});
 });
 
-rest.factory('CohortStudents', function($resource) {
+app.factory('CohortStudents', function($resource) {
   return $resource('/cohorts/:id/students', {});
 });
 
-rest.factory('StudentClasses', function($resource) {
+app.factory('StudentClasses', function($resource) {
   return $resource('/students/:id/sections', {});
 });
 
-rest.factory('UserClasses', function($resource) {
+app.factory('UserClasses', function($resource) {
   return $resource('/users/:id/sections', {});
 });
 
-rest.factory('SectionAssessments', function($resource) {
+app.factory('SectionAssessments', function($resource) {
   return $resource('/sections/:id/assessment_types', {});
 });
 

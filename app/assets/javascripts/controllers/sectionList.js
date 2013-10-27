@@ -1,5 +1,5 @@
 // Class list
-controllers.controller('ClassListCtrl', ['$scope', 'Sections',
+app.controller('ClassListCtrl', ['$scope', 'Sections',
   function($scope, Sections) {
     $scope.data = {};
 

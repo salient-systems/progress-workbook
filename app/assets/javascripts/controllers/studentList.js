@@ -1,5 +1,5 @@
 // student list
-controllers.controller('StudentListCtrl', ['$scope', 'Students',
+app.controller('StudentListCtrl', ['$scope', 'Students',
   function($scope, Students) {
   $scope.data = {};
   $scope.checked_students = [];
@@ -47,7 +47,7 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
       // Upon sucessfull back end update
       row.entity[column.field] = cellValue;
     };
-    
+
     $scope.activateStudentsButton = function()
 	{
 		$scope.active = !$scope.active; //toggles boolean for active or deactive students to be displayed

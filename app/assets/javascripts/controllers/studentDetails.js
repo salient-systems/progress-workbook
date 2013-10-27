@@ -1,5 +1,5 @@
 // student details page
-controllers.controller('StudentCtrl', ['$scope', '$routeParams', 'Students', 'StudentClasses',
+app.controller('StudentCtrl', ['$scope', '$routeParams', 'Students', 'StudentClasses',
   function($scope, $routeParams, Students, StudentClasses) {
     $scope.student = Students.get({id: $routeParams.id});
 

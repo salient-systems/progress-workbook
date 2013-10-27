@@ -1,5 +1,5 @@
 // user details page
-controllers.controller('UserCtrl', ['$scope', '$routeParams', 'Users', 'UserClasses',
+app.controller('UserCtrl', ['$scope', '$routeParams', 'Users', 'UserClasses',
   function($scope, $routeParams, Users, UserClasses) {
     $scope.user = Users.get({id: $routeParams.id});
 
