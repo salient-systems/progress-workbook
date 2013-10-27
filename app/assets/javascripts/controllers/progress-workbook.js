@@ -82,7 +82,7 @@ app.factory('UserClasses', function($resource) {
   return $resource('/users/:id/sections', {});
 });
 
-app.factory('SectionAssessments', function($resource) {
+app.factory('ClassAssessments', function($resource) {
   return $resource('/sections/:id/assessment_types', {});
 });
 

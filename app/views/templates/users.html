@@ -9,16 +9,14 @@
       		    <th><a href="" ng-click="predicate = 'fname'; reverse=!reverse">First Name</a><input type="text" ng-model="search.fname" class="form-control input-sm" /></th>
       		    <th><a href="" ng-click="predicate = 'lname'; reverse=!reverse">Last Name</a><input type="text" ng-model="search.lname" class="form-control input-sm" /></th>
       		    <th><a href="" ng-click="predicate = 'username'; reverse=!reverse">Username</a><input type="text" ng-model="search.username" class="form-control input-sm" /></th>
-      		    <th><a href="" ng-click="predicate = 'is_active'; reverse=!reverse">Active</a><input type="text" ng-model="search.is_active" class="form-control input-sm" /></th>
       		    <th><a href="" ng-click="predicate = 'is_admin'; reverse=!reverse">Admin</a><input type="text" ng-model="search.is_admin" class="form-control input-sm" /></th>
       		  </tr>
   		    <thead>
   		    <tbody>
-      		  <tr ng-repeat="user in data.users | filter:search | orderBy:predicate:reverse">
+      		  <tr ng-repeat="assessment_type in data.assessment_types | orderBy:name">
       		    <td><a ng-href="#/users/{{user.id}}">{{user.fname}}</a></td>
       		    <td><a ng-href="#/users/{{user.id}}">{{user.lname}}</a></td>
       		    <td>{{user.username}}</td>
-      		    <td>{{user.is_active}}</td>
       		    <td>{{user.is_admin}}</td>
       		  </tr>
   		    </tbody>
