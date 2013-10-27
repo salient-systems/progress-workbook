@@ -115,7 +115,7 @@ controllers.controller('StudentListCtrl', ['$scope', 'Students',
     $scope.data = {};
 	$scope.checked_students = [];
 	$scope.predicate = 'lname';
-	$scope.students = Students.get();
+	$scope.students = Students.query();
 	$scope.myData = $scope.students;
 	$scope.mySelections = [];
 	$scope.cellValue;
