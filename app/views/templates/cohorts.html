@@ -13,12 +13,12 @@
 	  	<table class="table table-striped">
         <thead>
           <tr>
-            <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
+            <th>Name</th>
             <th>Size</th>
           </tr>
         <thead>
         <tbody>
-          <tr ng-repeat="cohort in cohorts | filter:search | orderBy:predicate:reverse">
+          <tr ng-repeat="cohort in cohorts">
             <td><a ng-href="#/cohorts/{{cohort.id}}">{{cohort.name}}</a></td>
             <td>TBD</td>
           </tr>

@@ -4,7 +4,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
   $scope.checked_students = [];
   $scope.mySelections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-  var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty("fname")}} {{row.getProperty("lname")}}</a></div>';
+  var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
 
   $scope.gridOptions = {
     data: 'students',
@@ -17,7 +17,12 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
     columnDefs: [
       {
         field: 'fname',
-        displayName:'Name',
+        displayName:'First Name',
+        cellTemplate: nameTemplate,
+        enableCellEdit: false,
+      }, {
+        field: 'lname',
+        displayName:'Last Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {

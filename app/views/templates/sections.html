@@ -6,15 +6,15 @@
 	  	<table class="table table-striped">
         <thead>
           <tr>
-            <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Title</a><input type="text" ng-model="search.name" class="form-control input-sm" /></th>
-            <th><a href="" ng-click="predicate = 'subject.name'; reverse=!reverse">Subject</a><input type="text" ng-model="search.subject" class="form-control input-sm" /></th>
-            <th><a href="" ng-click="predicate = 'grade_level'; reverse=!reverse">Period</a><input type="text" ng-model="search.grade_level" class="form-control input-sm" /></th>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Grade</a></th>
             <!-- We'll need to add a period field to the database if we want to match the mockups -->
-            <th><a href="" ng-click="predicate = 'user.fname'; reverse=!reverse">Teacher</a><input type="text" ng-model="search.user" class="form-control input-sm" /></th>
+            <th>Teacher</th>
           </tr>
         <thead>
         <tbody>
-          <tr ng-repeat="section in sections | filter:search | orderBy:predicate:reverse">
+          <tr ng-repeat="section in sections">
             <td><a ng-href="#/classes/{{section.id}}">{{section.name}}</a></td>
             <td>{{section.subject.name}}</td>
             <td>{{section.grade_level}}</td>
