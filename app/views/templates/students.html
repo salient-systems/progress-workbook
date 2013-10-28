@@ -11,10 +11,9 @@
 
       <!-- Table -->
       <div style="height: 400px;" ng-grid="gridOptions"></div>
-
-   </div>
-
+    </div>
        <p>
+
         <!-- Drop-down button -->
         <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -22,7 +21,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Compare</a></li>
-            <li><a href="#">Add to Cohort</a></li>
+            <li><a data-toggle="modal" href="#addToCohortModal">Add to Cohort</a></li>
             <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
             <li><a href="#">Delete Student</a></li>
           </ul>
@@ -31,9 +30,75 @@
         <!-- Button -->
         <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
 
+        <!-- Right-aligned button trigger modal -->
+        <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
 
-        <!-- Right-aligned button -->
-        <button type="button" class="btn btn-default pull-right" >Add Student</button>
+        <!-- Modal -->
+        <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Student</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="text" class="form-control input-sm" placeholder="First Name..." />
+                    <input type="text" class="form-control input-sm" placeholder="Student ID..." />
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control input-sm" placeholder="Last Name..." />
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Grade Level <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">7</a></li>
+                        <li><a href="#">8</a></li>
+                        <li><a href="#">9</a></li>
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Gender <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Male</a></li>
+                        <li><a href="#">Female</a></li>
+                        <li><a href="#">Not Specified</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Create</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add to Cohort</h4>
+              </div>
+              <div class="modal-body">
+                <input type="text" class="form-control input-sm" placeholder="Search for a cohort..." />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Create</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
       </p>
 	  </div>
