@@ -3,7 +3,86 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Help + Tips</h3>
-      <p>Lorem ipsum</p>
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#overview" >Overview</a></li>
+        <li class="dropdown">
+          <a href="#" id="myTab" class="dropdown-toggle" data-toggle="dropdown">Instructions<b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+            <li><a href="#classinstr" tabindex="-1" data-toggle="tab">Managing Classes</a></li>
+            <li><a href="#studentsinstr" tabindex="-1" data-toggle="tab">Managing Students</a></li>
+            <li><a href="#perfinstr" tabindex="-1" data-toggle="tab">Tracking Performance</a></li>
+            <li><a href="#usersinstr" tabindex="-1" data-toggle="tab">Managing Users</a></li>
+            <li><a href="#cohortsinstr" tabindex="-1" data-toggle="tab">Managing Cohorts</a></li>
+            <li><a href="#settingsinstr" tabindex="-1" data-toggle="tab">Account Settings</a></li>
+            <li><a href="#admininstr" tabindex="-1" data-toggle="tab">Administration</a></li>
+          </ul>
+        </li>
+        <li><a href="#support">Support</a></li>
+        <li><a href="#tips">Tips</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade active in" id="overview"><br>
+          <p>
+            The Progress Workbook allows teachers and administrators to view and track the performance of students, classes, cohorts, and even teachers over time.<br>
+            <br>
+            More content coming soon!
+          </p>
+        </div>
+        <div class="tab-pane fade" id="classinstr"><br>
+          <p>
+            Classes instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="studentsinstr"><br>
+          <p>
+            Students instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="perfinstr"><br>
+          <p>
+            Performance instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="usersinstr"><br>
+          <p>
+            Users instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="cohortsinstr"><br>
+          <p>
+            Cohorts instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="settingsinstr"><br>
+          <p>
+            Settings instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="admininstr"><br>
+          <p>
+            Classes instructions coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="support"><br>
+          <p>
+            Support information coming soon.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="tips"><br>
+          <p>
+            Tips coming soon.
+          </p>
+        </div>
+      </div>
+
+      <script>
+        $('#myTab a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        })
+      </script>
+
 	  </div>
 	</div>
   </div>
