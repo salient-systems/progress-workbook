@@ -24,7 +24,7 @@ app.config(function($routeProvider) {
       controller: 'StudentCtrl'
     }).
     when('/performance', {
-      templateUrl: 'templates/performance.html'
+      templateUrl: 'templates/performance.html',
     }).
     when('/users', {
       templateUrl: 'templates/users.html',
@@ -41,6 +41,15 @@ app.config(function($routeProvider) {
       when('/cohorts/:id', {
       templateUrl: 'templates/cohort.html',
       controller: 'CohortCtrl'
+    }).
+      when('/settings', {
+      templateUrl: 'templates/settings.html'
+    }).
+      when('/help', {
+      templateUrl: 'templates/help.html'
+    }).
+      when('/about', {
+      templateUrl: 'templates/about.html'
     }).
     otherwise({redirectTo: '/classes'});
 });
