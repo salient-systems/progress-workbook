@@ -63,7 +63,6 @@ app.controller('AddStudent', function($scope, Restangular) {
     var newStudent = angular.copy($scope.newStudent);
     newStudent.is_active = true; // TODO make is_active default to true in the DB
     Restangular.all('students').post(newStudent).then(function(response) {
-      console.log(response);
       $scope.students.push(response);
     });
     $scope.newStudent = null; // reset the form
