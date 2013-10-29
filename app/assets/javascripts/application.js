@@ -10,10 +10,10 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ie-mobile-fix
 //= require jquery
 //= require lodash.compat.min
 //= require angular
-//= require angular-resource
 //= require restangular.min
 //= require ng-grid.min
 //= require bootstrap.min
