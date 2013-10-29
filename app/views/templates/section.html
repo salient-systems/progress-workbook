@@ -9,8 +9,45 @@
             </div>
           </p>
           <p>
-            <button type="button" class="btn btn-default">Add Assessment</button>
+            <!-- Right-aligned button trigger modal -->
+            <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default">Create Assessment</a>
           </p>
+
+          <!-- Modal -->
+          <div class="modal fade" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Create an Assessment</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="text" class="form-control input-sm" placeholder="Name..." />
+                      <select class="form-control">
+                        <option>Layout Style 1</option>
+                        <option>Layout Style 2</option>
+                        <option>Layout Style 3</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" class="form-control input-sm" placeholder="Count..." />
+                      <select class="form-control">
+                        <option>Score</option>
+                        <option>Time</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary">Create</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
         </div>
     </div>
     <div class="col-md-8">
@@ -49,14 +86,52 @@
        </button>
        <ul class="dropdown-menu" role="menu">
          <li><a href="#">Compare</a></li>
-         <li><a href="#">Add to Cohort</a></li>
+         <li><a data-toggle="modal" href="#addToCohortModal">Add to Cohort</a></li>
          <li><a href="#">Remove from Class</a></li>
        </ul>
      </div>
 
-     <!-- Right-aligned button -->
-     <button type="button" class="btn btn-default pull-right">Add Student</button>
+     <!-- Right-aligned button trigger modal -->
+      <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+
+      <!-- Modal -->
+      <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Add to Class</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control input-sm" placeholder="Search for a student..." />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Add</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
    </p>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Add to Cohort</h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control input-sm" placeholder="Search for a cohort..." />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Add</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 	  </div>
 	</div>
