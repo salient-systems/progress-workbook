@@ -1,6 +1,8 @@
 // student list
 app.controller('StudentListCtrl', function($scope, Restangular) {
-  $scope.students = Restangular.all('students').getList();
+  Restangular.all('students').getList().then(function(students) {
+    $scope.students = students;
+  });
   $scope.checked_students = [];
   $scope.mySelections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
@@ -54,5 +56,21 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
   //toggles boolean for active or deactive students to be displayed
   $scope.activateStudentsButton = function() {
 		$scope.active = !$scope.active;
+		console.log($scope.students.length);
+		$scope.students.push({test: 'test'});
+    console.log($scope.students.length);
 	};
+});
+
+app.controller('AddStudent', function($scope, Restangular) {
+  $scope.save = function() {
+    //console.log($scope.students);
+    //console.log($scope.newStudent);
+    var newStudent = angular.copy($scope.newStudent);
+    newStudent.is_active = true;
+    newStudent.grade_level = 8;
+    Restangular.all('students').post(newStudent); // send to server
+    $scope.students.push(newStudent); // add to ng-grid
+    $scope.newStudent = null; // reset the form
+  };
 });
