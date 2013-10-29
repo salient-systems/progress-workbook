@@ -49,28 +49,23 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
     //console.log(column.field);
     //console.log('Cell Value prior: ' + row.entity[column.field]);
     //console.log('Cell Value after: ' + cellValue);
-
     this.row.entity.put();
   };
 
   //toggles boolean for active or deactive students to be displayed
   $scope.activateStudentsButton = function() {
 		$scope.active = !$scope.active;
-		console.log($scope.students.length);
-		$scope.students.push({test: 'test'});
-    console.log($scope.students.length);
 	};
 });
 
 app.controller('AddStudent', function($scope, Restangular) {
   $scope.save = function() {
-    //console.log($scope.students);
-    //console.log($scope.newStudent);
     var newStudent = angular.copy($scope.newStudent);
-    newStudent.is_active = true;
-    //newStudent.grade_level = 8;
-    Restangular.all('students').post(newStudent); // send to server
-    $scope.students.push(newStudent); // add to ng-grid
+    newStudent.is_active = true; // TODO make is_active default to true in the DB
+    Restangular.all('students').post(newStudent).then(function(response) {
+      console.log(response);
+      $scope.students.push(response);
+    });
     $scope.newStudent = null; // reset the form
   };
 });
