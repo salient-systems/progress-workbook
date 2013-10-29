@@ -68,7 +68,7 @@ app.controller('AddStudent', function($scope, Restangular) {
     //console.log($scope.newStudent);
     var newStudent = angular.copy($scope.newStudent);
     newStudent.is_active = true;
-    newStudent.grade_level = 8;
+    //newStudent.grade_level = 8;
     Restangular.all('students').post(newStudent); // send to server
     $scope.students.push(newStudent); // add to ng-grid
     $scope.newStudent = null; // reset the form

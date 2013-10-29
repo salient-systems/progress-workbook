@@ -50,7 +50,7 @@
                   <div class="col-md-6">
                     <input ng-model="newStudent.lname" type="text" class="form-control input-sm" placeholder="Last Name..." />
                     <div class="col-md-6">
-                      <select class="form-control">
+                      <select ng-model="newStudent.grade_level" ng-init="newStudent.grade_level='Grade'" class="form-control">
                         <option>Grade</option>
                         <option>6</option>
                         <option>7</option>
@@ -59,10 +59,10 @@
                       </select>
                     </div>
                     <div class="col-md-6">
-                      <select class="form-control">
+                      <select ng-model="newStudent.gender" ng-init="newStudent.gender='Gender'" class="form-control">
                         <option>Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <option value="m">Male</option>
+                        <option value="f">Female</option>
                       </select>
                     </div>
                   </div>
