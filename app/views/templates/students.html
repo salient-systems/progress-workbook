@@ -1,4 +1,4 @@
-<div class="container">
+<div ng-controller="StudentListCtrl" class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
@@ -34,7 +34,7 @@
         <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
 
         <!-- Modal -->
-        <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div ng-controller="AddStudent" class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -44,13 +44,13 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="First Name..." />
+                    <input ng-model="newStudent.fname" type="text" class="form-control input-sm" placeholder="First Name..." />
                     <input type="text" class="form-control input-sm" placeholder="Student ID..." />
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="Last Name..." />
+                    <input ng-model="newStudent.lname" type="text" class="form-control input-sm" placeholder="Last Name..." />
                     <div class="col-md-6">
-                      <select class="form-control">
+                      <select ng-model="newStudent.grade_level" ng-init="newStudent.grade_level='Grade'" class="form-control">
                         <option>Grade</option>
                         <option>6</option>
                         <option>7</option>
@@ -59,10 +59,10 @@
                       </select>
                     </div>
                     <div class="col-md-6">
-                      <select class="form-control">
+                      <select ng-model="newStudent.gender" ng-init="newStudent.gender='Gender'" class="form-control">
                         <option>Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <option value="m">Male</option>
+                        <option value="f">Female</option>
                       </select>
                     </div>
                   </div>
@@ -70,7 +70,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Create</button>
+                <button ng-click="save()" type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
