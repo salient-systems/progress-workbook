@@ -47,8 +47,61 @@
           </ul>
         </div>
 
-        <!-- Right-aligned button -->
-        <button type="button" class="btn btn-default pull-right">Add Class</button>
+        <!-- Right-aligned button trigger modal -->
+        <a data-toggle="modal" href="#createSectionModal" class="btn btn-default pull-right">Create Class</a>
+
+        <!-- Modal -->
+        <div class="modal fade" id="createSectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create a Class</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <select class="form-control">
+                      <option>Physical Science</option>
+                      <option>Math</option>
+                      <option>English</option>
+                      <option>PE</option>
+                      <option>History</option>
+                    </select>
+                    <input type="text" class="form-control input-sm" placeholder="Class Name..." />
+                     <select class="form-control">
+                      <option>2013-2014</option>
+                      <option>2012-2013</option>
+                      <option>2011-2012</option>
+                      <option>2010-2011</option>
+                      <option>2009-2010</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-default">New Subject</button><br>
+                    <select class="form-control">
+                      <option>1st Period</option>
+                      <option>2nd Period</option>
+                      <option>3rd Period</option>
+                      <option>4th Period</option>
+                    </select>
+                    <select class="form-control">
+                      <option>6th Grade</option>
+                      <option>7th Grade</option>
+                      <option>8th Grade</option>
+                      <option>9th Grade</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Create</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
       </p>
     </div>
 	</div>

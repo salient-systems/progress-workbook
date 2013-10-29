@@ -26,20 +26,39 @@
        </table>
        <p>
 
-       <!-- Drop-down button -->
-       <div class="btn-group">
-         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-           Bulk Actions <span class="caret"></span>
-         </button>
-         <ul class="dropdown-menu" role="menu">
-           <li><a href="#">Compare</a></li>
-           <li><a href="#">Remove from Cohort</a></li>
-         </ul>
-       </div>
+        <!-- Drop-down button -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Bulk Actions <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Compare</a></li>
+            <li><a href="#">Remove from Cohort</a></li>
+          </ul>
+        </div>
 
-       <!-- Right-aligned button -->
-       <button type="button" class="btn btn-default pull-right">Add Student</button>
-     </p>
+        <!-- Right-aligned button trigger modal -->
+        <a data-toggle="modal" href="#addToCohortModal" class="btn btn-default pull-right">Add Student</a>
+      </p>
+
+      <!-- Modal -->
+      <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Add to Cohort</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control input-sm" placeholder="Search for a student..." />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Add</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
 
 	  </div>
 	</div>
