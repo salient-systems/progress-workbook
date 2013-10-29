@@ -3,78 +3,222 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Performance</h3>
-	  	<p>Performance app goes here</p>
 
-	  	<!-- Panel -->
-	  	<div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Data Set 1</h3>
+	  	<!-- Accordion Panel -->
+      <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#dataset1">
+                  Data Set 1
+                </a>
+              </h4>
+            </div>
+            <div id="dataset1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <!-- Term selector -->
+                    <select class="form-control">
+                      <option>2013-2014</option>
+                      <option>2012-2013</option>
+                      <option>2011-2012</option>
+                      <option>2010-2011</option>
+                      <option>2009-2010</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-10">
+                    <!-- Search Box -->
+                    <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search tachers, students, and cohorts..." />
+                  </div>
+                </div> <br>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <!-- Class selector -->
+                    <select class="form-control">
+                      <option>Physical Science</option>
+                      <option>Math</option>
+                      <option>Underwater Basketweaving</option>
+                      <option>English</option>
+                      <option>History</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Assessment selector -->
+                    <select class="form-control">
+                      <option>Learning Check</option>
+                      <option>I Can....</option>
+                      <option>Lab Report</option>
+                      <option>Tech Design</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Data drop-down selector -->
+                    <select class="form-control">
+                      <option>Total Score</option>
+                      <option>Class Average</option>
+                      <option>Students Present</option>
+                      <option>Assessment Total</option>
+                      <option>Grade</option>
+                    </select>
+                  </div>
+                </div>
+                <br><br>
+
+                <!-- Right-aligned buttons -->
+                <button type="button" class="btn btn-default pull-right btn-action">Save</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#dataset2">
+                  Data Set 2
+                </a>
+              </h4>
+            </div>
+            <div id="dataset2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <!-- Term selector -->
+                    <select class="form-control">
+                      <option>2013-2014</option>
+                      <option>2012-2013</option>
+                      <option>2011-2012</option>
+                      <option>2010-2011</option>
+                      <option>2009-2010</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-10">
+                    <!-- Search Box -->
+                    <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search tachers, students, and cohorts..." />
+                  </div>
+                </div> <br>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <!-- Class selector -->
+                    <select class="form-control">
+                      <option>Physical Science</option>
+                      <option>Math</option>
+                      <option>Underwater Basketweaving</option>
+                      <option>English</option>
+                      <option>History</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Assessment selector -->
+                    <select class="form-control">
+                      <option>Learning Check</option>
+                      <option>I Can....</option>
+                      <option>Lab Report</option>
+                      <option>Tech Design</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Data drop-down selector -->
+                    <select class="form-control">
+                      <option>Total Score</option>
+                      <option>Class Average</option>
+                      <option>Students Present</option>
+                      <option>Assessment Total</option>
+                      <option>Grade</option>
+                    </select>
+                  </div>
+                </div>
+                <br><br>
+
+                <!-- Right-aligned buttons -->
+                <button type="button" class="btn btn-default pull-right btn-action">Save</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#dataset3">
+                  Data Set 3
+                </a>
+              </h4>
+            </div>
+            <div id="dataset3" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <!-- Term selector -->
+                    <select class="form-control">
+                      <option>2013-2014</option>
+                      <option>2012-2013</option>
+                      <option>2011-2012</option>
+                      <option>2010-2011</option>
+                      <option>2009-2010</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-10">
+                    <!-- Search Box -->
+                    <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search tachers, students, and cohorts..." />
+                  </div>
+                </div> <br>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <!-- Class selector -->
+                    <select class="form-control">
+                      <option>Physical Science</option>
+                      <option>Math</option>
+                      <option>Underwater Basketweaving</option>
+                      <option>English</option>
+                      <option>History</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Assessment selector -->
+                    <select class="form-control">
+                      <option>Learning Check</option>
+                      <option>I Can....</option>
+                      <option>Lab Report</option>
+                      <option>Tech Design</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <!-- Data drop-down selector -->
+                    <select class="form-control">
+                      <option>Total Score</option>
+                      <option>Class Average</option>
+                      <option>Students Present</option>
+                      <option>Assessment Total</option>
+                      <option>Grade</option>
+                    </select>
+                  </div>
+                </div>
+                <br><br>
+
+                <!-- Right-aligned buttons -->
+                <button type="button" class="btn btn-default pull-right btn-action">Save</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
+                <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="panel-body">
-          <!-- Term drop-down button -->
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Term <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">2013-2014</a></li>
-              <li><a href="#">2012-2013</a></li>
-              <li><a href="#">2011-2012</a></li>
-              <li><a href="#">2010-2011</a></li>
-              <li><a href="#">2009-2010</a></li>
-            </ul>
-          </div>
+        <br>
 
-          <!-- Search Box -->
-          <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search tachers, students, and cohorts..." />
-
-          <!-- Class drop-down button -->
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Class <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Physical Science</a></li>
-              <li><a href="#">Math</a></li>
-              <li><a href="#">Underwater Basketweaving</a></li>
-            </ul>
-          </div>
-
-          <!-- Assessment drop-down button -->
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Assessment <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Learning Check</a></li>
-              <li><a href="#">I Can...</a></li>
-              <li><a href="#">Lab Report</a></li>
-              <li><a href="#">Tech Design</a></li>
-            </ul>
-          </div>
-
-          <!-- Data drop-down button -->
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Data <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Total Score</a></li>
-              <li><a href="#">Class Average</a></li>
-              <li><a href="#">Students Present</a></li>
-              <li><a href="#">Assessment Total</a></li>
-              <li><a href="#">Grade</a></li>
-            </ul>
-          </div>
-          <br><br>
-
-          <!-- Right-aligned buttons -->
-          <button type="button" class="btn btn-default pull-right btn-action">Save</button>
-          <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
-          <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
-        </div>
-      </div>
 	  </div>
 	</div>
-  </div>
 </div>
