@@ -54,14 +54,14 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" ng-model="newUser.firstName" placeholder="First Name..." />
-                    <input type="text" class="form-control input-sm" ng-model="newUser.teacherID" placeholder="Teacher ID..." />
+                    <input type="text" class="form-control input-sm" ng-model="newUser.fname" placeholder="First Name..." />
+                    <input type="text" class="form-control input-sm" ng-model="newUser.username" placeholder="Teacher ID..." />
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" ng-model="newUser.lastName" placeholder="Last Name..." />
+                    <input type="text" class="form-control input-sm" ng-model="newUser.lname" placeholder="Last Name..." />
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" ng-model="newUser.adminEval" value="">
+                        <input type="checkbox" ng-model="newUser.is_admin" value="">
                         Administrator
                       </label>
                     </div>
@@ -70,7 +70,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" ng-click="save()">Create</button>
+                <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Create</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
