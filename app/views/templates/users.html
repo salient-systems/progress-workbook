@@ -1,4 +1,4 @@
-<div class="container">
+<div ng-controller="UserListCtrl" class="container">
   <div class="row">
   	<div class="col-md-12">
   	  <div class="box">
@@ -44,7 +44,7 @@
         <a data-toggle="modal" href="#createUserModal" class="btn btn-default pull-right">Create User</a>
 
         <!-- Modal -->
-        <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" ng-controller="AddUser" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -54,14 +54,14 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="First Name..." />
-                    <input type="text" class="form-control input-sm" placeholder="Teacher ID..." />
+                    <input type="text" class="form-control input-sm" ng-model="user.firstName" placeholder="First Name..." />
+                    <input type="text" class="form-control input-sm" ng-model="user.teacherID" placeholder="Teacher ID..." />
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="Last Name..." />
+                    <input type="text" class="form-control input-sm" ng-model="user.lastName" placeholder="Last Name..." />
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="">
+                        <input type="checkbox" ng-model="user.adminEval" value="">
                         Administrator
                       </label>
                     </div>
@@ -70,7 +70,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Create</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
