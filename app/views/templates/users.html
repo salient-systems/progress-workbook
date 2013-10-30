@@ -3,24 +3,9 @@
   	<div class="col-md-12">
   	  <div class="box">
   	    <h3>Users</h3>
-  	  	<table class="table table-striped">
-  	      <thead>
-      		  <tr>
-      		    <th>First Name</th>
-      		    <th>Last Name</th>
-      		    <th>Username</th>
-      		    <th>Admin</th>
-      		  </tr>
-  		    <thead>
-  		    <tbody>
-      		  <tr ng-repeat="user in users">
-      		    <td><a ng-href="#/users/{{user.id}}">{{user.fname}}</a></td>
-      		    <td><a ng-href="#/users/{{user.id}}">{{user.lname}}</a></td>
-      		    <td>{{user.username}}</td>
-      		    <td>{{user.is_admin}}</td>
-      		  </tr>
-  		    </tbody>
-  		  </table>
+  	    
+  	    <!-- Table -->
+  	  	<div style="height: 400px;" ng-grid="gridOptions"></div>
   		  <p>
 
         <!-- Drop-down button -->

@@ -1,4 +1,4 @@
-<div class="container">
+<div ng-controller="CohortListCtrl" class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
@@ -6,24 +6,11 @@
 
 	     <!-- Search box -->
        <p>
-          <input type="search" ng-model="search.name" ng-model="search.name" class="form-control input-sm" placeholder="Search for a cohort..." />
+          <input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search for a cohort..." />
        </p>
 
       <!-- Table -->
-	  	<table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Size</th>
-          </tr>
-        <thead>
-        <tbody>
-          <tr ng-repeat="cohort in cohorts">
-            <td><a ng-href="#/cohorts/{{cohort.id}}">{{cohort.name}}</a></td>
-            <td>TBD</td>
-          </tr>
-        </tbody>
-      </table>
+	  <div style="height: 400px;" ng-grid="gridOptions"></div>
       <p>
       <!-- Drop-down button -->
       <div class="btn-group">
@@ -41,7 +28,7 @@
     </p>
 
     <!-- Modal -->
-    <div class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div ng-controller="AddCohort" class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
