@@ -43,23 +43,41 @@
                 <h4 class="modal-title">Edit Profile</h4>
               </div>
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="{{user.fname}}" />
-                    <fieldset disabled>
-                      <input type="text" class="form-control input-sm" placeholder="{{user.id}}" />
-                    </fieldset>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="{{user.lname}}" />
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="">
-                        Administrator
-                      </label>
+
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputFName" class="col-lg-3 control-label">First Name</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="inputFName" placeholder="{{user.fname}}">
                     </div>
                   </div>
-                </div>
+                  <div class="form-group">
+                    <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" id="inputLName" placeholder="{{user.lname}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputUsername" class="col-lg-3 control-label">Username</label>
+                    <div class="col-lg-9">
+                      <fieldset disabled>
+                        <input type="text" class="form-control" id="inputUsername" placeholder="{{user.username}}">
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
+                    <div class="col-lg-9">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" value="">
+                          This account is an administrator
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
