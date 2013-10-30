@@ -12,25 +12,27 @@
         <!-- Table -->
         <div style="height: 400px;" ng-grid="gridOptions"></div>
 
-        <!-- Drop-down button -->
-        <br><div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Bulk Actions <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Compare</a></li>
-            <li><a data-toggle="modal" href="#addToCohortModal">Add to Cohort</a></li>
-            <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
-            <li><a href="#">Delete Student</a></li>
-          </ul>
-        </div>
+        <p>
+          <!-- Drop-down button -->
+          <br><div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Bulk Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Compare</a></li>
+              <li><a data-toggle="modal" href="#addToCohortModal">Add to Cohort</a></li>
+              <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
+              <li><a href="#">Delete Student</a></li>
+            </ul>
+          </div>
 
-        <!-- Button -->
-        <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
+          <!-- Button -->
+          <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
 
 
-        <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a><br><br>
+          <!-- Right-aligned button trigger modal -->
+          <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+        </p>
 
       </div>
        <p>
