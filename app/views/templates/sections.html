@@ -59,40 +59,51 @@
                 <h4 class="modal-title">Create a Class</h4>
               </div>
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <select class="form-control">
-                      <option>Physical Science</option>
-                      <option>Math</option>
-                      <option>English</option>
-                      <option>PE</option>
-                      <option>History</option>
-                    </select>
-                    <input type="text" class="form-control input-sm" placeholder="Class Name..." />
-                     <select class="form-control">
-                      <option>2013-2014</option>
-                      <option>2012-2013</option>
-                      <option>2011-2012</option>
-                      <option>2010-2011</option>
-                      <option>2009-2010</option>
-                    </select>
+
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputName" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                      <input type="text" class="form-control" id="inputName" placeholder="Class Name">
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <button type="button" class="btn btn-default">New Subject</button><br>
-                    <select class="form-control">
-                      <option>1st Period</option>
-                      <option>2nd Period</option>
-                      <option>3rd Period</option>
-                      <option>4th Period</option>
-                    </select>
-                    <select class="form-control">
-                      <option>6th Grade</option>
-                      <option>7th Grade</option>
-                      <option>8th Grade</option>
-                      <option>9th Grade</option>
-                    </select>
+                  <div class="form-group">
+                    <label for="inputSubject" class="col-lg-2 control-label">Subject</label>
+                    <div class="col-lg-8">
+                      <select class="form-control">
+                        <option>Physical Science</option>
+                        <option>Math</option>
+                        <option>English</option>
+                        <option>PE</option>
+                        <option>History</option>
+                      </select>
+                    </div>
+                    <button type="button" class="btn btn-default">Add New</button><br>
                   </div>
-                </div>
+                  <div class="form-group">
+                    <label for="inputPeriod" class="col-lg-2 control-label">Period</label>
+                    <div class="col-lg-10">
+                      <select class="form-control">
+                        <option>1st Period</option>
+                        <option>2nd Period</option>
+                        <option>3rd Period</option>
+                        <option>4th Period</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputGrade" class="col-lg-2 control-label">Grade</label>
+                    <div class="col-lg-10">
+                      <select class="form-control">
+                        <option>6th Grade</option>
+                        <option>7th Grade</option>
+                        <option>8th Grade</option>
+                        <option>9th Grade</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

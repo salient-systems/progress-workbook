@@ -28,23 +28,41 @@
                   <h4 class="modal-title">Create an Assessment</h4>
                 </div>
                 <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <input type="text" class="form-control input-sm" placeholder="Name..." />
-                      <select class="form-control">
-                        <option>Layout Style 1</option>
-                        <option>Layout Style 2</option>
-                        <option>Layout Style 3</option>
-                      </select>
+
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label for="inputName" class="col-lg-2 control-label">Name</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control input-sm" placeholder="Count..." />
-                      <select class="form-control">
-                        <option>Score</option>
-                        <option>Time</option>
-                      </select>
+                    <div class="form-group">
+                      <label for="inputNumAssessments" class="col-lg-2 control-label">Count</label>
+                      <div class="col-lg-10">
+                        <input type="number" class="form-control" id="inputNumAssessments" placeholder="Number of Assessments">
+                      </div>
                     </div>
-                  </div>
+                    <div class="form-group">
+                      <label for="inputStyle" class="col-lg-2 control-label">Style</label>
+                      <div class="col-lg-10">
+                        <select class="form-control">
+                          <option>Layout 1</option>
+                          <option>Layout 2</option>
+                          <option>Layout 3</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputDataType" class="col-lg-2 control-label">Type</label>
+                      <div class="col-lg-10">
+                        <select class="form-control">
+                          <option>Score</option>
+                          <option>Time</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -109,7 +127,7 @@
               <h4 class="modal-title">Add to Class</h4>
             </div>
             <div class="modal-body">
-              <input type="text" class="form-control input-sm" placeholder="Search for a student..." />
+              <input type="search" class="form-control input-sm" placeholder="Search for a student..." />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -129,7 +147,7 @@
             <h4 class="modal-title">Add to Cohort</h4>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control input-sm" placeholder="Search for a cohort..." />
+            <input type="search" class="form-control input-sm" placeholder="Search for a cohort..." />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
