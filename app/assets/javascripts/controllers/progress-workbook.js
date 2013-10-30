@@ -2,7 +2,7 @@ var app = angular.module('pw', ['restangular', 'ngGrid']);
 
 /*
  * Maps routes to controllers. Notice that the controller
- * module gets passed as an argument into the app constructor.
+ * module gets passed as an argument into the app constructor. CONFLICT CONFLICT
  */
 
 app.config(function($routeProvider) {
