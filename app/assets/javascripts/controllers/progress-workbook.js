@@ -51,7 +51,10 @@ app.config(function($routeProvider) {
       when('/about', {
       templateUrl: 'templates/about.html'
     }).
-    otherwise({redirectTo: '/classes'});
+      when('/login', {
+      templateUrl: 'templates/login.html'
+    }).
+    otherwise({redirectTo: '/login'});
 });
 
 /*
