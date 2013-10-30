@@ -31,12 +31,10 @@ app.controller('UserListCtrl', function($scope, Restangular) {
       }, {
         field: 'username',
         displayName: 'Username',
-        cellTemplate: nameTemplate,
         enableCellEdit: false,
       },{
         field: 'is_admin',
         displayName: 'Admin',
-        cellTemplate: nameTemplate,
         enableCellEdit: false,
       },/*{
         /*{
