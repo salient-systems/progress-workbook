@@ -46,33 +46,60 @@
                 <h4 class="modal-title">Edit Profile</h4>
               </div>
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="{{student.fname}}" />
-                    <fieldset disabled>
-                      <input type="text" class="form-control input-sm" placeholder="{{student.id}}" />
-                    </fieldset>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" placeholder="{{student.lname}}" />
-                    <div class="col-md-6">
-                      <select class="form-control">
-                        <option>Grade</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                      </select>
+
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label for="inputFName" class="col-lg-3 control-label">First Name</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputFName" placeholder="{{student.fname}}">
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                      <select class="form-control">
-                        <option>Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                      </select>
+                    <div class="form-group">
+                      <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control" id="inputLName" placeholder="{{student.lname}}">
+                      </div>
                     </div>
-                  </div>
-                </div>
+                    <div class="form-group">
+                      <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
+                      <div class="col-lg-9">
+                        <fieldset disabled>
+                          <input type="number" class="form-control" id="inputSID" placeholder="{{student.id}}">
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputStyle" class="col-lg-3 control-label">Grade</label>
+                      <div class="col-lg-9">
+                        <select class="form-control">
+                          <option>Grade</option>
+                          <option value="1">1st</option>
+                          <option value="2">2nd</option>
+                          <option value="3">3rd</option>
+                          <option value="4">4th</option>
+                          <option value="5">5th</option>
+                          <option value="6">6th</option>
+                          <option value="7">7th</option>
+                          <option value="8">8th</option>
+                          <option value="9">9th</option>
+                          <option value="10">10th</option>
+                          <option value="11">11th</option>
+                          <option value="12">12th</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputDataType" class="col-lg-3 control-label">Gender</label>
+                      <div class="col-lg-9">
+                        <select class="form-control">
+                          <option>Gender</option>
+                          <option value="m">Male</option>
+                          <option value="f">Female</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -3,6 +3,13 @@
   	<div class="col-md-12">
   	  <div class="box">
   	    <h3>Users</h3>
+
+        <!-- Search box -->
+        <p>
+          <input type="search" ng-model="search.name" ng-model="search.name" class="form-control input" placeholder="Search for a user or teacher ID..." />
+        </p>
+
+
   	  	<table class="table table-striped">
   	      <thead>
       		  <tr>
@@ -52,21 +59,39 @@
                 <h4 class="modal-title">Create User</h4>
               </div>
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" ng-model="newUser.firstName" placeholder="First Name..." />
-                    <input type="text" class="form-control input-sm" ng-model="newUser.teacherID" placeholder="Teacher ID..." />
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control input-sm" ng-model="newUser.lastName" placeholder="Last Name..." />
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" ng-model="newUser.adminEval" value="">
-                        Administrator
-                      </label>
+
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputFName" class="col-lg-3 control-label">First Name</label>
+                    <div class="col-lg-9">
+                      <input ng-model="newUser.firstName" type="text" class="form-control" id="inputFName" placeholder="First Name">
                     </div>
                   </div>
-                </div>
+                  <div class="form-group">
+                    <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
+                    <div class="col-lg-9">
+                      <input ng-model="newUser.lastName" type="text" class="form-control" id="inputLName" placeholder="Last Name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputTID" class="col-lg-3 control-label">Teacher ID</label>
+                    <div class="col-lg-9">
+                      <input ng-model="newUser.teacherID" type="number" class="form-control" id="inputTID" placeholder="Teacher ID">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
+                    <div class="col-lg-9">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" ng-model="newUser.adminEval" value="">
+                          This account is an administrator
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -85,14 +110,20 @@
                 <h4 class="modal-title">Reset Password</h4>
               </div>
               <div class="modal-body">
-                <p>
-                  New Password: <br>
-                  <input type="text" class="form-control input-sm" placeholder="BnGk!5sFM3ch" />
-                </p>
+
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control input-sm" placeholder="BnGk!5sFM3ch" />
+                      </div>
+                    </div>
+                  </form>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary">Change</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
