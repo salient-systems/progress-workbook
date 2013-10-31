@@ -7,7 +7,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
   $scope.mySelections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
-
+ 
   $scope.gridOptions = {
     data: 'students',
     selectedItems: $scope.mySelections,
