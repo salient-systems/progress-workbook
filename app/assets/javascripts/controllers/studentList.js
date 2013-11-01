@@ -14,6 +14,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
+    enableCellSelection: true,
     enableCellEditOnFocus: true,
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
