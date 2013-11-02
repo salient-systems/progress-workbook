@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027043854) do
+ActiveRecord::Schema.define(version: 20131031184511) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
@@ -95,12 +98,12 @@ ActiveRecord::Schema.define(version: 20131027043854) do
   create_table "sections", force: true do |t|
     t.string   "name",        null: false
     t.integer  "grade_level", null: false
-    t.date     "start_date",  null: false
-    t.date     "end_date",    null: false
     t.integer  "subject_id",  null: false
     t.integer  "user_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "term"
+    t.integer  "period"
   end
 
   add_index "sections", ["subject_id"], name: "index_sections_on_subject_id", using: :btree
@@ -114,6 +117,7 @@ ActiveRecord::Schema.define(version: 20131027043854) do
     t.boolean  "is_active",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sid"
   end
 
   create_table "subjects", force: true do |t|

@@ -10,11 +10,11 @@
         </p>
 
         <!-- Table -->
-        <div style="height: 400px;" ng-grid="gridOptions"></div>
-
-        <p>
+        <div resize ng-style="style()" ng-grid="gridOptions"></div>
+			<p>
+       
           <!-- Drop-down button -->
-          <br><div class="btn-group">
+          <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
               Bulk Actions <span class="caret"></span>
             </button>
@@ -64,7 +64,7 @@
                     <div class="form-group">
                       <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
                       <div class="col-lg-9">
-                        <input type="number" class="form-control" id="inputSID" placeholder="Student ID">
+                        <input ng-model="newStudent.sid" type="number" class="form-control" id="inputSID" placeholder="Student ID">
                       </div>
                     </div>
                     <div class="form-group">

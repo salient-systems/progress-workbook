@@ -43,6 +43,6 @@ app.controller('AddCohort', function($scope, Restangular) {
     Restangular.all('cohorts').post(newCohort).then(function(response) {
       $scope.cohorts.push(response);
     });
-    $scope.newStudent = null; // reset the form
+    $scope.newCohort = null; // reset the form
   };
 });
