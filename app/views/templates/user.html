@@ -44,24 +44,24 @@
               </div>
               <div class="modal-body">
 
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" name="test">
                   <div class="form-group">
                     <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputFName" ng-model="user.fname">
+                      <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputLName" ng-model="user.lname">
+                      <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
                       <fieldset disabled>
-                        <input type="text" class="form-control" id="inputUsername" ng-model="user.username">
+                        <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username">
                       </fieldset>
                     </div>
                   </div>
@@ -70,7 +70,7 @@
                     <div class="col-lg-9">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" ng-model="user.is_admin">
+                          <input type="checkbox" ng-model="editUser.is_admin">
                           This account is an administrator
                         </label>
                       </div>
@@ -81,7 +81,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" ng-click="save()">Update</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
