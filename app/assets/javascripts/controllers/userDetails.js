@@ -3,12 +3,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
   var user = Restangular.one('users', $routeParams.id);
   user.get().then(function(theuser) {
     $scope.user = theuser;
-    $scope.editUser = {
-      fname: theuser.fname,
-      lname: theuser.lname,
-      is_admin: theuser.is_admin,
-      username: theuser.username
-    };
+    $scope.setupEditUser();
   });
 
   $scope.sections = user.getList('sections');
@@ -21,11 +16,26 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user.put();
     $('#editUserModal').modal('hide');
   };
-  
-  
+
+  $scope.setupEditUser = function() {
+    $scope.editUser = {
+      fname: $scope.user.fname,
+      lname: $scope.user.lname,
+      is_admin: $scope.user.is_admin,
+      username: $scope.user.username
+    };
+  };
+
+  $scope.resetValidation = function() {
+    $scope.setupEditUser();
+    $scope.validateFName = false;
+    $scope.validateLName = false;
+    $scope.validateUsername = false;
+  };
+
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-  
+
   $scope.gridOptions = {
     data: 'sections',
     selectedItems: $scope.mySelections,
@@ -65,6 +75,6 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
       });
     }
   };
-  
-  
+
+
 });
