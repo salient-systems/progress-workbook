@@ -56,8 +56,7 @@ students = Array.new
 		lname: names[num-1][1],
 		gender: genders[num % 3],
 		grade_level: num % 3 + 6,
-		is_active: num % 11 != 0,
-		sid: num)
+		is_active: num % 11 != 0)
 end
 
 puts "   -> creating cohorts"
@@ -98,6 +97,15 @@ i = 1
 		i = i + 1
 	end
 end
+
+=begin Original Code
+puts "   -> creating assessment types"
+1.upto(NUM_ASS_TYPES) do |num|
+	AssessmentType.create(name: "Assessment Type #{num}",
+	   section_id: num / 3 + 1,
+	   view: (num % 3) + 1)
+end
+=end
 
 # '#{num} appears to be required in order for subsequent iterations to appear in the database
 puts "   -> creating assessment types"
