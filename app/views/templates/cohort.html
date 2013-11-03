@@ -8,23 +8,7 @@
           <input type="search" ng-model="search.fname" ng-model="search.lname" class="form-control input" placeholder="Search for a name or student ID..." />
         </p>
 
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
-              <th>Student ID</th>
-              <th>Grade</th>
-            </tr>
-          <thead>
-          <tbody>
-            <tr ng-repeat="student in students | filter:search | orderBy:predicate:reverse">
-              <td><a ng-href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
-              <td>{{student.id}}</td>
-              <td>{{student.grade_level}}</td>
-            </tr>
-         </tbody>
-       </table>
-       <p>
+        <div resize ng-style="style()" ng-grid="gridOptions"></div>
 
         <!-- Drop-down button -->
         <div class="btn-group">
