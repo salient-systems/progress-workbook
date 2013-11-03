@@ -1,8 +1,14 @@
 // student list
-app.controller('StudentListCtrl', function($scope, Restangular) {
-  Restangular.all('students').getList().then(function(students) {
-    $scope.students = students;
-  });
+app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
+  if ($rootScope.students === undefined) {
+    Restangular.all('students').getList().then(function(students) {
+      $rootScope.students = students;
+      $scope.students = $rootScope.students;
+    });
+  } else {
+    $scope.students = $rootScope.students;
+  }
+
   $scope.checked_students = [];
   $scope.mySelections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
@@ -39,9 +45,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
         displayName: 'Grade Level',
         enableCellEdit: false,
         //editableCellTemplate: editTemplate
-      },/*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ],
     afterSelectionChange: function () {
       $scope.selectedIDs = [];

@@ -8,7 +8,7 @@ app.config(function(RestangularProvider) {
   });
   */
 
-  RestangularProvider.setDefaultHttpFields({cache: true});
+ //RestangularProvider.setDefaultHttpFields({cache: true});
 });
 
 
@@ -16,7 +16,6 @@ app.config(function(RestangularProvider) {
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
  */
-
 app.config(function($routeProvider) {
   $routeProvider.
     when('/classes', {
