@@ -10,20 +10,21 @@
 
         <div resize ng-style="style()" ng-grid="gridOptions"></div>
 
-        <!-- Drop-down button -->
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Bulk Actions <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Compare</a></li>
-            <li><a href="#">Remove from Cohort</a></li>
-          </ul>
-        </div>
+        <p>
+          <!-- Drop-down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Bulk Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Compare</a></li>
+              <li><a href="#">Remove from Cohort</a></li>
+            </ul>
+          </div>
 
-        <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#addToCohortModal" class="btn btn-default pull-right">Add Student</a>
-      </p>
+          <!-- Right-aligned button trigger modal -->
+          <a data-toggle="modal" href="#addToCohortModal" class="btn btn-default pull-right">Add Student</a>
+        </p>
 
       <!-- Modal -->
       <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
