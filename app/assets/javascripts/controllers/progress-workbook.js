@@ -1,5 +1,13 @@
 var app = angular.module('pw', ['restangular', 'ngGrid']);
 
+app.config(function(RestangularProvider) {
+  RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
+    //console.log(element);
+    return element;
+  });
+});
+
+
 /*
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
@@ -111,16 +119,16 @@ app.directive('resize', function ($window) {
 		}, function (newValue, oldValue) {
 			scope.windowHeight = newValue.h;
             //scope.windowWidth = newValue.w;
-            
+
             scope.style = function () {
-				return { 
+				return {
                     'height': (newValue.h - 300) + 'px',
-                    //'width': (newValue.w - 100) + 'px' 
+                    //'width': (newValue.w - 100) + 'px'
                 };
 			};
-            
+
 		}, true);
-	
+
 		w.bind('resize', function () {
 			scope.$apply();
 		});
