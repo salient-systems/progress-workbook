@@ -68,8 +68,16 @@ app.controller('AddSection', function($scope, Restangular) {
     Restangular.all('sections').post(newSection).then(function(response) {
       $scope.sections.push(response);
     });
-    $scope.newSection = null; // reset the form
     $('#createSectionModal').modal('hide');
+    $scope.newSection = null; // reset the form
+    $scope.resetValidation();
   };
 
+  $scope.resetValidation = function() {
+    $scope.newSection = null;
+    $scope.validateName = false;
+    $scope.validateSubject = false;
+    $scope.validatePeriod = false;
+    $scope.validateGrade = false;
+  };
 });
