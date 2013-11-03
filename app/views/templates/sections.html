@@ -7,13 +7,11 @@
 	  	<!-- Search box -->
 
       <p>
-        <input type="search" ng-model="search.name" ng-model="search.name" class="form-control input" placeholder="Search for a class, subject, grade, or teacher..." />
+      	<input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search for a class, subject, grade, or teacher..." />
       </p>
 
 		<div resize ng-style="style()" ng-grid="gridOptions"></div>
 
-
-		
       <p>
         <!-- Drop-down button -->
         <div class="btn-group">

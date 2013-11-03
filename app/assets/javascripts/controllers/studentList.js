@@ -16,6 +16,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: true,
     enableCellEditOnFocus: true,
+    sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {
@@ -29,10 +30,15 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
+        field: 'sid',
+        displayName: 'Student ID',
+        enableCellEdit: false,
+        //editableCellTemplate: editTemplate
+      }, {
         field: 'grade_level',
         displayName: 'Grade Level',
-        enableCellEdit: true,
-        editableCellTemplate: editTemplate
+        enableCellEdit: false,
+        //editableCellTemplate: editTemplate
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
