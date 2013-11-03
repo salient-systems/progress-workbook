@@ -32,10 +32,10 @@
        </div>
 
         <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#editUserModal" class="btn btn-default pull-right">Edit Profile</a>
+        <a data-toggle="modal" href="#userModal" class="btn btn-default pull-right">Edit Profile</a>
 
         <!-- Modal -->
-        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -48,20 +48,20 @@
                   <div class="form-group">
                     <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname">
+                      <input type="text" class="form-control" id="inputFName" ng-model="user.fname">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname">
+                      <input type="text" class="form-control" id="inputLName" ng-model="user.lname">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
                       <fieldset disabled>
-                        <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username">
+                        <input type="text" class="form-control" id="inputUsername" ng-model="user.username">
                       </fieldset>
                     </div>
                   </div>
@@ -70,7 +70,7 @@
                     <div class="col-lg-9">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" ng-model="editUser.is_admin">
+                          <input type="checkbox" ng-model="user.is_admin">
                           This account is an administrator
                         </label>
                       </div>
