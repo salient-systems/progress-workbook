@@ -41,15 +41,18 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
         displayName:'Title',
         cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>',
         enableCellEdit: false,
-        width: '70%'
+        width: '70%',
+        resizable: true
       }, {
         field: 'subject.name',
         displayName:'Subject',
         enableCellEdit: false,
-        width: '20%'
+        width: '20%',
+        resizable: true
       }, {
         field: 'period',
-        displayName: 'Period'
+        displayName: 'Period',
+        resizable: true
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/

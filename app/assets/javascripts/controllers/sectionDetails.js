@@ -29,6 +29,9 @@ function($scope, $routeParams, Restangular) {
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
+        field: 'sid',
+        displayName: 'Student ID'
+      },{
         field: 'grade_level',
         displayName: 'Grade Level'
       },/*{
