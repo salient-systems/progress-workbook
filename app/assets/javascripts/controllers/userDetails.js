@@ -34,6 +34,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: false,
     enableCellEditOnFocus: false,
+    sortInfo: {fields:['name'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {

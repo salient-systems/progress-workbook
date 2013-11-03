@@ -36,6 +36,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: false,
     enableCellEditOnFocus: false,
+    sortInfo: {fields:['period'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {

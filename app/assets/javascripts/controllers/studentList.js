@@ -16,6 +16,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: true,
     enableCellEditOnFocus: true,
+    sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {

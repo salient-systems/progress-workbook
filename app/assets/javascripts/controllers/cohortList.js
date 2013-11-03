@@ -14,6 +14,7 @@ app.controller('CohortListCtrl', function($scope, Restangular) {
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
     enableCellEditOnFocus: true,
+    sortInfo: {fields:['name'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       //if you want to add a size of cohort column, you'll need to implement it here using the same 4 fields for Cohort column as seen below.

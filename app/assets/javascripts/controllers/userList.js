@@ -14,6 +14,7 @@ app.controller('UserListCtrl', function($scope, Restangular) {
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
+    sortInfo: {fields:['fname'], directions:['asc']},
     //enableCellEditOnFocus: true, //assuming you dont want to edit displayed user information
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
