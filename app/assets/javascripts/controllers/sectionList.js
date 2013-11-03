@@ -1,11 +1,10 @@
 // Class list
-app.controller('ClassListCtrl', function($scope, Restangular) {
+app.controller('SectionListCtrl', function($scope, Restangular) {
   $scope.sections = Restangular.all('sections').getList();
-  
+
   $scope.mySelections = [];
-  //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-  
+
   $scope.gridOptions = {
     data: 'sections',
     selectedItems: $scope.mySelections,
@@ -37,11 +36,9 @@ app.controller('ClassListCtrl', function($scope, Restangular) {
       },{
         field: 'user.fname',
         displayName: 'Teacher',
-        cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/users/{{row.getProperty(\'id\')}}">{{row.getProperty(\'user.fname\')}} {{row.getProperty(\'user.lname\')}}</a></div>',
+        cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/users/{{row.getProperty(\'user.id\')}}">{{row.getProperty(\'user.fname\')}} {{row.getProperty(\'user.lname\')}}</a></div>',
         width: '30%'
-      },/*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ],
     afterSelectionChange: function () {
       $scope.selectedIDs = [];
@@ -50,5 +47,23 @@ app.controller('ClassListCtrl', function($scope, Restangular) {
       });
     }
   };
-  
+
+});
+
+app.controller('AddSection', function($scope, Restangular) {
+  Restangular.all('subjects').getList().then(function(thesubjects) {
+    console.log(thesubjects);
+    $scope.subjects = thesubjects;
+  });
+
+  $scope.save = function() {
+    var newSection = angular.copy($scope.newSection);
+    newSection.user_id = 1; //TODO get id of the logged in user
+    Restangular.all('sections').post(newSection).then(function(response) {
+      $scope.sections.push(response);
+    });
+    $scope.newSection = null; // reset the form
+    $('#createSectionModal').modal('hide');
+  };
+
 });

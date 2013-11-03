@@ -1,5 +1,5 @@
 // section details
-app.controller('ClassCtrl',
+app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular) {
   var section = Restangular.one('sections', $routeParams.id);
   $scope.section = section.get();
@@ -7,7 +7,7 @@ function($scope, $routeParams, Restangular) {
   $scope.assessment_types = section.getList('assessment_types');
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-  
+
   $scope.gridOptions = {
     data: 'students',
     selectedItems: $scope.mySelections,
