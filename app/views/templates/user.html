@@ -3,6 +3,10 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>{{user.fname}} {{user.lname}} <img src="/assets/apple.png"></h3>
+        
+        <div resize ng-style="style()" ng-grid="gridOptions"></div>
+        
+        <!--
         <table class="table table-striped">
           <thead>
             <tr>
@@ -19,7 +23,8 @@
             </tr>
          </tbody>
        </table>
-
+		-->
+		
        <p>
        <!-- Drop-down button -->
        <div class="btn-group">
