@@ -4,24 +4,7 @@ function($scope, $routeParams, Restangular) {
   var cohort = Restangular.one('cohorts', $routeParams.id);
   $scope.cohort = cohort.get();
   $scope.students = cohort.getList('students');
-  $scope.setupEditCohort();
 
-  $scope.save = function() {
-    $scope.cohort.name = $scope.editCohort.name;
-    $scope.cohort.put();
-    $('#editCohortModal').modal('hide');
-  };
-
-  $scope.setupEditCohort = function() {
-    $scope.editCohort = {
-      name: $scope.cohort.name
-    };
-  };
-
-  $scope.resetValidation = function() {
-    $scope.setupEditCohort();
-    $scope.validateName = false;
-  };
 
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
