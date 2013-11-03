@@ -58,10 +58,11 @@ app.controller('UserListCtrl', function($scope, Restangular) {
 
 //controller for "create user" modal dialog
 app.controller('AddUser', function($scope, Restangular) {
+  $scope.newUser = {};
+  $scope.newUser.is_admin = false;
   $scope.save = function() {
     var newUser = angular.copy($scope.newUser); //copy model of user in fields
     newUser.is_active = true; // TODO make is_active default to true in the DB
-    newUser.password = "we56h"; //TODO should implement password system, possibly here.
     Restangular.all('users').post(newUser).then(function(response) {
       $scope.users.push(response);
     });
