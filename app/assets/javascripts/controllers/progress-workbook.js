@@ -1,10 +1,14 @@
 var app = angular.module('pw', ['restangular', 'ngGrid']);
 
 app.config(function(RestangularProvider) {
+  /*
   RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
-    //console.log(element);
+    console.log(element);
     return element;
   });
+  */
+
+  RestangularProvider.setDefaultHttpFields({cache: true});
 });
 
 
