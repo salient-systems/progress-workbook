@@ -23,3 +23,10 @@ body {
 @-ms-viewport       { width: device-width; }
 @-o-viewport        { width: device-width; }
 @viewport           { width: device-width; }
+
+.help-block-sm {
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	color: #737373;
+}

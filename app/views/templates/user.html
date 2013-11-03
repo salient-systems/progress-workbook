@@ -30,25 +30,32 @@
               </div>
               <div class="modal-body">
 
-                <form class="form-horizontal" role="form" name="test">
-                  <div class="form-group">
+                <form name="editUserForm" class="form-horizontal" role="form">
+                  <div class="form-group" ng-class="validateFName && {'has-error': editUserForm.fname.$invalid}">
                     <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname">
+                      <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname" name="fname" ng-blur="validateFName=true" required>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" ng-class="validateLName && {'has-error': editUserForm.lname.$invalid}">
                     <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname">
+                      <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname" name="lname" ng-blur="validateLName=true" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputUsername" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
                       <fieldset disabled>
-                        <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username">
+                        <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username" ng-disabled="true">
                       </fieldset>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
+                    <div class="col-lg-9">
+                      <input ng-model="editUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password">
+                      <span class="help-block-sm">Optional. This will replace the user's current password.</span>
                     </div>
                   </div>
                   <div class="form-group">
@@ -66,8 +73,8 @@
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" ng-click="save()">Update</button>
+                <button class="btn btn-default" ng-click="resetValidation()" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" ng-click="save()" ng-disabled="editUserForm.$invalid">Update</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

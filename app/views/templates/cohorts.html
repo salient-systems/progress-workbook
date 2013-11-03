@@ -36,11 +36,18 @@
             <h4 class="modal-title">Create Cohort</h4>
           </div>
           <div class="modal-body">
-            <input ng-model="newCohort.name" type="text" class="form-control input" placeholder="Name..." />
+            <form name="createCohortForm" class="form-horizontal" role="form">
+              <div class="form-group" ng-class="validateName && {'has-error': createCohortForm.name.$invalid}">
+                <label for="inputFName" class="col-lg-1 control-label">Name</label>
+                <div class="col-lg-11">
+                  <input type="text" class="form-control" id="inputName" ng-model="newCohort.name" name="name" ng-blur="validateName=true" required >
+                </div>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button ng-click="save()" type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
+            <button ng-click="resetValidation()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button ng-click="save()" type="button" class="btn btn-primary" ng-disabled="createCohortForm.$invalid">Create</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
