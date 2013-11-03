@@ -19,5 +19,6 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user.is_admin = $scope.editUser.is_admin;
     $scope.user.username = $scope.editUser.username;
     $scope.user.put();
+    $('#editUserModal').modal('hide');
   };
 });

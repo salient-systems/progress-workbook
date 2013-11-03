@@ -51,26 +51,25 @@
                     <div class="form-group">
                       <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                       <div class="col-lg-9">
-                        <input type="text" class="form-control" id="inputFName" ng-model="student.fname">
+                        <input type="text" class="form-control" id="inputFName" ng-model="editStudent.fname">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                       <div class="col-lg-9">
-                        <input type="text" class="form-control" id="inputLName" ng-model="student.lname">
+                        <input type="text" class="form-control" id="inputLName" ng-model="editStudent.lname">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
                       <div class="col-lg-9">
-                          <input type="number" class="form-control" id="inputSID" ng-model="student.sid">
+                          <input type="number" class="form-control" id="inputSID" ng-model="editStudent.sid">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="inputStyle" class="col-lg-3 control-label">Grade</label>
                       <div class="col-lg-9">
-                        <select class="form-control" ng-model="student.grade_level">
-                          <option>Grade</option>
+                        <select class="form-control" ng-model="editStudent.grade_level">
                           <option value="1">1st</option>
                           <option value="2">2nd</option>
                           <option value="3">3rd</option>
@@ -89,8 +88,7 @@
                     <div class="form-group">
                       <label for="inputDataType" class="col-lg-3 control-label">Gender</label>
                       <div class="col-lg-9">
-                        <select class="form-control" ng-model="student.gender">
-                          <option>Gender</option>
+                        <select class="form-control" ng-model="editStudent.gender">
                           <option value="m">Male</option>
                           <option value="f">Female</option>
                         </select>
