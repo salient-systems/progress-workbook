@@ -22,7 +22,6 @@
             <li><a href="#">Compare</a></li>
             <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
             <li><a href="#">Promote/Demote Admin</a></li>
-            <li><a data-toggle="modal" href="#resetPasswordModal">Reset Password</a></li>
             <li><a href="#">Delete User</a></li>
           </ul>
         </div>
@@ -62,6 +61,12 @@
                       <input ng-model="newUser.username" type="text" class="form-control" id="inputUsername" placeholder="Username" name="username" ng-blur="validateUsername=true" required>
                     </div>
                   </div>
+                  <div class="form-group" ng-class="validatePassword && {'has-error': createUserForm.password.$invalid}">
+                    <label for="inputPassword" class="col-lg-3 control-label">Password</label>
+                    <div class="col-lg-9">
+                      <input ng-model="newUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password" name="password" ng-blur="validatePassword=true" required>
+                    </div>
+                  </div>
                   <div class="form-group">
                     <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
                     <div class="col-lg-9">
@@ -80,37 +85,6 @@
                 <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button ng-click="save()" class="btn btn-primary" ng-disabled="createUserForm.$invalid">Create</button>
               </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Reset Password</h4>
-              </div>
-              <div class="modal-body">
-
-
-                <form class="form-horizontal" role="form">
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control input-sm" value="BnGk!5sFM3ch" />
-                    </div>
-                  </div>
-                </form>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Change</button>
-              </div>
-
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->

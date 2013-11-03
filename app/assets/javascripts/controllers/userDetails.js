@@ -13,6 +13,8 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user.lname = $scope.editUser.lname;
     $scope.user.is_admin = $scope.editUser.is_admin;
     $scope.user.username = $scope.editUser.username;
+    $scope.user.password = $scope.editUser.password;
+    console.log($scope.user.password);
     $scope.user.put();
     $('#editUserModal').modal('hide');
   };
@@ -31,6 +33,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.validateFName = false;
     $scope.validateLName = false;
     $scope.validateUsername = false;
+    $scope.validatePassword = false;
   };
 
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';

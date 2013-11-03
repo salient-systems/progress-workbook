@@ -73,5 +73,6 @@ app.controller('AddUser', function($scope, Restangular) {
     $scope.validateFName = false;
     $scope.validateLName = false;
     $scope.validateUsername = false;
+    $scope.validatePassword = false;
   };
 });
