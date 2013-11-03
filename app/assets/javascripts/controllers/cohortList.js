@@ -45,5 +45,12 @@ app.controller('AddCohort', function($scope, Restangular) {
       $scope.cohorts.push(response);
     });
     $scope.newCohort = null; // reset the form
+    $('#createCohortModal').modal('hide');
+    $scope.resetValidation();
+  };
+
+  $scope.resetValidation = function() {
+    $scope.newCohort = null;
+    $scope.validateName = false;
   };
 });

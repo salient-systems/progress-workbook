@@ -66,6 +66,8 @@ app.controller('AddUser', function($scope, Restangular) {
       $scope.users.push(response);
     });
     $scope.newUser = null; // reset the form
+    $('#createUserModal').modal('hide');
+    $scope.resetValidation();
   };
 
   $scope.resetValidation = function() {
