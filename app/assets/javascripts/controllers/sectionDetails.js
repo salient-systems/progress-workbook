@@ -16,6 +16,7 @@ function($scope, $routeParams, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: false,
     enableCellEditOnFocus: false,
+    sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {
@@ -29,6 +30,9 @@ function($scope, $routeParams, Restangular) {
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
+        field: 'sid',
+        displayName: 'Student ID'
+      },{
         field: 'grade_level',
         displayName: 'Grade Level'
       },/*{

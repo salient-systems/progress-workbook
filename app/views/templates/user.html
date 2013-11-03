@@ -3,23 +3,9 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>{{user.fname}} {{user.lname}} <img src="/assets/apple.png"></h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Subject</th>
-              <th>Period</th>
-            </tr>
-          <thead>
-          <tbody>
-            <tr ng-repeat="section in sections">
-              <td><a ng-href="#/classes/{{section.id}}">{{section.name}}</a></td>
-              <td>{{section.subject.name}}</td>
-              <td>{{section.grade_level}}</td>
-            </tr>
-         </tbody>
-       </table>
-
+        
+        <div resize ng-style="style()" ng-grid="gridOptions"></div>
+        
        <p>
        <!-- Drop-down button -->
        <div class="btn-group">
