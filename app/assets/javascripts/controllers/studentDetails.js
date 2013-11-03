@@ -3,13 +3,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
   var student = Restangular.one('students', $routeParams.id);
   student.get().then(function(thestudent) {
     $scope.student = thestudent;
-    $scope.editStudent = {
-      fname: thestudent.fname,
-      lname: thestudent.lname,
-      sid: thestudent.sid,
-      grade_level: thestudent.grade_level,
-      gender: thestudent.gender
-    };
+    $scope.setupEditStudent();
   });
 
   $scope.sections = student.getList('sections');
@@ -24,6 +18,23 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $('#editStudentModal').modal('hide');
   };
 
+  $scope.setupEditStudent = function() {
+    $scope.editStudent = {
+      fname: $scope.student.fname,
+      lname: $scope.student.lname,
+      sid: $scope.student.sid,
+      grade_level: $scope.student.grade_level,
+      gender: $scope.student.gender
+    };
+  };
+
+  $scope.resetValidation = function() {
+    $scope.setupEditStudent();
+    $scope.validateFName = false;
+    $scope.validateLName = false;
+    $scope.validateSid = false;
+    $scope.validateGrade = false;
+  };
 
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';

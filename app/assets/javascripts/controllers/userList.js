@@ -67,4 +67,11 @@ app.controller('AddUser', function($scope, Restangular) {
     });
     $scope.newUser = null; // reset the form
   };
+
+  $scope.resetValidation = function() {
+    $scope.newUser = null;
+    $scope.validateFName = false;
+    $scope.validateLName = false;
+    $scope.validateUsername = false;
+  };
 });

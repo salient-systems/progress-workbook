@@ -32,26 +32,26 @@
               </div>
               <div class="modal-body">
 
-                <form name="modalForm" class="form-horizontal" role="form">
-                    <div class="form-group" ng-class="validateFName && {'has-error': modalForm.fname.$invalid}">
+                <form name="editStudentForm" class="form-horizontal" role="form">
+                    <div class="form-group" ng-class="validateFName && {'has-error': editStudentForm.fname.$invalid}">
                       <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                       <div class="col-lg-9">
                         <input type="text" class="form-control" id="inputFName" ng-model="editStudent.fname" name="fname" ng-blur="validateFName=true" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateLName && {'has-error': modalForm.lname.$invalid}">
+                    <div class="form-group" ng-class="validateLName && {'has-error': editStudentForm.lname.$invalid}">
                       <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                       <div class="col-lg-9">
                         <input type="text" class="form-control" id="inputLName" ng-model="editStudent.lname" name="lname" ng-blur="validateLName=true" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateSID && {'has-error': modalForm.sid.$invalid}">
+                    <div class="form-group" ng-class="validateSID && {'has-error': editStudentForm.sid.$invalid}">
                       <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
                       <div class="col-lg-9">
                         <input type="number" class="form-control" id="inputSID" ng-model="editStudent.sid" name="sid" ng-blur="validateSID=true" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateGrade && {'has-error': modalForm.grade.$invalid}">
+                    <div class="form-group" ng-class="validateGrade && {'has-error': editStudentForm.grade.$invalid}">
                       <label for="inputStyle" class="col-lg-3 control-label">Grade</label>
                       <div class="col-lg-9">
                         <select class="form-control" ng-model="editStudent.grade_level"  name="grade" ng-blur="validateGrade=true" required>
@@ -84,8 +84,8 @@
                   </form>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" value="submit" ng-click="save()" ng-disabled="modalForm.$invalid">Update</button>
+                <button class="btn btn-default" ng-click="resetValidation()" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" value="submit" ng-click="save()" ng-disabled="editStudentForm.$invalid">Update</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

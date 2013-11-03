@@ -75,4 +75,12 @@ app.controller('AddStudent', function($scope, Restangular) {
     $scope.newStudent = null; // reset the form
     $('#addStudentModal').modal('hide');
   };
+
+  $scope.resetValidation = function() {
+    $scope.newStudent = null;
+    $scope.validateFName = false;
+    $scope.validateLName = false;
+    $scope.validateSid = false;
+    $scope.validateGrade = false;
+  };
 });

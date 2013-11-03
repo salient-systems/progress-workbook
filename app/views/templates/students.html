@@ -47,26 +47,26 @@
               </div>
               <div class="modal-body">
 
-                <form name="modalForm" class="form-horizontal" role="form">
-                    <div class="form-group" ng-class="validateFName && {'has-error': modalForm.fname.$invalid}">
+                <form name="createStudentForm" class="form-horizontal" role="form">
+                    <div class="form-group" ng-class="validateFName && {'has-error': createStudentForm.fname.$invalid}">
                       <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                       <div class="col-lg-9">
                         <input name="fname" ng-model="newStudent.fname" type="text" class="form-control" id="inputFName" ng-blur="validateFName=true" placeholder="First Name" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateLName && {'has-error': modalForm.lname.$invalid}">
+                    <div class="form-group" ng-class="validateLName && {'has-error': createStudentForm.lname.$invalid}">
                       <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                       <div class="col-lg-9">
                         <input name="lname" ng-model="newStudent.lname" type="text" class="form-control" id="inputLName" ng-blur="validateLName=true" placeholder="Last Name" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateId && {'has-error': modalForm.sid.$invalid}">
+                    <div class="form-group" ng-class="validateSid && {'has-error': createStudentForm.sid.$invalid}">
                       <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
                       <div class="col-lg-9">
-                        <input name="sid" ng-model="newStudent.sid" type="number" class="form-control" id="inputSID" ng-blur="validateId=true" placeholder="Student ID" required>
+                        <input name="sid" ng-model="newStudent.sid" type="number" class="form-control" id="inputSID" ng-blur="validateSid=true" placeholder="Student ID" required>
                       </div>
                     </div>
-                    <div class="form-group" ng-class="validateGrade && {'has-error': modalForm.grade.$invalid}">
+                    <div class="form-group" ng-class="validateGrade && {'has-error': createStudentForm.grade.$invalid}">
                       <label for="inputStyle" class="col-lg-3 control-label">Grade</label>
                       <div class="col-lg-9">
                         <select name="grade" ng-model="newStudent.grade_level" ng-blur="validateGrade=true" class="form-control" required>
@@ -100,8 +100,8 @@
 
               </div>
               <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button ng-click="save()" value="submit" class="btn btn-primary" ng-disabled="modalForm.$invalid">Create</button>
+                <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ng-click="save()" value="submit" class="btn btn-primary" ng-disabled="createStudentForm.$invalid">Create</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->

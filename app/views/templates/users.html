@@ -43,23 +43,23 @@
               </div>
               <div class="modal-body">
 
-                <form class="form-horizontal" role="form">
-                  <div class="form-group">
+                <form name="createUserForm" class="form-horizontal" role="form">
+                  <div class="form-group" ng-class="validateFName && {'has-error': createUserForm.fname.$invalid}">
                     <label for="inputFName" class="col-lg-3 control-label">First Name</label>
                     <div class="col-lg-9">
-                      <input ng-model="newUser.fname" type="text" class="form-control" id="inputFName" placeholder="First Name">
+                      <input ng-model="newUser.fname" type="text" class="form-control" id="inputFName" placeholder="First Name" name="fname" ng-blur="validateFName=true" required>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" ng-class="validateLName && {'has-error': createUserForm.lname.$invalid}">
                     <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
                     <div class="col-lg-9">
-                      <input ng-model="newUser.lname" type="text" class="form-control" id="inputLName" placeholder="Last Name">
+                      <input ng-model="newUser.lname" type="text" class="form-control" id="inputLName" placeholder="Last Name" name="lname" ng-blur="validateLName=true" required>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" ng-class="validateUsername && {'has-error': createUserForm.username.$invalid}">
                     <label for="inputUsername" class="col-lg-3 control-label">Username</label>
                     <div class="col-lg-9">
-                      <input ng-model="newUser.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                      <input ng-model="newUser.username" type="text" class="form-control" id="inputUsername" placeholder="Username" name="username" ng-blur="validateUsername=true" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -77,8 +77,8 @@
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Create</button>
+                <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ng-click="save()" class="btn btn-primary" ng-disabled="createUserForm.$invalid">Create</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
