@@ -121,6 +121,9 @@ app.directive('resize', function ($window) {
 			return { 'h': w.height(), 'w': w.width() };
 		}, function (newValue, oldValue) {
 			scope.windowHeight = newValue.h;
+			if(newValue.h < 500) {
+			  newValue.h = 700;
+			}
             //scope.windowWidth = newValue.w;
 
             scope.style = function () {
