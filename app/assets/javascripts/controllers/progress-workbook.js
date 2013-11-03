@@ -17,11 +17,11 @@ app.config(function($routeProvider) {
   $routeProvider.
     when('/classes', {
       templateUrl: 'templates/sections.html',
-      controller: 'ClassListCtrl'
+      controller: 'SectionListCtrl'
     }).
     when('/classes/:id', {
       templateUrl: 'templates/section.html',
-      controller: 'ClassCtrl'
+      controller: 'SectionCtrl'
     }).
     when('/students', {
       templateUrl: 'templates/students.html',
