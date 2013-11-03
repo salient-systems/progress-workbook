@@ -39,9 +39,7 @@ app.controller('StudentListCtrl', function($scope, Restangular) {
         displayName: 'Grade Level',
         enableCellEdit: false,
         //editableCellTemplate: editTemplate
-      },/*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ],
     afterSelectionChange: function () {
       $scope.selectedIDs = [];
