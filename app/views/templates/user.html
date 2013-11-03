@@ -2,7 +2,7 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3>{{user.fname}} {{user.lname}} <img src="/assets/apple.png"></h3>
+	  	<h3><img src="/assets/apple.png"> {{user.fname}} {{user.lname}} <a data-toggle="modal" href="#editUserModal"><img class="pull-right" src="/assets/edit.png"></img></a></h3>
 
         <div resize ng-style="style()" ng-grid="gridOptions"></div>
 
@@ -16,9 +16,6 @@
              <li><a href="#">Compare</a></li>
          </ul>
        </div>
-
-        <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#editUserModal" class="btn btn-default pull-right">Edit Profile</a>
 
         <!-- Modal -->
         <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

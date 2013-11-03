@@ -26,7 +26,7 @@ function($scope, $routeParams, Restangular) {
       name: $scope.section.name,
       subject_id: $scope.section.subject_id,
       period: $scope.section.period,
-      grade_level: $scope.section.grade_level,
+      grade_level: $scope.section.grade_level
     };
   };
 
