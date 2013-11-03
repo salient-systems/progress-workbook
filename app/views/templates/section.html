@@ -20,7 +20,7 @@
           </p>
 
           <!-- Modal -->
-          <div class="modal fade" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal fade" ng-controller="AddAssessment" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -29,35 +29,37 @@
                 </div>
                 <div class="modal-body">
 
-                  <form class="form-horizontal" role="form">
-                    <div class="form-group">
+                  <form name="createAssessmentForm" class="form-horizontal" role="form">
+                    <div class="form-group" ng-class="validateName && {'has-error': createAssessmentForm.name.$invalid}">
                       <label for="inputName" class="col-lg-2 control-label">Name</label>
                       <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                        <input ng-model="newAssessment.name" type="text" class="form-control" id="inputName" placeholder="Name" name="name" ng-blur="validateName=true" required>
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validateNumAssessments && {'has-error': createAssessmentForm.numAssessments.$invalid}">
                       <label for="inputNumAssessments" class="col-lg-2 control-label">Count</label>
                       <div class="col-lg-10">
-                        <input type="number" class="form-control" id="inputNumAssessments" placeholder="Number of Assessments">
+                        <input ng-model="newAssessment.count" type="number" class="form-control" id="inputNumAssessments" placeholder="Number of Assessments" name="numAssessments" ng-blur="validateNumAssessments=true" required> <!-- TODO: No such value -->
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validateStyle && {'has-error': createAssessmentForm.style.$invalid}">
                       <label for="inputStyle" class="col-lg-2 control-label">Style</label>
                       <div class="col-lg-10">
-                        <select class="form-control">
-                          <option>Layout 1</option>
-                          <option>Layout 2</option>
-                          <option>Layout 3</option>
+                        <select ng-model="newAssessment.view" class="form-control" name="style" ng-blur="validateStyle=true" required>
+                          <option value=""></option>
+                          <option value="1">Layout 1</option>
+                          <option value="2">Layout 2</option>
+                          <option value="3">Layout 3</option>
                         </select>
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="validateType && {'has-error': createAssessmentForm.type.$invalid}">
                       <label for="inputDataType" class="col-lg-2 control-label">Type</label>
                       <div class="col-lg-10">
-                        <select class="form-control">
-                          <option>Score</option>
-                          <option>Time</option>
+                        <select ng-model="newAssessment.data_type" class="form-control" name="type" ng-blur="validateType=true" required>
+                          <option value=""></option>
+                          <option value="1">Score</option>
+                          <option value="2">Time</option>
                         </select>
                       </div>
                     </div>
@@ -65,8 +67,8 @@
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary">Create</button>
+                  <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button ng-click="saveAssessment()" value="submit" class="btn btn-primary" ng-disabled="createAssessmentForm.$invalid">Create</button>
                 </div>
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -85,9 +87,9 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3>Students</h3>
-      
+
       <div resize ng-style="style()" ng-grid="gridOptions"></div>
-     
+
      <p>
      <!-- Drop-down button -->
      <div class="btn-group">

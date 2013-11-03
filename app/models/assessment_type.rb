@@ -1,5 +1,5 @@
 class AssessmentType < ActiveRecord::Base
-    validates :name, :presence => true, :uniqueness => true
+    validates :name, :presence => true
     validates :view, :presence => true
 
     belongs_to :section
