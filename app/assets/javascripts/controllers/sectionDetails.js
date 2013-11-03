@@ -4,9 +4,40 @@ function($scope, $routeParams, Restangular) {
   var section = Restangular.one('sections', $routeParams.id);
   section.get().then(function(thesection) {
     $scope.section = thesection;
+    $scope.setupEditSection();
   });
   $scope.students = section.getList('students');
   $scope.assessment_types = section.getList('assessment_types');
+  Restangular.all('subjects').getList().then(function(thesubjects) {
+    $scope.subjects = thesubjects;
+  });
+
+  $scope.save = function() {
+    $scope.section.name = $scope.editSection.name;
+    $scope.section.subject_id = $scope.editSection.subject_id;
+    $scope.section.period = $scope.editSection.period;
+    $scope.section.grade_level = $scope.editSection.grade_level;
+    $scope.section.put();
+    $('#editSectionModal').modal('hide');
+  };
+
+  $scope.setupEditSection = function() {
+    $scope.editSection = {
+      name: $scope.section.name,
+      subject_id: $scope.section.subject_id,
+      period: $scope.section.period,
+      grade_level: $scope.section.grade_level,
+    };
+  };
+
+  $scope.resetValidation = function() {
+    $scope.setupEditSection();
+    $scope.validateName = false;
+    $scope.validateSubject = false;
+    $scope.validatePeriod = false;
+    $scope.validateGrade = false;
+  };
+
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
