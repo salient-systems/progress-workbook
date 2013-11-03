@@ -10,25 +10,10 @@
         <input type="search" ng-model="search.name" ng-model="search.name" class="form-control input" placeholder="Search for a class, subject, grade, or teacher..." />
       </p>
 
-	  	<table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Subject</th>
-            <th>Grade</th>
-            <!-- We'll need to add a period field to the database if we want to match the mockups -->
-            <th>Teacher</th>
-          </tr>
-        <thead>
-        <tbody>
-          <tr ng-repeat="section in sections">
-            <td><a ng-href="#/classes/{{section.id}}">{{section.name}}</a></td>
-            <td>{{section.subject.name}}</td>
-            <td>{{section.grade_level}}</td>
-            <td><a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></td>
-          </tr>
-        </tbody>
-      </table>
+		<div resize ng-style="style()" ng-grid="gridOptions"></div>
+
+
+		
       <p>
         <!-- Drop-down button -->
         <div class="btn-group">
