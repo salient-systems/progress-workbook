@@ -5,6 +5,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.student = thestudent;
     $scope.editStudent = angular.copy(thestudent);
   });
+
   $scope.sections = student.getList('sections');
 
   $scope.save = function() {
