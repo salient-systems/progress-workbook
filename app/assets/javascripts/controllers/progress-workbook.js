@@ -8,7 +8,7 @@ app.config(function(RestangularProvider) {
   });
   */
 
-  //RestangularProvider.setDefaultHttpFields({cache: true});
+ //RestangularProvider.setDefaultHttpFields({cache: true});
 });
 
 
