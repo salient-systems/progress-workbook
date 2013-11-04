@@ -125,7 +125,8 @@ app.directive('resize', function ($window) {
 			  newValue.h = 700;
 			}
             //scope.windowWidth = newValue.w;
-
+            var gridHeight = (newValue.h - 300) + 'px';
+            document.getElementById("var-height-grid").style.height=gridHeight;
             scope.style = function () {
 				return {
                     'height': (newValue.h - 300) + 'px',
