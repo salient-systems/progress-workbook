@@ -2,13 +2,13 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3><img src="/assets/group.png"> {{cohort.name}} <a data-toggle="modal" href="#editCohortModal"><img class="pull-right" src="/assets/edit.png"></img></a></h3>
+	  	<h3><img src="/assets/group.png"> {{cohort.name}} <a data-toggle="modal" href="#editCohortModal"><img class="pull-right" src="/assets/edit.png"></a></h3>
 
 	  	  <p>
-          <input type="search" ng-model="search.fname" ng-model="search.lname" class="form-control input" placeholder="Search students..." />
+          <input type="search" ng-model="gridOptions.filterOptions.filterText" class="form-control input" placeholder="Search students..." />
         </p>
 
-        <div resize ng-style="style()" ng-grid="gridOptions"></div>
+        <div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
         <p>
           <!-- Drop-down button -->
