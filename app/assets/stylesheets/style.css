@@ -34,3 +34,7 @@ body {
 .ngGrid {
 	height: 400px;
 }
+
+.modal-dialog {
+  padding-top: 10%;
+}
