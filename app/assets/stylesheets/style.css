@@ -30,3 +30,7 @@ body {
 	margin-bottom: 0px;
 	color: #737373;
 }
+
+.ngGrid {
+	height: 333px;
+}
