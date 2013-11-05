@@ -84,7 +84,6 @@ sections = Array.new
 1.upto(NUM_SECTIONS) do |num|
 	sections[num] = Section.create(name: sectionnames[num],
 		grade_level: num % 3 + 6,
-		term: "2013-2014",
 		user_id: users[num % NUM_USERS + 1].id,
 		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
 end
