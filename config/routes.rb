@@ -1,4 +1,6 @@
 Pwtest::Application.routes.draw do
+  resources :terms
+
   resources :users do
     resources :sections
     resources :students

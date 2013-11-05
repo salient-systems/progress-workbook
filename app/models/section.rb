@@ -7,6 +7,7 @@ class Section < ActiveRecord::Base
 
     has_many :assessment_types
     has_many :class_students
+    has_many :terms
 
     has_many :students, through: :class_students
 end
