@@ -3,7 +3,7 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/apple.png"> {{user.fname}} {{user.lname}} <a data-toggle="modal" href="#editUserModal"><img class="pull-right" src="/assets/edit.png"></img></a></h3>
-      <p class="text-muted">{{user.username}} • {{user.is_admin}}</p>
+      <p class="text-muted">{{user.is_admin}} • Username: {{user.username}}</p>
 
         <div resize ng-style="style()" ng-grid="gridOptions"></div>
 

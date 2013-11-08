@@ -15,7 +15,20 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.student.grade_level = $scope.editStudent.grade_level;
     $scope.student.gender = $scope.editStudent.gender;
     $scope.student.put();
+    $scope.updateGender();
     $('#editStudentModal').modal('hide');
+  };
+
+  $scope.updateGender = function() {
+    if($scope.student.gender == 'm') {
+      $scope.gender = "Male";
+    }
+    else if ($scope.student.gender == 'f'){
+      $scope.gender = "Female";
+    }
+    else if ($scope.student.gender == NUL){
+      $scope.gender == "Unknown";
+    }
   };
 
   $scope.setupEditStudent = function() {
@@ -26,6 +39,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       grade_level: $scope.student.grade_level,
       gender: $scope.student.gender
     };
+    $scope.updateGender();
   };
 
   $scope.resetValidation = function() {
