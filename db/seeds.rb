@@ -56,6 +56,7 @@ students = Array.new
 		lname: names[num-1][1],
 		gender: genders[num % 3],
 		grade_level: num % 3 + 6,
+		sid: num + 1137,
 		is_active: num % 11 != 0)
 end
 
@@ -85,6 +86,7 @@ sections = Array.new
 	sections[num] = Section.create(name: sectionnames[num],
 		grade_level: num % 3 + 6,
 		user_id: users[num % NUM_USERS + 1].id,
+		period: num % 4 + 1,
 		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
 end
 
