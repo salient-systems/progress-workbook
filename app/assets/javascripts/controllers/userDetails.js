@@ -16,6 +16,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user.password = $scope.editUser.password;
     console.log($scope.user.password);
     $scope.user.put();
+    $scope.updateRole();
     $('#editUserModal').modal('hide');
   };
 
@@ -26,6 +27,16 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
       is_admin: $scope.user.is_admin,
       username: $scope.user.username
     };
+    $scope.updateRole();
+  };
+
+  $scope.updateRole = function() {
+    if($scope.user.is_admin) {
+      $scope.role = "Admin";
+    }
+    else {
+      $scope.role = "Teacher";
+    }
   };
 
   $scope.resetValidation = function() {
