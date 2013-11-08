@@ -38,9 +38,10 @@ users = Array.new
 end
 
 puts "   -> creating subjects"
+snames = ["Physical Science", "Math", "English", "PE", "Computer Science", "Physics", "Art", "Engineering", "Music", "History"]
 subjects = Array.new
 1.upto(NUM_SUBJECTS) do |num|
-	subjects[num] = Subject.create(name: "Subject #{num}")
+	subjects[num] = Subject.create(name: snames[num % 10])
 end
 
 puts "   -> creating students"
@@ -98,15 +99,6 @@ i = 1
 		i = i + 1
 	end
 end
-
-=begin Original Code
-puts "   -> creating assessment types"
-1.upto(NUM_ASS_TYPES) do |num|
-	AssessmentType.create(name: "Assessment Type #{num}",
-	   section_id: num / 3 + 1,
-	   view: (num % 3) + 1)
-end
-=end
 
 # '#{num} appears to be required in order for subsequent iterations to appear in the database
 puts "   -> creating assessment types"
