@@ -63,6 +63,12 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
     this.row.entity.put();
   };
 
+
+  $scope.deleteStudent = function() {
+    for (var i=0;i<$scope.selectedIDs.length;i++){
+      Restangular.one('students',$scope.selectedIDs[i]).remove();
+    }
+  };
   //toggles boolean for active or deactive students to be displayed
   $scope.activateStudentsButton = function() {
 		$scope.active = !$scope.active;
