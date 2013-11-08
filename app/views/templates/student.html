@@ -2,7 +2,7 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-      <h3><img src="/assets/gradcap.png"> {{student.fname}} {{student.lname}} <a data-toggle="modal" href="#editStudentModal"><img class="pull-right" src="/assets/edit.png"></img></a></h3>
+      <h3><img src="/assets/gradcap.png"> {{student.fname}} {{student.lname}} <a data-toggle="modal" href="#editStudentModal" class="btn btn-default pull-right"><img src="/assets/edit.png" align="absmiddle"></a></h3>
       <p class="text-muted">Student ID: {{student.sid}} • Grade: {{student.grade_level}}th • Gender: {{gender}}</p>
 
         <div resize ng-style="style()" ng-grid="gridOptions"></div>
