@@ -12,4 +12,7 @@ class Student < ActiveRecord::Base
   has_many :cohorts, through: :cohort_students
   has_many :sections, through: :class_students
   has_many :users, through: :sections
+  
+  has_many :criterions, through: :criterion_grades
+  has_many :assessments, through: :criterion_grades
 end
