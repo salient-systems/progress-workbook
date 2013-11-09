@@ -45,10 +45,8 @@ subjects = Array.new
 end
 
 puts "   -> creating students"
-fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Victor", "David", "Robert"]
-lnames1 = ["Torvalds", "Jobs", "Turing", "Bush", "Obama", "Jones", "Sagan", "Field", "Gordon", "Clevenger", "Jin", "Cruz", "Reagan"]
-lnames2 = ["Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas", "Wall", "Devereux", "Kramer"]
-lnames = lnames1.product(lnames2).map{|x| x[0] + "-" + x[1]}
+fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Jean-Luc", "James", "Anakin", "Joyce", "Sarah", "Billie", "Walky", "Sal", "Dorothy", "Danny", "Ethan", "Amber", "Dina", "Roz", "Becky", "Ruth", "Joe", "Mike", "Marten", "Faye"]
+lnames = ["Torvalds", "Jobs", "Turing", "Bush", "Obama", "Jones", "Sagan", "Field", "Wales", "Lee", "Kelly", "Cruz", "Reagan", "Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas", "Gates", "Elop", "Stallman", "Musk", "Scoble", "Montana", "Kenobi", "Vega", "Wallace", "White", "Kirk", "Picard"]
 names = fnames.product(lnames)
 genders = ["m", "f", nil]
 students = Array.new
