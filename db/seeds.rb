@@ -14,7 +14,8 @@ NUM_SUBJECTS = 10 * NUM_MODIFIER
 NUM_SECTIONS = 250 * NUM_MODIFIER
 NUM_STUDENTS = 1000 * NUM_MODIFIER
 NUM_COHORTS = 20 * NUM_MODIFIER
-NUM_ASS_TYPES = 5 * NUM_MODIFIER
+NUM_GRADED_SECTIONS = 5
+NUM_ASS_TYPES = NUM_GRADED_SECTIONS * NUM_MODIFIER
 NUM_ASSESSMENTS = 8 * NUM_ASS_TYPES * NUM_MODIFIER
 NUM_CRITERIA = 5 * NUM_ASSESSMENTS * NUM_MODIFIER
 NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
@@ -125,4 +126,12 @@ puts "   -> creating criteria"
 	Criterion.create(max: 10,
 		name: "Criterion #{num}",
 		assessment_id: num % NUM_ASSESSMENTS + 1)
+end
+
+puts "   -> creating criterion grades"
+1.upto(NUM_CRITERIA * 10) do |num|
+	CriterionGrade.create(score: num % 11,
+		student_id: num / 200,
+		criterion_id: num / 10 + 1,
+		assessment_id: (num / 10) % NUM_ASSESSMENTS + 1)
 end
