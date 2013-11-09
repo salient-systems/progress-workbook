@@ -13,24 +13,31 @@
   	  	<div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
   		  <p>
 
-        <!-- Drop-down button -->
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Bulk Actions <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Compare</a></li>
-            <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
-            <li><a href="#">Promote/Demote Admin</a></li>
-            <li><a href="#">Delete User</a></li>
-          </ul>
+        <div class="row-fluid">
+          <div class="pull-left button-padding-vertical" style="width: 70%;">
+            <!-- Drop-down button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Bulk Actions <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Compare</a></li>
+                <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
+                <li><a href="#">Promote/Demote Admin</a></li>
+                <li><a href="#">Delete User</a></li>
+              </ul>
+            </div>
+
+            <!-- Button -->
+            <button type="button" class="btn btn-default" ng-click="activateUsersButton()">Show {{active && 'Active' || 'Inactive'}}</button> <!-- Change to Show Active when clicked -->
+
+          </div>
+           <div class="pull-right" style="width: 30%;">
+            <!-- Right-aligned button trigger modal -->
+            <a data-toggle="modal" href="#createUserModal" class="btn btn-default pull-right">Create User</a>
+          </div>
+          <div style="clear: both"></div>
         </div>
-
-        <!-- Button -->
-        <button type="button" class="btn btn-default" ng-click="activateUsersButton()">Show {{active && 'Active' || 'Inactive'}}</button> <!-- Change to Show Active when clicked -->
-
-        <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#createUserModal" class="btn btn-default pull-right">Create User</a>
 
         <!-- Modal -->
         <div class="modal fade" ng-controller="AddUser" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

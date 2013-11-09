@@ -12,32 +12,40 @@
 		<div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
       <p>
-        <!-- Drop-down button -->
-        <div class="btn-group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Bulk Actions <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-           <li><a href="#">Compare</a></li>
-           <li><a href="#">Delete Class</a></li>
-         </ul>
-       </div>
 
-       <div class="btn-group">
-         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-           Term <span class="caret"></span>
-         </button>
-         <ul class="dropdown-menu" role="menu">
-           <li><a href="#">2013-2014</a></li>
-           <li><a href="#">2012-2013</a></li>
-           <li><a href="#">2011-2012</a></li>
-           <li><a href="#">2010-2011</a></li>
-           <li><a href="#">2009-2010</a></li>
-          </ul>
+        <div class="row-fluid">
+          <div class="pull-left button-padding-vertical" style="width: 65%;">
+            <!-- Drop-down button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Bulk Actions <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+               <li><a href="#">Compare</a></li>
+               <li><a href="#">Delete Class</a></li>
+             </ul>
+           </div>
+
+           <div class="btn-group">
+             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+               Term <span class="caret"></span>
+             </button>
+             <ul class="dropdown-menu" role="menu">
+               <li><a href="#">2013-2014</a></li>
+               <li><a href="#">2012-2013</a></li>
+               <li><a href="#">2011-2012</a></li>
+               <li><a href="#">2010-2011</a></li>
+               <li><a href="#">2009-2010</a></li>
+              </ul>
+            </div>
+
+          </div>
+          <div class="pull-right" style="width: 30%;">
+            <!-- Right-aligned button trigger modal -->
+            <a data-toggle="modal" href="#createSectionModal" class="btn btn-default pull-right">Create Class</a>
+          </div>
+          <div style="clear: both"></div>
         </div>
-
-        <!-- Right-aligned button trigger modal -->
-        <a data-toggle="modal" href="#createSectionModal" class="btn btn-default pull-right">Create Class</a>
 
         <!-- Modal -->
         <div ng-controller="AddSection" class="modal fade" id="createSectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
