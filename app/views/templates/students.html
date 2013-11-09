@@ -13,6 +13,9 @@
         <div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 			<p>
 
+      <div class="row-fluid">
+        <div class="pull-left button-padding-vertical" style="width: 65%;">
+
           <!-- Drop-down button -->
           <div class="btn-group dropup">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -29,9 +32,16 @@
           <!-- Button -->
           <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Active' || 'Inactive'}}</button>
 
-
+        </div>
+        <div class="pull-right" style="width: 30%;">
           <!-- Right-aligned button trigger modal -->
           <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+        </div>
+
+        <div style="clear: both"></div>
+      </div>
+
+
         </p>
 
       </div>

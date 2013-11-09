@@ -38,3 +38,7 @@ body {
 .modal-dialog {
   padding-top: 10%;
 }
+
+.btn {
+    margin: 2px;
+}
