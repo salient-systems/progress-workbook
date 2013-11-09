@@ -22,6 +22,10 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/sections.html',
       controller: 'SectionListCtrl'
     }).
+    when('/classes/:section_id/assessment_type/:assessment_type_id', {
+      templateUrl: 'templates/assessment.html',
+      controller: 'AssessmentCtrl'
+    }).
     when('/classes/:id', {
       templateUrl: 'templates/section.html',
       controller: 'SectionCtrl'
