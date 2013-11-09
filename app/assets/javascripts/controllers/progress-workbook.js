@@ -125,11 +125,12 @@ app.directive('resize', function ($window) {
 			  newValue.h = 700;
 			}
             //scope.windowWidth = newValue.w;
-            var gridHeight = (newValue.h - 300) + 'px';
+            var offset = 260;
+            var gridHeight = (newValue.h - offset) + 'px';
             document.getElementById("var-height-grid").style.height=gridHeight;
             scope.style = function () {
 				return {
-                    'height': (newValue.h - 300) + 'px',
+                    'height': (newValue.h - offset) + 'px',
                     //'width': (newValue.w - 100) + 'px'
                 };
 			};
