@@ -14,9 +14,9 @@ NUM_SUBJECTS = 10 * NUM_MODIFIER
 NUM_SECTIONS = 250 * NUM_MODIFIER
 NUM_STUDENTS = 1000 * NUM_MODIFIER
 NUM_COHORTS = 20 * NUM_MODIFIER
-NUM_ASS_TYPES = NUM_SECTIONS * NUM_MODIFIER
-NUM_ASSESSMENTS = 8 * NUM_SECTIONS * NUM_MODIFIER
-NUM_CRITERIA = 50 * NUM_SECTIONS * NUM_MODIFIER
+NUM_ASS_TYPES = 5 * NUM_MODIFIER
+NUM_ASSESSMENTS = 8 * NUM_ASS_TYPES * NUM_MODIFIER
+NUM_CRITERIA = 5 * NUM_ASSESSMENTS * NUM_MODIFIER
 NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
 NUM_ASSESSMENT_GRADES = 1 * NUM_ASSESSMENTS * NUM_MODIFIER
 
@@ -68,11 +68,15 @@ end
 puts "   -> creating cohortstudent associations"
 i=1
 1.upto(NUM_COHORTS) do |cohort|
-	1.upto(100) do |student_mod|
+	1.upto(10) do |student_mod|
 		CohortStudent.create(cohort_id: cohorts[cohort].id, student: students[i % NUM_STUDENTS + 1])
 		i = i + 1
 	end
 end
+
+puts "   -> creating terms"
+Term.create(name: "2012-2013");
+Term.create(name: "2013-2014");
 
 puts "   -> creating sections"
 periods = ["1", "2", "3", "4", "5", "6"]
@@ -85,14 +89,15 @@ sections = Array.new
 	sections[num] = Section.create(name: sectionnames[num],
 		grade_level: num % 3 + 6,
 		user_id: users[num % NUM_USERS + 1].id,
-		period: num % 4 + 1,
-		subject_id: subjects[num % NUM_SUBJECTS + 1].id)
+		period: num % 6 + 1,
+		subject_id: subjects[num % NUM_SUBJECTS + 1].id,
+		term_id: num % 2 + 1)
 end
 
 puts "   -> creating classstudent associations"
 i = 1
 1.upto(NUM_SECTIONS) do |section_id|
-	1.upto(25) do |student_mod|
+	1.upto(10) do |student_mod|
 		ClassStudent.create(section: sections[section_id], student: students[i % NUM_STUDENTS + 1])
 		i = i + 1
 	end
