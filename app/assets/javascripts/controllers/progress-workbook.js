@@ -47,7 +47,8 @@ app.config(function($routeProvider) {
       controller: 'CohortCtrl'
     }).
       when('/settings', {
-      templateUrl: 'templates/settings.html'
+      templateUrl: 'templates/settings.html',
+      controller: 'SettingsCtrl'
     }).
       when('/help', {
       templateUrl: 'templates/help.html'

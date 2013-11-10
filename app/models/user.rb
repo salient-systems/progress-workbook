@@ -4,6 +4,6 @@ class User < ActiveRecord::Base
   validates :password, :presence => true
   validates :username, :presence => true, :uniqueness => true
 
-  has_many :sections
+  has_many :sections, dependent: :destroy
   has_many :students, through: :sections
 end

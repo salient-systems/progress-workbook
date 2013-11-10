@@ -4,13 +4,13 @@ app.controller('UserListCtrl', function($scope, Restangular) {
     $scope.users = users;
   });
 
-	$scope.mySelections = [];
+	$scope.selections = [];
   	var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
   	var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/users/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
 
 	$scope.gridOptions = {
     data: 'users',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -41,13 +41,15 @@ app.controller('UserListCtrl', function($scope, Restangular) {
         /*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
+    ]
+  };
+
+  $scope.deleteUser = function() {
+    _.each($scope.selections, function(user, key) {
+      Restangular.one('users', user.id).remove().then(function() {
+        $scope.users = _.without($scope.users, user);
       });
-    }
+    });
   };
 
 	//used for when a user toggles the "show inactive/active" button

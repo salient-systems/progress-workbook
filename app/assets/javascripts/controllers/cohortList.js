@@ -3,13 +3,13 @@ app.controller('CohortListCtrl', function($scope, Restangular) {
   Restangular.all('cohorts').getList().then(function(cohorts) {
     $scope.cohorts = cohorts;
   });
-  	$scope.mySelections = [];
+  	$scope.selections = [];
   	var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
   	var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/cohorts/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
 
 	$scope.gridOptions = {
     data: 'cohorts',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -26,13 +26,15 @@ app.controller('CohortListCtrl', function($scope, Restangular) {
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
+    ]
+  };
+
+  $scope.deleteCohort = function() {
+    _.each($scope.selections, function(cohort, key) {
+      Restangular.one('cohorts', cohort.id).remove().then(function() {
+        $scope.cohorts = _.without($scope.cohorts, cohort);
       });
-    }
+    });
   };
 
 });
