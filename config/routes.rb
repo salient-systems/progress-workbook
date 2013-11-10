@@ -1,4 +1,7 @@
 Pwtest::Application.routes.draw do
+  # get datums for typeahead
+  get '/students/search.json' => 'students#search', :defaults => { :format => 'json' }
+
   resources :terms
 
   resources :users do
@@ -35,8 +38,6 @@ Pwtest::Application.routes.draw do
     resources :sections
   end
 
-  get "static_pages/home"
-  get "static_pages/help"
 
   # catch-all route for angular templates
   get 'templates/:action' => 'templates#:action'

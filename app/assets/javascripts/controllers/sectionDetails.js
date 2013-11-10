@@ -2,16 +2,19 @@
 app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular) {
   var section = Restangular.one('sections', $routeParams.id);
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
     $scope.setupEditSection();
   });
+
   section.getList('students').then(function(students) {
     $scope.students = students;
   });
   $scope.selections = [];
 
   $scope.assessment_types = section.getList('assessment_types');
+
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
   });
@@ -87,6 +90,40 @@ function($scope, $routeParams, Restangular) {
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
+  // add student typeahead
+  $('input#studentSearch').typeahead({
+    name: 'students',
+    prefetch: {
+      url: 'http://localhost:3000/students/search.json',
+      ttl: 0
+    }
+  });
+
+  $('span#inClass').hide();
+  $('span#addSuccess').hide();
+  $('.tt-query').css('background-color','#fff');
+
+  $('input#studentSearch').bind('typeahead:selected', function(obj, datum, name) {
+    var studentId = datum.id;
+
+    var inClass = _.find($scope.students, function(student) {
+      return student.id == studentId;
+    });
+
+    if (inClass === undefined) {
+      Restangular.one('students', studentId).get().then(function(student) {
+        $scope.students.push(student);
+        $('span#addSuccess').fadeIn(500).delay(1500).fadeOut(500);
+      });
+
+      Restangular.all('class_students').post({
+        student_id: studentId,
+        section_id: $scope.section.id
+      });
+    } else {
+      $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
+    }
+  });
 });
 
 app.controller('AddAssessment', function($scope, Restangular) {
