@@ -43,6 +43,10 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
     ]
   };
 
+  Restangular.all('terms').getList().then(function(theterms) {
+    $scope.terms = theterms;
+  });
+
   $scope.deleteSection = function() {
     _.each($scope.selections, function(section, key) {
       Restangular.one('sections', section.id).remove().then(function() {

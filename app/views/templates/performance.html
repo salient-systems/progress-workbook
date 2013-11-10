@@ -3,7 +3,7 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
-	  	
+
 	  	<!-- Graph -->
     	<div ng-controller='ChartController'>
         	<chart ng-model='data'></chart>
@@ -21,7 +21,7 @@
             </div>
             <div id="dataset{{panel.id}}" class="panel-collapse collapse {{panel.open && 'in'}}">
               <div class="panel-body">
-              	<form name="dataSetForm" class="form-horizontal" role="form">   
+              	<form name="dataSetForm" class="form-horizontal" role="form">
               		<!-- Search Box -->
               		<div class="form-group">
 		                  <!-- Term selector -->
@@ -31,9 +31,9 @@
 					         </div>
         					 <div class="row">
         					   <div class="col-md-6">
-                    	 <div class="form-group">         
-                    	   <!-- Term selector -->   
-                         <label for="inputDataType" class="col-md-3 control-label">School year</label>
+                    	 <div class="form-group">
+                    	   <!-- Term selector -->
+                         <label for="inputDataType" class="col-md-3 control-label">Term</label>
                          <div class="col-md-9">
             	             <select class="form-control row-md-2" ng-model="panel.school_year">
             	               <option>2013-2014</option>
@@ -44,7 +44,7 @@
             	             </select>
                          </div>
         						   </div>
-        						   <div class="form-group">            
+        						   <div class="form-group">
         					       <!-- Class selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Class</label>
                          <div class="col-md-9">
@@ -58,10 +58,22 @@
                          </div>
                        </div>
         					   </div>
-        					   <div class="col-md-6">                    	 
-        						   <div class="form-group">            
+        					   <div class="col-md-6">
+        						   <div class="form-group">
                          <!-- Assessment selector -->
-                         <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
+                         <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
+                         <div class="col-md-8">
+                           <select class="form-control row-sm-2" ng-model="panel.school_year">
+                             <option>Learning Check</option>
+                             <option>I Can....</option>
+                             <option>Lab Report</option>
+                             <option>Tech Design</option>
+                           </select>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                         <!-- Assessment selector -->
+                         <label for="inputDataType" class="col-md-3 control-label">Assessments</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panel.school_year">
                              <option>Learning Check</option>
@@ -71,9 +83,9 @@
                            </select>
                          </div>
                        </div>
-                       <div class="form-group">            
+                       <div class="form-group">
                          <!-- Data drop-down selector -->
-                         <label for="inputDataType" class="col-md-3 control-label">Data</label>
+                         <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panel.school_year">
                              <option>Total Score</option>
@@ -84,10 +96,10 @@
                            </select>
                          </div>
                        </div>
-        					   	
+
         					   </div>
         					 </div>
-	
+
   	              <!-- Right-aligned buttons -->
   	              <button type="button" ng-click="save()"class="btn btn-default pull-right btn-primary">Save</button>
   	              <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
@@ -95,7 +107,7 @@
                 </form>
               </div>
             </div>
-          </div>          
+          </div>
         </div>
         <br>
 		<!-- end of accordion -->
