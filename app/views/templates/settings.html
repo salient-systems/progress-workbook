@@ -7,28 +7,28 @@
 	  	    <div class="col-md-8">
 
           <h4>Change Password</h4>
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
+          <form name="changePasswordForm" class="form-horizontal" role="form">
+            <div class="form-group" ng-class="validateCurrentPassword && {'has-error': changePasswordForm.currentPassword.$invalid}">
               <label for="currentPassword" class="col-lg-3 control-label">Current Password</label>
               <div class="col-lg-9">
-                <input type="password" class="form-control" id="currentPassword" placeholder="Current Password">
+                <input name="currentPassword" ng-model="currentPassword" type="password" class="form-control" id="currentPassword" ng-blur="validateCurrentPassword=true" placeholder="Term Name" required>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="validateNewPassword && {'has-error': changePasswordForm.newPassword.$invalid}">
               <label for="newPassword" class="col-lg-3 control-label">New Password</label>
               <div class="col-lg-9">
-                <input type="password" class="form-control" id="newPassword" placeholder="New Password">
+                <input name="newPassword" ng-model="newPassword" type="password" class="form-control" id="newPassword" ng-blur="validateNewPassword=true" placeholder="Term Name" required>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="validateConfirmPassword && {'has-error': changePasswordForm.confirmPassword.$invalid}">
               <label for="confirmPassword" class="col-lg-3 control-label">Confirm Password</label>
               <div class="col-lg-9">
-                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                <input name="confirmPassword" ng-model="confirmPassword" type="password" class="form-control" id="confirmPassword" ng-blur="validateConfirmPassword=true" placeholder="Term Name" required>
               </div>
             </div>
             <div class="form-group">
               <div class="col-lg-offset-3 col-lg-9">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button ng-click="savePassword()" value="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid">Change</button>
               </div>
             </div>
           </form>
@@ -36,8 +36,8 @@
 
         <div class="col-lg-offset-1 col-md-3">
           <h4>More Options</h4>
-          <a data-toggle="modal" href="#advanceTerm" class="btn btn-default">Advance Term</a>
-          <a data-toggle="modal" href="#addSubject" class="btn btn-default">Add Subject</a>
+          <a data-toggle="modal" href="#addSubjectModal" class="btn btn-warning btn-block">Add Subject</a>
+          <a data-toggle="modal" href="#advanceTermModal" class="btn btn-danger btn-block">Advance Term</a>
         </div>
         <p></p>
       </div>
@@ -47,78 +47,84 @@
 </div>
 
 <!-- Modal: Advance Term -->
-<div ng-controller="AddStudent" class="modal fade" id="advanceTerm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="advanceTermModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Add Student</h4>
+        <button type="button" ng-click="resetTermValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Advance Term</h4>
       </div>
       <div class="modal-body">
 
-        <form name="createStudentForm" class="form-horizontal" role="form">
-            <div class="form-group" ng-class="validateFName && {'has-error': createStudentForm.fname.$invalid}">
-              <label for="inputFName" class="col-lg-3 control-label">First Name</label>
-              <div class="col-lg-9">
-                <input name="fname" ng-model="newStudent.fname" type="text" class="form-control" id="inputFName" ng-blur="validateFName=true" placeholder="First Name" required>
+        <form name="advanceTermForm" class="form-horizontal" role="form">
+          <div class="form-group" ng-class="validateTermName && {'has-error': advanceTermForm.name.$invalid}">
+            <label for="inputName" class="col-lg-3 control-label">New Term</label>
+            <div class="col-lg-9">
+              <input name="name" ng-model="newTerm" type="text" class="form-control" id="inputName" ng-blur="validateTermName=true" placeholder="Term Name" required>
+            </div>
+          </div>
+
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>It is recomended that you use a consistent naming structure for the terms (e.g. "2013-2014").</p>
+          </div>
+
+          <div class="bs-callout bs-callout-danger">
+            <h4>Danger: This Cannot Be Undone</h4>
+            <p>Advancing the term will hide all current classes and deactivate graduating students. Any new classes which are created will be placed under the new term. This operation is only intended for use at the end of a term/semester/year and <strong>cannot be undone</strong>. Please check the box below to confirm your decision and proceed.</p>
+          </div>
+
+          <div class="form-group" ng-class="validateCheckbox && {'has-error': advanceTermForm.confirmCheckbox.$invalid}">
+            <label for="inputAdmin" class="col-lg-2 control-label">Confirm</label>
+            <div class="col-lg-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="confirmCheckbox" name="confirmCheckbox" ng-blur="validateCheckbox=true" required>
+                  I understand that advancing the term will deactivate graduating students and hide the current classes. This change cannot be undone.
+                </label>
               </div>
             </div>
-            <div class="form-group" ng-class="validateLName && {'has-error': createStudentForm.lname.$invalid}">
-              <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
-              <div class="col-lg-9">
-                <input name="lname" ng-model="newStudent.lname" type="text" class="form-control" id="inputLName" ng-blur="validateLName=true" placeholder="Last Name" required>
-              </div>
-            </div>
-            <div class="form-group" ng-class="validateSid && {'has-error': createStudentForm.sid.$invalid}">
-              <label for="inputSID" class="col-lg-3 control-label">Student ID</label>
-              <div class="col-lg-9">
-                <input name="sid" ng-model="newStudent.sid" type="number" class="form-control" id="inputSID" ng-blur="validateSid=true" placeholder="Student ID" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputDataType" class="col-lg-3 control-label">Gender</label>
-              <div class="col-lg-9">
-                <select ng-model="newStudent.gender" class="form-control">
-                  <option value=""></option>
-                  <option value="m">Male</option>
-                  <option value="f">Female</option>
-                </select>
-              </div>
-            </div>
-          </form>
+          </div>
+
+        </form>
 
       </div>
       <div class="modal-footer">
         <button ng-click="resetTermValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button ng-click="saveTerm()" value="submit" class="btn btn-primary" ng-disabled="createStudentForm.$invalid">Create</button>
+        <button ng-click="saveTerm()" value="submit" class="btn btn-danger" ng-disabled="advanceTermForm.$invalid">Advance Term</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <!-- Modal: Add Subject -->
-<div ng-controller="AddSubject" class="modal fade" id="addSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" ng-click="resetSubjectValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Add Subject</h4>
       </div>
       <div class="modal-body">
 
         <form name="addSubjectForm" class="form-horizontal" role="form">
-            <div class="form-group" ng-class="validateName && {'has-error': addSubjectForm.name.$invalid}">
-              <label for="inputName" class="col-lg-2 control-label">Subject</label>
-              <div class="col-lg-10">
-                <input name="name" ng-model="newSubject.name" type="text" class="form-control" id="inputName" ng-blur="validateName=true" placeholder="Subject Name" required>
-              </div>
+          <div class="form-group" ng-class="validateSubjectName && {'has-error': addSubjectForm.name.$invalid}">
+            <label for="inputName" class="col-lg-2 control-label">Subject</label>
+            <div class="col-lg-10">
+              <input name="name" ng-model="newSubject" type="text" class="form-control" id="inputName" ng-blur="validateSubjectName=true" placeholder="Subject Name" required>
             </div>
-          </form>
+          </div>
+        </form>
+
+        <div class="bs-callout bs-callout-warning">
+          <h4>Warning</h4>
+          <p>Subjects cannot be modified or deleted after they have been created, so please verify that the information is correct before proceeding.</p>
+        </div>
 
       </div>
       <div class="modal-footer">
         <button ng-click="resetSubjectValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button ng-click="saveSubject()" value="submit" class="btn btn-primary" ng-disabled="addSubjectForm.$invalid">Create</button>
+        <button ng-click="saveSubject()" value="submit" class="btn btn-warning" ng-disabled="addSubjectForm.$invalid">Create</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
