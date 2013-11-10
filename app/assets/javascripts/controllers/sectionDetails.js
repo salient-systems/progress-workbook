@@ -2,12 +2,15 @@
 app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular) {
   var section = Restangular.one('sections', $routeParams.id);
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
     $scope.setupEditSection();
   });
+
   $scope.students = section.getList('students');
   $scope.assessment_types = section.getList('assessment_types');
+
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
   });
@@ -79,6 +82,12 @@ function($scope, $routeParams, Restangular) {
       });
     }
   };
+
+  // add student typeahead
+  $('input#studentSearch').typeahead({
+    name: 'students',
+    local: ['test', 'test2', 'test3']
+  });
 });
 
 app.controller('AddAssessment', function($scope, Restangular) {
