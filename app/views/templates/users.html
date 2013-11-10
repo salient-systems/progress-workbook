@@ -18,13 +18,13 @@
             <!-- Drop-down button -->
             <div class="btn-group dropup">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                Bulk Actions <span class="caret"></span>
+                Actions <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Compare</a></li>
                 <li><a href="#">{{active && 'Activate' || 'Deactivate'}}</a></li>
                 <li><a href="#">Promote/Demote Admin</a></li>
-                <li><a href="" ng-click="deleteUser()">Delete User</a></li>
+                <li><a data-toggle="modal" href="#confirmDeleteModal">Delete User</a></li>
               </ul>
             </div>
 
@@ -38,66 +38,90 @@
           </div>
           <div style="clear: both"></div>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" ng-controller="AddUser" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Create User</h4>
-              </div>
-              <div class="modal-body">
-
-                <form name="createUserForm" class="form-horizontal" role="form">
-                  <div class="form-group" ng-class="validateFName && {'has-error': createUserForm.fname.$invalid}">
-                    <label for="inputFName" class="col-lg-3 control-label">First Name</label>
-                    <div class="col-lg-9">
-                      <input ng-model="newUser.fname" type="text" class="form-control" id="inputFName" placeholder="First Name" name="fname" ng-blur="validateFName=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group" ng-class="validateLName && {'has-error': createUserForm.lname.$invalid}">
-                    <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
-                    <div class="col-lg-9">
-                      <input ng-model="newUser.lname" type="text" class="form-control" id="inputLName" placeholder="Last Name" name="lname" ng-blur="validateLName=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group" ng-class="validateUsername && {'has-error': createUserForm.username.$invalid}">
-                    <label for="inputUsername" class="col-lg-3 control-label">Username</label>
-                    <div class="col-lg-9">
-                      <input ng-model="newUser.username" type="text" class="form-control" id="inputUsername" placeholder="Username" name="username" ng-blur="validateUsername=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group" ng-class="validatePassword && {'has-error': createUserForm.password.$invalid}">
-                    <label for="inputPassword" class="col-lg-3 control-label">Password</label>
-                    <div class="col-lg-9">
-                      <input ng-model="newUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password" name="password" ng-blur="validatePassword=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
-                    <div class="col-lg-9">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" ng-model="newUser.is_admin">
-                          This account is an administrator
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-
-              </div>
-              <div class="modal-footer">
-                <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button ng-click="save()" class="btn btn-primary" ng-disabled="createUserForm.$invalid">Create</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
       </p>
   	  </div>
   	</div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" ng-controller="AddUser" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Create User</h4>
+        </div>
+        <div class="modal-body">
+
+          <form name="createUserForm" class="form-horizontal" role="form">
+            <div class="form-group" ng-class="validateFName && {'has-error': createUserForm.fname.$invalid}">
+              <label for="inputFName" class="col-lg-3 control-label">First Name</label>
+              <div class="col-lg-9">
+                <input ng-model="newUser.fname" type="text" class="form-control" id="inputFName" placeholder="First Name" name="fname" ng-blur="validateFName=true" required>
+              </div>
+            </div>
+            <div class="form-group" ng-class="validateLName && {'has-error': createUserForm.lname.$invalid}">
+              <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
+              <div class="col-lg-9">
+                <input ng-model="newUser.lname" type="text" class="form-control" id="inputLName" placeholder="Last Name" name="lname" ng-blur="validateLName=true" required>
+              </div>
+            </div>
+            <div class="form-group" ng-class="validateUsername && {'has-error': createUserForm.username.$invalid}">
+              <label for="inputUsername" class="col-lg-3 control-label">Username</label>
+              <div class="col-lg-9">
+                <input ng-model="newUser.username" type="text" class="form-control" id="inputUsername" placeholder="Username" name="username" ng-blur="validateUsername=true" required>
+              </div>
+            </div>
+            <div class="form-group" ng-class="validatePassword && {'has-error': createUserForm.password.$invalid}">
+              <label for="inputPassword" class="col-lg-3 control-label">Password</label>
+              <div class="col-lg-9">
+                <input ng-model="newUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password" name="password" ng-blur="validatePassword=true" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
+              <div class="col-lg-9">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="newUser.is_admin">
+                    This account is an administrator
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button ng-click="save()" class="btn btn-primary" ng-disabled="createUserForm.$invalid">Create</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal: Confirm Deletion -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm Deletion</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="bs-callout bs-callout-danger">
+            <h4>Warning</h4>
+            <p>Are you sure you want to delete this user? This change cannot be undone.</p>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a data-dismiss="modal" href="" ng-click="deleteUser()" class="btn btn-danger">Delete</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
 </div>
