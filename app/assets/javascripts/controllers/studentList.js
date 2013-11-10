@@ -103,6 +103,7 @@ app.controller('AddToCohort', function($scope, Restangular) {
   };
 
   $scope.resetCohortValidation = function() {
+    $scope.cohortId = null;
     $scope.validateCohort = false;
   };
 });
