@@ -1,8 +1,10 @@
 // student list
-app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
+app.controller('StudentListCtrl', function($scope, $rootScope, Restangular, cache) {
   Restangular.all('students').getList().then(function(students) {
     $scope.students = students;
   });
+
+  console.log(data.test());
 
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
@@ -50,7 +52,6 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
     //console.log('Cell Value after: ' + cellValue);
     this.row.entity.put();
   };
-
 
   $scope.deleteStudent = function() {
     _.each($scope.selections, function(student, key) {
