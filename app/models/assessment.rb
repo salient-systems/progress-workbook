@@ -5,7 +5,7 @@ class Assessment < ActiveRecord::Base
 
     belongs_to :assessment_type
 
-    has_many :criterions
-    has_many :assessment_grades
-    has_many :criterion_grade
+    has_many :criterions, dependent: :destroy
+    has_many :assessment_grades, dependent: :destroy
+    has_many :criterion_grade, dependent: :destroy
 end
