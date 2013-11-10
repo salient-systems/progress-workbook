@@ -5,8 +5,10 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user = theuser;
     $scope.setupEditUser();
   });
-
-  $scope.sections = user.getList('sections');
+  $scope.selections = [];
+  user.getList('sections').then(function(sections) {
+    $scope.sections = sections;
+  });
 
   $scope.save = function() {
     $scope.user.fname = $scope.editUser.fname;
@@ -52,7 +54,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
 
   $scope.gridOptions = {
     data: 'sections',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -81,14 +83,15 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
+  $scope.deleteSection = function() {
+    _.each($scope.selections, function(section, key) {
+      Restangular.one('sections', section.id).remove().then(function() {
+        $scope.sections = _.without($scope.sections, section);
+      });
+    });
+  };
 
 });

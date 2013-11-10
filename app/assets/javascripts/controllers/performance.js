@@ -20,4 +20,34 @@ app.controller('ChartController', function($scope){
     }];      
 
   $scope.data = data1;
+  
+});
+
+app.controller('accordionCtrl', function($scope){
+  $scope.panels = [
+  	{
+      dataSetName: 'Data Set 1',
+      id: 1,
+      open: true,
+      searchCriteria: "",
+      schoolYear: "",
+      className: "",
+      assessmentName: "",
+      dataType: ""
+  	}];
+  	
+  //this function will add a new data field when the save button is clicked
+  $scope.save = function() {
+  	console.log($scope.panels.valueOf().length);
+    $scope.panels.push({
+    	dataSetName: "noob",
+    	id: $scope.panels.valueOf().length + 1,
+    	open: true,
+    	searchCriteria: "",
+      	schoolYear: "",
+      	className: "",
+      	assessmentName: "",
+      	dataType: ""
+    	});    
+  };
 });
