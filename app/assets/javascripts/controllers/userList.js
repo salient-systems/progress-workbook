@@ -50,6 +50,7 @@ app.controller('UserListCtrl', function($scope, Restangular) {
         $scope.users = _.without($scope.users, user);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 	//used for when a user toggles the "show inactive/active" button

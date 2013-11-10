@@ -35,6 +35,7 @@ app.controller('CohortListCtrl', function($scope, Restangular) {
         $scope.cohorts = _.without($scope.cohorts, cohort);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 });

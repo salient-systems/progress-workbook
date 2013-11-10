@@ -57,6 +57,7 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
         $scope.students = _.without($scope.students, student);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
   //toggles boolean for active or deactive students to be displayed

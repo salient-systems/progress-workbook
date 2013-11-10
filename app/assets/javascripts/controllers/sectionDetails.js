@@ -9,6 +9,7 @@ function($scope, $routeParams, Restangular) {
   section.getList('students').then(function(students) {
     $scope.students = students;
   });
+  $scope.selections = [];
 
   $scope.assessment_types = section.getList('assessment_types');
   Restangular.all('subjects').getList().then(function(thesubjects) {
@@ -74,14 +75,18 @@ function($scope, $routeParams, Restangular) {
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
+
+  $scope.removeFromClass = function() { //TODO: Finish implementing after updating Rails
+    _.each($scope.selections, function(student, key) {
+      Restangular.one('students', students.id).remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
 });
 
 app.controller('AddAssessment', function($scope, Restangular) {

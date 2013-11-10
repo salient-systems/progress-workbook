@@ -49,6 +49,7 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
         $scope.sections = _.without($scope.sections, section);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 });

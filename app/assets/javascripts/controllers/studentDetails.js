@@ -9,6 +9,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
   student.getList('sections').then(function(sections) {
     $scope.sections = sections;
   });
+  $scope.selections = [];
 
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;
@@ -57,7 +58,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
 
   $scope.gridOptions = {
     data: 'sections',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -88,14 +89,16 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
+  $scope.removeClass = function() { //TODO: Finish implementing after updating Rails
+    _.each($scope.selections, function(student, key) {
+      Restangular.one('students', students.id).remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
 
 });

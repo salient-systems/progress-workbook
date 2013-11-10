@@ -5,10 +5,10 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user = theuser;
     $scope.setupEditUser();
   });
-  $scope.selections = [];
   user.getList('sections').then(function(sections) {
     $scope.sections = sections;
   });
+  $scope.selections = [];
 
   $scope.save = function() {
     $scope.user.fname = $scope.editUser.fname;
@@ -92,6 +92,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
         $scope.sections = _.without($scope.sections, section);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 });
