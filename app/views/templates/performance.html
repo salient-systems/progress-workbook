@@ -1,8 +1,13 @@
-<div class="container">
+<div ng-controller="PerformanceCtrl" class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
+	  	
+	  	<!-- Graph -->
+    	<div ng-controller='ChartController'>
+        	<chart ng-model='data'></chart>
+    	</div>
 
 	  	<!-- Accordion Panel -->
       <div class="panel-group" id="accordion">
