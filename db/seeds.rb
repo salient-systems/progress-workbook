@@ -46,7 +46,7 @@ subjects = Array.new
 end
 
 puts "   -> creating students"
-fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Jean-Luc", "James", "Anakin", "Joyce", "Sarah", "Billie", "Walky", "Sal", "Dorothy", "Danny", "Ethan", "Amber", "Dina", "Roz", "Becky", "Ruth", "Joe", "Mike", "Marten", "Faye"]
+fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Jean-Luc", "Bella", "Anakin", "Joyce", "Sarah", "Billie", "Walky", "Sal", "Dorothy", "Danny", "Ethan", "Amber", "Dina", "Roz", "Becky", "Ruth", "Joe", "Mike", "Marten", "Faye"]
 lnames = ["Torvalds", "Jobs", "Turing", "Bush", "Obama", "Jones", "Sagan", "Field", "Wales", "Lee", "Kelly", "Cruz", "Reagan", "Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas", "Gates", "Elop", "Stallman", "Musk", "Scoble", "Montana", "Kenobi", "Vega", "Wallace", "White", "Kirk", "Picard"]
 names = fnames.product(lnames)
 genders = ["m", "f", nil]
