@@ -17,69 +17,70 @@
              <li><a href="#">Compare</a></li>
          </ul>
        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Profile</h4>
-              </div>
-              <div class="modal-body">
-
-                <form name="editUserForm" class="form-horizontal" role="form">
-                  <div class="form-group" ng-class="validateFName && {'has-error': editUserForm.fname.$invalid}">
-                    <label for="inputFName" class="col-lg-3 control-label">First Name</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname" name="fname" ng-blur="validateFName=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group" ng-class="validateLName && {'has-error': editUserForm.lname.$invalid}">
-                    <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
-                    <div class="col-lg-9">
-                      <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname" name="lname" ng-blur="validateLName=true" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputUsername" class="col-lg-3 control-label">Username</label>
-                    <div class="col-lg-9">
-                      <fieldset disabled>
-                        <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username" ng-disabled="true">
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
-                    <div class="col-lg-9">
-                      <input ng-model="editUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password">
-                      <span class="help-block-sm">Optional. This will replace the user's current password.</span>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
-                    <div class="col-lg-9">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" ng-model="editUser.is_admin">
-                          This account is an administrator
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-default" ng-click="resetValidation()" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" ng-click="save()" ng-disabled="editUserForm.$invalid">Update</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
      </p>
 
 	  </div>
 	</div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Edit Profile</h4>
+        </div>
+        <div class="modal-body">
+
+          <form name="editUserForm" class="form-horizontal" role="form">
+            <div class="form-group" ng-class="validateFName && {'has-error': editUserForm.fname.$invalid}">
+              <label for="inputFName" class="col-lg-3 control-label">First Name</label>
+              <div class="col-lg-9">
+                <input type="text" class="form-control" id="inputFName" ng-model="editUser.fname" name="fname" ng-blur="validateFName=true" required>
+              </div>
+            </div>
+            <div class="form-group" ng-class="validateLName && {'has-error': editUserForm.lname.$invalid}">
+              <label for="inputLName" class="col-lg-3 control-label">Last Name</label>
+              <div class="col-lg-9">
+                <input type="text" class="form-control" id="inputLName" ng-model="editUser.lname" name="lname" ng-blur="validateLName=true" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputUsername" class="col-lg-3 control-label">Username</label>
+              <div class="col-lg-9">
+                <fieldset disabled>
+                  <input type="text" class="form-control" id="inputUsername" ng-model="editUser.username" ng-disabled="true">
+                </fieldset>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword" class="col-lg-3 control-label">New Password</label>
+              <div class="col-lg-9">
+                <input ng-model="editUser.password" type="text" class="form-control" id="inputPassword" placeholder="Password">
+                <span class="help-block-sm">Optional. This will replace the user's current password.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAdmin" class="col-lg-3 control-label">Administrator</label>
+              <div class="col-lg-9">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="editUser.is_admin">
+                    This account is an administrator
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" ng-click="resetValidation()" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" ng-click="save()" ng-disabled="editUserForm.$invalid">Update</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
 </div>
