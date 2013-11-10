@@ -6,7 +6,10 @@ function($scope, $routeParams, Restangular) {
     $scope.section = thesection;
     $scope.setupEditSection();
   });
-  $scope.students = section.getList('students');
+  section.getList('students').then(function(students) {
+    $scope.students = students;
+  });
+
   $scope.assessment_types = section.getList('assessment_types');
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;

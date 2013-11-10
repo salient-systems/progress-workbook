@@ -3,11 +3,19 @@ app.controller('CohortCtrl',
 function($scope, $routeParams, Restangular) {
   var cohort = Restangular.one('cohorts', $routeParams.id);
   $scope.cohort = cohort.get();
-  $scope.students = cohort.getList('students');
+  cohort.getList('students').then(function(students) {
+    $scope.students = students;
+  });
+
+  cohort.getList('students').then(function(sections) {
+    $scope.sections = sections;
+  });
+
   cohort.get().then(function(thecohort) {
     $scope.cohort = thecohort;
     $scope.setupEditCohort();
   });
+  $scope.selections = [];
 
   $scope.save = function() {
     $scope.cohort.name = $scope.editCohort.name;
@@ -31,7 +39,7 @@ function($scope, $routeParams, Restangular) {
 
   $scope.gridOptions = {
     data: 'students',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -56,18 +64,18 @@ function($scope, $routeParams, Restangular) {
       },{
         field: 'grade_level',
         displayName: 'Grade Level'
-      },/*{
+      }/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
-
+  $scope.removeFromCohort = function() {
+    _.each($scope.selections, function(student, key) {
+      Restangular.one('students', students.id).remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+  };
 
 });

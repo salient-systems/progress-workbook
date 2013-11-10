@@ -5,17 +5,17 @@
       <h3><img src="/assets/gradcap.png"> {{student.fname}} {{student.lname}} <a data-toggle="modal" href="#editStudentModal" class="btn btn-default pull-right"><img src="/assets/edit.png" align="absmiddle"></a></h3>
       <p class="text-muted">Student ID: {{student.sid}} • Grade: {{student.grade_level}}th • Gender: {{gender}}</p>
 
-        <div resize ng-style="style()" ng-grid="gridOptions"></div>
+        <div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
        <p>
        <!-- Drop-down button -->
        <div class="btn-group dropup">
          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-           Bulk Actions <span class="caret"></span>
+           Actions <span class="caret"></span>
          </button>
          <ul class="dropdown-menu" role="menu">
              <li><a href="#">Compare</a></li>
-             <li><a href="#">Remove from Class</a></li>
+             <li><a data-toggle="modal" href="#confirmRemovalModal">Remove from Class</a></li>
          </ul>
        </div>
      </p>
@@ -88,6 +88,30 @@
         <div class="modal-footer">
           <button class="btn btn-default" ng-click="resetValidation()" data-dismiss="modal">Cancel</button>
           <button class="btn btn-primary" value="submit" ng-click="save()" ng-disabled="editStudentForm.$invalid">Update</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal: Confirm Deletion -->
+  <div class="modal fade" id="confirmRemovalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm Removal</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="bs-callout bs-callout-danger">
+            <h4>Warning</h4>
+            <p>Are you sure you want to remove the student from this class?</p>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a data-dismiss="modal" href="" ng-click="removeClass()" class="btn btn-warning">Remove</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
