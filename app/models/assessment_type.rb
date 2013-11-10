@@ -4,5 +4,5 @@ class AssessmentType < ActiveRecord::Base
 
     belongs_to :section
 
-    has_many :assessments
+    has_many :assessments, dependent: :destroy
 end

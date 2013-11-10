@@ -1,19 +1,14 @@
 // Class list
 app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
-  if ($rootScope.sections === undefined) {
-    $rootScope.sections = Restangular.all('sections').getList();
-    $scope.sections = $rootScope.sections;
-  } else {
-    $scope.sections = $rootScope.sections;
-  }
-
-  $scope.mySelections = [];
+  Restangular.all('sections').getList().then(function(sections) {
+    $scope.sections = sections;
+  });
+  $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-
 
   $scope.gridOptions = {
     data: 'sections',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -45,15 +40,16 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
         cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/users/{{row.getProperty(\'user.id\')}}">{{row.getProperty(\'user.fname\')}} {{row.getProperty(\'user.lname\')}}</a></div>',
         width: '30%'
       }
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
+  $scope.deleteSection = function() {
+    _.each($scope.selections, function(section, key) {
+      Restangular.one('sections', section.id).remove().then(function() {
+        $scope.sections = _.without($scope.sections, section);
+      });
+    });
+  };
 
 });
 

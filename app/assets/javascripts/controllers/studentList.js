@@ -1,38 +1,32 @@
 // student list
 app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
-  if ($rootScope.students === undefined) {
-    Restangular.all('students').getList().then(function(students) {
-      $rootScope.students = students;
-      $scope.students = $rootScope.students;
-    });
-  } else {
-    $scope.students = $rootScope.students;
-  }
+  Restangular.all('students').getList().then(function(students) {
+    $scope.students = students;
+  });
 
-  $scope.checked_students = [];
-  $scope.mySelections = [];
+  $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
 
   $scope.gridOptions = {
     data: 'students',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
     enableCellSelection: true,
     enableCellEditOnFocus: true,
-    sortInfo: {fields:['fname'], directions:['asc']},
+    sortInfo: {fields:['lname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {
-        field: 'fname',
-        displayName:'First Name',
+        field: 'lname',
+        displayName:'Last Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
-        field: 'lname',
-        displayName:'Last Name',
+        field: 'fname',
+        displayName:'First Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
@@ -46,13 +40,7 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
         enableCellEdit: false,
         //editableCellTemplate: editTemplate
       }
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
   $scope.save = function() {
@@ -63,12 +51,14 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
     this.row.entity.put();
   };
 
-
   $scope.deleteStudent = function() {
-    for (var i=0;i<$scope.selectedIDs.length;i++){
-      Restangular.one('students',$scope.selectedIDs[i]).remove();
-    }
+    _.each($scope.selections, function(student, key) {
+      Restangular.one('students', student.id).remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
   };
+
   //toggles boolean for active or deactive students to be displayed
   $scope.activateStudentsButton = function() {
 		$scope.active = !$scope.active;

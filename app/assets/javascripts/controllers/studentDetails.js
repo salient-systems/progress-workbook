@@ -6,7 +6,9 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.setupEditStudent();
   });
 
-  $scope.sections = student.getList('sections');
+  student.getList('sections').then(function(sections) {
+    $scope.sections = sections;
+  });
 
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;
