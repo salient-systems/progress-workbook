@@ -1,17 +1,5 @@
 var app = angular.module('pw', ['restangular', 'ngGrid']);
 
-app.config(function(RestangularProvider) {
-  /*
-  RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
-    console.log(element);
-    return element;
-  });
-  */
-
- //RestangularProvider.setDefaultHttpFields({cache: true});
-});
-
-
 /*
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
@@ -73,6 +61,23 @@ app.config(function($routeProvider) {
     }).
     otherwise({redirectTo: '/login'});
 });
+
+/*
+app.factory('cache', function(Restangular) {
+  var data = {};
+  return {
+    get: function (object, callback) {
+      if (data[object] === undefined) {
+        Restangular.all(object).getList().then(function(response) {
+          data[object] = response;
+          callback.call(this, data[object]);
+        });
+      } else {
+        callback.call(this, data[object]);
+      }
+    }
+  };
+});*/
 
 /*
  * Directives

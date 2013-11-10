@@ -51,7 +51,6 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
     this.row.entity.put();
   };
 
-
   $scope.deleteStudent = function() {
     _.each($scope.selections, function(student, key) {
       Restangular.one('students', student.id).remove().then(function() {
