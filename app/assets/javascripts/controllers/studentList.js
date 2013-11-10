@@ -86,3 +86,23 @@ app.controller('AddStudent', function($scope, Restangular) {
     $scope.validateGrade = false;
   };
 });
+
+app.controller('AddToCohort', function($scope, Restangular) {
+  Restangular.all('cohorts').getList().then(function(thecohorts) {
+    $scope.cohorts = thecohorts;
+  });
+
+  $scope.addToCohort = function() {
+    _.each($scope.selections, function(student, key) {
+      Restangular.all('cohort_students').post({student_id: student.id, cohort_id: $scope.cohortId}).then(function(response) {
+        //TODO: Alert user that studen was added successfully
+      });
+    });
+    $('#addToCohortModal').modal('hide');
+    $scope.resetCohortValidation();
+  };
+
+  $scope.resetCohortValidation = function() {
+    $scope.validateCohort = false;
+  };
+});
