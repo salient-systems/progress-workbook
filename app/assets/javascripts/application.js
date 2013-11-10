@@ -17,4 +17,6 @@
 //= require restangular.min
 //= require ng-grid.min
 //= require bootstrap.min
+//= require jquery.flot.min
+//= require excanvas.min
 //= require_directory

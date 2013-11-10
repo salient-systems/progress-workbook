@@ -14,7 +14,7 @@
       <p>
 
       <!-- Drop-down button -->
-      <div class="btn-group">
+      <div class="btn-group dropup">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
           Bulk Actions <span class="caret"></span>
         </button>
@@ -29,7 +29,7 @@
     </p>
 
     <!-- Modal -->
-    <div ng-controller="AddCohort" class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div ng-controller="AddCohort" ng-click="resetValidation()" class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
