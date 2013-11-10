@@ -86,10 +86,50 @@ function($scope, $routeParams, Restangular) {
     }
   };
 
+/*
+  var testData = [
+    {
+      value: 'Jimi Hendrix',
+      tokens: ['Jimi', 'Hendrix']
+    }, {
+      value: 'Woodrow Wilson',
+      tokens: ['Woodrow', 'Wilson']
+    }
+  ];*/
+
   // add student typeahead
   $('input#studentSearch').typeahead({
     name: 'students',
-    local: ['test', 'test2', 'test3']
+    prefetch: {
+      url: 'http://localhost:3000/students/search.json',
+      ttl: 0
+    }
+  });
+
+  $('span#inClass').hide();
+  $('span#addSuccess').hide();
+  $('.tt-query').css('background-color','#fff');
+
+  $('input#studentSearch').bind('typeahead:selected', function(obj, datum, name) {
+    var studentId = datum.id;
+
+    var inClass = _.find($scope.students, function(student) {
+      return student.id == studentId;
+    });
+
+    if (inClass === undefined) {
+      Restangular.one('students', studentId).get().then(function(student) {
+        $scope.students.push(student);
+        $('span#addSuccess').fadeIn(500).delay(1500).fadeOut(500);
+      });
+
+      Restangular.all('class_students').post({
+        student_id: studentId,
+        section_id: $scope.section.id
+      });
+    } else {
+      $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
+    }
   });
 });
 

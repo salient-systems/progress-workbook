@@ -23,7 +23,6 @@
     <div class="col-md-8">
         <div class="box">
             <h3>Graph</h3>
-             <input id="studentSearch" type="text" class="form-control input" placeholder="Search students..." />
         </div>
     </div>
   </div>
@@ -60,11 +59,14 @@
               <h4 class="modal-title">Add to Class</h4>
             </div>
             <div class="modal-body">
-              <!--<input id="studentSearch" type="search" class="form-control input" placeholder="Search students..." />-->
+              <div class="text-warning modalNotification">
+                <span id="inClass" class="text-warning">This student is already in the class.</span>
+                <span id="addSuccess" class="text-success">Success!</span>
+              </div>
+              <input id="studentSearch" type="text" class="form-control input" placeholder="Search students..." />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Add</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

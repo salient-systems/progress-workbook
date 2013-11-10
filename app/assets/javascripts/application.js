@@ -16,7 +16,6 @@
 //= require angular
 //= require restangular.min
 //= require ng-grid.min
-//= require typeahead.min
 //= require bootstrap.min
 //= require jquery.flot.min
 //= require excanvas.min

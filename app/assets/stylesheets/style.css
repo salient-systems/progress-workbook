@@ -89,3 +89,8 @@ chart {
 .bs-callout-info h4 {
   color: #3a87ad;
 }
+
+.modalNotification {
+  height: 23px;
+  margin-bottom: 10px;
+}
