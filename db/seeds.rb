@@ -14,8 +14,9 @@ NUM_SUBJECTS = 10 * NUM_MODIFIER
 NUM_SECTIONS = 250 * NUM_MODIFIER
 NUM_STUDENTS = 1000 * NUM_MODIFIER
 NUM_COHORTS = 20 * NUM_MODIFIER
-NUM_ASS_TYPES = 5 * NUM_MODIFIER
-NUM_ASSESSMENTS = 8 * NUM_ASS_TYPES * NUM_MODIFIER
+NUM_GRADED_SECTIONS = 5
+NUM_ASS_TYPES = NUM_GRADED_SECTIONS * NUM_MODIFIER
+NUM_ASSESSMENTS = 8 * 4 * NUM_ASS_TYPES * NUM_MODIFIER
 NUM_CRITERIA = 5 * NUM_ASSESSMENTS * NUM_MODIFIER
 NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
 NUM_ASSESSMENT_GRADES = 1 * NUM_ASSESSMENTS * NUM_MODIFIER
@@ -69,7 +70,7 @@ puts "   -> creating cohortstudent associations"
 i=1
 1.upto(NUM_COHORTS) do |cohort|
 	1.upto(10) do |student_mod|
-		CohortStudent.create(cohort_id: cohorts[cohort].id, student: students[i % NUM_STUDENTS + 1])
+		CohortStudent.create(cohort_id: cohorts[cohort].id, student: students[(i - 1) % NUM_STUDENTS + 1])
 		i = i + 1
 	end
 end
@@ -88,9 +89,9 @@ sections = Array.new
 1.upto(NUM_SECTIONS) do |num|
 	sections[num] = Section.create(name: sectionnames[num],
 		grade_level: num % 3 + 6,
-		user_id: users[num % NUM_USERS + 1].id,
+		user_id: users[(num - 1) % NUM_USERS + 1].id,
 		period: num % 6 + 1,
-		subject_id: subjects[num % NUM_SUBJECTS + 1].id,
+		subject_id: subjects[(num - 1) % NUM_SUBJECTS + 1].id,
 		term_id: num % 2 + 1)
 end
 
@@ -98,7 +99,7 @@ puts "   -> creating classstudent associations"
 i = 1
 1.upto(NUM_SECTIONS) do |section_id|
 	1.upto(10) do |student_mod|
-		ClassStudent.create(section: sections[section_id], student: students[i % NUM_STUDENTS + 1])
+		ClassStudent.create(section: sections[section_id], student: students[(i - 1) % NUM_STUDENTS + 1])
 		i = i + 1
 	end
 end
@@ -117,12 +118,25 @@ puts "   -> creating assessments"
 	Assessment.create(data_type: num%2 + 1,
 		subject: "Subject #{num}",
 		name: "Assessment #{num}",
-		assessment_type_id: num % NUM_ASS_TYPES + 1)
+		assessment_type_id: (num - 1) % (NUM_ASS_TYPES*4) + 1)
 end
 
 puts "   -> creating criteria"
 1.upto(NUM_CRITERIA) do |num|
 	Criterion.create(max: 10,
 		name: "Criterion #{num}",
-		assessment_id: num % NUM_ASSESSMENTS + 1)
+		assessment_id: (num - 1) % NUM_ASSESSMENTS + 1)
+end
+
+puts "   -> creating criterion grades"
+1.upto(NUM_CRITERIA) do |criterion|
+	1.upto(10) do |student|
+		assessment = ((criterion - 1) % NUM_ASSESSMENTS + 1)
+		assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
+		section = (assessment_type - 1) / 4 + 1
+		CriterionGrade.create(score: (criterion * student) % 11,
+			student_id: (section - 1) * 10 + student,
+			criterion_id: criterion,
+			assessment_id: assessment)
+	end
 end

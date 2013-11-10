@@ -40,6 +40,7 @@ app.config(function($routeProvider) {
     }).
     when('/performance', {
       templateUrl: 'templates/performance.html',
+      controller: 'PerformanceCtrl'
     }).
     when('/users', {
       templateUrl: 'templates/users.html',
@@ -159,4 +160,37 @@ app.controller('NavCtrl', function($scope, $location, $route) {
     path = path.substring(0, end > 0 ? end : path.length);
     $scope[path] = "active";
   });
+});
+
+//framework setup for the flot graph
+app.directive('chart', function(){
+  return{
+  restrict: 'EA',
+  link: function(scope, elem, attrs){
+    var chart = null,
+      options = {
+        xaxis: {
+          ticks:[[0,'Daft'],[1,'Punk']]
+        },
+        grid: {
+          labelMargin: 10,
+          backgroundColor: '#e2e6e9',
+          color: '#ffffff',
+          borderColor: null
+        }
+      };
+
+      var data = scope[attrs.ngModel];
+      // If the data changes somehow, update it in the chart
+      scope.$watch(attrs.ngModel, function(v){
+        if(!chart){
+          chart = $.plot(elem, v , options);
+          elem.show();
+      }else{
+        chart.setData(v);
+        chart.setupGrid();
+        chart.draw();
+      }
+    });
+  }};
 });
