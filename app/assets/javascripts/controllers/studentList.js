@@ -53,7 +53,17 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
 
   $scope.deleteStudent = function() {
     _.each($scope.selections, function(student, key) {
-      Restangular.one('students', student.id).remove().then(function() {
+      student.remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.toggleActiveStudent = function() {
+    _.each($scope.selections, function(student, key) {
+      student.is_active = $scope.active;
+      student.put().then(function() {
         $scope.students = _.without($scope.students, student);
       });
     });
