@@ -70,12 +70,13 @@ function($scope, $routeParams, Restangular) {
     ]
   };
 
-  $scope.removeFromCohort = function() {
+  $scope.removeFromCohort = function() { //TODO: Finish implementing after updating Rails
     _.each($scope.selections, function(student, key) {
       Restangular.one('students', students.id).remove().then(function() {
         $scope.students = _.without($scope.students, student);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 });

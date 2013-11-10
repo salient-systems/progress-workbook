@@ -3,7 +3,6 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/group.png"> {{cohort.name}} <a data-toggle="modal" href="#editCohortModal" class="btn btn-default pull-right"><img src="/assets/edit.png" align="absmiddle"></a></h3>
-
 	  	  <p>
           <input type="search" ng-model="gridOptions.filterOptions.filterText" class="form-control input" placeholder="Search students..." />
         </p>
@@ -13,7 +12,7 @@
         <p>
           <!-- Drop-down button -->
           <div class="btn-group dropup">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" ng-class="{disabled: selections.length == 0}">
               Actions <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -85,7 +84,7 @@
         </div>
         <div class="modal-body">
 
-          <div class="bs-callout bs-callout-danger">
+          <div class="bs-callout bs-callout-warning">
             <h4>Warning</h4>
             <p>Are you sure you want to remove the student from this cohort?</p>
           </div>

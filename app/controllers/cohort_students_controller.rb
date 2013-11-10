@@ -70,6 +70,6 @@ class CohortStudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cohort_student_params
-      params.require(:cohort_student).permit(:student_id, :user_id)
+      params.require(:cohort_student).permit(:student_id, :cohort_id)
     end
 end

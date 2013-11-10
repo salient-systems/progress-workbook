@@ -53,10 +53,21 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
 
   $scope.deleteStudent = function() {
     _.each($scope.selections, function(student, key) {
-      Restangular.one('students', student.id).remove().then(function() {
+      student.remove().then(function() {
         $scope.students = _.without($scope.students, student);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.toggleActiveStudent = function() {
+    _.each($scope.selections, function(student, key) {
+      student.is_active = $scope.active;
+      student.put().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
   //toggles boolean for active or deactive students to be displayed
@@ -83,5 +94,26 @@ app.controller('AddStudent', function($scope, Restangular) {
     $scope.validateLName = false;
     $scope.validateSid = false;
     $scope.validateGrade = false;
+  };
+});
+
+app.controller('AddToCohort', function($scope, Restangular) {
+  Restangular.all('cohorts').getList().then(function(thecohorts) {
+    $scope.cohorts = thecohorts;
+  });
+
+  $scope.addToCohort = function() {
+    _.each($scope.selections, function(student, key) {
+      Restangular.all('cohort_students').post({student_id: student.id, cohort_id: $scope.cohortId}).then(function(response) {
+        //TODO: Alert user that studen was added successfully
+      });
+    });
+    $('#addToCohortModal').modal('hide');
+    $scope.resetCohortValidation();
+  };
+
+  $scope.resetCohortValidation = function() {
+    $scope.cohortId = null;
+    $scope.validateCohort = false;
   };
 });

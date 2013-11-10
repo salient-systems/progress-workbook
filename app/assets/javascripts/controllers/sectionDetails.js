@@ -11,6 +11,7 @@ function($scope, $routeParams, Restangular) {
   section.getList('students').then(function(students) {
     $scope.students = students;
   });
+  $scope.selections = [];
 
   $scope.assessment_types = section.getList('assessment_types');
 
@@ -49,7 +50,7 @@ function($scope, $routeParams, Restangular) {
 
   $scope.gridOptions = {
     data: 'students',
-    selectedItems: $scope.mySelections,
+    selectedItems: $scope.selections,
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
@@ -77,25 +78,17 @@ function($scope, $routeParams, Restangular) {
       },/*{
         displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
       }*/
-    ],
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
+    ]
   };
 
-/*
-  var testData = [
-    {
-      value: 'Jimi Hendrix',
-      tokens: ['Jimi', 'Hendrix']
-    }, {
-      value: 'Woodrow Wilson',
-      tokens: ['Woodrow', 'Wilson']
-    }
-  ];*/
+  $scope.removeFromClass = function() { //TODO: Finish implementing after updating Rails
+    _.each($scope.selections, function(student, key) {
+      Restangular.one('students', students.id).remove().then(function() {
+        $scope.students = _.without($scope.students, student);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
 
   // add student typeahead
   $('input#studentSearch').typeahead({
@@ -151,5 +144,26 @@ app.controller('AddAssessment', function($scope, Restangular) {
     $scope.validateNumAssessments = false;
     $scope.validateStyle = false;
     $scope.validateType = false;
+  };
+});
+
+app.controller('AddToCohort', function($scope, Restangular) {
+  Restangular.all('cohorts').getList().then(function(thecohorts) {
+    $scope.cohorts = thecohorts;
+  });
+
+  $scope.addToCohort = function() {
+    _.each($scope.selections, function(student, key) {
+      Restangular.all('cohort_students').post({student_id: student.id, cohort_id: $scope.cohortId}).then(function(response) {
+        //TODO: Alert user that studen was added successfully
+      });
+    });
+    $('#addToCohortModal').modal('hide');
+    $scope.resetCohortValidation();
+  };
+
+  $scope.resetCohortValidation = function() {
+    $scope.cohortId = null;
+    $scope.validateCohort = false;
   };
 });

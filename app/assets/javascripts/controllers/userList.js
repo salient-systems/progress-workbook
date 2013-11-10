@@ -50,6 +50,33 @@ app.controller('UserListCtrl', function($scope, Restangular) {
         $scope.users = _.without($scope.users, user);
       });
     });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.promoteAdmin = function() {
+    _.each($scope.selections, function(user, key) {
+      user.is_admin = true;
+      user.put();
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.demoteAdmin = function() {
+    _.each($scope.selections, function(user, key) {
+      user.is_admin = false;
+      user.put();
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.toggleActiveUser = function() {
+    _.each($scope.selections, function(user, key) {
+      user.is_active = $scope.active;
+      user.put().then(function() {
+        $scope.users = _.without($scope.users, user);
+      });
+    });
+    $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
 	//used for when a user toggles the "show inactive/active" button
