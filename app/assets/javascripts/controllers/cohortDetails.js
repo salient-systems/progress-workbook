@@ -2,7 +2,10 @@
 app.controller('CohortCtrl',
 function($scope, $routeParams, Restangular) {
   var cohort = Restangular.one('cohorts', $routeParams.id);
-  $scope.cohort = cohort.get();
+  cohort.get().then(function(cohort) {
+    $scope.cohort = cohort;
+  });
+
   cohort.getList('students').then(function(students) {
     $scope.students = students;
   });
@@ -15,7 +18,6 @@ function($scope, $routeParams, Restangular) {
     $scope.cohort = thecohort;
     $scope.setupEditCohort();
   });
-  $scope.selections = [];
 
   $scope.save = function() {
     $scope.cohort.name = $scope.editCohort.name;
@@ -34,6 +36,7 @@ function($scope, $routeParams, Restangular) {
     $scope.validateName = false;
   };
 
+  $scope.selections = [];
   var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
@@ -79,4 +82,38 @@ function($scope, $routeParams, Restangular) {
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
+    // add student typeahead
+  $('input#studentSearch').typeahead({
+    name: 'students',
+    prefetch: {
+      url: 'http://localhost:3000/students/search.json',
+      ttl: 0
+    }
+  });
+
+  $('span#inClass').hide();
+  $('span#addSuccess').hide();
+  $('.tt-query').css('background-color','#fff');
+
+  $('input#studentSearch').bind('typeahead:selected', function(obj, datum, name) {
+    var studentId = datum.id;
+
+    var inCohort = _.find($scope.students, function(student) {
+      return student.id == studentId;
+    });
+
+    if (inCohort === undefined) {
+      Restangular.one('students', studentId).get().then(function(student) {
+        $scope.students.push(student);
+        $('span#addSuccess').fadeIn(500).delay(1500).fadeOut(500);
+      });
+
+      Restangular.all('cohort_students').post({
+        student_id: studentId,
+        cohort_id: $scope.section.id
+      });
+    } else {
+      $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
+    }
+  });
 });
