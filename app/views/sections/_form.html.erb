@@ -20,20 +20,20 @@
     <%= f.number_field :grade_level %>
   </div>
   <div class="field">
-    <%= f.label :start_date %><br>
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br>
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
     <%= f.label :subject_id %><br>
     <%= f.number_field :subject_id %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br>
     <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :period %><br>
+    <%= f.number_field :period %>
+  </div>
+  <div class="field">
+    <%= f.label :term_id %><br>
+    <%= f.number_field :term_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

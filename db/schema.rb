@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20131105164007) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "period"
-    t.integer  "term_id"
+    t.integer  "term_id",     null: false
   end
 
   add_index "sections", ["subject_id"], name: "index_sections_on_subject_id", using: :btree

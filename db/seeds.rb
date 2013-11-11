@@ -14,7 +14,7 @@ NUM_SUBJECTS = 10 * NUM_MODIFIER
 NUM_SECTIONS = 250 * NUM_MODIFIER
 NUM_STUDENTS = 1000 * NUM_MODIFIER
 NUM_COHORTS = 20 * NUM_MODIFIER
-NUM_GRADED_SECTIONS = 5
+NUM_GRADED_SECTIONS = 10
 NUM_ASS_TYPES = NUM_GRADED_SECTIONS * NUM_MODIFIER
 NUM_ASSESSMENTS = 8 * 4 * NUM_ASS_TYPES * NUM_MODIFIER
 NUM_CRITERIA = 5 * NUM_ASSESSMENTS * NUM_MODIFIER
@@ -80,17 +80,17 @@ Term.create(name: "2012-2013");
 Term.create(name: "2013-2014");
 
 puts "   -> creating sections"
-periods = ["1", "2", "3", "4", "5", "6"]
+number = ["1", "2", "3", "4"]
 level = ["Beginner", "Intermediate", "Advanced", "AP", "Honors"]
 topic = ["Math", "English", "Underwater Basketweaving", "Star Wars", "Quantum Mechanics", "Physical Science", "UNIX", "Physics", "Senior Project", "Statistics"]
 modifier = ["for Engineers", "for Art Majors", "for Business Majors"]
-sectionnames = (periods.product(level).product(topic).product(modifier)).map{|x| x[0][0][1] + " " + x[0][1] + " " + x[1] + " (" + x[0][0][0] + ")"}
+sectionnames = (number.product(level).product(topic).product(modifier)).map{|x| x[0][0][1] + " " + x[0][1] + " " + x[1] + " (" + x[0][0][0] + ")"}
 sections = Array.new
 1.upto(NUM_SECTIONS) do |num|
 	sections[num] = Section.create(name: sectionnames[num],
 		grade_level: num % 3 + 6,
 		user_id: users[(num - 1) % NUM_USERS + 1].id,
-		period: num % 6 + 1,
+		period: num % 4 + 1,
 		subject_id: subjects[(num - 1) % NUM_SUBJECTS + 1].id,
 		term_id: num % 2 + 1)
 end
