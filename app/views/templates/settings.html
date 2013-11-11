@@ -36,6 +36,7 @@
 
         <div class="col-lg-offset-1 col-md-3">
           <h4>More Options</h4>
+          <a data-toggle="modal" href="#importStudentsModal" class="btn btn-success btn-block">Import Students</a>
           <a data-toggle="modal" href="#addSubjectModal" class="btn btn-warning btn-block">Add Subject</a>
           <a data-toggle="modal" href="#advanceTermModal" class="btn btn-danger btn-block">Advance Term</a>
         </div>
@@ -111,7 +112,7 @@
           <div class="form-group" ng-class="validateSubjectName && {'has-error': addSubjectForm.name.$invalid}">
             <label for="inputName" class="col-lg-2 control-label">Subject</label>
             <div class="col-lg-10">
-              <input name="name" ng-model="newSubject" type="text" class="form-control" id="inputName" ng-blur="validateSubjectName=true" placeholder="Subject Name" required>
+              <input name="name" ng-model="newSubject" type="text" class="form-control" id="inputSubject" ng-blur="validateSubjectName=true" placeholder="Subject Name" required>
             </div>
           </div>
         </form>
@@ -125,6 +126,38 @@
       <div class="modal-footer">
         <button ng-click="resetSubjectValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button ng-click="saveSubject()" value="submit" class="btn btn-warning" ng-disabled="addSubjectForm.$invalid">Create</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal: Add Subject -->
+<div class="modal fade" id="importStudentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" ng-click="resetImportValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Import Students</h4>
+      </div>
+      <div class="modal-body">
+
+        <form name="importStudentsForm" class="form-horizontal" role="form">
+          <div class="form-group">
+            <br>
+            <label for="importStudents" class="col-lg-2 control-label">CSV File</label>
+            <div class="col-lg-9 col-lg-offset-1">
+              <div class="form-group">
+                <input type="file" ng-model="studentListFile" id="studentListFile" name="studentListFile" >
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button ng-click="resetImportValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button ng-click="importStudents()" value="submit" id="importButton" class="btn btn-success" disabled="disabled">Import</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

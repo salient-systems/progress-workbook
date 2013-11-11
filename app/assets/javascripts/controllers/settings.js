@@ -29,4 +29,24 @@ app.controller('SettingsCtrl', function($scope, Restangular) {
     $scope.newSubject = null;
     $scope.validateSubjectName = false;
   };
+
+  $scope.importStudents = function() {
+    //Restangular.all('subjects').post({name: $scope.newSubject}); //TODO: Finish implementing
+    //$scope.newSubject = null; // reset the form
+    $('#importStudentsModal').modal('hide');
+    $scope.resetImportValidation();
+  };
+
+  $scope.resetImportValidation = function() {
+    $scope.studentListFile = null;
+    $("input:file").change(function() {
+       document.getElementById('importButton').disabled = true;
+     });
+  };
+
+  $(function() {
+     $("input:file").change(function() {
+       document.getElementById('importButton').disabled = false;
+     });
+  });
 });
