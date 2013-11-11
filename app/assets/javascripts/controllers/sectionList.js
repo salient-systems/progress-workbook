@@ -68,9 +68,7 @@ app.controller('AddSection', function($scope, Restangular) {
     var newSection = angular.copy($scope.newSection);
     Restangular.all('terms').getList().then(function(theterms) {
       $scope.termId = theterms.length;
-      newSection.term_id = $scope.termId; //TODO: Fix! This code doesn't seem to work.
-      console.log(newSection.term_id);
-      console.log($scope.termId);
+      newSection.term_id = $scope.termId;
     });
     newSection.user_id = 1; //TODO get id of the logged in user
     Restangular.all('sections').post(newSection).then(function(response) {

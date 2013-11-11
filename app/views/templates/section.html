@@ -104,7 +104,6 @@
               <label for="inputStyle" class="col-lg-2 control-label">Style</label>
               <div class="col-lg-10">
                 <select ng-model="newAssessment.view" class="form-control" name="style" ng-blur="validateStyle=true" required>
-                  <option value=""></option>
                   <option value="1">Layout 1</option>
                   <option value="2">Layout 2</option>
                   <option value="3">Layout 3</option>
@@ -115,7 +114,6 @@
               <label for="inputDataType" class="col-lg-2 control-label">Type</label>
               <div class="col-lg-10">
                 <select ng-model="newAssessment.data_type" class="form-control" name="type" ng-blur="validateType=true" required>
-                  <option value=""></option>
                   <option value="1">Score</option>
                   <option value="2">Time</option>
                 </select>
@@ -171,11 +169,9 @@
               <label for="inputGrade" class="col-lg-2 control-label">Grade</label>
               <div class="col-lg-10">
                 <select class="form-control" ng-model="editSection.grade_level" name="grade" ng-blur="validateGrade=true" required>
-                  <option></option>
                   <option value="6">6th Grade</option>
                   <option value="7">7th Grade</option>
                   <option value="8">8th Grade</option>
-                  <option value="9">9th Grade</option>
                 </select>
               </div>
             </div>
