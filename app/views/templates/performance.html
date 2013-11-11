@@ -3,6 +3,7 @@
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
+	  	<span id="inClass" class="text-warning">This student is already in the class.</span>
 
 	  	<!-- Graph -->
     	<div ng-controller='ChartController'>
@@ -15,7 +16,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" href="#dataset{{panel.id}}">
-                  {{panel.dataSetName}}
+                  Data Set {{$index + 1}}
                 </a>
               </h4>
             </div>
@@ -31,63 +32,25 @@
 					         </div>
         					 <div class="row">
         					   <div class="col-md-6">
-                    	 <div class="form-group">
+                    	 <div class="form-group" >
                     	   <!-- Term selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Term</label>
                          <div class="col-md-9">
-            	             <select class="form-control row-md-2" ng-model="panel.school_year">
-            	               <option>2013-2014</option>
-            	               <option>2012-2013</option>
-            	               <option>2011-2012</option>
-            	               <option>2010-2011</option>
-            	               <option>2009-2010</option>
-            	             </select>
+            	             <select class="form-control row-sm-2" ng-model="panel.term" ng-options="term.id as term.name for term in terms" name="term" required></select>
                          </div>
         						   </div>
         						   <div class="form-group">
         					       <!-- Class selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Class</label>
-                         <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panel.school_year">
-                             <option>Physical Science</option>
-                             <option>Math</option>
-                             <option>Underwater Basketweaving</option>
-                             <option>English</option>
-                             <option>History</option>
-                           </select>
-                         </div>
-                       </div>
-        					   </div>
-        					   <div class="col-md-6">
-        						   <div class="form-group">
-                         <!-- Assessment selector -->
-                         <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
-                         <div class="col-md-8">
-                           <select class="form-control row-sm-2" ng-model="panel.school_year">
-                             <option>Learning Check</option>
-                             <option>I Can....</option>
-                             <option>Lab Report</option>
-                             <option>Tech Design</option>
-                           </select>
+                         <div class="col-md-9">                           
+                           <select class="form-control row-sm-2" ng-model="panel.className" ng-options="section.id as section.name for section in sections" name="section" ng-disabled="dataSetForm.term.$invalid" required></select>
                          </div>
                        </div>
                        <div class="form-group">
-                         <!-- Assessment selector -->
-                         <label for="inputDataType" class="col-md-3 control-label">Assessments</label>
-                         <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panel.school_year">
-                             <option>Learning Check</option>
-                             <option>I Can....</option>
-                             <option>Lab Report</option>
-                             <option>Tech Design</option>
-                           </select>
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <!-- Data drop-down selector -->
+                         <!-- Statistic selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panel.school_year">
+                           <select class="form-control row-sm-2" ng-model="panel.statistic" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
                              <option>Total Score</option>
                              <option>Class Average</option>
                              <option>Students Present</option>
@@ -96,12 +59,34 @@
                            </select>
                          </div>
                        </div>
-
+        					   </div>
+        					   <div class="col-md-6">        					     
+        						   <div class="form-group">
+                         <!-- Assessment type selector -->
+                         <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
+                         <div class="col-md-8">
+                           <select class="form-control row-sm-2" ng-model="panel.assessmentTypeName" ng-options="assessment_type.id as assessment_type.name for assessment_type in assessment_types" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required></select>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                         <!-- Assessment selector -->
+                         <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
+                         <div class="col-md-9">
+                           <select class="form-control row-sm-2" ng-model="panel.assessmentName" ng-options="assessment.id as assessment.name for assessment in assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required></select>
+                         </div>
+                       </div>
+                       <div class="form-group">
+                         <!-- Criterion selector -->
+                         <label for="inputDataType" class="col-md-3 control-label">Criterion</label>
+                         <div class="col-md-9">
+                           <select class="form-control row-sm-2" ng-model="panel.criterion" ng-options="criterion.id as criterion.name for criterion in criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required></select>
+                         </div>
+                       </div>
         					   </div>
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save()"class="btn btn-default pull-right btn-primary">Save</button>
+  	              <button type="button" ng-click="save($index)"class="btn btn-default pull-right btn-primary">Save</button>
   	              <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
   	              <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
                 </form>
