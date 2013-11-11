@@ -11,16 +11,6 @@
 </p>
 
 <p>
-  <strong>Start date:</strong>
-  <%= @section.start_date %>
-</p>
-
-<p>
-  <strong>End date:</strong>
-  <%= @section.end_date %>
-</p>
-
-<p>
   <strong>Subject:</strong>
   <%= @section.subject_id %>
 </p>
@@ -28,6 +18,16 @@
 <p>
   <strong>User:</strong>
   <%= @section.user_id %>
+</p>
+
+<p>
+  <strong>Period:</strong>
+  <%= @section.period %>
+</p>
+
+<p>
+  <strong>Term:</strong>
+  <%= @section.term_id %>
 </p>
 
 <%= link_to 'Edit', edit_section_path(@section) %> |

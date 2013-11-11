@@ -6,6 +6,11 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
+  Restangular.all('terms').getList().then(function(theterms) {
+    $scope.terms = theterms;
+    $scope.termId = $scope.terms.length;
+  });
+
   $scope.gridOptions = {
     data: 'sections',
     selectedItems: $scope.selections,
@@ -43,10 +48,6 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
     ]
   };
 
-  Restangular.all('terms').getList().then(function(theterms) {
-    $scope.terms = theterms;
-  });
-
   $scope.deleteSection = function() {
     _.each($scope.selections, function(section, key) {
       Restangular.one('sections', section.id).remove().then(function() {
@@ -65,6 +66,12 @@ app.controller('AddSection', function($scope, Restangular) {
 
   $scope.save = function() {
     var newSection = angular.copy($scope.newSection);
+    Restangular.all('terms').getList().then(function(theterms) {
+      $scope.termId = theterms.length;
+      newSection.term_id = $scope.termId; //TODO: Fix! This code doesn't seem to work.
+      console.log(newSection.term_id);
+      console.log($scope.termId);
+    });
     newSection.user_id = 1; //TODO get id of the logged in user
     Restangular.all('sections').post(newSection).then(function(response) {
       $scope.sections.push(response);

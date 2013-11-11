@@ -20,10 +20,10 @@
       <tr>
         <td><%= section.name %></td>
         <td><%= section.grade_level %></td>
-        <td><%= section.start_date %></td>
-        <td><%= section.end_date %></td>
         <td><%= section.subject_id %></td>
         <td><%= section.user_id %></td>
+        <td><%= section.period %></td>
+        <td><%= section.term_id %></td>
         <td><%= link_to 'Show', section %></td>
         <td><%= link_to 'Edit', edit_section_path(section) %></td>
         <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
