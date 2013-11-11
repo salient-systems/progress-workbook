@@ -10,6 +10,11 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
   });
   $scope.selections = [];
 
+  Restangular.all('terms').getList().then(function(theterms) {
+    $scope.terms = theterms;
+    $scope.termId = $scope.terms.length;
+  });
+
   $scope.save = function() {
     $scope.user.fname = $scope.editUser.fname;
     $scope.user.lname = $scope.editUser.lname;

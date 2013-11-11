@@ -11,6 +11,11 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
   });
   $scope.selections = [];
 
+  Restangular.all('terms').getList().then(function(theterms) {
+    $scope.terms = theterms;
+    $scope.termId = $scope.terms.length;
+  });
+
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;
     $scope.student.lname = $scope.editStudent.lname;
