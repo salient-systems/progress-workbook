@@ -1,3 +1,3 @@
 class Term < ActiveRecord::Base
-  belongs_to :sections, dependent: :destroy
+  has_many :sections, dependent: :destroy
 end

@@ -2,7 +2,7 @@ class AssessmentType < ActiveRecord::Base
     validates :name, :presence => true
     validates :view, :presence => true
 
-    belongs_to :section
+    has_one :section, through: :assessment
 
-    has_many :assessments, dependent: :destroy
+    belongs_to :assessments, dependent: :destroy
 end

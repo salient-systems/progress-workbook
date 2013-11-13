@@ -1,15 +1,18 @@
 // Class list
 app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
-  Restangular.all('sections').getList().then(function(sections) {
-    $scope.sections = sections;
-  });
+  
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
   Restangular.all('terms').getList().then(function(theterms) {
     $scope.terms = theterms;
     $scope.termId = $scope.terms.length;
+  	Restangular.one('terms', $scope.termId).getList('sections').then(function(sections) {
+      $scope.sections = sections;
+    });
   });
+
+  
 
   $scope.gridOptions = {
     data: 'sections',
@@ -57,20 +60,27 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
-});
+//});
 
-app.controller('AddSection', function($scope, Restangular) {
+//app.controller('AddSection', function($scope, Restangular) {
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
   });
 
+  $scope.updateTerm = function(){
+  	Restangular.one('terms', $scope.termId).getList('sections').then(function(sections) {
+      $scope.sections = sections;
+    });
+  };
+
   $scope.save = function() {
     var newSection = angular.copy($scope.newSection);
-    Restangular.all('terms').getList().then(function(theterms) {
-      $scope.termId = theterms.length;
+  //  Restangular.all('terms').getList().then(function(theterms) {
+    //  $scope.termId = theterms.length;
       newSection.term_id = $scope.termId;
-    });
+    //});
     newSection.user_id = 1; //TODO get id of the logged in user
+    console.log(newSection);
     Restangular.all('sections').post(newSection).then(function(response) {
       $scope.sections.push(response);
     });

@@ -38,6 +38,9 @@ Pwtest::Application.routes.draw do
     resources :sections
   end
 
+  resources :terms do
+    resources :sections
+  end
 
   # catch-all route for angular templates
   get 'templates/:action' => 'templates#:action'

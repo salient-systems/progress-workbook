@@ -8,6 +8,9 @@ class SectionsController < ApplicationController
     if params[:user_id] != nil
       #TODO add logic to not include user when accessing sections nested in users
       @sections = User.find(params[:user_id]).sections.includes(:user, :subject)
+    elsif params[:term_id] != nil
+      #@sections = Term.find(params[:term_id]).sections.includes(:user, :subject)
+      @sections = Section.joins(:term).where("terms.id = ?", params[:term_id]).all
     elsif params[:student_id] != nil
       @sections = Student.find(params[:student_id]).sections.includes(:user, :subject)
     else
@@ -78,6 +81,6 @@ class SectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def section_params
-      params.require(:section).permit(:name, :grade_level, :term, :period, :subject_id, :user_id)
+      params.require(:section).permit(:name, :grade_level, :term_id, :period, :subject_id, :user_id)
     end
 end
