@@ -1,6 +1,7 @@
 // user list
 app.controller('UserListCtrl', function($scope, Restangular) {
-  Restangular.all('users').getList().then(function(users) {
+  $scope.active = true;
+  Restangular.all('users').getList({"is_active":$scope.active}).then(function(users) {
     $scope.users = users;
   });
 
@@ -82,6 +83,9 @@ app.controller('UserListCtrl', function($scope, Restangular) {
 	//used for when a user toggles the "show inactive/active" button
 	$scope.activateUsersButton = function() {
 		$scope.active = !$scope.active;
+		Restangular.all('users').getList({"is_active":$scope.active}).then(function(users) {
+    	  $scope.users = users;
+  		});
 	};
 });
 

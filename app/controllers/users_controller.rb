@@ -5,7 +5,13 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    if params[:is_active] == 'true'
+      @users = User.where(is_active: 'true').all
+    elsif params[:is_active] == 'false'
+      @users = User.where(is_active: 'false').all
+    else
+      @users = User.all
+    end
   end
 
   # GET /users/1
