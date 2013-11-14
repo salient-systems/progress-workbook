@@ -1,6 +1,6 @@
 // student list
 app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
-	
+
   $scope.active = true;
   Restangular.all('students').getList({"is_active":$scope.active}).then(function(students) {
     $scope.students = students;
@@ -64,7 +64,7 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
 
   $scope.toggleActiveStudent = function() {
     _.each($scope.selections, function(student, key) {
-      student.is_active = $scope.active;
+      student.is_active = !$scope.active;
       student.put().then(function() {
         $scope.students = _.without($scope.students, student);
       });

@@ -72,7 +72,7 @@ app.controller('UserListCtrl', function($scope, Restangular) {
 
   $scope.toggleActiveUser = function() {
     _.each($scope.selections, function(user, key) {
-      user.is_active = $scope.active;
+      user.is_active = !$scope.active;
       user.put().then(function() {
         $scope.users = _.without($scope.users, user);
       });
