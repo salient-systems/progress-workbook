@@ -75,10 +75,12 @@ function($scope, $routeParams, Restangular) {
 
   $scope.removeFromCohort = function() { //TODO: Finish implementing after updating Rails
     _.each($scope.selections, function(student, key) {
-      Restangular.one('students', students.id).remove().then(function() {
-        $scope.students = _.without($scope.students, student);
+      cohort_student = Restangular.one('cohort_students').get({"cohort_id": $routeParams.id, "student_id": student.id}).then(function(thereturn){
+      	Restangular.one('cohort_students',thereturn[0].id).remove();
+      	$scope.students = _.without($scope.students, student);
       });
     });
+      
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
@@ -107,10 +109,10 @@ function($scope, $routeParams, Restangular) {
         $scope.students.push(student);
         $('span#addSuccess').fadeIn(500).delay(1500).fadeOut(500);
       });
-
+	  console.log(studentId);
       Restangular.all('cohort_students').post({
         student_id: studentId,
-        cohort_id: $scope.section.id
+        cohort_id: $routeParams.id
       });
     } else {
       $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);

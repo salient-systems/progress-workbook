@@ -5,7 +5,11 @@ class CohortStudentsController < ApplicationController
   # GET /cohort_students
   # GET /cohort_students.json
   def index
-    @cohort_students = CohortStudent.all
+    if params[:student_id] != nil and params[:cohort_id] != nil
+      @cohort_students = CohortStudent.where(student_id: params[:student_id], cohort_id: params[:cohort_id])
+    else
+      @cohort_students = CohortStudent.all
+    end
   end
 
   # GET /cohort_students/1
