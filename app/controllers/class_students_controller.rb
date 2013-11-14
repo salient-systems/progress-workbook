@@ -5,7 +5,11 @@ class ClassStudentsController < ApplicationController
   # GET /class_students
   # GET /class_students.json
   def index
-    @class_students = ClassStudent.all
+    if params[:student_id] != nil and params[:section_id] != nil
+      @class_students = ClassStudent.where(student_id: params[:student_id], section_id: params[:section_id])
+    else
+      @class_students = ClassStudent.all
+    end
   end
 
   # GET /class_students/1
