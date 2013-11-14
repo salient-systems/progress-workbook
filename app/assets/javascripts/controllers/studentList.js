@@ -1,6 +1,8 @@
 // student list
 app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
-  Restangular.all('students').getList().then(function(students) {
+	
+  $scope.active = true;
+  Restangular.all('students').getList({"is_active":$scope.active}).then(function(students) {
     $scope.students = students;
   });
 
@@ -73,6 +75,9 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular) {
   //toggles boolean for active or deactive students to be displayed
   $scope.activateStudentsButton = function() {
 		$scope.active = !$scope.active;
+		Restangular.all('students').getList({"is_active":$scope.active}).then(function(students) {
+    	  $scope.students = students;
+  		});
 	};
 });
 

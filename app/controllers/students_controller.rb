@@ -7,6 +7,10 @@ class StudentsController < ApplicationController
   def index
     if params[:user_id] != nil
       @students = User.find(params[:user_id]).students
+    elsif params[:is_active] == 'true'
+      @students = Student.where(is_active: 'true').all
+    elsif params[:is_active] == 'false'
+      @students = Student.where(is_active: 'false').all
     elsif params[:section_id] != nil
       @students = Section.find(params[:section_id]).students;
     elsif params[:cohort_id] != nil
