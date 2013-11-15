@@ -7,3 +7,7 @@ end
 json.set! :subject do
   json.extract! @section.subject, :name
 end
+
+json.set! :term do
+  json.extract! @section.term, :name
+end
