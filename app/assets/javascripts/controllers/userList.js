@@ -37,6 +37,7 @@ app.controller('UserListCtrl', function($scope, Restangular) {
       },{
         field: 'is_admin',
         displayName: 'Admin',
+        //cellTemplate : tableAdminIcon.html',
         enableCellEdit: false,
       },/*{
         /*{
