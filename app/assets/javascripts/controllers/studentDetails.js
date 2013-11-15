@@ -22,6 +22,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.student.sid = $scope.editStudent.sid;
     $scope.student.grade_level = $scope.editStudent.grade_level;
     $scope.student.gender = $scope.editStudent.gender;
+    $scope.student.is_active = $scope.editStudent.is_active;
     $scope.student.put();
     $scope.updateGender();
     $('#editStudentModal').modal('hide');
@@ -45,7 +46,8 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       lname: $scope.student.lname,
       sid: $scope.student.sid,
       grade_level: $scope.student.grade_level,
-      gender: $scope.student.gender
+      gender: $scope.student.gender,
+      is_active: $scope.student.is_active
     };
     $scope.updateGender();
   };

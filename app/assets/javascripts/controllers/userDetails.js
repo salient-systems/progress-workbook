@@ -19,6 +19,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user.fname = $scope.editUser.fname;
     $scope.user.lname = $scope.editUser.lname;
     $scope.user.is_admin = $scope.editUser.is_admin;
+    $scope.user.is_active = $scope.editUser.is_active;
     $scope.user.username = $scope.editUser.username;
     $scope.user.password = $scope.editUser.password;
     console.log($scope.user.password);
@@ -32,6 +33,7 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
       fname: $scope.user.fname,
       lname: $scope.user.lname,
       is_admin: $scope.user.is_admin,
+      is_active: $scope.user.is_active,
       username: $scope.user.username
     };
     $scope.updateRole();
