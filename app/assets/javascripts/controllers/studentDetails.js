@@ -6,10 +6,10 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.setupEditStudent();
   });
 
+  $scope.selections = [];
   student.getList('sections').then(function(sections) {
     $scope.sections = sections;
   });
-  $scope.selections = [];
 
   Restangular.all('terms').getList().then(function(theterms) {
     $scope.terms = theterms;
