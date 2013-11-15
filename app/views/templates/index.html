@@ -9,7 +9,7 @@
       <a class="navbar-brand" href="#/">Progress Workbook</a>
     </div>
     <div class="collapse navbar-collapse" ng-controller="NavCtrl">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav close-on-click">
         <li class="{{classes}}"><a href="#/classes">Classes</a></li>
         <li class="{{students}}"><a href="#/students">Students</a></li>
         <li class="{{performance}}"><a href="#/performance">Performance</a></li>
@@ -20,7 +20,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu close-on-click">
             <li><a href="#/login">Log Out</a></li>
             <li><a href="#/settings">Settings</a></li>
             <li class="divider"></li>
@@ -32,6 +32,10 @@
     </div>
   </div>
 </div>
-  <div ng-view></div>
-</div>
-</p>
+<script>
+  // auto-close navbar on click
+  $('.close-on-click').click('li', function() {
+    $('.navbar-collapse').collapse('hide');
+  });
+</script>
+<div ng-view></div>
