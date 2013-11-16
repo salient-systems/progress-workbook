@@ -5,15 +5,22 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
     $scope.user = theuser;
     $scope.setupEditUser();
   });
-  user.getList('sections').then(function(sections) {
-    $scope.sections = sections;
-  });
+  
   $scope.selections = [];
 
   Restangular.all('terms').getList().then(function(theterms) {
     $scope.terms = theterms;
     $scope.termId = $scope.terms.length;
+    user.all('sections').getList({term_id: theterms.length}).then(function(sections) {
+      $scope.sections = sections;
+    });
   });
+
+  $scope.updateTerm = function(){
+  	user.all('sections').getList({term_id: $scope.termId}).then(function(sections) {
+      $scope.sections = sections;
+    });
+  };
 
   $scope.save = function() {
     $scope.user.fname = $scope.editUser.fname;
