@@ -84,7 +84,6 @@ function($scope, $routeParams, Restangular) {
   $scope.removeFromClass = function() { //TODO: Finish implementing after updating Rails
     _.each($scope.selections, function(student, key) {
       class_student = Restangular.one('class_students').get({"section_id": $routeParams.id, "student_id": student.id}).then(function(thereturn){
-      	console.log(thereturn);
       	Restangular.one('class_students',thereturn[0].id).remove();
       	$scope.students = _.without($scope.students, student);
       });
