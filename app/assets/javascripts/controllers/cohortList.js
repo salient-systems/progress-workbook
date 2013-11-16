@@ -47,7 +47,6 @@ app.controller('AddCohort', function($scope, Restangular) {
     Restangular.all('cohorts').post(newCohort).then(function(response) {
       $scope.cohorts.push(response);
     });
-    $scope.newCohort = null; // reset the form
     $('#createCohortModal').modal('hide');
     $scope.resetValidation();
   };
