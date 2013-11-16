@@ -53,53 +53,49 @@ app.controller('ChartCtrl', function($scope){
 
 // Dataset Controller
 app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
-  $scope.updateTerm = function(index) {
-  	if($scope.panels[index].termID != "") {
-  	  Restangular.one('terms', $scope.panels[index].termID).getList('sections').then(function(sections) {
-        $scope.sections[index] = sections;
+  $scope.updateTerm = function(i) {
+  	if($scope.panels[i].termID != "") {
+  	  Restangular.one('terms', $scope.panels[i].termID).getList('sections').then(function(sections) {
+        $scope.sections[i] = sections;
       });
   	}
   };
 
-  $scope.updateSection = function(index) {
-  	console.log( $scope.panels[index].classId + "  " + $scope.panels[index].prevClassId);
-  	if ($scope.panels[index].classId != "") {
-  	  console.log("Inside updateSection");
-  	  Restangular.one('sections', $scope.panels[index].classId).getList('assessment_types').then(function(assessmenttypes) {
-        $scope.assessment_types[index] = assessmenttypes;
+  $scope.updateSection = function(i) {
+  	if ($scope.panels[i].classId != "") {
+  	  Restangular.one('sections', $scope.panels[i].classId).getList('assessment_types').then(function(assessmenttypes) {
+        $scope.assessment_types[i] = assessmenttypes;
       });
   	}
   };
 
-  $scope.updateStatistic = function(index) {
+  $scope.updateStatistic = function(i) {
 
   };
 
-  $scope.updateAssessmentType = function(index) {
-  	console.log($scope.panels[index].assessmentTypeName);
-  	if($scope.panels[index].assessmentTypeName != ""){
-  	  console.log("Inside updateAssessmentType");
-  	  Restangular.one('assessment_types', $scope.panels[index].assessmentTypeName).getList('assessments').then(function(assessments) {
-	    $scope.assessments[index] = assessments;
-	  });
+  $scope.updateAssessmentType = function(i) {
+  	console.log($scope.panels[i].assessmentTypeName);
+  	if ($scope.panels[i].assessmentTypeName != "") {
+  	  Restangular.one('assessment_types', $scope.panels[i].assessmentTypeName).getList('assessments').then(function(assessments) {
+	      $scope.assessments[i] = assessments;
+	    });
   	}
   };
 
-  $scope.updateAssessment = function(index) {
-  	if ($scope.panels[index].assessmentName != "") {
-  	  console.log("Inside updateAssessment");
-  	  Restangular.one('assessments', $scope.panels[index].assessmentName).getList('criterions').then(function(criterions) {
-	    $scope.criterions[index] = criterions;
-	  });
+  $scope.updateAssessment = function(i) {
+  	if ($scope.panels[i].assessmentName != "") {
+  	  Restangular.one('assessments', $scope.panels[i].assessmentName).getList('criterions').then(function(criterions) {
+	      $scope.criterions[i] = criterions;
+	    });
   	}
   };
 
-  $scope.updateCriterion = function(index) {
+  $scope.updateCriterion = function(i) {
   };
 
-  $scope.save = function(index) {
+  $scope.save = function(i) {
   	// create new dataset if we're saving the last dataset
-  	if (index == $scope.panels.valueOf().length - 1) {
+  	if (i == $scope.panels.valueOf().length - 1) {
   	  var newPanel = angular.copy($scope.defaultPanel);
   	  newPanel.id = $scope.panels.valueOf().length + 1;
 	  	$scope.panels.push(newPanel);
