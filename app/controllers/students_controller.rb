@@ -16,9 +16,8 @@ class StudentsController < ApplicationController
     elsif params[:cohort_id] != nil
       @students = Cohort.find(params[:cohort_id]).students;
     elsif params[:advanceSchoolYear] != nil
-      Student.update_all("is_active = 'false'", "grade_level = 8");
-      Student.update_all("grade_level = 8", "grade_level = 7");
-      Student.update_all("grade_level = 7", "grade_level = 6");
+      Student.update_all("is_active = 'false'", "grade_level >= 8");
+      Student.update_all("grade_level = grade_level + 1", "is_active = 'true' AND grade_level < 8");
     else
       @students = Student.all
     end
