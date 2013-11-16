@@ -7,14 +7,23 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
   });
 
   $scope.selections = [];
-  student.getList('sections').then(function(sections) {
-    $scope.sections = sections;
-  });
-
+  
   Restangular.all('terms').getList().then(function(theterms) {
     $scope.terms = theterms;
     $scope.termId = $scope.terms.length;
+    student.all('sections').getList({term_id: theterms.length}).then(function(sections) {
+      $scope.sections = sections;
+    });
   });
+
+	//Restangular.one('class_students').get({"section_id": $routeParams.id, "student_id": student.id})
+
+  $scope.updateTerm = function(){
+  	student.all('sections').getList({term_id: $scope.termId}).then(function(sections) {
+      $scope.sections = sections;
+    });
+  };
+  
 
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;

@@ -19,4 +19,5 @@
 //= require bootstrap.min
 //= require jquery.flot.min
 //= require excanvas.min
+//= require typeahead.min
 //= require_directory

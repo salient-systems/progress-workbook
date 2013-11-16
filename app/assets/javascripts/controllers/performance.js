@@ -15,11 +15,25 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
   Restangular.all('criterions').getList().then(function(thecriterion) {
     $scope.criterions = thecriterion;
   });
-  //$('#inClass').css('visibility', 'hidden');
+
+  $scope.defaultPanel = {
+    dataSetName: 'Data Set 1',
+    id: 1,
+    open: true,
+    searchCriteria: "",
+    assessmentName: "",
+    criterion:  "",
+    termID: "",
+    classId: "",
+    statistic: "",
+    assessmentTypeName: ""
+  };
+
+  $scope.panels = [$scope.defaultPanel];
 });
 
-//chart controller
-app.controller('ChartController', function($scope){
+// Chart Controller
+app.controller('ChartCtrl', function($scope){
   var daftPoints = [[0, 4]], punkPoints = [[1, 20]];
 
   var data1 = [
@@ -32,50 +46,37 @@ app.controller('ChartController', function($scope){
       data: punkPoints,
       color: '#3a4452',
       bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-    }];      
+    }];
 
   $scope.data = data1;
 
 });
 
-app.controller('accordionCtrl', function($scope, $routeParams, Restangular){
-	
-  $scope.panels = [
-  	{
-      dataSetName: 'Data Set 1',
-      id: 1,
-      open: true,
-      searchCriteria: "",
-      assessmentName: "",
-      criterion:  "", 
-      termID: "",
-      className: "",
-      statistic: "",
-      assessmentTypeName: ""	
-    }];
-  	
-  $scope.updateTerm = function(index){
-  	if($scope.panels[index].termID != null){
+// Dataset Controller
+app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
+  $scope.updateTerm = function(index) {
+  	if($scope.panels[index].termID != null) {
   	  console.log("Inside updateTerm");
   	  Restangular.one('terms', $scope.panels[index].termID).getList('sections').then(function(sections) {
-	    $scope.sections[index] = sections;
-	  });
-  	}
-  }; 	
-  
-  $scope.updateSection = function(index){
-  	if($scope.panels[index].className != null){
-  	  console.log("Inside updateSection");
-  	  Restangular.one('sections', $scope.panels[index].className).getList('assessment_types').then(function(assessmenttypes) {
-	    $scope.assessment_types[index] = assessmenttypes;
-	  });
+        $scope.sections[index] = sections;
+      });
   	}
   };
-  
-    $scope.updateStatistic = function(index){
-  }; 
-  
-  $scope.updateAssessmentType = function(index){
+
+  $scope.updateSection = function(index) {
+  	if ($scope.panels[index].classId != null) {
+  	  console.log("Inside updateSection");
+  	  Restangular.one('sections', $scope.panels[index].classId).getList('assessment_types').then(function(assessmenttypes) {
+        $scope.assessment_types[index] = assessmenttypes;
+      });
+  	}
+  };
+
+  $scope.updateStatistic = function(index) {
+
+  };
+
+  $scope.updateAssessmentType = function(index) {
   	if($scope.panels[index].assessmentTypeName != null){
   	  console.log("Inside updateAssessmentType");
   	  Restangular.one('assessment_types', $scope.panels[index].assessmentTypeName).getList('assessments').then(function(assessments) {
@@ -83,8 +84,8 @@ app.controller('accordionCtrl', function($scope, $routeParams, Restangular){
 	  });
   	}
   };
-  
-  $scope.updateAssessment = function(index){
+
+  $scope.updateAssessment = function(index) {
   	if($scope.panels[index].assessmentName != null){
   	  console.log("Inside updateAssessment");
   	  Restangular.one('assessments', $scope.panels[index].assessmentName).getList('criterions').then(function(criterions) {
@@ -92,29 +93,17 @@ app.controller('accordionCtrl', function($scope, $routeParams, Restangular){
 	  });
   	}
   };
-  
-  $scope.updateCriterion = function(index){
-  }; 
-  //this function will add a new data field when the save button is clicked
+
+  $scope.updateCriterion = function(index) {
+  };
+
   $scope.save = function(index) {
-  	console.log($scope.panels.valueOf().length);
-  	console.log(index);
-  	console.log($scope.panels[index]);
-  	console.log($scope.dataSetForm);
-  	//check if last panel clicking save is to open a 
-  	if(index == $scope.panels.valueOf().length - 1){
-	  	$scope.panels.push({
-	    	dataSetName: "noob",
-	    	id: $scope.panels.valueOf().length + 1,
-	    	open: true,
-	    	searchCriteria: "",
-	        term: "",
-	        className: "",
-	        statistic: "",
-	        assessmentTypeName: "",
-	        assessmentName: "",
-	        criterion: ""
-	    	});	
+  	// create new dataset if we're saving the last dataset
+  	if (index == $scope.panels.valueOf().length - 1) {
+  	  var newPanel = angular.copy($scope.defaultPanel);
+  	  newPanel.id = $scope.panels.valueOf().length + 1;
+	  	$scope.panels.push(newPanel);
   	}
   };
 });
+

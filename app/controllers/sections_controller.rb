@@ -5,7 +5,11 @@ class SectionsController < ApplicationController
   # GET /sections
   # GET /sections.json
   def index
-    if params[:user_id] != nil
+    if params[:term_id] != nil and params[:user_id] != nil 
+      @sections = User.find(params[:user_id]).sections.includes(:user, :subject, :term).joins(:term).where("terms.id = ?", params[:term_id]).all
+    elsif params[:term_id] != nil and params[:student_id] != nil  
+      @sections = Student.find(params[:student_id]).sections.includes(:user, :subject, :term).joins(:term).where("terms.id = ?", params[:term_id]).all
+    elsif params[:user_id] != nil
       #TODO add logic to not include user when accessing sections nested in users
       @sections = User.find(params[:user_id]).sections.includes(:user, :subject, :term)
     elsif params[:term_id] != nil
