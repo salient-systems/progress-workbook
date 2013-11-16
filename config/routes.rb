@@ -20,6 +20,10 @@ Pwtest::Application.routes.draw do
   resources :assessments
 
   resources :assessment_types
+  
+  resources :assessment_types do
+    resources :assessments
+  end
 
   resources :sections do
     resources :students # or use - only: [:index, :new, :create]
