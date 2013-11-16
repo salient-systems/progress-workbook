@@ -4,6 +4,10 @@ app.controller('SettingsCtrl', function($scope, Restangular) {
     $scope.newPassword = null; // reset the form
   };
 
+  $scope.advanceSchoolYear = function() {
+  	Restangular.all('students').getList({advanceSchoolYear: 1337});
+  };
+
   $scope.saveTerm = function() {
     Restangular.all('terms').post({name: $scope.newTerm});
     $scope.newTerm = null; // reset the form
