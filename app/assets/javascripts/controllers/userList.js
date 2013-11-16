@@ -37,12 +37,9 @@ app.controller('UserListCtrl', function($scope, Restangular) {
       },{
         field: 'is_admin',
         displayName: 'Admin',
-        //cellTemplate : tableAdminIcon.html',
+        cellTemplate: 'templates/tableAdminIcon.html',
         enableCellEdit: false,
-      },/*{
-        /*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ]
   };
 

@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131114170516) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
     t.integer  "assessment_id", null: false
@@ -105,7 +102,7 @@ ActiveRecord::Schema.define(version: 20131114170516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "period"
-    t.integer  "term_id",     null: false
+    t.integer  "term_id"
   end
 
   add_index "sections", ["subject_id"], name: "index_sections_on_subject_id", using: :btree

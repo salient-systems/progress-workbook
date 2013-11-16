@@ -1,6 +1,6 @@
 // Class list
 app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
-  
+
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
@@ -12,7 +12,9 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
     });
   });
 
-  
+  Restangular.all('subjects').getList().then(function(thesubjects) {
+    $scope.subjects = thesubjects;
+  });
 
   $scope.gridOptions = {
     data: 'sections',
@@ -59,13 +61,6 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
-
-//});
-
-//app.controller('AddSection', function($scope, Restangular) {
-  Restangular.all('subjects').getList().then(function(thesubjects) {
-    $scope.subjects = thesubjects;
-  });
 
   $scope.updateTerm = function(){
   	Restangular.one('terms', $scope.termId).getList('sections').then(function(sections) {
