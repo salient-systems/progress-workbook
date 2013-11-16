@@ -17,7 +17,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
   });
 
   $scope.defaultPanel = {
-    dataSetName: 'Data Set 1',
     id: 1,
     open: true,
     searchCriteria: "",
@@ -26,7 +25,14 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     termID: "",
     classId: "",
     statistic: "",
-    assessmentTypeName: ""
+    assessmentTypeName: "",
+    prevSearchCriteria: "",
+    prevAssessmentName: "",
+    prevCriterion:  "",
+    prevTermID: "",
+    prevClassId: "",
+    prevStatistic: "",
+    prevAssessmentTypeName: ""
   };
 
   $scope.panels = [$scope.defaultPanel];
@@ -55,21 +61,28 @@ app.controller('ChartCtrl', function($scope){
 // Dataset Controller
 app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   $scope.updateTerm = function(index) {
-  	if($scope.panels[index].termID != null) {
+  	if($scope.panels[index].termID != null && 
+  		$scope.panels[index].termID != "" && 
+  		$scope.panels[index].termID != $scope.panels[index].prevTermID) {
   	  console.log("Inside updateTerm");
   	  Restangular.one('terms', $scope.panels[index].termID).getList('sections').then(function(sections) {
         $scope.sections[index] = sections;
       });
   	}
+  	$scope.panels[index].prevTermID = $scope.panels[index].termID;
   };
 
   $scope.updateSection = function(index) {
-  	if ($scope.panels[index].classId != null) {
+  	console.log( $scope.panels[index].classId + "  " + $scope.panels[index].prevClassId);
+  	if ($scope.panels[index].classId != null && 
+  		$scope.panels[index].classId != "" && 
+  		$scope.panels[index].classId != $scope.panels[index].prevClassId) {
   	  console.log("Inside updateSection");
   	  Restangular.one('sections', $scope.panels[index].classId).getList('assessment_types').then(function(assessmenttypes) {
         $scope.assessment_types[index] = assessmenttypes;
-      });
+      });      
   	}
+  	$scope.panels[index].prevClassId = $scope.panels[index].classId;
   };
 
   $scope.updateStatistic = function(index) {
@@ -77,21 +90,28 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   };
 
   $scope.updateAssessmentType = function(index) {
-  	if($scope.panels[index].assessmentTypeName != null){
+  	console.log($scope.panels[index].assessmentTypeName);
+  	if($scope.panels[index].assessmentTypeName != null && 
+  		$scope.panels[index].assessmentTypeName != "" &&
+  		$scope.panels[index].assessmentTypeName != $scope.panels[index].prevassessmentTypeName){
   	  console.log("Inside updateAssessmentType");
   	  Restangular.one('assessment_types', $scope.panels[index].assessmentTypeName).getList('assessments').then(function(assessments) {
 	    $scope.assessments[index] = assessments;
-	  });
+	  });	  
   	}
+  	$scope.panels[index].prevassessmentTypeName = $scope.panels[index].assessmentTypeName;
   };
 
   $scope.updateAssessment = function(index) {
-  	if($scope.panels[index].assessmentName != null){
+  	if($scope.panels[index].assessmentName != null && 
+  		$scope.panels[index].assessmentName != "" &&
+  		$scope.panels[index].assessmentName != $scope.panels[index].prevassessmentName){
   	  console.log("Inside updateAssessment");
   	  Restangular.one('assessments', $scope.panels[index].assessmentName).getList('criterions').then(function(criterions) {
 	    $scope.criterions[index] = criterions;
-	  });
+	  });	  
   	}
+  	$scope.panels[index].prevassessmentName = $scope.panels[index].assessmentName;
   };
 
   $scope.updateCriterion = function(index) {
