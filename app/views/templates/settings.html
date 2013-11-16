@@ -39,7 +39,6 @@
           <a data-toggle="modal" href="#importStudentsModal" class="btn btn-success btn-block">Import Students</a>
           <a data-toggle="modal" href="#addSubjectModal" class="btn btn-warning btn-block">Add Subject</a>
           <a data-toggle="modal" href="#advanceTermModal" class="btn btn-danger btn-block">Advance Term</a>
-          <a ng-click="advanceSchoolYear()" class="btn btn-danger btn-block">Advance School Year</a>
         </div>
         <p></p>
       </div>
@@ -66,14 +65,26 @@
             </div>
           </div>
 
+          <div class="form-group">
+              <label for="inputIncGrades" class="col-lg-3 control-label">Advance Grades</label>
+              <div class="col-lg-9">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="incGrades" name="incGrades">
+                    Advance the grade level of every student
+                  </label>
+                </div>
+              </div>
+            </div>
+
           <div class="bs-callout bs-callout-info">
             <h4>Tip</h4>
             <p>It is recomended that you use a consistent naming structure for the terms (e.g. "2013-2014").</p>
           </div>
 
           <div class="bs-callout bs-callout-danger">
-            <h4>Danger: This Cannot Be Undone</h4>
-            <p>Advancing the term will hide all current classes and deactivate graduating students. Any new classes which are created will be placed under the new term. This operation is only intended for use at the end of a term/semester/year and <strong>cannot be undone</strong>. Please check the box below to confirm your decision and proceed.</p>
+            <h4>Danger: Please Read Before Proceeding</h4>
+            <p>Advancing the term will hide all current classes, and all new classes will be created under the new term. If Advance Grades is also selected, the grade level of each student will be increased and "graduating" students will be deactivated. This operation is only intended for use at the end of a term/semester/year and <strong>cannot be undone</strong>. Please check the box below to confirm your decision and proceed.</p>
           </div>
 
           <div class="form-group" ng-class="validateCheckbox && {'has-error': advanceTermForm.confirmCheckbox.$invalid}">
@@ -82,7 +93,7 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="confirmCheckbox" name="confirmCheckbox" ng-blur="validateCheckbox=true" required>
-                  I understand that advancing the term will deactivate graduating students and hide the current classes. This change cannot be undone.
+                  I understand that advancing the term will irrevocably modify class and student information. This change cannot be undone.
                 </label>
               </div>
             </div>
