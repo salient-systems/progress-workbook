@@ -24,21 +24,22 @@ app.controller('UserListCtrl', function($scope, Restangular) {
         field: 'fname',
         displayName:'First Name',
         cellTemplate: nameTemplate,
-        enableCellEdit: false,
+        enableCellEdit: false
       }, {
         field: 'lname',
         displayName:'Last Name',
         cellTemplate: nameTemplate,
-        enableCellEdit: false,
+        enableCellEdit: false
       }, {
         field: 'username',
         displayName: 'Username',
-        enableCellEdit: false,
-      },{
+        enableCellEdit: false
+      }, {
         field: 'is_admin',
         displayName: 'Admin',
         cellTemplate: 'templates/tableAdminIcon.html',
         enableCellEdit: false,
+        width: '5%'
       }
     ]
   };
