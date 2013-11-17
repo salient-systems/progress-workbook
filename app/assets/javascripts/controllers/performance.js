@@ -20,12 +20,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     id: 1,
     open: true,
     searchCriteria: "",
-    assessmentName: "",
-    criterion:  "",
-    termID: "",
-    classId: "",
-    statistic: "",
-    assessmentTypeName: ""
+    termID: null,
+    classId: null,
+    assessmentTypeName: null,
+    assessmentId: null,
+    criterion: null,
+    statistic: null,
   };
 
   $scope.panels = [$scope.defaultPanel];
