@@ -79,6 +79,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	if ($scope.panels[i].assessmentTypeId !== undefined) {
   	  Restangular.one('assessment_types', $scope.panels[i].assessmentTypeId).getList('assessments').then(function(assessments) {
 	      $scope.panels[i].assessments = assessments;
+	      console.log($scope.panels[i].assessments);
 	    });
   	}
   };
