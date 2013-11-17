@@ -55,11 +55,15 @@
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panels[$index].statistic" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
-                             <option>Total Score</option>
-                             <option>Class Average</option>
+                             <option>Total Correct</option>
+                             <option>Percentage Correct</option>
+                             <option>Total Possible</option>
+                             <option>Total Goal</option>
+                             <option>Percent of Term</option>
+                             <option>Score Distribution (Total)</option>
+                             <option>Score Distribution (Percent)</option>
                              <option>Students Present</option>
-                             <option>Assessment Total</option>
-                             <option>Grade</option>
+                             <option>Students Enrolled</option>
                            </select>
                          </div>
                        </div>

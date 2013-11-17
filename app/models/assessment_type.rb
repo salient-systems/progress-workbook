@@ -3,6 +3,6 @@ class AssessmentType < ActiveRecord::Base
     validates :view, :presence => true
 
     belongs_to :section
-    has_many :assessments, dependent: :destroy
-
+    has_one :assessment, dependent: :destroy
+    has_many :criterion_grade
 end

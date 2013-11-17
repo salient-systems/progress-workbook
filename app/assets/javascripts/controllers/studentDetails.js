@@ -31,13 +31,17 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     $scope.student.sid = $scope.editStudent.sid;
     $scope.student.grade_level = $scope.editStudent.grade_level;
     $scope.student.gender = $scope.editStudent.gender;
+    if($scope.editStudent.gender == "")
+    {
+      $scope.student.gender = null;
+    }
     $scope.student.is_active = $scope.editStudent.is_active;
     $scope.student.put();
-    $scope.updateGender();
+    $scope.displayGender();
     $('#editStudentModal').modal('hide');
   };
 
-  $scope.updateGender = function() {
+  $scope.displayGender = function() {
     if($scope.student.gender == 'm') {
       $scope.gender = "Male";
     }
@@ -58,7 +62,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       gender: $scope.student.gender,
       is_active: $scope.student.is_active
     };
-    $scope.updateGender();
+    $scope.displayGender();
   };
 
   $scope.resetValidation = function() {
