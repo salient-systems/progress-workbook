@@ -49,13 +49,14 @@ app.controller('ChartCtrl', function($scope){
 app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   $scope.updateTerm = function(i) {
 	  var panel = $scope.panels[i];
-      panel.sectionId = null;
-      panel.assessmentTypeId = null;
-      panel.assessmentId = null;
-      panel.criterionId = null;
-      panel.assessmentTypes = [];
-      panel.assessments = [];
-      panel.criterion = [];
+    panel.sectionId = null;
+    panel.assessmentTypeId = null;
+    panel.assessmentId = null;
+    panel.criterionId = null;
+    panel.assessmentTypes = [];
+    panel.assessments = [];
+    panel.criterion = [];
+
 	  Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
       panel.sections = sections;
     });
@@ -68,14 +69,14 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	  Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
         panel.assessmentTypes = assessmenttypes;
       });
-  	} else {
-      panel.assessmentTypeId = null;
-      panel.assessmentId = null;
-      panel.criterionId = null;
-  	  panel.assessmentTypes = [];
-  	  panel.assessments = [];
-  	  panel.criterion = [];
   	}
+
+    panel.assessmentTypeId = null;
+    panel.assessmentId = null;
+    panel.criterionId = null;
+	  panel.assessmentTypes = [];
+	  panel.assessments = [];
+	  panel.criterion = [];
   };
 
   $scope.updateStatistic = function(i) {
@@ -90,12 +91,12 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
 	      panel.assessments = assessments;
 	      console.log(panel.assessments);
 	    });
-  	} else {
-      panel.assessmentId = null;
-      panel.criterionId = null;
-      panel.assessments = [];
-      panel.criterion = [];
   	}
+
+    panel.assessmentId = null;
+    panel.criterionId = null;
+    panel.assessments = [];
+    panel.criterion = [];
   };
 
   $scope.updateAssessment = function(i) {
@@ -105,10 +106,10 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	  Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
 	      panel.criterions = criterions;
 	    });
-  	} else {
-      panel.criterionId = null;
-      panel.criterion = [];
   	}
+
+    panel.criterionId = null;
+    panel.criterion = [];
   };
 
   $scope.updateCriterion = function(i) {
