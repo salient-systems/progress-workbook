@@ -4,7 +4,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
   $scope.defaultPanel = {
     id: 1,
     open: true,
-    searchCriteria: "",
+    filterType: "",
+    filterId: null,
     termId: null,
     sectionId: null,
     assessmentTypeId: null,
@@ -30,7 +31,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 
   $scope.setupTypeahead = function() {
     // add student typeahead
-    $('input#search').typeahead([{
+    $('input.search').typeahead([{
       name: 'students',
       limit: 3,
       header: '<h4>Students</h4>',
@@ -58,8 +59,15 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 
     $('.tt-query').css('background-color','#fff');
 
-    $('input#search').bind('typeahead:selected', function(obj, datum, name) {
-      console.log('lol');
+    $('input.search').live('typeahead:selected', function(event, datum, name) {
+      console.log(event);
+      console.log(datum);
+      console.log(name);
+      console.log($(event.currentTarget).attr('id'));
+
+      var panel = $scope.panels[$(event.currentTarget).attr('id')];
+      panel.filterType = name; // search type is user, student, or cohort
+      panel.filterId = datum.id;
     });
   };
 });

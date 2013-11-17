@@ -75,9 +75,7 @@ function($scope, $routeParams, Restangular) {
       },{
         field: 'grade_level',
         displayName: 'Grade Level'
-      },/*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ]
   };
 
