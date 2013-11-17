@@ -66,7 +66,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 
 // Chart Controller
 app.controller('ChartCtrl', function($scope){
-  var daftPoints = [[0, 4]], punkPoints = [[1, 20]];
+  //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
+  var daftPoints = [[0, 4]], punkPoints = [[1, 14]];
+  //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
   var data1 = [
     {
       data: daftPoints,
@@ -78,7 +80,21 @@ app.controller('ChartCtrl', function($scope){
       bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
     }
   ];
-  $scope.data = data1;
+  //$scope.data = data1;
+  
+  var options = {
+      /*xaxis: {
+        ticks:[[0,'Daft'],[1,'Punk']]
+      },*/
+    grid: {
+      labelMargin: 10,
+      backgroundColor: '#e2e6e9',
+      color: '#ffffff',
+      borderColor: null
+    }
+  };
+    
+  $.plot($("#perfGraph"), data1, options);
 });
 
 // Dataset Controller

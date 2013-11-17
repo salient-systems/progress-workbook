@@ -45,7 +45,7 @@ function($scope, $routeParams, Restangular) {
     $scope.validateGrade = false;
   };
 
-  var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/stud`ents/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
+  var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 
   $scope.gridOptions = {
