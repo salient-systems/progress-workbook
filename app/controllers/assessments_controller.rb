@@ -5,7 +5,12 @@ class AssessmentsController < ApplicationController
   # GET /assessments
   # GET /assessments.json
   def index
-    @assessments = Assessment.all
+    if params[:assessment_type_id] != nil
+      @assessments = Assessment.where(assessment_type_id: params[:assessment_type_id])
+    else
+      @assessments = Assessment.all 
+    end
+    
   end
 
   # GET /assessments/1
