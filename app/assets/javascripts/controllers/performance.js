@@ -1,8 +1,6 @@
 // performance details page
 app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 
-
-
   $scope.defaultPanel = {
     id: 1,
     open: true,
@@ -26,38 +24,44 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     $scope.panels[0].termId = $scope.terms.length;
     Restangular.one('terms', $scope.panels[0].termId).getList('sections').then(function(sections) {
       $scope.panels[0].sections = sections;
-
-      // add student typeahead
-      $('input.search').typeahead([{
-        name: 'students',
-        limit: 3,
-        header: '<h4>Students</h4>',
-        prefetch: {
-          url: '/students/search.json',
-          ttl: 0
-        }
-      }, {
-        name: 'cohorts',
-        limit: 3,
-        header: '<h4>Cohorts</h4>',
-        prefetch: {
-          url: '/cohorts/search.json',
-          ttl: 0
-        }
-      }, {
-        name: 'users',
-        limit: 3,
-        header: '<h4>Users</h4>',
-        prefetch: {
-          url: '/users/search.json',
-          ttl: 0
-        }
-      }]);
-
-      $('.tt-query').css('background-color','#fff');
-
+      $scope.setupTypeahead();
     });
   });
+
+  $scope.setupTypeahead = function() {
+    // add student typeahead
+    $('input#search').typeahead([{
+      name: 'students',
+      limit: 3,
+      header: '<h4>Students</h4>',
+      prefetch: {
+        url: '/students/search.json',
+        ttl: 0
+      }
+    }, {
+      name: 'cohorts',
+      limit: 3,
+      header: '<h4>Cohorts</h4>',
+      prefetch: {
+        url: '/cohorts/search.json',
+        ttl: 0
+      }
+    }, {
+      name: 'users',
+      limit: 3,
+      header: '<h4>Users</h4>',
+      prefetch: {
+        url: '/users/search.json',
+        ttl: 0
+      }
+    }]);
+
+    $('.tt-query').css('background-color','#fff');
+
+    $('input#search').bind('typeahead:selected', function(obj, datum, name) {
+      console.log('lol');
+    });
+  };
 });
 
 // Chart Controller

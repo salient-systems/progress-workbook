@@ -1,10 +1,8 @@
-<div ng-controller="PerformanceCtrl" class="container">
+<div class="container">
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
-
-
 
 	  	<!-- Graph -->
     	<div ng-controller="ChartCtrl">
@@ -29,7 +27,7 @@
               		<div class="form-group">
 		                  <!-- Teacher/Student/Cohort selector -->
 		                  <div class="col-sm-12">
-			                   <input type="text" class="search form-control input" placeholder="Search teachers, students, and cohorts..." />
+			                   <input type="text" id="search" class="form-control input" placeholder="Search teachers, students, and cohorts..." />
 		                  </div>
 					         </div>
         					 <div class="row">
