@@ -34,15 +34,15 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     $('input.search').typeahead([{
       name: 'students',
       limit: 3,
-      header: '<h4>Students</h4>',
+      header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
       prefetch: {
         url: '/students/search.json',
         ttl: 0
-      }
+      },
     }, {
       name: 'cohorts',
       limit: 3,
-      header: '<h4>Cohorts</h4>',
+      header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
       prefetch: {
         url: '/cohorts/search.json',
         ttl: 0
@@ -50,7 +50,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     }, {
       name: 'users',
       limit: 3,
-      header: '<h4>Users</h4>',
+      header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
       prefetch: {
         url: '/users/search.json',
         ttl: 0
@@ -89,7 +89,7 @@ app.controller('ChartCtrl', function($scope){
     }
   ];
   //$scope.data = data1;
-  
+
   var options = {
       /*xaxis: {
         ticks:[[0,'Daft'],[1,'Punk']]
@@ -101,7 +101,7 @@ app.controller('ChartCtrl', function($scope){
       borderColor: null
     }
   };
-    
+
   $.plot($("#perfGraph"), data1, options);
 });
 
