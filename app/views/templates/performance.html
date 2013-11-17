@@ -4,6 +4,8 @@
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
 
+
+
 	  	<!-- Graph -->
     	<div ng-controller="ChartCtrl">
         	<chart ng-model="data"></chart>
@@ -11,7 +13,8 @@
 
 	  	<!-- Accordion Panel -->
       <div ng-controller="DatasetCtrl" class="panel-group" id="accordion" >
-          <div ng-repeat="panel in panels" class="panel panel-default">
+
+          <div ng-repeat="panel in panels" class="panel panel-default"  style="overflow: visible" >
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" href="#dataset{{panel.id}}">
@@ -24,9 +27,9 @@
               	<form name="dataSetForm" class="form-horizontal" role="form">
               		<!-- Search Box -->
               		<div class="form-group">
-		                  <!-- Term selector -->
+		                  <!-- Teacher/Student/Cohort selector -->
 		                  <div class="col-sm-12">
-			                   <input type="text" ng-model="search.name" ng-model="search.name" class="form-control input" placeholder="Search teachers, students, and cohorts..." />
+			                   <input type="text" class="search form-control input" placeholder="Search teachers, students, and cohorts..." />
 		                  </div>
 					         </div>
         					 <div class="row">

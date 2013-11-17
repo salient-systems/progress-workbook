@@ -1,6 +1,8 @@
 Pwtest::Application.routes.draw do
   # get datums for typeahead
   get '/students/search.json' => 'students#search', :defaults => { :format => 'json' }
+  get '/users/search.json' => 'users#search', :defaults => { :format => 'json' }
+  get '/cohorts/search.json' => 'cohorts#search', :defaults => { :format => 'json' }
 
   resources :terms
 
