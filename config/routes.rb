@@ -17,10 +17,12 @@ Pwtest::Application.routes.draw do
 
   resources :criterions
 
-  resources :assessments
+  resources :assessments do
+    resources :criterions
+  end
 
   resources :assessment_types
-  
+
   resources :assessment_types do
     resources :assessments
   end

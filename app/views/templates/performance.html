@@ -42,7 +42,7 @@
         					       <!-- Class selector -->
                          <label for="inputDataType" ng-click="clickClass()"class="col-md-3 control-label">Class</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].classId" ng-change="updateSection($index)" ng-options="section.id as section.name for section in panels[$index].sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].sectionId" ng-change="updateSection($index)" ng-options="section.id as section.name for section in panels[$index].sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
