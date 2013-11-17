@@ -42,7 +42,7 @@
         					       <!-- Class selector -->
                          <label for="inputDataType" ng-click="clickClass()"class="col-md-3 control-label">Class</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].classId" ng-change="updateSection($index)" ng-options="section.id as section.name for section in panels[$index].sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].sectionId" ng-change="updateSection($index)" ng-options="section.id as section.name for section in panels[$index].sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -52,11 +52,15 @@
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panels[$index].statistic" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
-                             <option>Total Score</option>
-                             <option>Class Average</option>
+                             <option>Total Correct</option>
+                             <option>Percentage Correct</option>
+                             <option>Total Possible</option>
+                             <option>Total Goal</option>
+                             <option>Percent of Term</option>
+                             <option>Score Distribution (Total)</option>
+                             <option>Score Distribution (Percent)</option>
                              <option>Students Present</option>
-                             <option>Assessment Total</option>
-                             <option>Grade</option>
+                             <option>Students Enrolled</option>
                            </select>
                          </div>
                        </div>
@@ -75,7 +79,7 @@
                          <!-- Assessment selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentId" ng-change="updateAssessment($index)" ng-options="assessment.id as assessment.name for assessment in assessments[$index]" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentId" ng-change="updateAssessment($index)" ng-options="assessment.id as assessment.name for assessment in panels[$index].assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -84,7 +88,7 @@
                          <!-- Criterion selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Criterion</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].criterionId" ng-options="criterion.id as criterion.name for criterion in criterions[$index]" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].criterionId" ng-options="criterion.id as criterion.name for criterion in panels[$index].criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -104,5 +108,6 @@
         <br>
 		<!-- end of accordion -->
 	  </div>
+	</div>
 	</div>
 </div>

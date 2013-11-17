@@ -5,7 +5,11 @@ class CriterionsController < ApplicationController
   # GET /criterions
   # GET /criterions.json
   def index
-    @criterions = Criterion.all
+    if params[:assessment_id] != nil
+      @criterions = Assessment.find(params[:assessment_id]).criterions
+    else
+      @criterions = Criterion.all
+    end
   end
 
   # GET /criterions/1
