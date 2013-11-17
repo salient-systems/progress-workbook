@@ -107,6 +107,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
         panel.assessmentTypes = assessmenttypes;
       });
   	}
+  	panel.statistic = null;
     $scope.statistics = $scope.sectionStatistics;
 
     panel.assessmentTypeId = null;
@@ -130,9 +131,11 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
 	      console.log(panel.assessments);
 	    });
 
+      panel.statistic = null;
 	    $scope.statistics = $scope.assessmentTypeStatistics;
   	}
   	else {
+  	  panel.statistic = null;
       $scope.statistics = $scope.sectionStatistics;
     }
 
@@ -150,9 +153,11 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
 	      panel.criterions = criterions;
 	    });
 
+      panel.statistic = null;
 	    $scope.statistics = $scope.assessmentStatistics;
   	}
   	else {
+  	  panel.statistic = null;
 	    $scope.statistics = $scope.assessmentTypeStatistics;
   	}
 
@@ -164,9 +169,11 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
     var panel = $scope.panels[i];
 
     if (panel.criterionId !== undefined) {
+      panel.statistic = null;
       $scope.statistics = $scope.criterionStatistics;
     }
     else {
+      panel.statistic = null;
       $scope.statistics = $scope.assessmentStatistics;
     }
   };
