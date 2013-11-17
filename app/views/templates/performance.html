@@ -66,7 +66,7 @@
                          <!-- Assessment type selector -->
                          <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
                          <div class="col-md-8">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentTypeName" ng-change="updateAssessmentType($index)" ng-options="assessment_type.id as assessment_type.name for assessment_type in panels[$index].assessment_types" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentTypeId" ng-change="updateAssessmentType($index)" ng-options="assessmentType.id as assessmentType.name for assessmentType in panels[$index].assessmentTypes" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -75,7 +75,7 @@
                          <!-- Assessment selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentName" ng-change="updateAssessment($index)" ng-options="assessment.id as assessment.name for assessment in assessments[$index]" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentId" ng-change="updateAssessment($index)" ng-options="assessment.id as assessment.name for assessment in panels[$index].assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -84,7 +84,7 @@
                          <!-- Criterion selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Criterion</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].criterion" ng-options="criterion.id as criterion.name for criterion in criterions[$index]" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panels[$index].criterionId" ng-options="criterion.id as criterion.name for criterion in panels[$index].criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
