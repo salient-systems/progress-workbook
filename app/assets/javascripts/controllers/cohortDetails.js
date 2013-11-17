@@ -80,7 +80,7 @@ function($scope, $routeParams, Restangular) {
       	$scope.students = _.without($scope.students, student);
       });
     });
-      
+
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
@@ -88,7 +88,7 @@ function($scope, $routeParams, Restangular) {
   $('input#studentSearch').typeahead({
     name: 'students',
     prefetch: {
-      url: 'http://localhost:3000/students/search.json',
+      url: '/students/search.json',
       ttl: 0
     }
   });

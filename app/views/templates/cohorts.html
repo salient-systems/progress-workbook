@@ -33,11 +33,11 @@
   </div>
 
   <!-- Modal -->
-  <div ng-controller="AddCohort" ng-click="resetValidation()" class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div ng-controller="AddCohort" class="modal fade" id="createCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Create Cohort</h4>
         </div>
         <div class="modal-body">
@@ -45,7 +45,7 @@
             <div class="form-group" ng-class="validateName && {'has-error': createCohortForm.name.$invalid}">
               <label for="inputFName" class="col-lg-1 control-label">Name</label>
               <div class="col-lg-11">
-                <input type="text" class="form-control" id="inputName" ng-model="newCohort.name" name="name" ng-blur="validateName=true" required >
+                <input type="text" class="form-control" id="inputName" ng-model="newCohort.name" name="name" ng-blur="validateName=true" required>
               </div>
             </div>
           </form>
