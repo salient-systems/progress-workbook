@@ -48,11 +48,11 @@
                            </select>
                          </div>
                        </div>
-                       <div class="form-group">
+                       <div class="form-group" ng-class="validateStatistic && {'has-error': dataSetForm.statistic.$invalid}">
                          <!-- Statistic selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].statistic" ng-change="updateStatistic($index)" ng-options="statistic.id as statistic.name for statistic in statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" name="statistic" ng-model="panels[$index].statistic" ng-change="updateStatistic($index)" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
