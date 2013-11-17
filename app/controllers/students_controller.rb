@@ -7,6 +7,8 @@ class StudentsController < ApplicationController
   def index
     if params[:user_id] != nil
       @students = User.find(params[:user_id]).students
+    elsif params[:section_id] != nil and params[:assessment_type_id] != nil
+      @students = Section.find(params[:section_id]).students.includes(:criterion_grades).where("criterion_grades.assessment_id = ?", params[:assessment_type_id]);
     elsif params[:is_active] == 'true'
       @students = Student.where(is_active: 'true').all
     elsif params[:is_active] == 'false'
