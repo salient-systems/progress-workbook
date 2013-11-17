@@ -13,7 +13,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   	console.log(thereturn);
   });
   
-  Restangular.all('students').getList({section_id: 1, assessment_type_id: 4}).then(function(thereturn){
+  Restangular.all('studentassessments').getList({section_id: 1, assessment_type_id: 4}).then(function(thereturn){
   	console.log(thereturn);
   });
   //$scope.students.criterion = $scope.students.getList('criterions');

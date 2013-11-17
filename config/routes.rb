@@ -4,6 +4,8 @@ Pwtest::Application.routes.draw do
   get '/users/search.json' => 'users#search', :defaults => { :format => 'json' }
   get '/cohorts/search.json' => 'cohorts#search', :defaults => { :format => 'json' }
 
+  resources :studentassessments
+  
   resources :terms
 
   resources :users do
