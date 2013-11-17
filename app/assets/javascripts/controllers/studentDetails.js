@@ -7,7 +7,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
   });
 
   $scope.selections = [];
-  
+
   Restangular.all('terms').getList().then(function(theterms) {
     $scope.terms = theterms;
     $scope.termId = $scope.terms.length;
@@ -23,7 +23,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       $scope.sections = sections;
     });
   };
-  
+
 
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;
@@ -44,8 +44,8 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
     else if ($scope.student.gender == 'f'){
       $scope.gender = "Female";
     }
-    else if ($scope.student.gender == NUL){
-      $scope.gender == "Unknown";
+    else if ($scope.student.gender == null){
+      $scope.gender = "Unknown";
     }
   };
 

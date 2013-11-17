@@ -21,8 +21,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 
   Restangular.all('terms').getList().then(function(theterm) {
     $scope.terms = theterm;
-    $scope.defaultPanel.termId = $scope.terms.length;
-    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
+    $scope.panels[0].termId = $scope.terms.length;
+    Restangular.one('terms', $scope.panels[0].termId).getList('sections').then(function(sections) {
       $scope.panels[0].sections = sections;
     });
   });
