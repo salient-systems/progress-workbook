@@ -9,6 +9,13 @@ chart {
     height:200px;
 }
 
+#perfGraph {
+    width: 600px;
+    height: 150px;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .box {
     background-color: whitesmoke;
     min-height: 100px;

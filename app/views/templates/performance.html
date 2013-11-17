@@ -4,10 +4,10 @@
 	  <div class="box">
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
 
-	  	<!-- Graph -->
-    	<div ng-controller="ChartCtrl">
-        	<chart ng-model="data"></chart>
-    	</div>
+      <!-- Graph -->
+      <div ng-controller="ChartCtrl">
+        <div id="perfGraph"></div>
+      </div>
 
 	  	<!-- Accordion Panel -->
       <div ng-controller="DatasetCtrl" class="panel-group" id="accordion" >
@@ -90,7 +90,7 @@
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save($index)" class="btn btn-default pull-right btn-primary">Save</button>
+  	              <button type="button" ng-click="save($index)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
   	              <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
   	              <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
                 </form>
