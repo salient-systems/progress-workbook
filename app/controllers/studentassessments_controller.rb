@@ -1,4 +1,4 @@
-class StudentsController < ApplicationController
+class StudentassessmentsController < ApplicationController
   layout 'scaffold'
   before_action :set_student, only: [:show, :edit, :update, :destroy]
 
@@ -8,7 +8,17 @@ class StudentsController < ApplicationController
     if params[:user_id] != nil
       @students = User.find(params[:user_id]).students
     elsif params[:section_id] != nil and params[:assessment_type_id] != nil
-      @students = Section.find(params[:section_id]).students.includes(:criterion_grades).where("criterion_grades.assessment_id = ?", params[:assessment_type_id]);
+      assessmentId = Assessment.select("id").where("assessment_type_id = ?", params[:assessment_type_id]);
+      criterionId = Criterion.select("id").where("assessment_id IN (?)", assessmentId);
+      @students = Section.find(params[:section_id]).students.includes(:criterion_grades).where("criterion_grades.criterion_id IN (?)", criterionId);
+
+      @students.each do |item|
+        item.criterion_grades.each do |newitem|
+          
+        end    
+      end
+    
+      
     elsif params[:is_active] == 'true'
       @students = Student.where(is_active: 'true').all
     elsif params[:is_active] == 'false'

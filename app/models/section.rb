@@ -11,5 +11,5 @@ class Section < ActiveRecord::Base
     belongs_to :term
 
     has_many :students, through: :class_students
-
+    has_many :criterion_grade
 end

@@ -3,12 +3,19 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   //var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
-  $scope.section = section.get();
+  //$scope.section = section.get();
   //var section = Restangular.one('sections', $routParams.section_id);
   
   
-  $scope.students = section.getList('students');
-  console.log($scope.students);
+  //$scope.students = section.getList('students');
+  
+  assessment_type.getList('assessments').then(function(thereturn){
+  	console.log(thereturn);
+  });
+  
+  Restangular.all('studentassessments').getList({section_id: 1, assessment_type_id: 4}).then(function(thereturn){
+  	console.log(thereturn);
+  });
   //$scope.students.criterion = $scope.students.getList('criterions');
   //$scope.students.criterion_grade = $scope.students.getList('criterion_grades');
   //$scope.students.assessment = $scope.students.getList('assessments');

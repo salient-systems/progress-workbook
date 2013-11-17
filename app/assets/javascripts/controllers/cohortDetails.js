@@ -109,7 +109,6 @@ function($scope, $routeParams, Restangular) {
         $scope.students.push(student);
         $('span#addSuccess').fadeIn(500).delay(1500).fadeOut(500);
       });
-	  console.log(studentId);
       Restangular.all('cohort_students').post({
         student_id: studentId,
         cohort_id: $routeParams.id
