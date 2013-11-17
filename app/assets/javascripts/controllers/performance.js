@@ -70,6 +70,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
         panel.assessmentTypes = assessmenttypes;
       });
   	}
+    $scope.statistics = $scope.sectionStatistics;
 
     panel.assessmentTypeId = null;
     panel.assessmentId = null;
@@ -91,7 +92,12 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
 	      panel.assessments = assessments;
 	      console.log(panel.assessments);
 	    });
+
+	    $scope.statistics = $scope.assessmentTypeStatistics;
   	}
+  	else {
+      $scope.statistics = $scope.sectionStatistics;
+    }
 
     panel.assessmentId = null;
     panel.criterionId = null;
@@ -106,6 +112,11 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	  Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
 	      panel.criterions = criterions;
 	    });
+
+	    $scope.statistics = $scope.assessmentStatistics;
+  	}
+  	else {
+	    $scope.statistics = $scope.assessmentTypeStatistics;
   	}
 
     panel.criterionId = null;
@@ -113,7 +124,55 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   };
 
   $scope.updateCriterion = function(i) {
+    var panel = $scope.panels[i];
+
+    if (panel.criterionId !== undefined) {
+      $scope.statistics = $scope.criterionStatistics;
+    }
+    else {
+      $scope.statistics = $scope.assessmentStatistics;
+    }
   };
+
+  $scope.sectionStatistics = [
+    { id: 1, name: "Total Correct" },
+    { id: 2, name: "Percentage Correct" },
+    { id: 3, name: "Total Possible" },
+    { id: 4, name: "Total Goal" }
+  ];
+
+  $scope.assessmentTypeStatistics = [
+    { id: 1, name: "Total Correct" },
+    { id: 2, name: "Percentage Correct" },
+    { id: 3, name: "Total Possible" },
+    { id: 4, name: "Total Goal" },
+    { id: 5, name: "Percent of Term" },
+    { id: 6, name: "Score Distribution (Total)" },
+    { id: 7, name: "Score Distribution (Percent)" },
+    { id: 8, name: "Students Present" },
+    { id: 9, name: "Students Enrolled" }
+  ];
+
+  $scope.assessmentStatistics = [
+    { id: 1, name: "Total Correct" },
+    { id: 2, name: "Percentage Correct" },
+    { id: 3, name: "Total Possible" },
+    { id: 4, name: "Total Goal" },
+    { id: 6, name: "Score Distribution (Total)" },
+    { id: 7, name: "Score Distribution (Percent)" },
+    { id: 8, name: "Students Present" },
+    { id: 9, name: "Students Enrolled" }
+  ];
+
+  $scope.criterionStatistics = [
+    { id: 1, name: "Total Correct" },
+    { id: 2, name: "Percentage Correct" },
+    { id: 3, name: "Total Possible" },
+    { id: 6, name: "Score Distribution (Total)" },
+    { id: 7, name: "Score Distribution (Percent)" },
+  ];
+
+  $scope.statistics = $scope.sectionStatistic;
 
   $scope.save = function(i) {
   	// create new dataset if we're saving the last dataset
