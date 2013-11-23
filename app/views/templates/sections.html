@@ -2,7 +2,7 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3><img src="/assets/class.png"> Classes</h3>
+	  	<h3><img src="/assets/class.png"> Classes<a data-toggle="modal" href="#createSectionModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Create Class</a></h3>
 	  	<!-- Search box -->
       <p>
       	<input type="text" ng-model="gridOptions.filterOptions.filterText" class="form-control" placeholder="Search classes..." />
@@ -13,7 +13,7 @@
       <p>
 
         <div class="row-fluid">
-          <div class="pull-left button-padding-vertical" style="width: 90%;">
+          <div class="pull-left button-padding-vertical" style="width: 100%;">
             <form class="form-inline-sm" role="form">
               <div class="form-group">
               <!-- Drop-down button -->
@@ -32,10 +32,9 @@
               </div>
             </form>
           </div>
-          <div class="pull-right" style="width: 10%;">
-            <!-- Right-aligned button trigger modal -->
+          <!--<div class="pull-right" style="width: 10%;">
             <a data-toggle="modal" href="#createSectionModal" class="btn btn-default pull-right">Create Class</a>
-          </div>
+          </div>-->
           <div style="clear: both"></div>
         </div>
 

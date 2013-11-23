@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require ie-mobile-fix
+//= require respond.min
 //= require jquery
 //= require lodash.compat.min
 //= require angular

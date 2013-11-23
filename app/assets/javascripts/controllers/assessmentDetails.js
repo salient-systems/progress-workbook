@@ -4,6 +4,22 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
   
+  $scope.view1 = false;
+  $scope.view1 = false;
+  $scope.view1 = false;
+  
+  if($routeParams.view_id == 1){
+  	$scope.view1 = true;
+  }
+  
+  if($routeParams.view_id == 2){
+  	$scope.view2 = true;
+  }
+  
+  if($routeParams.view_id == 3){
+  	$scope.view3 = true;
+  }
+  
   $scope.assessment_type = assessment_type.get();
   
   section.get().then(function(thesection) {
@@ -11,6 +27,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
   
   assessment_type.getList('assessments').then(function(thereturn){
+  	console.log(thereturn);
   	$scope.assessments = thereturn;
   });
 
@@ -55,7 +72,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
         myobj2.headerCellTemplate = myHeaderCellTemplate;
         myobj2.width = '35px';
         $scope.myDefs2[i+1] = myobj2;
-	  }
+	  };
 	  
 	});
   });
@@ -116,32 +133,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: 'myDefs2' ,
-/*    
-    [
-      {
-        field: 'fname',
-        displayName:'Name',
-        cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>',
-        enableCellEdit: false,
-        resizable: true,
-        width: '15%'
-      }, {
-        field: 'scores[0].score',
-        displayName: 'criterions[0].name',
-        cellTemplate: editTemplate,
-        enableCellEdit: true,
-        resizable: true,
-        //width: 40
-      },{
-         field: 'scores[1].score',
-        displayName:'Criterion Name',
-        cellTemplate: editTemplate,
-        enableCellEdit: true,
-        resizable: true
-      }, 
-    ]
-*/    
-    
+  
     afterSelectionChange: function () {
       $scope.selectedIDs = [];
       //saveGrade(col.index);

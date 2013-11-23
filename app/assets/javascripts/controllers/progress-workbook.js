@@ -10,7 +10,7 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/sections.html',
       controller: 'SectionListCtrl'
     }).
-    when('/classes/:section_id/assessment_type/:assessment_type_id', {
+    when('/classes/:section_id/assessment_type/:assessment_type_id/view/:view_id', {
       templateUrl: 'templates/assessment.html',
       controller: 'AssessmentCtrl'
     }).
