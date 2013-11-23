@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="box">
-        <h3><img src="/assets/gradcap.png"> {{active && 'Students' || 'Inactive Students'}}</h3>
+        <h3><img src="/assets/gradcap.png"> {{active && 'Students' || 'Inactive Students'}} <a data-toggle="modal" href="#addStudentModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Add Student</a></h3>
         <!-- <div>The following students are checked: {{checked_students}}</div> -->
         <!-- Search box -->
         <p>
@@ -33,10 +33,9 @@
           <button type="button" class="btn btn-default" ng-click="activateStudentsButton()" >Show {{active && 'Inactive' || 'Active'}}</button>
 
         </div>
-        <div class="pull-right" style="width: 30%;">
-          <!-- Right-aligned button trigger modal -->
+        <!--<div class="pull-right" style="width: 30%;">
           <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
-        </div>
+        </div>-->
 
         <div style="clear: both"></div>
       </div>

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="box">
-        <h3><img src="/assets/class.png"> {{section.name}} <a data-toggle="modal" href="#editSectionModal" class="btn btn-default btn-xs pull-right"><img src="/assets/edit.png" align="absmiddle"> Edit</a></h3>
+        <h3><img src="/assets/class.png"> {{section.name}} <a data-toggle="modal" href="#editSectionModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/edit.png" align="absmiddle"> Edit</a></h3>
         <p class="text-muted"><a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a>'s {{section.grade_level}}th Grade {{section.subject.name}} ({{section.term.name}})</p>
       </div>
     </div>
@@ -16,7 +16,7 @@
           </p>
           <p>
             <!-- Right-aligned button trigger modal -->
-            <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default">Create an Assessment Type</a>
+            <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default btn-xs"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Create an Assessment Type</a>
           </p>
         </div>
     </div>
@@ -30,7 +30,7 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3>Students</h3>
+	  	<h3>Students<a data-toggle="modal" href="#addStudentModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Add Student</a></h3>
 
       <div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
@@ -48,7 +48,7 @@
      </div>
 
      <!-- Right-aligned button trigger modal -->
-      <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+      <!--<a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>-->
 
       <!-- Modal -->
       <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
