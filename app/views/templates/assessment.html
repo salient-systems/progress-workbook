@@ -8,92 +8,37 @@
       </div>
     </div>
     
-    <div class="col-md-4">
-        <div class="box">
-        	<h3>Assessments</h3>
-        	
-          <p>
-            
-          </p>
-          <p>
-            <!-- Right-aligned button trigger modal -->
-            <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default">Create Assessment</a>
-          </p>
-
-          <!-- Modal -->
-          <div class="modal fade" ng-controller="AddAssessment" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title">Create an Assessment</h4>
-                </div>
-                <div class="modal-body">
-
-                  <form name="createAssessmentForm" class="form-horizontal" role="form">
-                    <div class="form-group" ng-class="validateName && {'has-error': createAssessmentForm.name.$invalid}">
-                      <label for="inputName" class="col-lg-2 control-label">Name</label>
-                      <div class="col-lg-10">
-                        <input ng-model="newAssessment.name" type="text" class="form-control" id="inputName" placeholder="Name" name="name" ng-blur="validateName=true" required>
-                      </div>
-                    </div>
-                    <div class="form-group" ng-class="validateNumAssessments && {'has-error': createAssessmentForm.numAssessments.$invalid}">
-                      <label for="inputNumAssessments" class="col-lg-2 control-label">Count</label>
-                      <div class="col-lg-10">
-                        <input ng-model="newAssessment.count" type="number" class="form-control" id="inputNumAssessments" placeholder="Number of Assessments" name="numAssessments" ng-blur="validateNumAssessments=true" required> <!-- TODO: No such value -->
-                      </div>
-                    </div>
-                    <div class="form-group" ng-class="validateStyle && {'has-error': createAssessmentForm.style.$invalid}">
-                      <label for="inputStyle" class="col-lg-2 control-label">Style</label>
-                      <div class="col-lg-10">
-                        <select ng-model="newAssessment.view" class="form-control" name="style" ng-blur="validateStyle=true" required>
-                          <option value=""></option>
-                          <option value="1">Layout 1</option>
-                          <option value="2">Layout 2</option>
-                          <option value="3">Layout 3</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group" ng-class="validateType && {'has-error': createAssessmentForm.type.$invalid}">
-                      <label for="inputDataType" class="col-lg-2 control-label">Type</label>
-                      <div class="col-lg-10">
-                        <select ng-model="newAssessment.data_type" class="form-control" name="type" ng-blur="validateType=true" required>
-                          <option value=""></option>
-                          <option value="1">Score</option>
-                          <option value="2">Time</option>
-                        </select>
-                      </div>
-                    </div>
-                  </form>
-
-                </div>
-                <div class="modal-footer">
-                  <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button ng-click="saveAssessment()" value="submit" class="btn btn-primary" ng-disabled="createAssessmentForm.$invalid">Create</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="box">
-            <h3>Graph</h3>
-        </div>
-    </div>
+    
+    
   </div>
 
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3>Students</h3>
+	  	<h3>{{assessment_type.name}}</h3>
 
-     	<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>
-
+     	<!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
+     	<br>
+     
+    	<div style="width: 100%; overflow: scroll;">
+		<table>
+		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Name</div></div></th>
+		  
+		  <th ng-repeat="criterion_name in criterions" style="position:relative; background-color: #EEEEEE;"><div class="rotate">{{criterion_name.name}}</div></th>
+		
+		  <tr ng-repeat="student in students" style="border: 1px solid black; overflow: hidden;position: relative;" ng-class-odd="'odd'" ng-class-even="'even'">
+			<td style="border-left: 1px solid black; border-right: 1px solid black; width: 15px; height: 32px; float:left; left:35px; position: absolute; z-index: 200; width: 120px; background-color: inherit; overflow: hidden;">{{student.fname}} {{student.lname}}</td> 
+			<!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
+			<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">	
+				<input type="text" ng-model="criterion.score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(criterion)"/>
+			</td>
+		  </tr>
+        </table>
+        </div>
+     
      <p>
      <!-- Drop-down button -->
-     <div class="btn-group">
+<!--     <div class="btn-group">
        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
          Bulk Actions <span class="caret"></span>
        </button>
@@ -103,12 +48,12 @@
          <li><a href="#">Remove from Class</a></li>
        </ul>
      </div>
-
+-->
      <!-- Right-aligned button trigger modal -->
-      <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
-
+<!--      <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+-->
       <!-- Modal -->
-      <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--      <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -122,11 +67,11 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               <button type="button" class="btn btn-primary">Add</button>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
+          </div>
+        </div>
+      </div>
    </p>
-
+-->
     <!-- Modal -->
     <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">

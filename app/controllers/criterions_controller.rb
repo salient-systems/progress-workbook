@@ -3,9 +3,12 @@ class CriterionsController < ApplicationController
   before_action :set_criterion, only: [:show, :edit, :update, :destroy]
 
   # GET /criterions
-  # GET /criterions.json
+  # GET /criterions.json 
   def index
-    if params[:assessment_id] != nil
+    if params[:assessment_type_id] != nil
+      assessmentId = Assessment.select("id").where("assessment_type_id = ?", params[:assessment_type_id]);
+      @criterions = Criterion.where("assessment_id IN (?)", assessmentId).order(id: :asc);
+    elsif params[:assessment_id] != nil
       @criterions = Assessment.find(params[:assessment_id]).criterions
     else
       @criterions = Criterion.all

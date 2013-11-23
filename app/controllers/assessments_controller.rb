@@ -6,7 +6,7 @@ class AssessmentsController < ApplicationController
   # GET /assessments.json
   def index
     if params[:assessment_type_id] != nil
-      @assessments = Assessment.where(assessment_type_id: params[:assessment_type_id])
+      @assessments = Assessment.where(assessment_type_id: params[:assessment_type_id]).order(id: :asc)
     else
       @assessments = Assessment.all 
     end

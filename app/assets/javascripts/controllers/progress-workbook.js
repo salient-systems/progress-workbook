@@ -93,6 +93,17 @@ app.directive('ngBlur', function () {
   };
 });
 
+app.directive('ngFocus', function () {
+  // AngularJS does not support the onBlur event (as well as the onFocus).
+  // However, this can be overcome by adding a "simple" directive.
+  // http://stackoverflow.com/questions/15647981/angularjs-and-ng-grid-auto-save-data-to-the-server-after-a-cell-was-changed
+  return function (scope, elem, attrs) {
+    elem.bind('focus', function () {
+      scope.$apply(attrs.ngFocus);
+    });
+  };
+});
+
 app.directive('checkList', function() {
   return {
     scope: {

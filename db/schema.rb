@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117041426) do
+ActiveRecord::Schema.define(version: 20131120164809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,18 +76,18 @@ ActiveRecord::Schema.define(version: 20131117041426) do
 
   create_table "criterion_grades", force: true do |t|
     t.float    "score"
-    t.integer  "student_id",          null: false
-    t.integer  "criterion_id",        null: false
-    t.integer  "assessment_id",       null: false
+    t.integer  "student_id",         null: false
+    t.integer  "criterion_id",       null: false
+    t.integer  "assessment_id",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "assessment_types_id"
+    t.integer  "assessment_type_id"
     t.integer  "section_id"
     t.integer  "user_id"
   end
 
   add_index "criterion_grades", ["assessment_id"], name: "index_criterion_grades_on_assessment_id", using: :btree
-  add_index "criterion_grades", ["assessment_types_id"], name: "index_criterion_grades_on_assessment_types_id", using: :btree
+  add_index "criterion_grades", ["assessment_type_id"], name: "index_criterion_grades_on_assessment_type_id", using: :btree
   add_index "criterion_grades", ["criterion_id"], name: "index_criterion_grades_on_criterion_id", using: :btree
   add_index "criterion_grades", ["section_id"], name: "index_criterion_grades_on_section_id", using: :btree
   add_index "criterion_grades", ["student_id"], name: "index_criterion_grades_on_student_id", using: :btree

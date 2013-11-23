@@ -1,33 +1,66 @@
 // user details page
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
-  //var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+  
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
-  //$scope.section = section.get();
-  //var section = Restangular.one('sections', $routParams.section_id);
   
+  $scope.assessment_type = assessment_type.get();
   
-  //$scope.students = section.getList('students');
-  
-  assessment_type.getList('assessments').then(function(thereturn){
-  	console.log(thereturn);
-  });
-  
-  Restangular.all('studentassessments').getList({section_id: 1, assessment_type_id: 4}).then(function(thereturn){
-  	console.log(thereturn);
-  });
-  //$scope.students.criterion = $scope.students.getList('criterions');
-  //$scope.students.criterion_grade = $scope.students.getList('criterion_grades');
-  //$scope.students.assessment = $scope.students.getList('assessments');
-  
-  /*
   section.get().then(function(thesection) {
     $scope.section = thesection;
-    $scope.setupEditAssessment();
   });
   
-  $scope.sections = user.getList('sections');
+  assessment_type.getList('assessments').then(function(thereturn){
+  	$scope.assessments = thereturn;
+  });
 
+  var myHeaderCellTemplate =   '<div class="ngHeaderSortColumn {{col.headerClass}}" ng-style="{cursor: col.cursor}" ng-class="{ ngSorted: !noSortVisible }">'+
+                               '<div style="word-wrap: break-word;" ng-click="col.sort($event)" ng-class="colt + col.index" class="ngHeaderText">{{col.displayName}}</div>'+
+                               '<div class="ngSortButtonDown" ng-show="col.showSortButtonDown()"></div>'+
+                               '<div class="ngSortButtonUp" ng-show="col.showSortButtonUp()"></div>'+
+                               '<div class="ngSortPriority">{{col.sortPriority}}</div>'+
+                               '</div>'+
+                               '<div ng-show="col.resizable" class="ngHeaderGrip" ng-click="col.gripClick($event)" ng-mousedown="col.gripOnMouseDown($event)"></div>';
+
+  var editTemplate2 = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" />';
+  var editTemplate = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" ng-focus="backupGrade(col.index)" />';
+  var headerrow = '<div style="writing-mode: tb-rl">Hello</div>';
+  var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
+  
+  Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
+  	$scope.criterions = thereturn;
+	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
+	  $scope.students = thereturn;
+	   
+       $scope.myDefs2 = [];
+       var myobj = {};
+       myobj.field = 'fname';
+       myobj.displayName = 'Name';
+       myobj.cellTemplate = vcellTemplate;
+       myobj.enableCellEdit = false;
+       myobj.resizable = true;
+       myobj.width = '15%';
+       
+       $scope.myDefs2[0] = myobj;
+       //console.log($scope.myDefs2);
+
+	  for(var i = 0; i < $scope.criterions.length; i++){
+	  	 
+	    var myobj2 = {};
+	    myobj2.field = "scores["+i+"].score";
+        myobj2.displayName = $scope.criterions[i].name;
+        myobj2.editableCellTemplate = editTemplate;
+        myobj2.enableCellEdit = true;
+        myobj2.resizable = true;
+        myobj2.headerCellTemplate = myHeaderCellTemplate;
+        myobj2.width = '35px';
+        $scope.myDefs2[i+1] = myobj2;
+	  }
+	  
+	});
+  });
+  
+  
   $scope.save = function() {
     $scope.assessment.name = $scope.editAssessment.name;
     $scope.assessment.subject = $scope.editAssessment.subject;
@@ -50,47 +83,73 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.validateSubject = false;
     $scope.validateData_Type = false;
   };
+  
+  $scope.saveGrade = function(index) {
+  	if (this.row.entity.scores[index-1].score != $scope.gradeBackup){
+  	  var editable = Restangular.copy(this.row.entity.scores[index-1]);
+  	  editable.route = "criterion_grades";
+  	  editable.put();
+  	}
+  };
 	
-*/
+  $scope.backupGrade = function(index) {
+  	$scope.gradeBackup = this.row.entity.scores[index-1].score;
+  };	
+	
+  $scope.checkVal = function(criterion) {
+  	console.log(criterion);
+  };	
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
-  var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
+  console.log($scope.myDefs2);
 
   $scope.gridOptions = {
     data: 'students',
     selectedItems: $scope.mySelections,
     multiSelect: true,
-    showSelectionCheckbox: true,
+    showSelectionCheckbox: false,
     selectWithCheckboxOnly: true,
-    enableCellSelection: false,
-    enableCellEditOnFocus: false,
-    sortInfo: {fields:['name'], directions:['asc']},
+    enableCellSelection: true,
+    enableCellEditOnFocus: true,
+    enableRowSelection: false,
+    enableCellEdit: true,
+    //headerRowHeight: 200,
+    sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
-    columnDefs: [
+    columnDefs: 'myDefs2' ,
+/*    
+    [
       {
         field: 'fname',
-        displayName:'First name',
-        cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>',
+        displayName:'Name',
+        cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>',
         enableCellEdit: false,
-        resizable: true
+        resizable: true,
+        width: '15%'
       }, {
-        field: 'lname',
-        displayName:'Last Name',
-        enableCellEdit: false,
-        resizable: true
+        field: 'scores[0].score',
+        displayName: 'criterions[0].name',
+        cellTemplate: editTemplate,
+        enableCellEdit: true,
+        resizable: true,
+        //width: 40
       },{
-        field: 'criterion.name',
+         field: 'scores[1].score',
         displayName:'Criterion Name',
-        enableCellEdit: false,
+        cellTemplate: editTemplate,
+        enableCellEdit: true,
         resizable: true
       }, 
-    ],
+    ]
+*/    
+    
     afterSelectionChange: function () {
       $scope.selectedIDs = [];
+      //saveGrade(col.index);
+      console.log(col.index);
       angular.forEach($scope.mySelections, function ( item ) {
           $scope.selectedIDs.push(item.id);
       });
     }
   };
-
-
+	
 });
