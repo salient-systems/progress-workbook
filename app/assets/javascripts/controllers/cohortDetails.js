@@ -48,17 +48,17 @@ function($scope, $routeParams, Restangular) {
     selectWithCheckboxOnly: true,
     enableCellSelection: false,
     enableCellEditOnFocus: false,
-    sortInfo: {fields:['fname'], directions:['asc']},
+    sortInfo: {fields:['lname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       {
-        field: 'fname',
-        displayName:'First Name',
+        field: 'lname',
+        displayName:'Last Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {
-        field: 'lname',
-        displayName:'Last Name',
+        field: 'fname',
+        displayName:'First Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false,
       }, {

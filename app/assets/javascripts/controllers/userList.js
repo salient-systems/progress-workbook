@@ -15,19 +15,19 @@ app.controller('UserListCtrl', function($scope, Restangular) {
     multiSelect: true,
     showSelectionCheckbox: true,
     selectWithCheckboxOnly: true,
-    sortInfo: {fields:['fname'], directions:['asc']},
+    sortInfo: {fields:['lname'], directions:['asc']},
     //enableCellEditOnFocus: true, //assuming you dont want to edit displayed user information
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: [
       //if you want to add a size of cohort column, you'll need to implement it here using the same 4 fields for Cohort column as seen below.
       {
-        field: 'fname',
-        displayName:'First Name',
+        field: 'lname',
+        displayName:'Last Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false
       }, {
-        field: 'lname',
-        displayName:'Last Name',
+        field: 'fname',
+        displayName:'First Name',
         cellTemplate: nameTemplate,
         enableCellEdit: false
       }, {
