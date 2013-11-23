@@ -165,6 +165,39 @@ app.directive('resize', function ($window) {
 	};
 });
 
+app.directive('resize2', function ($window) {
+  return function (scope, element) {
+    var w = angular.element($window);
+    scope.$watch(function () {
+      return { 'h': w.height(), 'w': w.width() };
+    }, function (newValue, oldValue) {
+      scope.windowHeight = newValue.h;
+      if(newValue.h < 500) {
+        newValue.h = 700;
+      }
+            //scope.windowWidth = newValue.w;
+            console.log($("#var-height-graph").height());
+            console.log($("#var-height-assessment").height());
+            var offset = 346 + Math.max($("#var-height-assessment").height(), $("#var-height-graph").height());
+            if(offset > scope.windowHeight/2){
+              newValue.h = 800;
+            }
+            var gridHeight = (newValue.h - offset) + 'px';
+            document.getElementById("var-height-grid").style.height=gridHeight;
+            scope.style = function () {
+        return {
+                    'height': (newValue.h - offset) + 'px',
+                    //'width': (newValue.w - 100) + 'px'
+                };
+      };
+
+    }, true);
+
+    w.bind('resize', function () {
+      scope.$apply();
+    });
+  };
+});
 
 // controller to highlight the active navigation link
 app.controller('NavCtrl', function($scope, $location, $route) {

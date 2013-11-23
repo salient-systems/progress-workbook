@@ -6,7 +6,7 @@
         <p class="text-muted"><a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a>'s {{section.grade_level}}th Grade {{section.subject.name}} ({{section.term.name}})</p>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" id="var-height-assessment">
         <div class="box">
         	<h3>Assessments</h3>
           <p>
@@ -20,7 +20,7 @@
           </p>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" id="var-height-graph">
         <div class="box">
             <h3>Graph</h3>
         </div>
@@ -32,7 +32,7 @@
 	  <div class="box">
 	  	<h3>Students<a data-toggle="modal" href="#addStudentModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Add Student</a></h3>
 
-      <div resize id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
+      <div resize2 id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
      <p>
      <!-- Drop-down button -->
