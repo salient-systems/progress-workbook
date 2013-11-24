@@ -27,7 +27,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
   
   assessment_type.getList('assessments').then(function(thereturn){
-  	//console.log(thereturn);
+  	console.log(thereturn);
   	$scope.assessments = thereturn;
   });
 
@@ -119,6 +119,25 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 	});
   });
   
+  $scope.range = function(n) {
+  	//console.log(n);
+    return new Array(n);
+  };
+    
+  $scope.tofloor = function(n){
+    var thereturn = Math.floor(n);
+    return thereturn;
+  };
+  
+  $scope.domod = function(a,b){
+  	var thereturn = a % b;
+  	return thereturn;
+  };
+  
+  $scope.domulti = function(a,b){
+  	var thereturn = a * b;
+  	return thereturn;
+  };
   
   $scope.save = function() {
     $scope.assessment.name = $scope.editAssessment.name;

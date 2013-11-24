@@ -17,18 +17,8 @@ class StudentassessmentsController < ApplicationController
       
       @students = Section.find(params[:section_id]).students
 
-      #@students = Section.find(params[:section_id]).students.includes(:criterion_grades).where("criterion_grades.criterion_id IN (?)", criterionId);
-      #@students.each do |item|
-      #  item.criterion_grades.each do |a|
-      #      a.assessment_name = Assessment.select("name").where("assessments.id = ?", a.assessment_id);
-      #      a.criterion_name = Criterion.select("name").where("criterions.id = ?", a.criterion_id);
-      #  end    
-      #end
-
       @students.each do |item|
-        #print "\n\nThe item id is #{item.id}\n\n"
         item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(assessment_id: :asc, id: :asc);
-          
         if item.scores.length != criterionId.length
           j = 0;
           i = 0;
@@ -38,23 +28,16 @@ class StudentassessmentsController < ApplicationController
               critassesId = Criterion.find(criterionId[i].id);
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
             elsif item.scores[j].criterion_id != criterionId[i].id
-              #print "they were not equal\n"
               critassesId = Criterion.find(criterionId[i].id);
-              #print "Assessment Id is: #{critassesId.assessment_id}\n"
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
             else
               j = j + 1;
             end
           end
-          item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(criterion_id: :asc);
+          item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(assessment_id: :asc, id: :asc);
         end
-        #item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(criterion_id: :asc);
       end
-=begin   
-      @students.each do |item|
-        item.scores = "testing";
-      end
-=end      
+      
     elsif params[:is_active] == 'true'
       @students = Student.where(is_active: 'true').all
     elsif params[:is_active] == 'false'
