@@ -46,6 +46,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
   	$scope.criterions = thereturn;
+  	//$scope.modalCriterions = [angular.copy(thereturn)];
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
 	   
@@ -144,4 +145,17 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     }
   };
 	
+});
+
+//controller for the modal that edits the assessment info for an assessment type
+app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
+  $scope.setupEditCriterion = function() {
+    $scope.editCriterion = {
+      name: $scope.user.fname,
+      max: $scope.user.lname,
+    };
+    $scope.updateRole();
+  };
+  
+  
 });

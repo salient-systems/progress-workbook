@@ -15,18 +15,22 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3>{{assessment_type.name}}</h3>
+	  	<h3>{{assessment_type.name}}
+	  	  <a ng-show="view1" data-toggle="modal" href="#editRunChartModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/edit.png" align="absmiddle"> Edit Criteria</a>
+	  	  <a ng-show="view2" data-toggle="modal" href="#editCriteriaBasedModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/edit.png" align="absmiddle"> Edit Criteria</a>
+	  	  <a ng-show="view3" data-toggle="modal" href="#editStandardsBasedModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/edit.png" align="absmiddle"> Edit Criteria</a>
+	  	</h3>
 
      	<!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
      	<br>
      
-     <!-- #3 view -->
-    	<div ng-show="view3" style="width: 100%; overflow: scroll;">
+     <!-- #1 view -->
+    	<div ng-show="view1" style="width: 100%; overflow: scroll;">
 		<table>
 		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Name 3</div></div></th>
 		  
 		  <th ng-repeat="criterion_name in criterions" style="position:relative; background-color: #EEEEEE;"><div class="rotate">{{criterion_name.name}}</div></th>
-		
+		  
 		  <tr ng-repeat="student in students" style="border: 1px solid black; overflow: hidden;position: relative;" ng-class-odd="'odd'" ng-class-even="'even'">
 			<td style="border-left: 1px solid black; border-right: 1px solid black; width: 15px; height: 32px; float:left; left:35px; position: absolute; z-index: 200; width: 120px; background-color: inherit; overflow: hidden;">{{student.fname}} {{student.lname}}</td> 
 			<!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
@@ -38,8 +42,8 @@
         </div>
         
         
-     <!-- #1 view -->   
-     <div ng-show="view1" style="width: 100%; overflow: scroll;">
+     <!-- #3 view -->   
+     <div ng-show="view3" style="width: 100%; overflow: scroll;">
 		<table>
 		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Assessments 1</div></div></th>
 		  <th>Subject</th>
@@ -98,82 +102,50 @@
       </div>
    </p>
 -->
-    <!-- Modal -->
-    <div class="modal fade" id="addToCohortModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Modal #1-->
+    <div ng-controller="EditRunChartCtrl" class="modal fade" id="editRunChartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
+          <!-- head of modal -->
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Add to Cohort</h4>
+            <h4 class="modal-title">Edit Criteria</h4>
           </div>
+          <!-- body of modal -->
           <div class="modal-body">
-            <input type="search" class="form-control input" placeholder="Search cohorts..." />
+            <form name="dataSetForm" class="form-horizontal" role="form">
+              <!-- repeat criterions -->
+              <div ng-repeat="criterion_name in criterions">
+                <div class="row">
+                   <div class="form-group" >
+                     <label for="inputDataType" style="height:11px" class="col-md-3 control-label">Criterion {{$index + 1}}</label>
+                     <div class="col-md-5">
+                       <input type="text" class="form-control" ng-model="criterion_name.name" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <div class="col-md-3">
+                       <input type="text" class="form-control" ng-model="criterion_name.max" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   </div>
+                 </div>
+               </div>
+               <!-- add criterion button -->
+               <div class "row">
+                 <div class="form-group" >
+                     <button type="button" class="btn btn-default btn-xs pull-right" data-dismiss="modal"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New Criterion</button>
+                 </div>
+               </div>
+            </form>
           </div>
+          <!-- footer of modal -->
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-primary">Save</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="editSectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Create a Class</h4>
-          </div>
-          <div class="modal-body">
-
-            <form name="editSectionForm" class="form-horizontal" role="form">
-              <div class="form-group" ng-class="validateName && {'has-error': editSectionForm.name.$invalid}">
-                <label for="inputName" class="col-lg-2 control-label">Name</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" id="inputName" placeholder="Class Name" ng-model="editSection.name" name="name" ng-blur="validateName=true" required>
-                </div>
-              </div>
-              <div class="form-group" ng-class="validateSubject && {'has-error': editSectionForm.subject.$invalid}">
-                <label for="inputSubject" class="col-lg-2 control-label">Subject</label>
-                <div class="col-lg-10">
-                  <select class="form-control" ng-model="editSection.subject_id" ng-options="subject.id as subject.name for subject in subjects" name="subject" ng-blur="validateSubject=true" required></select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPeriod" class="col-lg-2 control-label">Period</label>
-                <div class="col-lg-10">
-                  <select class="form-control" ng-model="editSection.period">
-                    <option></option>
-                    <option value="1">1st Period</option>
-                    <option value="2">2nd Period</option>
-                    <option value="3">3rd Period</option>
-                    <option value="4">4th Period</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group" ng-class="validateGrade && {'has-error': editSectionForm.grade.$invalid}">
-                <label for="inputGrade" class="col-lg-2 control-label">Grade</label>
-                <div class="col-lg-10">
-                  <select class="form-control" ng-model="editSection.grade_level" name="grade" ng-blur="validateGrade=true" required>
-                    <option></option>
-                    <option value="6">6th Grade</option>
-                    <option value="7">7th Grade</option>
-                    <option value="8">8th Grade</option>
-                    <option value="9">9th Grade</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-
-          </div>
-          <div class="modal-footer">
-            <button ng-click="resetValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button ng-click="save()" value="submit" class="btn btn-primary" ng-disabled="editSectionForm.$invalid">Update</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 	  </div>
 	</div>
