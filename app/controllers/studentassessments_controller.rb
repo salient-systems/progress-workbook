@@ -9,7 +9,7 @@ class StudentassessmentsController < ApplicationController
       @students = User.find(params[:user_id]).students
     elsif params[:section_id] != nil and params[:assessment_type_id] != nil
       assessmentId = Assessment.select("id").where("assessment_type_id = ?", params[:assessment_type_id]);
-      criterionId = Criterion.select("id").where("assessment_id IN (?)", assessmentId).order(id: :asc);
+      criterionId = Criterion.select("id").where("assessment_id IN (?)", assessmentId).order(assessment_id: :asc, id: :asc);
       userId = Section.find(params[:section_id]).user_id;
       sectionId = params[:section_id];
       assessmenttypeId = params[:assessment_type_id];
