@@ -174,7 +174,7 @@ chart {
 .assessment1-criterion-input {
   width: 40px; 
   height: 30px; 
-  background-color: inherit;
+  background-color: rgba(54, 25, 25, 0);
 }
 
 .assessment1-div2 {
@@ -184,22 +184,3 @@ chart {
   height: 200px; 
   top: 0px;
 }
-
-
-
-
-
-
-
-
-.assessment1-? {
-  ?
-}
-
-
-
-
-
-
-
-

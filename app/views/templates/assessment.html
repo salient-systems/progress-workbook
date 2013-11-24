@@ -2,37 +2,37 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3><img src="/assets/assessment.png"> {{assessment_type.name}}
-	  	  <a ng-show="view1" data-toggle="modal" href="#editRunChartModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
-	  	  <a ng-show="view2" data-toggle="modal" href="#editCriteriaBasedModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
-	  	  <a ng-show="view3" data-toggle="modal" href="#editStandardsBasedModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
-	  	</h3>
+      <h3><img src="/assets/assessment.png"> {{assessment_type.name}}
+        <a ng-show="view1" data-toggle="modal" href="#editRunChartModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+        <a ng-show="view2" data-toggle="modal" href="#editCriteriaBasedModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+        <a ng-show="view3" data-toggle="modal" href="#editStandardsBasedModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+      </h3>
       <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
 
      	<!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
      	<br>
 
-     <!-- #1 view -->
-    	<div ng-show="view1" class="assessment1-view1">
-		<table>
-		  <section class="group">
-		  <th class="assessment1-th"><div class="assessment1-div1">&nbsp;</div></th>
-          </section>
-		  <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><div class="rotate">{{criterion_name.name}}</div></th>
-
-		  <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
-			<td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
-			<!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
-			<td ng-repeat="criterion in student.scores" class="assessment1-criterion">
-				<input class="inputbox assessment1-criterion-input" type="text" ng-model="criterion.score" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
-				<!-- To change the color, add background-color: rgba(54, 25, 25, grade/max); to the style-->
-			</td>
-		  </tr>
-        <div class="assessment1-div2">&nbsp;</div>
+      <!-- #1 view -->
+      <div ng-show="view1" class="assessment1-view1">
+        <table>
+          <thead>
+            <th class="assessment1-th"><div class="assessment1-div1">&nbsp;</div></th>
+            <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><div class="rotate">{{criterion_name.name}}</div></th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
+              <td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
+              <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
+              <td ng-repeat="criterion in student.scores" class="assessment1-criterion">
+                <input class="inputbox assessment1-criterion-input" type="text" ng-model="criterion.score" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
+                <!-- To change the color, add background-color: rgba(54, 25, 25, grade/max); to the style-->
+              </td>
+            </tr>
+          </tbody>
+          <div class="assessment1-div2">&nbsp;</div>
         </table>
-
         <div style="clear:both"></div>
-        </div>
+      </div>
 
 
 		<!-- #2 view -->
