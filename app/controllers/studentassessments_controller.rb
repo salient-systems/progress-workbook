@@ -26,35 +26,21 @@ class StudentassessmentsController < ApplicationController
       #end
 
       @students.each do |item|
-        print "\n\nThe item id is #{item.id}\n\n"
-        item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(criterion_id: :asc);
-        
-=begin        
-        print "\nThe student criterion list of length #{item.scores.length}: "
-        for k in (0..(item.scores.length-1))
-          print "#{item.scores[k].criterion_id}, "
-        end
-        print "\n"
-        print "\nThe criterion list of length #{criterionId.length}:"
-        for k in (0..(criterionId.length - 1))
-          print "#{criterionId[k].id}, "
-        end
-        print "\n"
-=end        
+        #print "\n\nThe item id is #{item.id}\n\n"
+        item.scores = CriterionGrade.where("criterion_id IN (?) AND student_id = ?", criterionId, item.id).order(assessment_id: :asc, id: :asc);
+          
         if item.scores.length != criterionId.length
           j = 0;
           i = 0;
           print "\nitem scores length is: #{item.scores.length}\n"
           for i in (0..(criterionId.length-1))
-            #print "\ni=#{i}. j=#{j} The student criterion ID is #{item.scores[j].criterion_id} it was tested against #{criterionId[i].id}\n"
             if item.scores.length == 0
               critassesId = Criterion.find(criterionId[i].id);
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
             elsif item.scores[j].criterion_id != criterionId[i].id
-              print "they were not equal\n"
-              #critassesId = Criterion.select("assessment_id").where("id = ?", criterionId[i].id);
+              #print "they were not equal\n"
               critassesId = Criterion.find(criterionId[i].id);
-              print "Assessment Id is: #{critassesId.assessment_id}\n"
+              #print "Assessment Id is: #{critassesId.assessment_id}\n"
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
             else
               j = j + 1;

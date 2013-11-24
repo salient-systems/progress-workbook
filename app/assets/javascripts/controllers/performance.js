@@ -18,16 +18,19 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
 	  criterions: []
   };
 
-  $scope.panels = [angular.copy($scope.defaultPanel)];
-
   Restangular.all('terms').getList().then(function(theterm) {
     $scope.terms = theterm;
-    $scope.panels[0].termId = $scope.terms.length;
-    Restangular.one('terms', $scope.panels[0].termId).getList('sections').then(function(sections) {
-      $scope.panels[0].sections = sections;
+    //$scope.panels[0].termId = $scope.terms.length;
+    $scope.defaultPanel.termId = $scope.terms.length;
+    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
+      //$scope.panels[0].sections = sections;
+      $scope.defaultPanel.sections = sections;
+      $scope.panels = [angular.copy($scope.defaultPanel)];
       $scope.setupTypeahead();
     });
   });
+
+  $scope.noDelete = true;
 
   $scope.setupTypeahead = function() {
     // add student typeahead
@@ -248,7 +251,25 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	  var newPanel = angular.copy($scope.defaultPanel);
   	  newPanel.id = $scope.panels.valueOf().length + 1;
 	  	$scope.panels.push(newPanel);
+	  	$scope.noDelete = false;
   	}
+  };
+
+  $scope.duplicate = function(i) {
+    // create new dataset if we're saving the last dataset
+    var newPanel = angular.copy($scope.panels[i]);
+    newPanel.id = $scope.panels.valueOf().length + 1;
+    $scope.panels.push(newPanel);
+    $scope.noDelete = false;
+  };
+
+
+  $scope.remove = function(i) {
+    // create new dataset if we're saving the last dataset
+    $scope.panels.splice(i, 1);
+    if($scope.panels.valueOf().length == 1) {
+      $scope.noDelete = true;
+    }
   };
 });
 
