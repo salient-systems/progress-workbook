@@ -25,21 +25,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
     Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
       //$scope.panels[0].sections = sections;
       $scope.defaultPanel.sections = sections;
+      $scope.panels = [angular.copy($scope.defaultPanel)];
       $scope.setupTypeahead();
     });
   });
 
-  $scope.panels = [angular.copy($scope.defaultPanel)];
   $scope.noDelete = true;
-
-  Restangular.all('terms').getList().then(function(theterm) {
-    $scope.terms = theterm;
-    $scope.panels[0].termId = $scope.terms.length;
-    Restangular.one('terms', $scope.panels[0].termId).getList('sections').then(function(sections) {
-      $scope.panels[0].sections = sections;
-      $scope.setupTypeahead();
-    });
-  });
 
   $scope.setupTypeahead = function() {
     // add student typeahead
