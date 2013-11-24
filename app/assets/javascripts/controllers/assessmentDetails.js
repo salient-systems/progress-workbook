@@ -143,9 +143,9 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.validateData_Type = false;
   };
   
-  $scope.saveGrade = function(index) {
-  	if (this.row.entity.scores[index-1].score != $scope.gradeBackup){
-  	  var editable = Restangular.copy(this.row.entity.scores[index-1]);
+  $scope.saveGrade = function(criterion) {
+  	if ($scope.oldValue != criterion.score){
+  	  var editable = Restangular.copy(criterion);
   	  editable.route = "criterion_grades";
   	  editable.put();
   	}
@@ -176,7 +176,8 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   };
   
   $scope.checkVal = function(criterion) {
-  	console.log(criterion);
+  	//console.log(criterion);
+  	$scope.oldValue = criterion.score;
   };	
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   console.log($scope.myDefs2);

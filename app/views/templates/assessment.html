@@ -25,7 +25,7 @@
 			<td style="border-left: 1px solid black; border-right: 1px solid black; width: 15px; height: 32px; float:left; left:35px; position: absolute; z-index: 200; width: 120px; background-color: inherit; overflow: hidden;">{{student.fname}} {{student.lname}}</td> 
 			<!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
 			<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">	
-				<input type="text" ng-model="criterion.score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(criterion)"/>
+				<input type="text" ng-model="criterion.score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
 			</td>
 		  </tr>
         </table>
@@ -51,7 +51,7 @@
 			-->
 			<td>{{criterions[$index].name}}</td>
 			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">	
-				<input type="text" ng-model="student.scores[$parent.$index].score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])"/>
+				<input type="text" ng-model="student.scores[$parent.$index].score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])" ng-blur="saveGrade(student.scores[$parent.$index])" />
 			</td>
 		  </tr>
         </table>
