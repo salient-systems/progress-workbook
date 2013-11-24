@@ -45,10 +45,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
   
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
-  	$scope.criterions = thereturn;
-<<<<<<< HEAD
-  	//$scope.modalCriterions = [angular.copy(thereturn)];
-=======
+  $scope.criterions = thereturn;
 	console.log(thereturn[0].assessment_id);
 	$scope.numOfCrit = [];
 	$scope.numOfCrit[0] = 1;
@@ -91,7 +88,6 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 	}
 	
 	
->>>>>>> 79a605bc241616a2e713406d4139530d7551fd5c
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
 	   
@@ -227,7 +223,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     var newCriterion = {
       max: 0,
       name: false,
-      assessment_id: $scope.assessment_type.
+      assessment_id: $scope.assessments[0].id
     };
     newPanel.id = $scope.panels.valueOf().length + 1;
     $scope.panels.push(newPanel);
