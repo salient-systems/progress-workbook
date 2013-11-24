@@ -157,5 +157,15 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     $scope.updateRole();
   };
   
+  $scope.newCriterion = function(i) {
+    var newCriterion = {
+      max: 0,
+      name: false,
+      assessment_id: $scope.assessment_type.
+    };
+    newPanel.id = $scope.panels.valueOf().length + 1;
+    $scope.panels.push(newPanel);
+  };
+  
   
 });
