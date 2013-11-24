@@ -7,7 +7,7 @@ class CriterionsController < ApplicationController
   def index
     if params[:assessment_type_id] != nil
       assessmentId = Assessment.select("id").where("assessment_type_id = ?", params[:assessment_type_id]);
-      @criterions = Criterion.where("assessment_id IN (?)", assessmentId).order(id: :asc);
+      @criterions = Criterion.where("assessment_id IN (?)", assessmentId).order(assessment_id: :asc, id: :asc);
     elsif params[:assessment_id] != nil
       @criterions = Assessment.find(params[:assessment_id]).criterions
     else

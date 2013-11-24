@@ -27,7 +27,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
   
   assessment_type.getList('assessments').then(function(thereturn){
-  	console.log(thereturn);
+  	//console.log(thereturn);
   	$scope.assessments = thereturn;
   });
 
@@ -46,6 +46,48 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
   	$scope.criterions = thereturn;
+	console.log(thereturn[0].assessment_id);
+	$scope.numOfCrit = [];
+	$scope.numOfCrit[0] = 1;
+	$scope.startOfCrit = [];
+	$scope.startOfCrit[0] = 0;
+	$scope.showAssessment = [];
+	$scope.showAssessment[0] = true;
+	var currentassessment = thereturn[0].assessment_id;
+	var z = 0;
+	for(var i = 1; i < thereturn.length; i++){
+		if(thereturn[i].assessment_id == currentassessment){
+			$scope.numOfCrit[z] = $scope.numOfCrit[z] + 1;
+			$scope.showAssessment[i] = false;
+		}else{
+			z = z + 1;
+			currentassessment = thereturn[i].assessment_id;
+			$scope.showAssessment[i] = true; 
+			$scope.startOfCrit[z] = i;
+			$scope.numOfCrit[z] = 1;
+		}
+	}
+	
+	$scope.sizeAssessment = [];
+	z = 0;
+	for(var i = 0; i < $scope.numOfCrit.length; i++){
+		for(var y = 0; y < $scope.numOfCrit[i]; y++){
+			$scope.sizeAssessment[z] = $scope.numOfCrit[i];
+			z = z + 1;
+		}
+	}
+	
+	$scope.indexAssessment = [];
+	$scope.indexAssessment[0] = 0;
+	z = 0;
+	for(var i = 1; i < thereturn.length; i++){
+		if($scope.showAssessment[i] == true){
+			z = z + 1;
+		}
+		$scope.indexAssessment[i] = z;
+	}
+	
+	
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
 	   
@@ -113,6 +155,26 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   	$scope.gradeBackup = this.row.entity.scores[index-1].score;
   };	
 	
+  $scope.currentAssessment = 0;
+  	
+  $scope.assessmentIndex = function(index) {
+  	//console.log(index);
+  	if($scope.startOfCrit[$scope.currentAssessment] == index){
+  		$scope.currentAssessment = $scope.currentAssessment + 1;
+  	}
+  	//console.log($scope.currentAssessment);
+  	return $scope.currentAssessment;
+  };
+  
+  $scope.assessmentShow = function(index) {
+  	if($scope.startOfCrit[$scope.currentAssessment] == index){
+  		return "true";
+  	}
+  	else{
+  		return "false";	
+  	}
+  };
+  
   $scope.checkVal = function(criterion) {
   	console.log(criterion);
   };	

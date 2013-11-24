@@ -4,12 +4,7 @@
       <div class="box">
         <h3><img src="/assets/class.png"> {{section.name}}<a data-toggle="modal" href="#editSectionModal"><img class="pull-right" src="/assets/edit.png"></img></a></h3>
         <p class="text-muted"><a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a>'s {{section.grade_level}}th Grade {{section.subject.name}} Class (2013-2014)</p>
-      	
-      </div>
-    </div>
-    
-    
-    
+        
   </div>
 
   <div class="row">
@@ -20,7 +15,7 @@
      	<!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
      	<br>
      
-    	<div ng-show="view3" style="width: 100%; overflow: scroll;">
+    	<div ng-show="view1" style="width: 100%; overflow: scroll;">
 		<table>
 		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Name 3</div></div></th>
 		  
@@ -38,19 +33,22 @@
         
         
         
-     <div ng-show="view1" style="width: 100%; overflow: scroll;">
+     <div ng-show="view2" style="width: 100%; overflow: scroll;">
 		<table>
-		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Assessments 1</div></div></th>
+		  <th style="height:200px;"><div style="width: 120px;"><div style="float:left; position: absolute;z-index: 200; background-color: #EEEEEE;">Assessments</div></div></th>
 		  <th>Subject</th>
 		  <th>w/e these are</th>
 		  
-		  <th ng-repeat="student in students" style="position:relative; background-color: #EEEEEE;"><div class="rotate">{{student.fname}} {{student.lname}}</div></th>
+		  <th ng-repeat="student in students" style="background-color: #EEEEEE;"><div class="rotate">{{student.fname}} {{student.lname}}</div></th>
 		  
-		  <tr ng-repeat="criterion in criterions" style="border: 1px solid black; overflow: hidden;position: relative;" ng-class-odd="'odd'" ng-class-even="'even'">
-			<td style="border-left: 1px solid black; border-right: 1px solid black; width: 15px; height: 32px; float:left; left:35px; position: absolute; z-index: 200; width: 120px; background-color: inherit; overflow: hidden;">
-				{{assessments[1].name}}
-			</td>
-			<td>{{assessments[1].subject}}</td>
+		  <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
+			
+			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] >{{assessments[indexAssessment[$index]].name}}</td>
+			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] >{{assessments[indexAssessment[$index]].subject}}</td>
+			<!--
+			<td>{{assessments[indexAssessment[$index]].name}}</td>
+			<td>{{assessments[indexAssessment[$index]].subject}}</td>
+			-->
 			<td>{{criterions[$index].name}}</td>
 			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">	
 				<input type="text" ng-model="student.scores[$parent.$index].score" style="border: 1px solid black; width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])"/>
