@@ -252,6 +252,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	  newPanel.id = $scope.panels.valueOf().length + 1;
 	  	$scope.panels.push(newPanel);
 	  	$scope.noDelete = false;
+	  	$scope.scrollToBottom();
   	}
   };
 
@@ -261,6 +262,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
     newPanel.id = $scope.panels.valueOf().length + 1;
     $scope.panels.push(newPanel);
     $scope.noDelete = false;
+    $scope.scrollToBottom();
   };
 
 
@@ -270,6 +272,10 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
     if($scope.panels.valueOf().length == 1) {
       $scope.noDelete = true;
     }
+  };
+
+  $scope.scrollToBottom = function() {
+    $('html, body').animate({scrollTop:$(document).height()}, 1500);
   };
 });
 
