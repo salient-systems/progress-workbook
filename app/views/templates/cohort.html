@@ -2,7 +2,10 @@
   <div class="row">
 	<div class="col-md-12">
 	  <div class="box">
-	  	<h3><img src="/assets/group.png"> {{cohort.name}} <a data-toggle="modal" href="#addToCohortModal" class="btn btn-default btn-xs pull-right"><img style="height:11px" src="/assets/add.png" align="absmiddle"> Add Student</a><a data-toggle="modal" href="#editCohortModal" class="btn btn-default btn-xs pull-right"><img src="/assets/edit.png" align="absmiddle"> Edit</a></h3>
+	  	<h3><img src="/assets/group.png"> {{cohort.name}}
+	  	  <a data-toggle="modal" href="#addToCohortModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/add.png"> Add Student</a>
+	  	  <a data-toggle="modal" href="#editCohortModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+	  	</h3>
 	  	  <p>
           <input type="search" ng-model="gridOptions.filterOptions.filterText" class="form-control input" placeholder="Search students..." />
         </p>
