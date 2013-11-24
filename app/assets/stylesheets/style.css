@@ -53,6 +53,11 @@ chart {
     margin: 2px;
 }
 
+.btn-img-sm {
+    height: 10px;
+    vertical-allign: text-top;
+}
+
 /*
  * Callouts
  *
@@ -104,8 +109,78 @@ chart {
 
 
 @media(min-width:405px) {
-    .form-inline-sm .form-group {
-    display: inline-block;
-    margin-bottom: 0;
-    vertical-align: middle;
+  .form-inline-sm .form-group {
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+
+/* Assessment styling */
+.assessment1-view1 {
+  width: 100%; 
+  overflow-y: hidden; 
+  overflow-x: scroll;
+}
+
+.assessment1-th {
+  position: relative;
+  float: left; 
+  width: 120px; 
+  height:200px; 
+  background-color: #AAAAAA; 
+  z-index=150;
+}
+
+.assessment1-div1 {
+  position: absolute; 
+  left: -50px; 
+  background-color: blue; 
+  height: 200px; 
+  width: 120px;
+}
+
+.assessment1-criterion-name {
+  position:relative; 
+  background-color: #EEEEEE;
+}
+
+.assessment1-student {
+  border: 1px solid black; 
+  overflow: hidden;
+  position: relative;
+}
+
+.assessment1-student-name {
+  border-left: 1px solid black; 
+  border-right: 1px solid black; 
+  width: 15px; 
+  height: 32px; 
+  float: left; 
+  left: 35px; 
+  position: absolute; 
+  z-index: 200; 
+  width: 120px; 
+  background-color: inherit; 
+  overflow: hidden;
+}
+
+.assessment1-criterion {
+  border: 1px solid black; 
+  width: 45px; 
+  height: 30px;
+}
+
+.assessment1-criterion-input {
+  width: 40px; 
+  height: 30px; 
+  background-color: rgba(54, 25, 25, 0);
+}
+
+.assessment1-div2 {
+  position: absolute; 
+  background-color: red; 
+  width: 120px; 
+  height: 200px; 
+  top: 0px;
 }

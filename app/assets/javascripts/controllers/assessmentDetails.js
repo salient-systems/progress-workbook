@@ -1,31 +1,31 @@
 // user details page
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
-  
+
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
-  
+
   $scope.view1 = false;
   $scope.view1 = false;
   $scope.view1 = false;
-  
+
   if($routeParams.view_id == 1){
   	$scope.view1 = true;
   }
-  
+
   if($routeParams.view_id == 2){
   	$scope.view2 = true;
   }
-  
+
   if($routeParams.view_id == 3){
   	$scope.view3 = true;
   }
-  
+
   $scope.assessment_type = assessment_type.get();
-  
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
   });
-  
+
   assessment_type.getList('assessments').then(function(thereturn){
   	console.log(thereturn);
   	$scope.assessments = thereturn;
@@ -43,7 +43,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var editTemplate = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" ng-focus="backupGrade(col.index)" />';
   var headerrow = '<div style="writing-mode: tb-rl">Hello</div>';
   var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
-  
+
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
   $scope.criterions = thereturn;
 	console.log(thereturn[0].assessment_id);
@@ -62,12 +62,12 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 		}else{
 			z = z + 1;
 			currentassessment = thereturn[i].assessment_id;
-			$scope.showAssessment[i] = true; 
+			$scope.showAssessment[i] = true;
 			$scope.startOfCrit[z] = i;
 			$scope.numOfCrit[z] = 1;
 		}
 	}
-	
+
 	$scope.sizeAssessment = [];
 	z = 0;
 	for(var i = 0; i < $scope.numOfCrit.length; i++){
@@ -76,7 +76,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 			z = z + 1;
 		}
 	}
-	
+
 	$scope.indexAssessment = [];
 	$scope.indexAssessment[0] = 0;
 	z = 0;
@@ -86,11 +86,10 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 		}
 		$scope.indexAssessment[i] = z;
 	}
-	
-	
+
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
-	   
+
        $scope.myDefs2 = [];
        var myobj = {};
        myobj.field = 'fname';
@@ -99,12 +98,12 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
        myobj.enableCellEdit = false;
        myobj.resizable = true;
        myobj.width = '15%';
-       
+
        $scope.myDefs2[0] = myobj;
        //console.log($scope.myDefs2);
 
 	  for(var i = 0; i < $scope.criterions.length; i++){
-	  	 
+
 	    var myobj2 = {};
 	    myobj2.field = "scores["+i+"].score";
         myobj2.displayName = $scope.criterions[i].name;
@@ -115,30 +114,30 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
         myobj2.width = '35px';
         $scope.myDefs2[i+1] = myobj2;
 	  };
-	  
+
 	});
   });
-  
+
   $scope.range = function(n) {
   	//console.log(n);
     return new Array(n);
   };
-    
+
   $scope.tofloor = function(n){
     var thereturn = Math.floor(n);
     return thereturn;
   };
-  
+
   $scope.domod = function(a,b){
   	var thereturn = a % b;
   	return thereturn;
   };
-  
+
   $scope.domulti = function(a,b){
   	var thereturn = a * b;
   	return thereturn;
   };
-  
+
   $scope.save = function() {
     $scope.assessment.name = $scope.editAssessment.name;
     $scope.assessment.subject = $scope.editAssessment.subject;
@@ -161,7 +160,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.validateSubject = false;
     $scope.validateData_Type = false;
   };
-  
+
   $scope.saveGrade = function(criterion) {
   	if ($scope.oldValue != criterion.score){
   	  var editable = Restangular.copy(criterion);
@@ -169,13 +168,13 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   	  editable.put();
   	}
   };
-	
+
   $scope.backupGrade = function(index) {
   	$scope.gradeBackup = this.row.entity.scores[index-1].score;
-  };	
-	
+  };
+
   $scope.currentAssessment = 0;
-  	
+
   $scope.assessmentIndex = function(index) {
   	//console.log(index);
   	if($scope.startOfCrit[$scope.currentAssessment] == index){
@@ -184,20 +183,20 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   	//console.log($scope.currentAssessment);
   	return $scope.currentAssessment;
   };
-  
+
   $scope.assessmentShow = function(index) {
   	if($scope.startOfCrit[$scope.currentAssessment] == index){
   		return "true";
   	}
   	else{
-  		return "false";	
+  		return "false";
   	}
   };
-  
+
   $scope.checkVal = function(criterion) {
   	//console.log(criterion);
   	$scope.oldValue = criterion.score;
-  };	
+  };
   //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
   console.log($scope.myDefs2);
 
@@ -215,7 +214,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     sortInfo: {fields:['fname'], directions:['asc']},
     filterOptions: { filterText: '', useExternalFilter: false },
     columnDefs: 'myDefs2' ,
-  
+
     afterSelectionChange: function () {
       $scope.selectedIDs = [];
       //saveGrade(col.index);
@@ -225,7 +224,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
       });
     }
   };
-	
+
 });
 
 //controller for the modal that edits the assessment info for an assessment type
@@ -237,7 +236,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     };
     $scope.updateRole();
   };
-  
+
   $scope.newCriterion = function(i) {
     var newCrit = {
       max: 0,
@@ -250,6 +249,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     console.log(editable);
     editable.post();
   };
-  
-  
+
+  //background: rgba(54, 25, 25, grade/max);
+
 });
