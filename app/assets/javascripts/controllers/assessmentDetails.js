@@ -220,13 +220,16 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
   
   $scope.newCriterion = function(i) {
-    var newCriterion = {
+    var newCrit = {
       max: 0,
-      name: false,
+      name: "Criterion Name",
       assessment_id: $scope.assessments[0].id
     };
-    newPanel.id = $scope.panels.valueOf().length + 1;
-    $scope.panels.push(newPanel);
+    $scope.criterions.push(newCrit);
+    var editable = Restangular.copy(newCrit);
+    editable.route = "criterions";
+    console.log(editable);
+    editable.post();
   };
   
   
