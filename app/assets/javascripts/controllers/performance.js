@@ -19,6 +19,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular) {
   };
 
   $scope.panels = [angular.copy($scope.defaultPanel)];
+  $scope.noDelete = true;
 
   Restangular.all('terms').getList().then(function(theterm) {
     $scope.terms = theterm;
@@ -247,8 +248,40 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
   	if (i == $scope.panels.valueOf().length - 1) {
   	  var newPanel = angular.copy($scope.defaultPanel);
   	  newPanel.id = $scope.panels.valueOf().length + 1;
+
+      newPanel.termId = $scope.terms.length;
+      Restangular.one('terms', newPanel.termId).getList('sections').then(function(sections) {
+        newPanel.sections = sections;
+      });
+
 	  	$scope.panels.push(newPanel);
+	  	$scope.noDelete = false;
   	}
+  };
+
+  $scope.duplicate = function(i) {
+    // create new dataset if we're saving the last dataset
+    if (i == $scope.panels.valueOf().length - 1) {
+      var newPanel = angular.copy($scope.defaultPanel);
+      newPanel.id = $scope.panels.valueOf().length + 1;
+
+      newPanel.termId = $scope.terms.length;
+      Restangular.one('terms', newPanel.termId).getList('sections').then(function(sections) {
+        newPanel.sections = sections;
+      });
+
+      $scope.panels.push(newPanel);
+      $scope.noDelete = false;
+    }
+  };
+
+
+  $scope.remove = function(i) {
+    // create new dataset if we're saving the last dataset
+    $scope.panels.splice(i, 1);
+    if($scope.panels.valueOf().length == 1) {
+      $scope.noDelete = true;
+    }
   };
 });
 

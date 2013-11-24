@@ -91,8 +91,8 @@
 
   	              <!-- Right-aligned buttons -->
   	              <button type="button" ng-click="save($index)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
-  	              <button type="button" class="btn btn-default pull-right btn-action">Duplicate</button>
-  	              <button type="button" class="btn btn-default pull-right btn-action">Delete</button>
+  	              <button type="button" ng-click="duplicate($index)"class="btn btn-default pull-right btn-action">Duplicate</button>
+  	              <button type="button" ng-click="remove($index)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>
               </div>
             </div>
