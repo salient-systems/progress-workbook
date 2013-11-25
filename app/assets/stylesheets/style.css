@@ -172,11 +172,8 @@ chart {
 }
 
 .inputbox {
-	background-color: inherit;
 	padding-left: 5px;
-	border: none;
-	
-	
+	border: none;	
 }
 
 .group:before,
