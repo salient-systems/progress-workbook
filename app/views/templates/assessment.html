@@ -24,7 +24,7 @@
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
               <td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
-              <td ng-repeat="criterion in student.scores" class="assessment1-criterion">
+              <td ng-repeat="criterion in student.scores" class="assessment1-criterion" style="background-color: {{blueClass(criterion.score, criterions[$index].max)}}" >
                 <input class="inputbox assessment1-criterion-input" type="text" ng-model="criterion.score" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
                 <!-- To change the color, add background-color: rgba(54, 25, 25, grade/max); to the style-->
               </td>
@@ -33,7 +33,6 @@
         </table>
         <div class="table-end"></div>
       </div>
-
 
 		<!-- #2 view -->
 		<div ng-show="view2" style="width: 100%; overflow-y: hidden; overflow-x: scroll;">
@@ -47,8 +46,8 @@
 
 			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><p class="css-vertical-text">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p></div></td>
             <td>{{criterions[$index % sizeAssessment[0]].name}}</td>
-			<td ng-repeat="b in range(assessments.length)" style="border: 1px solid black; width: 45px; height: 30px;">
-				<input class="inputbox" type="text" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]].score" style="width: 45px; height: 30px;" ng-focus="checkVal(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" />
+			<td ng-repeat="b in range(assessments.length)" style="border: 1px solid black; width: 45px; height: 30px; background-color: {{blueClass(students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score, criterions[domod($parent.$index,sizeAssessment[0])].max)}}">
+				<input class="inputbox" type="text" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score" style="width: 45px; height: 30px;" ng-focus="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]])" />
 			</td>
 		  </tr>
         </table>
@@ -72,7 +71,7 @@
 			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><p class="css-vertical-text">{{assessments[indexAssessment[$index]].subject}}</p></td>
 
 			<td>{{criterions[$index].name}}</td>
-			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">
+			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px; background-color: {{blueClass(student.scores[$parent.$index].score, criterions[$parent.$index].max)}}">
 				<input class="inputbox" type="text" ng-model="student.scores[$parent.$index].score" style="width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])" ng-blur="saveGrade(student.scores[$parent.$index])" />
 			</td>
 		  </tr>

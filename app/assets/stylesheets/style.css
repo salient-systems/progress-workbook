@@ -118,10 +118,10 @@ chart {
 
 
 /* Table Styling */
-.odd, .odd input {
+.odd, .odd  {
   background-color: #F0F0F0;
 }
-.even, .even input {
+.even, .even {
   background-color: #FDFDFD;
 }
 
@@ -261,7 +261,7 @@ chart {
   height: 30px;
 }
 
-.assessment1-criterion-input {
+.assessment1-criterion-input {	
   width: 100%; 
   height: 30px; 
   text-align: center;
@@ -270,6 +270,10 @@ chart {
 
 .table-end {
   clear: both;
+}
+
+td.ablue {
+	background-color: #0066FF;
 }
 
 p.css-vertical-text {
@@ -288,4 +292,24 @@ p.css-vertical-text {
 	margin-left: auto;
 	margin-right: auto;
     margin-top: 90px;
+}
+
+.blue1 {
+	background-color: #FFFFFF;
+}
+
+.blue2 {
+	background-color: #CCECFF;
+}
+
+.blue3 {
+	background-color: #66CCFF;
+}
+
+.blue4 {
+	background-color: #3399FF;
+}
+
+.ablue {
+	background-color: #0066FF;
 }
