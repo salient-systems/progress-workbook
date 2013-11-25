@@ -203,7 +203,7 @@ chart {
 .assessment1-heading-space {
   position: relative;
   float: left; 
-  width: 120px; 
+  width: 118px; 
   z-index: 150;
 }
 
@@ -215,7 +215,6 @@ chart {
     height: 24px;
     z-index: 200;
     background-color: whitesmoke;
-    margin-left: 0px;
     margin-top: -1px;
     border-right-style: solid;
     border-right-color: black;
