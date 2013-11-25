@@ -305,10 +305,12 @@ chart {
 p.css-vertical-text {
 	color:#333;
 	border:0px solid red;
-	writing-mode:tb-rl;
+	writing-mode:lr-bt;
 	-webkit-transform:rotate(-90deg);
 	-moz-transform:rotate(-90deg);
 	-o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
 	white-space:nowrap;
 	display:block;
