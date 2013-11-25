@@ -46,6 +46,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       $('.tt-query').css('background-color','#fff');
 
       if (self.filterDatum != null) {
+        // if duplicating, set the value of the search bar
         search.val(self.filterDatum.value);
       }
 
@@ -56,6 +57,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       });
     }
   };
+
+  // insert the default first panel
   $scope.panels = [angular.copy($scope.defaultPanel)];
 
   // prefetch the latest term and and it's classes
@@ -73,6 +76,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   // fetch the twitter typeahead datums
   $http.get('/performance/search.json').success(function(datums) {
     $scope.searchDatums = datums;
+    // now we have datums, so setup the typeahead for the default panel
     angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
   });
 });
@@ -243,8 +247,6 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
       $scope.statistics = $scope.assessmentStatistics;
     }
   };
-
-
 
   $scope.scrollToBottom = function() {
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
