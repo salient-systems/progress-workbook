@@ -116,6 +116,83 @@ chart {
 }
 
 
+
+/* Table Styling */
+.odd, .odd input {
+  background-color: #F0F0F0;
+}
+.even, .even input {
+  background-color: #FDFDFD;
+}
+
+.rotate {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+  /* Should be unset in IE9+ I think. */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  width: 200px;
+  position: absolute;
+  left: -80px;
+  bottom: 0px;
+  z-index: 101;
+}
+
+.rotate2 {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+  /* Should be unset in IE9+ I think. */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  width: 200px;
+  position: absolute;
+  bottom: 40px;
+  left: -85px;
+  z-index: 101;
+}
+
+.inputbox {
+	background-color: inherit;
+	padding-left: 5px;
+	border: none;
+	
+	
+}
+
+.group:before,
+.group:after {
+    content:"";
+    display:table;
+}
+.group:after {
+    clear:both;
+}
+.group {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+
+
 /* Assessment styling */
 .assessment1-view1 {
   width: 100%; 
@@ -123,26 +200,36 @@ chart {
   overflow-x: scroll;
 }
 
-.assessment1-th {
+.assessment1-heading-space {
   position: relative;
   float: left; 
   width: 120px; 
-  height:200px; 
-  background-color: #AAAAAA; 
-  z-index=150;
+  z-index: 150;
 }
 
-.assessment1-div1 {
-  position: absolute; 
-  left: -50px; 
-  background-color: blue; 
-  height: 200px; 
-  width: 120px;
+.assessment1-heading-space-cover {
+    border: 1px solid whitesmoke;
+    position: absolute;
+    float: left;
+    width: 120px;
+    height: 24px;
+    z-index: 200;
+    background-color: whitesmoke;
+    margin-left: 0px;
+    margin-top: -1px;
+    border-right-style: solid;
+    border-right-color: black;
+    border-right-width: 1px;
 }
 
 .assessment1-criterion-name {
-  position:relative; 
-  background-color: #EEEEEE;
+  border: 1px solid black; 
+  position: relative; 
+  /*background-color: #EEEEEE;*/
+  text-align: center;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .assessment1-student {
@@ -172,15 +259,12 @@ chart {
 }
 
 .assessment1-criterion-input {
-  width: 40px; 
+  width: 100%; 
   height: 30px; 
-  background-color: rgba(54, 25, 25, 0);
+  text-align: center;
+  margin-left: -1px;
 }
 
-.assessment1-div2 {
-  position: absolute; 
-  background-color: red; 
-  width: 120px; 
-  height: 200px; 
-  top: 0px;
+.table-end {
+  clear: both;
 }
