@@ -271,28 +271,33 @@ chart {
   clear: both;
 }
 
-.assessment2-heading-space-name {
+.assessment-heading-space-name, assessment-heading-space-subject {
   height:200px;
   width: 30px;
 }
 
-.assessment2-heading-space-criterion {
+.assessment-heading-space-criterion {
   width: 150px; 
 }
 
+.assessment-heading-space-assessment {
+  width: 30px; 
+}
 
+.assessment-relative-position {
+  position: relative;
+}
 
+.assessment-header-assessment, assessment-header-name {
+  /*background-color: #EEEEEE;*/
+}
 
+.assessment-label-name, assessment-label-subject {
+  background-color: #AAAAAA; 
+  border: 1px solid black;
+}
 
-
-
-
-
-
-
-
-
-
-.assessment2-? {
-  ?
+.assessment-label-assessment {
+  background-color: #CCCCCC; 
+  border: 1px solid black;
 }

@@ -39,15 +39,18 @@
   		<div ng-show="view2" class="assessment-view">
     		<table>
     		  <thead>
-      		  <th class="assessment2-heading-space-name"></th>
-      		  <th class="assessment2-heading-space-criterion"></th>
-      		  <th ng-repeat="assessment in assessments" style="background-color: #EEEEEE;">
-      		    <div style="position:relative"><div class="rotate">{{assessment.name}}</div></div></th>
+      		  <th class="assessment-heading-space-name"></th>
+      		  <th class="assessment-heading-space-criterion"></th>
+      		  <th ng-repeat="assessment in assessments" class="assessment-header-assessment">
+              <div class="assessment-relative-position">
+      		      <div class="rotate">{{assessment.name}}</div>
+      		    </div>
+      		  </th>
           </thead>
           <tbody>
       		  <tr ng-repeat="a in range(domulti(students.length, sizeAssessment[0]))" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
-        			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;">
-        			  <div style="position:relative">
+        			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-name">
+        			  <div class="assessment-relative-position">
         			    <div class="rotate2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</div>
         			  </div>
         			</td>
@@ -66,20 +69,24 @@
       <div ng-show="view3" class="assessment-view">
         <table>
           <thead>
-  		      <th style="height:200px;width: 30px;"></th>
-      		  <th style="width: 30px;"></th>
-      		  <th style="width: 150px;"></th>
-       		  <th ng-repeat="student in students" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{student.fname}} {{student.lname}}</div></div></th>
+            <th class="assessment-heading-space-subject"></th>
+            <th class="assessment-heading-space-assessment"></th>
+            <th class="assessment-heading-space-criterion"></th>
+       		  <th ng-repeat="student in students" class="assessment-header-name">
+                <div class="assessment-relative-position">
+       		      <div class="rotate">{{student.fname}} {{student.lname}}</div>
+       		    </div>
+       		  </th>
           </thead>
           <tbody>
   		      <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
-    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;">
-    			      <div style="position:relative">
+    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment-label-subject">
+                <div class="assessment-relative-position">
     			        <div class="rotate2">{{assessments[indexAssessment[$index]].subject}}</div>
     			      </div>
     			    </td>
-    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;">
-    			      <div style="position:relative">
+    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment-label-assessment">
+                <div class="assessment-relative-position">
     			        <div class="rotate2">{{assessments[indexAssessment[$index]].name}}</div>
     			      </div>
     			    </td>
