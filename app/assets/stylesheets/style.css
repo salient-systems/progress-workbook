@@ -212,13 +212,14 @@ chart {
     position: absolute;
     float: left;
     width: 140px;
-    height: 24px;
+    height: 125px;
     z-index: 200;
     background-color: whitesmoke;
     margin-top: -1px;
     border-right-style: solid;
     border-right-color: black;
     border-right-width: 1px;
+    border-bottom: 1px solid black;
 }
 
 .assessment1-criterion-name {
@@ -241,7 +242,7 @@ chart {
     border-left: 1px solid black;
     border-right: 1px solid black;
     width: 15px;
-    height: 31px;
+    height: 32px;
     float: left;
     left: 35px;
     position: absolute;
@@ -269,4 +270,22 @@ chart {
 
 .table-end {
   clear: both;
+}
+
+p.css-vertical-text {
+	color:#333;
+	border:0px solid red;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
+	white-space:nowrap;
+	display:block;
+	width: 20px;
+	height:20px;
+	font-weight:normal;
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 90px;
 }

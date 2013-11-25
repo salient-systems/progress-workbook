@@ -18,7 +18,7 @@
           <thead>
             <th class="assessment1-heading-space">&nbsp;</th>
             <th class="assessment1-heading-space-cover">&nbsp;</th>
-            <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name">{{criterion_name.name}}</th>
+            <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><p class="css-vertical-text">{{criterion_name.name}}</p></th>
           </thead>
           <tbody>
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
@@ -38,14 +38,14 @@
 		<!-- #2 view -->
 		<div ng-show="view2" style="width: 100%; overflow-y: hidden; overflow-x: scroll;">
 		<table>
-		  <th style="height:200px;width: 30px;"></th>
+		  <th style="width: 30px;"></th>
 		  <th style="width: 150px;"></th>
 
-		  <th ng-repeat="assessment in assessments" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{assessment.name}}</div></div></th>
+		  <th ng-repeat="assessment in assessments" class="assessment1-criterion-name" style="height: 150px; background-color: #EEEEEE; width: 45px;"><p class="css-vertical-text">{{assessment.name}}</p></th>
 
 		  <tr ng-repeat="a in range(domulti(students.length, sizeAssessment[0]))" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
 
-			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</div></div></td>
+			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><p class="css-vertical-text">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p></div></td>
             <td>{{criterions[$index % sizeAssessment[0]].name}}</td>
 			<td ng-repeat="b in range(assessments.length)" style="border: 1px solid black; width: 45px; height: 30px;">
 				<input class="inputbox" type="text" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]].score" style="width: 45px; height: 30px;" ng-focus="checkVal(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" />
@@ -64,12 +64,12 @@
 		  <th style="width: 30px;"></th>
 		  <th style="width: 150px;"></th>
 
-		  <th ng-repeat="student in students" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{student.fname}} {{student.lname}}</div></div></th>
+		  <th ng-repeat="student in students" style="background-color: #EEEEEE;" class="assessment1-criterion-name"><p class="css-vertical-text">{{student.fname}} {{student.lname}}</p></th>
 
 		  <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
 
-			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{assessments[indexAssessment[$index]].name}}</div></div></td>
-			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{assessments[indexAssessment[$index]].subject}}</div></div></td>
+			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;"><p class="css-vertical-text">{{assessments[indexAssessment[$index]].name}}</p></td>
+			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><p class="css-vertical-text">{{assessments[indexAssessment[$index]].subject}}</p></td>
 
 			<td>{{criterions[$index].name}}</td>
 			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">
