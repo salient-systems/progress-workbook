@@ -16,8 +16,9 @@
       <div ng-show="view1" class="assessment1-view1">
         <table>
           <thead>
-            <th class="assessment1-th"><div class="assessment1-div1">&nbsp;</div></th>
-            <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><div class="rotate">{{criterion_name.name}}</div></th>
+            <th class="assessment1-heading-space">&nbsp;</th>
+            <th class="assessment1-heading-space-cover">&nbsp;</th>
+            <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name">{{criterion_name.name}}</th>
           </thead>
           <tbody>
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
@@ -29,9 +30,8 @@
               </td>
             </tr>
           </tbody>
-          <div class="assessment1-div2">&nbsp;</div>
         </table>
-        <div style="clear:both"></div>
+        <div class="table-end"></div>
       </div>
 
 
