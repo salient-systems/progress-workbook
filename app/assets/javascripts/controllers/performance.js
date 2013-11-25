@@ -4,13 +4,14 @@
  */
 app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http) {
 
+  $scope.panelIndex = 0;
   $scope.noDelete = true;
 
   $scope.defaultPanel = {
-    id: 1,
+    id: 0,
     open: true,
     filterType: "",
-    filterId: null,
+    filterDatum: null,
     termId: null,
     sectionId: null,
     assessmentTypeId: null,
@@ -20,7 +21,40 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     sections: [],
 	  assessmentTypes: [],
 	  assessments: [],
-	  criterions: []
+	  criterions: [],
+	  setupSearch: function() {
+	    var self = this;
+	    var search = $('input#search' + self.id);
+
+      search.typeahead([{
+        name: 'students',
+        limit: 3,
+        header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
+        local: $scope.searchDatums.students,
+      }, {
+        name: 'cohorts',
+        limit: 3,
+        header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
+        local: $scope.searchDatums.cohorts
+      }, {
+        name: 'users',
+        limit: 3,
+        header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
+        local: $scope.searchDatums.users
+      }]);
+
+      $('.tt-query').css('background-color','#fff');
+
+      if (self.filterDatum != null) {
+        search.val(self.filterDatum.value);
+      }
+
+      search.bind('typeahead:selected', function(event, datum, name) {
+        self.filterType = name; // search type is user, student, or cohort
+        self.filterDatum = datum; // the id of the user, student, or cohort
+        console.log(self);
+      });
+    }
   };
   $scope.panels = [angular.copy($scope.defaultPanel)];
 
@@ -29,65 +63,25 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.terms = theterm;
     $scope.panels[0].termId = $scope.terms.length;
     $scope.defaultPanel.termId = $scope.terms.length;
+
     Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
       $scope.panels[0].sections = sections;
       $scope.defaultPanel.sections = sections;
-      $scope.setupTypeahead();
     });
   });
 
-  $http.get('/students/search.json').success(function(response) {
-
+  // fetch the twitter typeahead datums
+  $http.get('/performance/search.json').success(function(datums) {
+    $scope.searchDatums = datums;
+    angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
   });
-
-  $scope.setupTypeahead = function() {
-    // add student typeahead
-    $('input.search').typeahead([{
-      name: 'students',
-      limit: 3,
-      header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
-      prefetch: {
-        url: '/students/search.json',
-        ttl: 0
-      },
-    }, {
-      name: 'cohorts',
-      limit: 3,
-      header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
-      prefetch: {
-        url: '/cohorts/search.json',
-        ttl: 0
-      }
-    }, {
-      name: 'users',
-      limit: 3,
-      header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
-      prefetch: {
-        url: '/users/search.json',
-        ttl: 0
-      }
-    }]);
-
-    $('.tt-query').css('background-color','#fff');
-
-    $('input.search').bind('typeahead:selected', function(event, datum, name) {
-      console.log(event);
-      console.log(datum);
-      console.log(name);
-      console.log($(event.currentTarget).attr('id'));
-
-      var panel = $scope.panels[$(event.currentTarget).attr('id')];
-      panel.filterType = name; // search type is user, student, or cohort
-      panel.filterId = datum.id;
-    });
-  };
 });
 
 /*
  * Dataset Controller
  *
  */
-app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
+app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeout) {
 
   $scope.sectionStatistics = [
     { id: 1, name: "Total Correct" },
@@ -129,14 +123,30 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
 
   $scope.statistics = $scope.sectionStatistic;
 
-  $scope.save = function(i) {
+  $scope.save = function(panelIndex) {
     // create new dataset if we're saving the last dataset
-    if (i == $scope.panels.valueOf().length - 1) {
-      var newPanel = angular.copy($scope.defaultPanel);
-      newPanel.id = $scope.panels.valueOf().length + 1;
-      $scope.panels.push(newPanel);
-      $scope.noDelete = false;
-      $scope.scrollToBottom();
+    if (panelIndex == $scope.panels.valueOf().length - 1) {
+      $scope.createPanel($scope.defaultPanel);
+    }
+  };
+
+  $scope.duplicate = function(panelIndex) {
+    $scope.createPanel($scope.panels[panelIndex]);
+  };
+
+  $scope.createPanel = function(panel) {
+    var newPanel = angular.copy(panel);
+    newPanel.id = ++$scope.panelIndex;
+    $scope.panels.push(newPanel);
+    $timeout(function() { angular.bind(newPanel, newPanel.setupSearch)(); }, 0);
+    $scope.noDelete = false;
+    $scope.scrollToBottom();
+  };
+
+  $scope.remove = function(i) {
+    $scope.panels.splice(i, 1);
+    if($scope.panels.valueOf().length == 1) {
+      $scope.noDelete = true;
     }
   };
 
@@ -234,22 +244,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular) {
     }
   };
 
-  $scope.duplicate = function(i) {
-    // create new dataset if we're saving the last dataset
-    var newPanel = angular.copy($scope.panels[i]);
-    newPanel.id = $scope.panels.valueOf().length + 1;
-    $scope.panels.push(newPanel);
-    $scope.noDelete = false;
-    $scope.scrollToBottom();
-  };
 
-  $scope.remove = function(i) {
-    // create new dataset if we're saving the last dataset
-    $scope.panels.splice(i, 1);
-    if($scope.panels.valueOf().length == 1) {
-      $scope.noDelete = true;
-    }
-  };
 
   $scope.scrollToBottom = function() {
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
