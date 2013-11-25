@@ -62,11 +62,6 @@ class CohortsController < ApplicationController
     end
   end
 
-  # GET /cohorts/search.json
-  def search
-    @cohorts = Cohort.all
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cohort

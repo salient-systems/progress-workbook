@@ -87,6 +87,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 		$scope.indexAssessment[i] = z;
 	}
 
+
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
 
@@ -118,8 +119,22 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 	});
   });
 
+  $scope.blueClass = function(a,b){
+    var myvar = a/b;
+    if (myvar < .6){
+    	return "#FFFFFF";
+    }else if (myvar < .7){
+    	return "#CCECFF";
+    }else if (myvar < .8){
+    	return "#66CCFF";
+    }else if (myvar < .9){
+    	return "#3399FF";
+    }else{
+    	return "#0066FF";
+    }
+  };
+
   $scope.range = function(n) {
-  	//console.log(n);
     return new Array(n);
   };
 

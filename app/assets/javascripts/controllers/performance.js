@@ -53,7 +53,11 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       search.bind('typeahead:selected', function(event, datum, name) {
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
-        console.log(self);
+
+        var test = Restangular.one(name, datum.id);
+        test.all('sections').getList({term_id: self.termId}).then(function(sections) {
+          self.sections = sections;
+        });
       });
     }
   };
@@ -177,9 +181,9 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
         panel.assessmentTypes = assessmenttypes;
       });
   	}
-  	panel.statistic = null;
-    $scope.statistics = $scope.sectionStatistics;
 
+    $scope.statistics = $scope.sectionStatistics;
+  	panel.statistic = null;
     panel.assessmentTypeId = null;
     panel.assessmentId = null;
     panel.criterionId = null;
@@ -203,8 +207,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
 
       panel.statistic = null;
 	    $scope.statistics = $scope.assessmentTypeStatistics;
-  	}
-  	else {
+  	} else {
   	  panel.statistic = null;
       $scope.statistics = $scope.sectionStatistics;
     }
@@ -225,8 +228,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
 
       panel.statistic = null;
 	    $scope.statistics = $scope.assessmentStatistics;
-  	}
-  	else {
+  	} else {
   	  panel.statistic = null;
 	    $scope.statistics = $scope.assessmentTypeStatistics;
   	}
@@ -241,8 +243,7 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
     if (panel.criterionId !== undefined) {
       panel.statistic = null;
       $scope.statistics = $scope.criterionStatistics;
-    }
-    else {
+    } else {
       panel.statistic = null;
       $scope.statistics = $scope.assessmentStatistics;
     }
