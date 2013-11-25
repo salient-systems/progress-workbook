@@ -203,7 +203,7 @@ chart {
 .assessment1-heading-space {
   position: relative;
   float: left; 
-  width: 118px; 
+  width: 138px; 
   z-index: 150;
 }
 
@@ -211,7 +211,7 @@ chart {
     border: 1px solid whitesmoke;
     position: absolute;
     float: left;
-    width: 120px;
+    width: 140px;
     height: 24px;
     z-index: 200;
     background-color: whitesmoke;
@@ -238,17 +238,20 @@ chart {
 }
 
 .assessment1-student-name {
-  border-left: 1px solid black; 
-  border-right: 1px solid black; 
-  width: 15px; 
-  height: 32px; 
-  float: left; 
-  left: 35px; 
-  position: absolute; 
-  z-index: 200; 
-  width: 120px; 
-  background-color: inherit; 
-  overflow: hidden;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    width: 15px;
+    height: 31px;
+    float: left;
+    left: 35px;
+    position: absolute;
+    z-index: 200;
+    width: 140px;
+    background-color: inherit;
+    overflow: hidden;
+    text-align: right;
+    padding-right: 7px;
+    padding-top: 5px;
 }
 
 .assessment1-criterion {
