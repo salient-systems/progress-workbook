@@ -25,7 +25,7 @@
               <td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
               <td ng-repeat="criterion in student.scores" class="assessment1-criterion">
-                <input class="inputbox assessment1-criterion-input" type="text" ng-model="criterion.score" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
+                <input class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
                 <!-- To change the color, add background-color: rgba(54, 25, 25, grade/max); to the style-->
               </td>
             </tr>
@@ -35,52 +35,64 @@
       </div>
 
 
-		<!-- #2 view -->
-		<div ng-show="view2" style="width: 100%; overflow-y: hidden; overflow-x: scroll;">
-		<table>
-		  <th style="height:200px;width: 30px;"></th>
-		  <th style="width: 150px;"></th>
-
-		  <th ng-repeat="assessment in assessments" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{assessment.name}}</div></div></th>
-
-		  <tr ng-repeat="a in range(domulti(students.length, sizeAssessment[0]))" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
-
-			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</div></div></td>
-            <td>{{criterions[$index % sizeAssessment[0]].name}}</td>
-			<td ng-repeat="b in range(assessments.length)" style="border: 1px solid black; width: 45px; height: 30px;">
-				<input class="inputbox" type="text" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]].score" style="width: 45px; height: 30px;" ng-focus="checkVal(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" />
-			</td>
-		  </tr>
+  		<!-- #2 view -->
+  		<div ng-show="view2" class="assessment-view">
+    		<table>
+    		  <thead>
+      		  <th class="assessment2-heading-space-name"></th>
+      		  <th class="assessment2-heading-space-criterion"></th>
+      		  <th ng-repeat="assessment in assessments" style="background-color: #EEEEEE;">
+      		    <div style="position:relative"><div class="rotate">{{assessment.name}}</div></div></th>
+          </thead>
+          <tbody>
+      		  <tr ng-repeat="a in range(domulti(students.length, sizeAssessment[0]))" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
+        			<td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] style="background-color: #AAAAAA; border: 1px solid black;">
+        			  <div style="position:relative">
+        			    <div class="rotate2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</div>
+        			  </div>
+        			</td>
+              <td>{{criterions[$index % sizeAssessment[0]].name}}</td>
+        			<td ng-repeat="b in range(assessments.length)" style="border: 1px solid black; width: 45px; height: 30px;">
+        				<input class="inputbox" type="text" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]].score" style="width: 45px; height: 30px;" ng-focus="checkVal(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[$index + $index*sizeAssessment[0]])" />
+        			</td>
+    		    </tr>
+          </tbody>
         </table>
-        <div style="clear:both"></div>
-        </div>
+        <div class="table-end"></div>
+      </div>
 
 
+      <!-- #3 view -->
+      <div ng-show="view3" class="assessment-view">
+        <table>
+          <thead>
+  		      <th style="height:200px;width: 30px;"></th>
+      		  <th style="width: 30px;"></th>
+      		  <th style="width: 150px;"></th>
+       		  <th ng-repeat="student in students" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{student.fname}} {{student.lname}}</div></div></th>
+          </thead>
+          <tbody>
+  		      <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
+    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;">
+    			      <div style="position:relative">
+    			        <div class="rotate2">{{assessments[indexAssessment[$index]].subject}}</div>
+    			      </div>
+    			    </td>
+    			    <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;">
+    			      <div style="position:relative">
+    			        <div class="rotate2">{{assessments[indexAssessment[$index]].name}}</div>
+    			      </div>
+    			    </td>
 
-     <!-- #3 view -->
-     <div ng-show="view3" style="width: 100%; overflow-y: hidden; overflow-x: scroll;">
-		<table>
-		  <th style="height:200px;width: 30px;"></th>
-		  <th style="width: 30px;"></th>
-		  <th style="width: 150px;"></th>
-
-		  <th ng-repeat="student in students" style="background-color: #EEEEEE;"><div style="position:relative"><div class="rotate">{{student.fname}} {{student.lname}}</div></div></th>
-
-		  <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
-
-			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{assessments[indexAssessment[$index]].name}}</div></div></td>
-			<td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><div style="position:relative"><div class="rotate2">{{assessments[indexAssessment[$index]].subject}}</div></div></td>
-
-			<td>{{criterions[$index].name}}</td>
-			<td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">
-				<input class="inputbox" type="text" ng-model="student.scores[$parent.$index].score" style="width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])" ng-blur="saveGrade(student.scores[$parent.$index])" />
-			</td>
-		  </tr>
+    			    <td>{{criterions[$index].name}}</td>
+    			    <td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;">
+    				    <input class="inputbox" type="text" ng-model="student.scores[$parent.$index].score" style="width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])" ng-blur="saveGrade(student.scores[$parent.$index])" />
+    			    </td>
+  		      </tr>
+          </tbody>
         </table>
-        <div style="clear:both"></div>
-        </div>
-
-
+        <div class="table-end"></div>
+      </div>
 
      <p>
      <!-- Drop-down button -->
