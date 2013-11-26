@@ -8,7 +8,7 @@
         <a ng-show="view3" data-toggle="modal" href="#editStandardsBasedModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
       </h3>
       <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
-
+      
      	<!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
      	<br>
 
@@ -21,6 +21,10 @@
             <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><p class="css-vertical-text">{{criterion_name.name}}</p></th>
           </thead>
           <tbody>
+          	<tr>
+          		<td>&nbsp;</td>
+          		<td ng-repeat="criterionGrade in criterions.percent" class="scoreHoriz" >{{criterionGrade}}%</td>
+          	</tr>
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
               <td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
