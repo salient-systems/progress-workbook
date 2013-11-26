@@ -18,18 +18,22 @@
           <thead>
             <th class="assessment1-heading-space">&nbsp;</th>
             <th class="assessment1-heading-space-cover">&nbsp;</th>
+            <th style="position:relative; float: left;">&nbsp;</th>
             <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><p class="css-vertical-text">{{criterion_name.name}}</p></th>
           </thead>
           <tbody>
           	<tr>
           		<td>&nbsp;</td>
-          		<td ng-repeat="criterionGrade in criterions.percent" class="scoreHoriz" >{{criterionGrade}}%</td>
+          		
+          		<td ng-repeat="criterionGrade in criterions.percent" class="scoreHoriz" ng-style="{background: percentColor(criterionGrade)}">{{criterionGrade}}%</td>
           	</tr>
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
               <td class="assessment1-student-name">{{student.fname}} {{student.lname}}</td>
+              <td class="scoreHorizLeft" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
               <td ng-repeat="criterion in student.scores" class="assessment1-criterion" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" >
-                <input class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
+                <!--<input type="number" class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>-->
+                <input class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,0)'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
                 <!-- To change the color, add background-color: rgba(54, 25, 25, grade/max); to the style-->
               </td>
             </tr>
