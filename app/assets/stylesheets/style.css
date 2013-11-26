@@ -199,7 +199,7 @@ chart {
 .assessment1-heading-space {
   position: relative;
   float: left; 
-  width: 138px; 
+  width: 188px; 
   z-index: 150;
 }
 
@@ -207,7 +207,7 @@ chart {
     border: 1px solid whitesmoke;
     position: absolute;
     float: left;
-    width: 140px;
+    width: 190px;
     height: 148px;
     z-index: 200;
     background-color: whitesmoke;
@@ -249,6 +249,19 @@ chart {
     text-align: right;
     padding-right: 7px;
     padding-top: 5px;
+}
+
+.scoreHorizLeft {
+	height: 32px;
+	left: 174px;
+	min-width: 50px;
+	z-index: 200;
+	width: 50px;
+	
+	position: absolute;
+	border-left: 1px solid black;
+    border-right: 1px solid black;
+	text-align: center;
 }
 
 .assessment1-criterion {
@@ -324,4 +337,11 @@ p.css-vertical-text {
 .scoreHoriz {
 	border: 1px solid black;
 	text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
