@@ -1,4 +1,4 @@
-// user details page
+//Assessment Details Page(s)
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
@@ -27,11 +27,8 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.section = thesection;
   });
 
-  assessment_type.getList('assessments').then(function(thereturn){
-  	console.log(thereturn);
-  	$scope.assessments = thereturn;
-  });
-
+  
+/*
   var myHeaderCellTemplate =   '<div class="ngHeaderSortColumn {{col.headerClass}}" ng-style="{cursor: col.cursor}" ng-class="{ ngSorted: !noSortVisible }">'+
                                '<div style="word-wrap: break-word;" ng-click="col.sort($event)" ng-class="colt + col.index" class="ngHeaderText">{{col.displayName}}</div>'+
                                '<div class="ngSortButtonDown" ng-show="col.showSortButtonDown()"></div>'+
@@ -44,10 +41,16 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var editTemplate = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" ng-focus="backupGrade(col.index)" />';
   var headerrow = '<div style="writing-mode: tb-rl">Hello</div>';
   var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
-
+*/
+assessment_type.getList('assessments').then(function(thereturn){
+  $scope.assessments = thereturn;
+  	  
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
-  $scope.criterions = thereturn;
-	console.log(thereturn[0].assessment_id);
+    $scope.criterions = thereturn;
+	
+	
+  	
+	
 	$scope.numOfCrit = [];
 	$scope.numOfCrit[0] = 1;
 	$scope.startOfCrit = [];
@@ -92,6 +95,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	   $scope.students = thereturn;
 
+	   //Calculating Criterion Totals
        $scope.criterions.present = [];
        $scope.criterions.total = [];
        $scope.criterions.percent = [];
@@ -112,7 +116,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
        }
        
        
-       
+       //Calculating Student Totals
        for(var i = 0; i < thereturn.length ; i++){
        	$scope.students[i].total = 0;
        	$scope.students[i].max = 0;
@@ -126,6 +130,27 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     	 $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100); 
        }
        
+       //Calculating Assessment Totals
+       var counter = 0;
+       for(var j = 0; j < $scope.assessments.length; j++){
+         $scope.assessments[j].present = 0;
+         $scope.assessments[j].total = 0;
+         $scope.assessments[j].max = 0;
+         for(var k = 0; k < $scope.numOfCrit[j]; k++){
+      	   $scope.assessments[j].total = $scope.assessments[j].total + $scope.criterions.total[counter];
+      	   $scope.assessments[j].max = $scope.assessments[j].max + $scope.criterions[counter].max;
+      	   if($scope.assessments[j].present < $scope.criterions.present[counter]){
+      	     $scope.assessments[j].present = $scope.criterions.present[counter];	
+      	   }
+      	   counter++;
+         }
+       }
+       
+       for(var i = 0; i < $scope.assessments.length; i++){
+    	 $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100); 
+       }
+       
+/*       
        $scope.myDefs2 = [];
        var myobj = {};
        myobj.field = 'fname';
@@ -136,7 +161,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
        myobj.width = '15%';
 
        $scope.myDefs2[0] = myobj;
-       //console.log($scope.myDefs2);
+       
 
 	  for(var i = 0; i < $scope.criterions.length; i++){
 
@@ -149,10 +174,11 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
         myobj2.headerCellTemplate = myHeaderCellTemplate;
         myobj2.width = '35px';
         $scope.myDefs2[i+1] = myobj2;
-	  };
-
+	  }
+*/
 	});
   });
+});
 
   $scope.percentColor = function(a){
     if (a < 70){
@@ -245,11 +271,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   };
 
   var recalc = function(){
-  	//console.log("Criterion Lengh: "+$scope.criterions.length);
-  	//console.log("Students Lengh: "+$scope.students.length);
-  	//console.log("Present: " +$scope.criterions.present);
-  	//console.log("Total: " +$scope.criterions.total);
-  	
+    //This Section is for calculating the criterion totals
   	for(var j = 0; j < $scope.criterions.length; j++){
         $scope.criterions.present[j] = 0;
         $scope.criterions.total[j] = 0;
@@ -263,29 +285,46 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
       	    }
         }	
     }
+   
+    for(var i = 0; i < $scope.criterions.length; i++){
+      $scope.criterions.percent[i] = 0;
+      $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    }
     
-    //console.log($scope.students);
-    //console.log("New Present: " +$scope.criterions.present);
-  	//console.log("New Total: " +$scope.criterions.total);
-  	
-    
-      for(var i = 0; i < $scope.criterions.length; i++){
-      	$scope.criterions.percent[i] = 0;
-    	$scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    //This section is for calculating the Students totals  
+    for(var i = 0; i < $scope.students.length ; i++){
+      $scope.students[i].total = 0;
+      $scope.students[i].max = 0;
+      for(var j = 0; j < $scope.criterions.length; j++){
+        $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
+       	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max; 
       }
-      
-      for(var i = 0; i < $scope.students.length ; i++){
-       	$scope.students[i].total = 0;
-       	$scope.students[i].max = 0;
-       	 for(var j = 0; j < $scope.criterions.length; j++){
-       	 	$scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
-       	 	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max; 
-       	 }
-       }
+    }
        
-       for(var i = 0; i < $scope.students.length; i++){
-    	 $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100); 
+    for(var i = 0; i < $scope.students.length; i++){
+      $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100); 
+    }
+      
+    //This section is for calculating the Assessment totals
+    var counter = 0;
+    for(var j = 0; j < $scope.assessments.length; j++){
+      $scope.assessments[j].present = 0;
+      $scope.assessments[j].total = 0;
+      $scope.assessments[j].max = 0;
+      for(var k = 0; k < $scope.numOfCrit[j]; k++){
+        $scope.assessments[j].total = $scope.assessments[j].total + $scope.criterions.total[counter];
+        $scope.assessments[j].max = $scope.assessments[j].max + $scope.criterions[counter].max;
+          if($scope.assessments[j].present < $scope.criterions.present[counter]){
+      	    $scope.assessments[j].present = $scope.criterions.present[counter];	
+      	  }
+      	  counter++;
        }
+     }
+       
+     for(var i = 0; i < $scope.assessments.length; i++){
+       $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100); 
+     }	
+    
       
   };
   
@@ -297,9 +336,8 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   $scope.nochange = function(criterion){
   	criterion.score = $scope.oldValue;
   };
-  //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
-  console.log($scope.myDefs2);
-
+  
+/*
   $scope.gridOptions = {
     data: 'students',
     selectedItems: $scope.mySelections,
@@ -324,7 +362,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
       });
     }
   };
-
+*/
 });
 
 //controller for the modal that edits the assessment info for an assessment type
