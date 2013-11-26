@@ -208,7 +208,7 @@ chart {
     position: absolute;
     float: left;
     width: 140px;
-    height: 125px;
+    height: 148px;
     z-index: 200;
     background-color: whitesmoke;
     margin-top: -1px;
@@ -319,4 +319,9 @@ p.css-vertical-text {
 	margin-left: auto;
 	margin-right: auto;
     margin-top: 90px;
+}
+
+.scoreHoriz {
+	border: 1px solid black;
+	text-align: center;
 }

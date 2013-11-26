@@ -91,6 +91,25 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	  $scope.students = thereturn;
 
+      $scope.criterions.present = [];
+      $scope.criterions.total = [];
+      $scope.criterions.percent = [];
+      
+      for(var j = 0; j < $scope.criterions.length; j++){
+        $scope.criterions.present[j] = 0;
+        $scope.criterions.total[j] = 0;
+        for(var i = 0; i < thereturn.length; i++){
+        	if (thereturn[i].scores[j].score != null){
+      	      $scope.criterions.present[j] = $scope.criterions.present[j] + 1;
+              $scope.criterions.total[j] = $scope.criterions.total[j] + thereturn[i].scores[j].score;	  
+      	    }
+        }	
+      }
+      
+      for(var i = 0; i < $scope.criterions.length; i++){
+    	$scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100); 
+      }
+
        $scope.myDefs2 = [];
        var myobj = {};
        myobj.field = 'fname';
@@ -178,9 +197,11 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 
   $scope.saveGrade = function(criterion) {
   	if ($scope.oldValue != criterion.score){
+  	  criterion.score = Number(criterion.score);
   	  var editable = Restangular.copy(criterion);
   	  editable.route = "criterion_grades";
   	  editable.put();
+  	  recalc();
   	}
   };
 
@@ -208,6 +229,37 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   	}
   };
 
+  var recalc = function(){
+  	console.log("Criterion Lengh: "+$scope.criterions.length);
+  	console.log("Students Lengh: "+$scope.students.length);
+  	console.log("Present: " +$scope.criterions.present);
+  	console.log("Total: " +$scope.criterions.total);
+  	
+  	for(var j = 0; j < $scope.criterions.length; j++){
+        $scope.criterions.present[j] = 0;
+        $scope.criterions.total[j] = 0;
+        for(var i = 0; i < $scope.students.length; i++){
+        	if ($scope.students[i].scores[j].score != null){
+      	      $scope.criterions.present[j] = $scope.criterions.present[j] + 1;
+      	      if($scope.students[i].scores[j].score != 0){
+      	        $scope.criterions.total[j] = $scope.criterions.total[j] + $scope.students[i].scores[j].score;	
+      	      }
+              
+      	    }
+        }	
+    }
+    
+    console.log($scope.students);
+    console.log("New Present: " +$scope.criterions.present);
+  	console.log("New Total: " +$scope.criterions.total);
+  	
+    
+      for(var i = 0; i < $scope.criterions.length; i++){
+      	$scope.criterions.percent[i] = 0;
+    	$scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+      }
+  };
+  
   $scope.checkVal = function(criterion) {
   	//console.log(criterion);
   	$scope.oldValue = criterion.score;
