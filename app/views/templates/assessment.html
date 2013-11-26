@@ -76,17 +76,34 @@
             <th style="height:200px;width: 30px;"></th>
             <th style="width: 30px;"></th>
             <th style="width: 150px;"></th>
-
+			<th></th>
             <th ng-repeat="student in students" style="background-color: #EEEEEE;" class="assessment1-criterion-name"><p class="css-vertical-text">{{student.fname}} {{student.lname}}</p></th>
           </thead>
           <tbody>
-            <tr ng-repeat="criterion in criterions" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;"><p class="css-vertical-text">{{assessments[indexAssessment[$index]].name}}</p></td>
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><p class="css-vertical-text">{{assessments[indexAssessment[$index]].subject}}</p></td>
+          	<tr>
+          		<td>&nbsp;</td>
+          		<td>&nbsp;</td>
+          		<td>&nbsp;</td>
+          		<td>&nbsp;</td>
+          		<td ng-repeat="student in students" class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
+          	</tr>
+          </tbody>
+          <tbody ng-repeat="assessment in assessments">
+          	<tr><td>&nbsp;</td></tr>
+          	<tr>
+          		<td class="scoreHoriz" colspan=2 ng-style="{background: percentColor(assessment.percent)}" >{{assessment.percent}}%</td>
+          		<td style="background-color: #AAAAAA; border: 1px solid black">&nbsp;</td>
+          		<td style="background-color: #AAAAAA; border: 1px solid black;text-align: center;">Avg.</td>
+          		<td class="scoreHoriz" ng-repeat="student in students" ng-style="{background: percentColor(student.assessmentPercent[$parent.$index])}" >{{student.assessmentPercent[$parent.$index]}}%</td>
+          	</tr>
+            <tr ng-repeat="a in range(numOfCrit[$index])" style="border: 1px solid black;" ng-class-odd="'odd'" ng-class-even="'even'">
+              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #AAAAAA; border: 1px solid black;"><p class="css-vertical-text">{{assessments[$parent.$index].name}}</p></td>
+              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] style="background-color: #CCCCCC; border: 1px solid black;"><p class="css-vertical-text">{{assessments[$parent.$index].subject}}</p></td>
 
-              <td>{{criterions[$index].name}}</td>
-              <td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;" ng-style="{background: 'rgba(0,0,204,'+ student.scores[$parent.$index].score / criterions[$parent.$index].max +')'}">
-              <input class="inputbox" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="student.scores[$parent.$index].score" style="width: 45px; height: 30px;" ng-focus="checkVal(student.scores[$parent.$index])" ng-blur="saveGrade(student.scores[$parent.$index])" />
+              <td>{{criterions[getCritStart($parent.$index) + $index].name}}</td>
+              <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
+              <td ng-repeat="student in students" style="border: 1px solid black; width: 45px; height: 30px;" ng-style="{background: 'rgba(0,0,204,'+ student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score / criterions[getCritStart($parent.$parent.$index) + $parent.$index].max +')'}">
+              <input class="inputbox" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score" style="width: 45px; height: 30px;" ng-focus="checkVal(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" ng-blur="saveGrade(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" />
               </td>
             </tr>
           </tbody>

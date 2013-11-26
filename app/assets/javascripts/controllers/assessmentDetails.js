@@ -4,7 +4,6 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
   
-  
   $scope.view1 = false;
   $scope.view1 = false;
   $scope.view1 = false;
@@ -148,6 +147,44 @@ assessment_type.getList('assessments').then(function(thereturn){
        
        for(var i = 0; i < $scope.assessments.length; i++){
     	 $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100); 
+       }
+       
+       
+       //Calculating student score per assessment
+       counter = 0;
+       for(var i = 0; i < thereturn.length; i++){
+       	 $scope.students[i].assessmentTotal = [];
+         $scope.students[i].assessmentMax = [];
+         $scope.students[i].assessmentPercent = [];
+       }
+       for(var i = 0; i < thereturn.length; i++){
+       	 counter = 0;
+         for(var k = 0; k < $scope.assessments.length; k++){
+           $scope.students[i].assessmentTotal[k] = 0;
+           $scope.students[i].assessmentMax[k] = 0;
+           for(var j = 0; j < $scope.numOfCrit[k]; j++){
+             $scope.students[i].assessmentTotal[k] += thereturn[i].scores[counter].score;
+             $scope.students[i].assessmentMax[k] += $scope.criterions[counter].max;
+             counter++;
+           }
+           $scope.students[i].assessmentPercent[k] = Math.floor($scope.students[i].assessmentTotal[k] / $scope.students[i].assessmentMax[k] * 100);	 
+         }
+       }
+       
+       
+       //calculating Criterions average score.
+       for(var i = 0; i < $scope.criterions.length; i++){
+      	 $scope.criterions[i].studentTotal = 0;
+     	 $scope.criterions[i].studentPresent = 0;
+     	 for(var j = 0; j < $scope.students.length; j++){
+           $scope.criterions[i].studentTotal = $scope.criterions[i].studentTotal + $scope.students[j].scores[i].score;
+           if ($scope.students[j].scores[i].score != null){
+          	 $scope.criterions[i].studentPresent = $scope.criterions[i].studentPresent + 1;
+           }
+     	 }
+     	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
+     	 $scope.criterions[i].studentAverage = average.toFixed(1);
+     	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
        }
        
 /*       
@@ -324,8 +361,39 @@ assessment_type.getList('assessments').then(function(thereturn){
      for(var i = 0; i < $scope.assessments.length; i++){
        $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100); 
      }	
-    
-      
+     
+     
+     //Calculates Student scores per criterion.
+     for(var i = 0; i < $scope.criterions.length; i++){
+      	 $scope.criterions[i].studentTotal = 0;
+     	 $scope.criterions[i].studentPresent = 0;
+     	 for(var j = 0; j < $scope.students.length; j++){
+           $scope.criterions[i].studentTotal = $scope.criterions[i].studentTotal + $scope.students[j].scores[i].score;
+           if ($scope.students[j].scores[i].score != null){
+          	 $scope.criterions[i].studentPresent = $scope.criterions[i].studentPresent + 1;
+           }
+     	 }
+     	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
+     	 $scope.criterions[i].studentAverage = average.toFixed(1);
+     	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
+       }
+     
+     //Calculating student score per assessment
+     counter = 0;
+     for(var i = 0; i < $scope.students.length; i++){
+       counter = 0;
+       for(var k = 0; k < $scope.assessments.length; k++){
+         $scope.students[i].assessmentTotal[k] = 0;
+         $scope.students[i].assessmentMax[k] = 0;
+         for(var j = 0; j < $scope.numOfCrit[k]; j++){
+           $scope.students[i].assessmentTotal[k] += $scope.students[i].scores[counter].score;
+           $scope.students[i].assessmentMax[k] += $scope.criterions[counter].max;
+           counter++;
+         }
+         $scope.students[i].assessmentPercent[k] = Math.floor($scope.students[i].assessmentTotal[k] / $scope.students[i].assessmentMax[k] * 100);	 
+       }
+     }
+     
   };
   
   $scope.checkVal = function(criterion) {
@@ -337,6 +405,15 @@ assessment_type.getList('assessments').then(function(thereturn){
   	criterion.score = $scope.oldValue;
   };
   
+  $scope.getCritStart = function(indexx){
+  	var thereturn = 0;
+  	if(indexx > 0){
+  		for(var i = 0; i < indexx; i++){
+  			thereturn += $scope.numOfCrit[i];
+  		}
+  	}
+  	return thereturn;
+  };
 /*
   $scope.gridOptions = {
     data: 'students',
