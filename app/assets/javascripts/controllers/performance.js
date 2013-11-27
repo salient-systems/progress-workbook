@@ -49,7 +49,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   ];
 
   /*
-   * Dataset object
+   * Dataset/Panel object
    */
   $scope.defaultPanel = {
     id: 0,
@@ -78,17 +78,17 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       search.typeahead([{
         name: 'students',
         limit: 3,
-        header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
+        header: '<h5><img src="/assets/gradcap.png">Students</h5>',
         local: $scope.searchDatums.students,
       }, {
         name: 'cohorts',
         limit: 3,
-        header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
+        header: '<h5><img src="/assets/group.png">Cohorts</h5>',
         local: $scope.searchDatums.cohorts
       }, {
         name: 'users',
         limit: 3,
-        header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
+        header: '<h5><img src="/assets/apple.png">Users</h5>',
         local: $scope.searchDatums.users
       }]);
 
@@ -156,7 +156,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     },
 
     /*
-     * Update assessments when assessment changes
+     * Update assessments when assessment type changes
      */
     updateAssessmentType: function() {
       var self = this;
@@ -221,7 +221,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
      * Update statistic
      */
     updateStatistic: function() {
-
+      // TODO do the math for the current statistic
     }
   };
 
@@ -257,7 +257,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
   };
 
-  /* --------------------------  Start the party! -------------------------- */
+  /* --------------------------- Start the party! -------------------------- */
 
   // insert the default first panel
   $scope.panels = [angular.copy($scope.defaultPanel)];
@@ -269,7 +269,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
   });
 
-  // prefetch the latest term and and it's classes
+  // prefetch the latest term and and its sections
   Restangular.all('terms').getList().then(function(terms) {
     $scope.terms = terms;
     $scope.panels[0].termId = $scope.terms.length;
