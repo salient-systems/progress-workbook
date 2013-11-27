@@ -10,9 +10,9 @@
       </div>
 
 	  	<!-- Accordion Panel -->
-      <div ng-controller="DatasetCtrl" class="panel-group" id="accordion" >
+      <div class="panel-group" id="accordion" >
 
-          <div ng-repeat="panel in panels" class="panel panel-default"  style="overflow: visible" >
+          <div ng-repeat="panel in panels" class="panel panel-default" style="overflow: visible" >
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-toggle" data-toggle="collapse" href="#dataset{{panel.id}}">
@@ -36,7 +36,7 @@
                     	   <!-- Term selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Term</label>
                          <div class="col-md-9">
-            	             <select class="form-control row-sm-2" ng-model="panels[$index].termId" ng-change="updateTerm($index)" ng-options="term.id as term.name for term in terms" name="term" required></select>
+            	             <select class="form-control row-sm-2" ng-model="panels[$index].termId" ng-change="updateTerm(panel)" ng-options="term.id as term.name for term in terms" name="term" required></select>
                          </div>
         						   </div>
         						   <div class="form-group">
@@ -90,7 +90,7 @@
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save($index)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
+  	              <button type="button" ng-click="save($last)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
   	              <button type="button" ng-click="duplicate($index)"class="btn btn-default pull-right btn-action">Duplicate</button>
   	              <button type="button" ng-click="remove($index)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>

@@ -2,7 +2,7 @@
  * Master Performance Controller
  *
  */
-app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http) {
+app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout) {
 
   $scope.panelIndex = 0;
   $scope.noDelete = true;
@@ -45,19 +45,16 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       $('.tt-query').css('background-color','#fff');
 
+      // if duplicating, set the value of the search bar
       if (self.filterDatum != null) {
-        // if duplicating, set the value of the search bar
         search.val(self.filterDatum.value);
       }
 
+      //
       search.bind('typeahead:selected', function(event, datum, name) {
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
-
-        var test = Restangular.one(name, datum.id);
-        test.all('sections').getList({term_id: self.termId}).then(function(sections) {
-          self.sections = sections;
-        });
+        $scope.updateTerm(self);
       });
     }
   };
@@ -83,14 +80,11 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     // now we have datums, so setup the typeahead for the default panel
     angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
   });
-});
 
-/*
- * Dataset Controller
- *
- */
-app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeout) {
-
+  /*
+   * Dataset filter functions
+   *
+   */
   $scope.sectionStatistics = [
     { id: 1, name: "Total Correct" },
     { id: 2, name: "Percentage Correct" },
@@ -131,9 +125,11 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
 
   $scope.statistics = $scope.sectionStatistic;
 
-  $scope.save = function(panelIndex) {
+  $scope.save = function(isLast) {
+    // TODO get the performance data!
+
     // create new dataset if we're saving the last dataset
-    if (panelIndex == $scope.panels.valueOf().length - 1) {
+    if (isLast) {
       $scope.createPanel($scope.defaultPanel);
     }
   };
@@ -158,8 +154,8 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
     }
   };
 
-  $scope.updateTerm = function(i) {
-	  var panel = $scope.panels[i];
+  $scope.updateTerm = function(panel) {
+	  //var panel = $scope.panels[i];
     panel.sectionId = null;
     panel.assessmentTypeId = null;
     panel.assessmentId = null;
