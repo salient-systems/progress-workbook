@@ -223,7 +223,7 @@ assessment_type.getList('assessments').then(function(thereturn){
     if (a == 0){
       return "rgba(255,80,80,0)";
     }else if (a < 75){
-    	return "rgba(208,64,60,1)";
+    	return "rgba(214,77,73,1)";
     }else if (a < 85){
     	return "rgba(238,161,52,1)";
     }else {
