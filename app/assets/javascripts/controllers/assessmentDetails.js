@@ -47,7 +47,9 @@ assessment_type.getList('assessments').then(function(thereturn){
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
     $scope.criterions = thereturn;
 	
-	
+	$scope.modalCriterions = Restangular.copy(thereturn);
+	$scope.newCriterionsIndex = 0;
+	$scope.newCriterions = [];
   	
 	
 	$scope.numOfCrit = [];
@@ -444,6 +446,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
 //controller for the modal that edits the assessment info for an assessment type
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
+  
+  $scope.newCritCount = 0;
+  
   $scope.setupEditCriterion = function() {
     $scope.editCriterion = {
       name: $scope.user.fname,
@@ -452,17 +457,49 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     $scope.updateRole();
   };
 
-  $scope.newCriterion = function(i) {
+  $scope.newCriterion = function() {
     var newCrit = {
-      max: 0,
-      name: "Criterion Name",
+      max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
+      name: "Criterion " + ($scope.modalCriterions.length + 1),
       assessment_id: $scope.assessments[0].id
     };
-    $scope.criterions.push(newCrit);
-    var editable = Restangular.copy(newCrit);
-    editable.route = "criterions";
-    console.log(editable);
-    editable.post();
+    $scope.newCriterionIndex++;
+    $scope.modalCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);
+  };
+  
+  $scope.save = function() {
+    $scope.newCriterions.forEach(function(crit){
+      $scope.criterions.push(crit);
+      var editable = Restangular.copy(crit);
+      editable.route = "criterions";
+      editable.post();
+    });
+    $scope.newCriterions = [];
+  };
+  
+  $scope.cancel = function() {
+    $scope.newCriterions = [];
+  };
+  
+  $scope.remove = function(criterion) {
+    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);    
+    $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    var indexToRemove = $scope.criterions.indexOf(criterion);
+    if(indexToRemove >= 0)
+    {
+      $scope.criterions.splice(indexToRemove, 1);
+    }
+    var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
+    if(indexToRemoveNew >= 0){
+      $scope.newCriterions.splice(indexToRemoveNew, 1);
+    }
+    else
+    {
+      var editable = Restangular.copy(criterion);
+      editable.route = "criterions";
+      editable.remove();
+    }
   };
 
   //background: rgba(54, 25, 25, grade/max);
