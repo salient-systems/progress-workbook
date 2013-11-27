@@ -7,83 +7,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.panelIndex = 0;
   $scope.noDelete = true;
 
-  $scope.defaultPanel = {
-    id: 0,
-    open: true,
-    filterType: "",
-    filterDatum: null,
-    termId: null,
-    sectionId: null,
-    assessmentTypeId: null,
-    assessmentId: null,
-    criterionId:  null,
-    statistic: null,
-    sections: [],
-	  assessmentTypes: [],
-	  assessments: [],
-	  criterions: [],
-	  setupSearch: function() {
-	    var self = this;
-	    var search = $('input#search' + self.id);
-
-      search.typeahead([{
-        name: 'students',
-        limit: 3,
-        header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
-        local: $scope.searchDatums.students,
-      }, {
-        name: 'cohorts',
-        limit: 3,
-        header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
-        local: $scope.searchDatums.cohorts
-      }, {
-        name: 'users',
-        limit: 3,
-        header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
-        local: $scope.searchDatums.users
-      }]);
-
-      $('.tt-query').css('background-color','#fff');
-
-      // if duplicating, set the value of the search bar
-      if (self.filterDatum != null) {
-        search.val(self.filterDatum.value);
-      }
-
-      //
-      search.bind('typeahead:selected', function(event, datum, name) {
-        self.filterType = name; // search type is user, student, or cohort
-        self.filterDatum = datum; // the id of the user, student, or cohort
-        $scope.updateTerm(self);
-      });
-    }
-  };
-
-  // insert the default first panel
-  $scope.panels = [angular.copy($scope.defaultPanel)];
-
-  // prefetch the latest term and and it's classes
-  Restangular.all('terms').getList().then(function(theterm) {
-    $scope.terms = theterm;
-    $scope.panels[0].termId = $scope.terms.length;
-    $scope.defaultPanel.termId = $scope.terms.length;
-
-    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
-      $scope.panels[0].sections = sections;
-      $scope.defaultPanel.sections = sections;
-    });
-  });
-
-  // fetch the twitter typeahead datums
-  $http.get('/performance/search.json').success(function(datums) {
-    $scope.searchDatums = datums;
-    // now we have datums, so setup the typeahead for the default panel
-    angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
-  });
-
   /*
-   * Dataset filter functions
-   *
+   * Availables stats for each graph type
    */
   $scope.sectionStatistics = [
     { id: 1, name: "Total Correct" },
@@ -123,19 +48,195 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     { id: 7, name: "Score Distribution (Percent)" },
   ];
 
-  $scope.statistics = $scope.sectionStatistic;
+  /*
+   * Dataset object
+   */
+  $scope.defaultPanel = {
+    id: 0,
+    open: true,
+    filterType: "",
+    filterDatum: null,
+    termId: null,
+    sectionId: null,
+    assessmentTypeId: null,
+    assessmentId: null,
+    criterionId:  null,
+    statisticId: null,
+    sections: [],
+	  assessmentTypes: [],
+	  assessments: [],
+	  criterions: [],
+	  statistics: $scope.sectionStatistics,
+
+	  /*
+	   * Setup the dataset typeahead
+	   */
+	  setupSearch: function() {
+	    var self = this;
+	    var search = $('input#search' + self.id);
+
+      search.typeahead([{
+        name: 'students',
+        limit: 3,
+        header: '<h5><img src="/assets/gradcap.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Students<strong></h5>',
+        local: $scope.searchDatums.students,
+      }, {
+        name: 'cohorts',
+        limit: 3,
+        header: '<h5><img src="/assets/group.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Cohorts<strong></h5>',
+        local: $scope.searchDatums.cohorts
+      }, {
+        name: 'users',
+        limit: 3,
+        header: '<h5><img src="/assets/apple.png" style="margin-left: 10px; margin-right: 3px;"> <strong>Users<strong></h5>',
+        local: $scope.searchDatums.users
+      }]);
+
+      $('.tt-query').css('background-color','#fff');
+
+      // if duplicating, set the value of the search bar
+      if (self.filterDatum != null) {
+        search.val(self.filterDatum.value);
+      }
+
+      //
+      search.bind('typeahead:selected', function(event, datum, name) {
+        self.filterType = name; // search type is user, student, or cohort
+        self.filterDatum = datum; // the id of the user, student, or cohort
+        self.updateTerm();
+      });
+    },
+
+    /*
+     * Update sections when term changes
+     */
+    updateTerm: function() {
+      var self = this;
+      self.sectionId = null;
+      self.assessmentTypeId = null;
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessmentTypes = [];
+      self.assessments = [];
+      self.criterion = [];
+
+      if (self.filterDatum != null) {
+        // if a student or user has been selected, only show their sections
+        var userOrStudent = Restangular.one(self.filterType, self.filterDatum.id);
+        userOrStudent.all('sections').getList({term_id: self.termId}).then(function(sections) {
+            self.sections = sections;
+        });
+      } else {
+        Restangular.one('terms', self.termId).getList('sections').then(function(sections) {
+          self.sections = sections;
+        });
+      }
+    },
+
+    /*
+     * Update assessment types when section changes
+     */
+    updateSection: function() {
+      var self = this;
+
+      if (self.sectionId !== undefined) {
+        Restangular.one('sections', self.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+          self.assessmentTypes = assessmenttypes;
+        });
+      }
+
+      self.statistics = $scope.sectionStatistics;
+      self.statisticId = null;
+      self.assessmentTypeId = null;
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessmentTypes = [];
+      self.assessments = [];
+      self.criterion = [];
+    },
+
+    /*
+     * Update assessments when assessment changes
+     */
+    updateAssessmentType: function() {
+      var self = this;
+
+      if (self.assessmentTypeId !== undefined) {
+        Restangular.one('assessment_types', self.assessmentTypeId).getList('assessments').then(function(assessments) {
+          self.assessments = assessments;
+          console.log(self.assessments);
+        });
+
+        self.statisticId = null;
+        self.statistics = $scope.assessmentTypeStatistics;
+      } else {
+        self.statisticId = null;
+        self.statistics = $scope.sectionStatistics;
+      }
+
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessments = [];
+      self.criterion = [];
+    },
+
+    /*
+     * Update criteria when assessment changes
+     */
+    updateAssessment: function() {
+      var self = this;
+
+      if (self.assessmentId !== undefined) {
+        Restangular.one('assessments', self.assessmentId).getList('criterions').then(function(criterions) {
+          self.criterions = criterions;
+        });
+
+        self.statisticId = null;
+        self.statistics = $scope.assessmentStatistics;
+      } else {
+        self.statisticId = null;
+        self.statistics = $scope.assessmentTypeStatistics;
+      }
+
+      self.criterionId = null;
+      self.criterion = [];
+    },
+
+    /*
+     * Change available statistics when criterion changes
+     */
+    updateCriterion: function() {
+      var self = this;
+
+      if (self.criterionId !== undefined) {
+        self.statisticId = null;
+        self.statistics = $scope.criterionStatistics;
+      } else {
+        self.statisticId = null;
+        self.statistics = $scope.assessmentStatistics;
+      }
+    },
+
+    /*
+     * Update statistic
+     */
+    updateStatistic: function() {
+
+    }
+  };
+
+  /* ----------------------- Save/Dupe/Remove Panels ----------------------- */
 
   $scope.save = function(isLast) {
     // TODO get the performance data!
-
     // create new dataset if we're saving the last dataset
     if (isLast) {
       $scope.createPanel($scope.defaultPanel);
     }
   };
 
-  $scope.duplicate = function(panelIndex) {
-    $scope.createPanel($scope.panels[panelIndex]);
+  $scope.duplicate = function(panel) {
+    $scope.createPanel(panel);
   };
 
   $scope.createPanel = function(panel) {
@@ -147,114 +248,38 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.scrollToBottom();
   };
 
-  $scope.remove = function(i) {
-    $scope.panels.splice(i, 1);
-    if($scope.panels.valueOf().length == 1) {
-      $scope.noDelete = true;
-    }
-  };
-
-  $scope.updateTerm = function(panel) {
-	  //var panel = $scope.panels[i];
-    panel.sectionId = null;
-    panel.assessmentTypeId = null;
-    panel.assessmentId = null;
-    panel.criterionId = null;
-    panel.assessmentTypes = [];
-    panel.assessments = [];
-    panel.criterion = [];
-
-    if (panel.filterDatum != null) {
-      var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
-      userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
-          panel.sections = sections;
-      });
-    } else {
-  	  Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
-        panel.sections = sections;
-      });
-    }
-  };
-
-  $scope.updateSection = function(i) {
-    var panel = $scope.panels[i];
-
-  	if (panel.sectionId !== undefined) {
-  	  Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
-        panel.assessmentTypes = assessmenttypes;
-      });
-  	}
-
-    $scope.statistics = $scope.sectionStatistics;
-  	panel.statistic = null;
-    panel.assessmentTypeId = null;
-    panel.assessmentId = null;
-    panel.criterionId = null;
-	  panel.assessmentTypes = [];
-	  panel.assessments = [];
-	  panel.criterion = [];
-  };
-
-  $scope.updateStatistic = function(i) {
-
-  };
-
-  $scope.updateAssessmentType = function(i) {
-  	var panel = $scope.panels[i];
-
-  	if (panel.assessmentTypeId !== undefined) {
-  	  Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
-	      panel.assessments = assessments;
-	      console.log(panel.assessments);
-	    });
-
-      panel.statistic = null;
-	    $scope.statistics = $scope.assessmentTypeStatistics;
-  	} else {
-  	  panel.statistic = null;
-      $scope.statistics = $scope.sectionStatistics;
-    }
-
-    panel.assessmentId = null;
-    panel.criterionId = null;
-    panel.assessments = [];
-    panel.criterion = [];
-  };
-
-  $scope.updateAssessment = function(i) {
-    var panel = $scope.panels[i];
-
-  	if (panel.assessmentId !== undefined) {
-  	  Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
-	      panel.criterions = criterions;
-	    });
-
-      panel.statistic = null;
-	    $scope.statistics = $scope.assessmentStatistics;
-  	} else {
-  	  panel.statistic = null;
-	    $scope.statistics = $scope.assessmentTypeStatistics;
-  	}
-
-    panel.criterionId = null;
-    panel.criterion = [];
-  };
-
-  $scope.updateCriterion = function(i) {
-    var panel = $scope.panels[i];
-
-    if (panel.criterionId !== undefined) {
-      panel.statistic = null;
-      $scope.statistics = $scope.criterionStatistics;
-    } else {
-      panel.statistic = null;
-      $scope.statistics = $scope.assessmentStatistics;
-    }
+  $scope.remove = function(panelIndex, isLast) {
+    $scope.panels.splice(panelIndex, 1);
+    $scope.noDelete = isLast;
   };
 
   $scope.scrollToBottom = function() {
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
   };
+
+  /* --------------------------  Start the party! -------------------------- */
+
+  // insert the default first panel
+  $scope.panels = [angular.copy($scope.defaultPanel)];
+
+  // prefetch the twitter typeahead datums
+  $http.get('/performance/search.json').success(function(datums) {
+    $scope.searchDatums = datums;
+    // now we have datums, so setup the typeahead for the default panel
+    angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
+  });
+
+  // prefetch the latest term and and it's classes
+  Restangular.all('terms').getList().then(function(terms) {
+    $scope.terms = terms;
+    $scope.panels[0].termId = $scope.terms.length;
+    $scope.defaultPanel.termId = $scope.terms.length;
+
+    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
+      $scope.panels[0].sections = sections;
+      $scope.defaultPanel.sections = sections;
+    });
+  });
 });
 
 /*

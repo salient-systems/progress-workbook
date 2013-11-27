@@ -36,14 +36,14 @@
                     	   <!-- Term selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Term</label>
                          <div class="col-md-9">
-            	             <select class="form-control row-sm-2" ng-model="panels[$index].termId" ng-change="updateTerm(panel)" ng-options="term.id as term.name for term in terms" name="term" required></select>
+            	             <select class="form-control row-sm-2" ng-model="panel.termId" ng-change="panel.updateTerm()" ng-options="term.id as term.name for term in terms" name="term" required></select>
                          </div>
         						   </div>
         						   <div class="form-group">
         					       <!-- Class selector -->
-                         <label for="inputDataType" ng-click="clickClass()" class="col-md-3 control-label">Class</label>
+                         <label for="inputDataType" class="col-md-3 control-label">Class</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].sectionId" ng-change="updateSection($index)" ng-options="section.id as section.name for section in panels[$index].sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panel.sectionId" ng-change="panel.updateSection()" ng-options="section.id as section.name for section in panel.sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -52,7 +52,7 @@
                          <!-- Statistic selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" name="statistic" ng-model="panels[$index].statistic" ng-change="updateStatistic($index)" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" name="statistic" ng-model="panel.statistic" ng-change="panel.updateStatistic()" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in panel.statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -63,7 +63,7 @@
                          <!-- Assessment type selector -->
                          <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
                          <div class="col-md-8">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentTypeId" ng-change="updateAssessmentType($index)" ng-options="assessmentType.id as assessmentType.name for assessmentType in panels[$index].assessmentTypes" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panel.assessmentTypeId" ng-change="panel.updateAssessmentType()" ng-options="assessmentType.id as assessmentType.name for assessmentType in panel.assessmentTypes" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -72,7 +72,7 @@
                          <!-- Assessment selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].assessmentId" ng-change="updateAssessment($index)" ng-options="assessment.id as assessment.name for assessment in panels[$index].assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panel.assessmentId" ng-change="panel.updateAssessment()" ng-options="assessment.id as assessment.name for assessment in panel.assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -81,7 +81,7 @@
                          <!-- Criterion selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Criterion</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" ng-model="panels[$index].criterionId" ng-change="updateCriterion($index)" ng-options="criterion.id as criterion.name for criterion in panels[$index].criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
+                           <select class="form-control row-sm-2" ng-model="panel.criterionId" ng-change="panel.updateCriterion()" ng-options="criterion.id as criterion.name for criterion in panel.criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -91,8 +91,8 @@
 
   	              <!-- Right-aligned buttons -->
   	              <button type="button" ng-click="save($last)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
-  	              <button type="button" ng-click="duplicate($index)"class="btn btn-default pull-right btn-action">Duplicate</button>
-  	              <button type="button" ng-click="remove($index)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
+  	              <button type="button" ng-click="duplicate(panel)"class="btn btn-default pull-right btn-action">Duplicate</button>
+  	              <button type="button" ng-click="remove($index, $last)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>
               </div>
             </div>
