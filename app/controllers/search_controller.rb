@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  # GET /students/search.json
+  # GET /performance/search.json
   def search
     @students = Student.where(is_active: 'true').all
     @cohorts = Cohort.all

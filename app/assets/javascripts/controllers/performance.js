@@ -168,9 +168,16 @@ app.controller('DatasetCtrl', function($scope, $routeParams, Restangular, $timeo
     panel.assessments = [];
     panel.criterion = [];
 
-	  Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
-      panel.sections = sections;
-    });
+    if (panel.filterDatum != null) {
+      var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
+      userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
+          panel.sections = sections;
+      });
+    } else {
+  	  Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
+        panel.sections = sections;
+      });
+    }
   };
 
   $scope.updateSection = function(i) {

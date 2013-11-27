@@ -79,6 +79,11 @@ class StudentsController < ApplicationController
     end
   end
 
+  # GET /students/search.json
+  def search
+    @students = Student.where(is_active: 'true').all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
