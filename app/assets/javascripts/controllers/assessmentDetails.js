@@ -221,7 +221,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 
   $scope.percentColor = function(a){
     if (a == 0){
-      return "rgba(255,80,80,0)";
+      return "rgba(176,176,176,1)";
     }else if (a < 75){
     	return "rgba(214,77,73,1)";
     }else if (a < 85){
