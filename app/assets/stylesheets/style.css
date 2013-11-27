@@ -172,6 +172,7 @@ chart {
 }
 
 .inputbox {
+	background-color: inherit;
 	padding-left: 5px;
 	border: none;
 }
@@ -228,6 +229,10 @@ chart {
   padding-right: 12px;
 }
 
+.assessment2-criterion-name {
+  background-color: #EEEEEE; 
+}
+
 .assessment1-student {
   border: 1px solid black;
   overflow: hidden;
@@ -264,7 +269,11 @@ chart {
 	text-align: center;
 }
 
-.assessment1-criterion {
+.assessment2-criterion-name {
+    padding-left: 5px;
+}
+
+.assessment-criterion {
   background:#0000CC;
   border: 1px solid black;
   width: 45px;
@@ -309,9 +318,60 @@ chart {
   border: 1px solid black;
 }
 
+.assessment-label-row {
+  background-color: #CCCCCC; 
+  border: 1px solid black;
+}
+
+.assessment-label-avg {
+  background-color: #AAAAAA; 
+  border: 1px solid black;
+  text-align: center;
+  width: 35px;
+}
+
 .assessment-label-assessment {
   background-color: #CCCCCC;
   border: 1px solid black;
+}
+
+.assessment3-label-subject {
+  border: 1px solid black; 
+  width: 45px; 
+  height: 30px;
+}
+
+.assessment-relative-left {
+  position:relative;
+  float: left;
+}
+
+.assessment2-name {
+  height: 150px;
+  background-color: #EEEEEE;
+  width: 30px;
+}
+
+.assessment-black-border {
+  border: 1px solid black;
+}
+
+.assessment3-label-subject {
+  background-color: #AAAAAA; 
+  border: 1px solid black;
+  width: 30px;
+}
+
+.assessment3-label-assessment {
+  background-color: #CCCCCC; 
+  border: 1px solid black;
+}
+
+.assessment3-criterion-name {
+  width: 300px;
+  font-size: 9pt;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 p.css-vertical-text {
