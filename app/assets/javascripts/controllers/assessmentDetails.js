@@ -223,11 +223,11 @@ assessment_type.getList('assessments').then(function(thereturn){
     if (a == 0){
       return "rgba(255,80,80,0)";
     }else if (a < 75){
-    	return "rgba(255,80,80,1)";
+    	return "rgba(208,64,60,1)";
     }else if (a < 85){
-    	return "rgba(120,120,120,1)";
+    	return "rgba(238,161,52,1)";
     }else {
-    	return "rgba(51,204,51,1)";
+    	return "rgba(78,169,78,1)";
     }
   };
 
@@ -448,9 +448,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
 //controller for the modal that edits the assessment info for an assessment type
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
-  
+
   $scope.newCritCount = 0;
-  
+
   $scope.setupEditCriterion = function() {
     $scope.editCriterion = {
       name: $scope.user.fname,
@@ -469,7 +469,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     $scope.modalCriterions.push(newCrit);
     $scope.newCriterions.push(newCrit);
   };
-  
+
   $scope.save = function() {
     $scope.newCriterions.forEach(function(crit){
       $scope.criterions.push(crit);
@@ -479,13 +479,13 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     });
     $scope.newCriterions = [];
   };
-  
+
   $scope.cancel = function() {
     $scope.newCriterions = [];
   };
-  
+
   $scope.remove = function(criterion) {
-    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);    
+    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
     $scope.modalCriterions.splice(indexToRemoveModal, 1);
     var indexToRemove = $scope.criterions.indexOf(criterion);
     if(indexToRemove >= 0)
