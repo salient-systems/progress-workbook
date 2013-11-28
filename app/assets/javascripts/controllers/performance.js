@@ -182,7 +182,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       if (self.assessmentTypeId !== undefined) {
         Restangular.one('assessment_types', self.assessmentTypeId).getList('assessments').then(function(assessments) {
           self.assessments = assessments;
-          console.log(self.assessments);
         });
 
         self.statisticId = null;
@@ -245,8 +244,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   /* ----------------------- Save/Dupe/Remove Panels ----------------------- */
 
-  $scope.save = function(isLast) {
+  $scope.save = function(isLast, panel) {
     // TODO get the performance data!
+
     // create new dataset if we're saving the last dataset
     if (isLast) {
       $scope.createPanel($scope.defaultPanel);
@@ -304,34 +304,35 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
  * Chart Controller
  *
  */
-app.controller('ChartCtrl', function($scope){
+app.controller('ChartCtrl', function($scope, $http){
   //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
-  var daftPoints = [[0, 4]], punkPoints = [[1, 14]];
-  //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
-  var data1 = [
-    {
-      data: daftPoints,
-      color: '#00b9d7',
-      bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-    }, {
-      data: punkPoints,
-      color: '#3a4452',
-      bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-    }
-  ];
-  //$scope.data = data1;
+
+  $http.get('/performance/student/1/assessment_type/1').success(function(response) {
+
+  var data = _.pluck(response, 'dataPoint');
+  console.log(data);
 
   var options = {
-      /*xaxis: {
-        ticks:[[0,'Daft'],[1,'Punk']]
-      },*/
-    grid: {
-      labelMargin: 10,
-      backgroundColor: '#e2e6e9',
-      color: '#ffffff',
-      borderColor: null
+    lines: {
+      show: true
+    },
+    points: {
+      show: true
+    },
+    xaxis: {
+      mode: "categories"
+    },
+    yaxis: {
+      max: response[0].max
     }
   };
 
-  $.plot($("#perfGraph"), data1, options);
+  $.plot($("#perfGraph"), [ { label: 'Dataset 1', data: data } ], options);
+
+  });
+
+  //var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
+  //var data = [{label: "Europe (EU27)", data:[[1999,3],[2000,3.9],[2001,2],[2002,1.2],[2003,1.3],[2004,2.5],[2005,2],[2006,3.1],[2007,2.9],[2008,0.9]]}];
+
+  //$.plot($("#perfGraph"), data, options);
 });
