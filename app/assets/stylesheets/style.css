@@ -230,7 +230,7 @@ chart {
 }
 
 .assessment2-criterion-name {
-  background-color: #EEEEEE; 
+  background-color: #EEEEEE;
 }
 
 .assessment1-student {
@@ -317,12 +317,12 @@ chart {
 }
 
 .assessment-label-row {
-  background-color: #CCCCCC; 
+  background-color: #CCCCCC;
   border: 1px solid black;
 }
 
 .assessment-label-avg {
-  background-color: #AAAAAA; 
+  background-color: #AAAAAA;
   border: 1px solid black;
   text-align: center;
   width: 35px;
@@ -334,8 +334,8 @@ chart {
 }
 
 .assessment3-label-subject {
-  border: 1px solid black; 
-  width: 45px; 
+  border: 1px solid black;
+  width: 45px;
   height: 30px;
 }
 
@@ -355,13 +355,13 @@ chart {
 }
 
 .assessment3-label-subject {
-  background-color: #AAAAAA; 
+  background-color: #AAAAAA;
   border: 1px solid black;
   width: 30px;
 }
 
 .assessment3-label-assessment {
-  background-color: #CCCCCC; 
+  background-color: #CCCCCC;
   border: 1px solid black;
 }
 
@@ -413,6 +413,7 @@ input::-webkit-inner-spin-button {
   font-weight: bold;
 }
 
+
 .btn-modal-new-view1 {
   margin-right: 44px;	
 }
@@ -427,4 +428,10 @@ input::-webkit-inner-spin-button {
 
 .remove-modal-label-view1 {
 	margin-left: 101px;
+/* Performance Page Styles */
+
+#perfGraph {
+  width: 100%;
+  height: 400px;
+  margin: 20px 0px 20px 0px;
 }

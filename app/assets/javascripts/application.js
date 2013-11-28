@@ -19,6 +19,7 @@
 //= require ng-grid.min
 //= require bootstrap.min
 //= require jquery.flot.min
+//= require jquery.flot.categories
 //= require excanvas.min
 //= require typeahead.min
 //= require_directory
