@@ -41,9 +41,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   ];
 
   $scope.criterionStatistics = [
-    { id: 1, name: "Total Correct" },
-    { id: 2, name: "Percentage Correct" },
-    { id: 3, name: "Total Possible" },
+    //{ id: 1, name: "Total Correct" },
+    //{ id: 2, name: "Percentage Correct" },
+    //{ id: 3, name: "Total Possible" },
     { id: 6, name: "Score Distribution (Total)" },
     { id: 7, name: "Score Distribution (Percent)" },
   ];
@@ -309,30 +309,22 @@ app.controller('ChartCtrl', function($scope, $http){
 
   $http.get('/performance/student/1/assessment_type/1').success(function(response) {
 
-  var data = _.pluck(response, 'dataPoint');
-  console.log(data);
+    var data = _.pluck(response, 'dataPoint');
+    var options = {
+      lines: {
+        show: true
+      },
+      points: {
+        show: true
+      },
+      xaxis: {
+        mode: "categories"
+      },
+      yaxis: {
+        max: response[0].max
+      }
+    };
 
-  var options = {
-    lines: {
-      show: true
-    },
-    points: {
-      show: true
-    },
-    xaxis: {
-      mode: "categories"
-    },
-    yaxis: {
-      max: response[0].max
-    }
-  };
-
-  $.plot($("#perfGraph"), [ { label: 'Dataset 1', data: data } ], options);
-
+    $.plot($("#perfGraph"), [ { label: 'Dataset 1', data: data } ], options);
   });
-
-  //var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
-  //var data = [{label: "Europe (EU27)", data:[[1999,3],[2000,3.9],[2001,2],[2002,1.2],[2003,1.3],[2004,2.5],[2005,2],[2006,3.1],[2007,2.9],[2008,0.9]]}];
-
-  //$.plot($("#perfGraph"), data, options);
 });
