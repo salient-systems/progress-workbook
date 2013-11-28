@@ -412,3 +412,19 @@ input::-webkit-inner-spin-button {
 .tt-dropdown-menu h5 {
   font-weight: bold;
 }
+
+.btn-modal-new-view1 {
+  margin-right: 44px;	
+}
+
+.criterion-modal-label-view1 {
+	margin-left: 50px;
+}
+
+.max-modal-label-view1 {
+	margin-left: 191px;
+}
+
+.remove-modal-label-view1 {
+	margin-left: 101px;
+}
