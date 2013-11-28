@@ -4,75 +4,303 @@
 	  <div class="box">
 	  	<h3><img src="/assets/info.png"> Help + Tips</h3>
       <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a href="#overview" >Overview</a></li>
-        <li class="dropdown">
-          <a href="#" id="myTab" class="dropdown-toggle" data-toggle="dropdown">Instructions<b class="caret"></b></a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-            <li><a href="#classinstr" tabindex="-1" data-toggle="tab">Managing Classes</a></li>
-            <li><a href="#studentsinstr" tabindex="-1" data-toggle="tab">Managing Students</a></li>
-            <li><a href="#perfinstr" tabindex="-1" data-toggle="tab">Tracking Performance</a></li>
-            <li><a href="#usersinstr" tabindex="-1" data-toggle="tab">Managing Users</a></li>
-            <li><a href="#cohortsinstr" tabindex="-1" data-toggle="tab">Managing Cohorts</a></li>
-            <li><a href="#settingsinstr" tabindex="-1" data-toggle="tab">Account Settings</a></li>
-            <li><a href="#admininstr" tabindex="-1" data-toggle="tab">Administration</a></li>
-          </ul>
-        </li>
-        <li><a href="#support">Support</a></li>
-        <li><a href="#tips">Tips</a></li>
+        <li class="active"><a href="#introduction">Introduction</a></li>
+        <li><a href="#login">Loggin</a></li>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#assessments">Assessments</a></li>
+        <li><a href="#students">Students</a></li>
+        <li><a href="#cohorts">Cohorts</a></li>
+        <li><a href="#users">Users</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="#faqs">FAQs</a></li>
       </ul>
 
       <div class="tab-content">
-        <div class="tab-pane fade active in" id="overview"><br>
-          <p>
-            The Progress Workbook allows teachers and administrators to view and track the performance of students, classes, cohorts, and even teachers over time.<br>
-            <br>
-            More content coming soon!
-          </p>
+        <div class="tab-pane fade active in" id="introduction"><br>
+          <p>The Progress Workbook, developed by the Computer Science senior project team Salient Systems, is designed to allow teachers and administrators to track and analyze the performance of students, cohorts, and classes using a highly customizable graphing system.</p>
+          <p>Assessments and performance graphs comprise the key aspects of the system, and everything else is designed to support and complement this functionality. Each class can have multiple assessments, which in turn have multiple instances of an assessment. For example, a particular class might have a Learning Check assessment which is conducted once a week throughout the term, as well as four Lab Reports and two Quizzes. This means that the class would have three assessments which are conducted at different times and various cadences. The results of each assessment are entered on the Assessment page, much like an Excel spreadsheet. Users can then select a class, student, user, cohort, or any grouping thereof and plot their performance on the Performance page.</p>
         </div>
-        <div class="tab-pane fade" id="classinstr"><br>
-          <p>
-            Classes instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="login"><br>
+          <p>You can access the Progress Workbook by entering the appropriate domain name or IP address in your web browser’s address bar. The URL might vary depending on your setup, so please ask an administrator if you don’t know what it is.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>We recommend adding the Progress Workbook to your favorites for easy access.</p>
+          </div>
+
+          <p>The first thing you’ll see when you access the website is a login screen asking for your username and password. All new user accounts must be created by an administrator, so you’ll need to make sure your account has been created before attempting to log in. If you’ve lost your password or can’t remember it, please ask your administrator to reset the password on your account.</p>
+          <p>Once you’ve entered your account information, click the “Sign in” button to access the system.</p>
         </div>
-        <div class="tab-pane fade" id="studentsinstr"><br>
-          <p>
-            Students instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="classes"><br>
+          <h3>Class List</h3>
+          <p>The Classes page displays a list of all of the classes in the Progress Workbook. The view defaults to the current term, but classes from prior years/semesters/quarters/etc. can be accessed via the term drop-down menu at the bottom of the page. The class list is sorted by name, but you can optionally sort by subject, period, grade, or teacher by clicking on the column headers.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>Administrators can see all of the classes in the system, while teachers only have access to their own classes.</p>
+          </div>
+
+          <h4>Searching</h4>
+          <p>While the class list could become very long, you can quickly find a specific class by typing its name in the search bar at the top of the page. This filters the results to show only the classes, subjects, periods, grades, or teachers which match your search.</p>
+
+          <h4>Performing Actions on Multiple Classes</h4>
+          <p>At any time, you can select the checkboxes next to one or more classes, allowing you to compare them on the Performance page or delete them from the system.</p>
+
+          <h4>Creating a New Class</h4>
+          <p>To add a new class to the system, click on the “Create Class” button in the upper-right corner of the Classes page. This brings up a special window where you’ll enter the name of the class, its subject, the target grade level, and, optionally, the period.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>Classes are automatically assigned to the current user. Additionally, administrators can create new subjects on the Settings page.</p>
+          </div>
+          <p>Once you’re happy with your selection, click “Create” to add the class to the system.</p>
+
+          <h3>Class Details</h3>
+          <p>Selecting a class from the Classes page will display the enrolled students, as well as any assessments that have been created. The assessments are displayed in the order they were created, while the student list can be sorted by first or last name, student ID, or grade level.</p>
+
+          <h4>Editing the Class</h4>
+          <p>To edit the class details, simply click the “Edit” button in the top-right corner of the Class Details page. This will display an edit window that is virtually identical to the one for creating a class. From here, you can rename the class or change its subject, period, or grade level. When you’re done, simply click “Update” and your changes will be instantly reflected on the page.</p>
+
+          <h4>Adding a Student to the Class</h4>
+          <p>To add a student to the class, click the “Add Student” button in the upper-right corner of the Class Details page. This will display a search box, letting you find and add any active student in the system. Simply begin typing the student’s name or student ID to see a list of matching results. Selecting a student will instantly add them to the class.</p>
+
+          <h4>Performing Actions on Multiple Students</h4>
+          <p>At any time, you can select the checkboxes next to one or more students, allowing you to compare them on the Performance page, add them to a cohort, or remove them from the class via the Actions menu. If you choose to add the student(s) to a cohort, a window will appear with a list of all of the cohorts in the system. Simply select a cohort and click “Add” to complete the process.</p>
+
+          <h4>Creating a New Assessment</h4>
+          <p>To create a new assessment, click on the “Create an Assessment Type” button below the list of assessments. This brings up a window allowing you to choose the name and style for the assessment. Assessments come in three styles: Run Chart, Criteria-Based, and Standards-Based. Which one you choose depends on how you want to view and manage the grades. Click “Create” to add the assessment to the class.</p>
+
+          <h4>Assessment Styles</h4>
+          <dl class="dl-horizontal">
+            <dt>Run Chart</dt>
+            <dd>A Run Chart contains a list assessments laid out horizontally. Each assessment has a single criterion, making it ideal for assessments which are given at a regular cadence and have only one result (for example, a Learning Check).</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Criteria-Based</dt>
+            <dd>A Criteria-Based assessment type is best suited for assessments which use the same set of criteria over and over, such as a Lab Report. Assessments are aligned horizontally across the top, and the criteria are displayed next to the names of each student.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Standards-Based</dt>
+            <dd>Standards-Based assessment types work well in situations where there are multiple assessments with a varying number of criteria (such as an “I Can…”). The students are arranged horizontally across the top of the page, while the assessments and criteria are grouped vertically.</dd>
+          </dl>
         </div>
-        <div class="tab-pane fade" id="perfinstr"><br>
-          <p>
-            Performance instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="assessments"><br>
+          <h4>TBD</h4>
+          <p>Coming soon...</p>
         </div>
-        <div class="tab-pane fade" id="usersinstr"><br>
-          <p>
-            Users instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="students"><br>
+          <h3>Students List</h3>
+          <p>The Students page displays a list of all of the students in the Progress Workbook. Only active students are shown by default, but you can view the list of inactive students by clicking the “Show Inactive” button in the bottom-left corner of the screen next to the “Actions” menu. The students list is sorted by last name, but you can optionally sort by first name, student ID, or grade level by clicking on the column headers.</p>
+
+          <h4>Searching</h4>
+          <p>While the students list could become very long, you can quickly find a specific student by typing their name in the search bar at the top of the page. This filters the results to show only the students whose first name, last name, student ID, or grade level match the search term.</p>
+
+          <h4>Performing Actions on Multiple Students</h4>
+          <p>At any time, you can select the checkboxes next to one or more students, allowing you to compare them on the Performance page, add them to a cohort, deactivate them, or delete them from the system via the “Actions” menu. If you choose to add the student(s) to a cohort, a menu will appear with a list of all of the cohorts in the system. Simply select a cohort and click “Add” to complete the process.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>We highly recommend deactivating students rather than deleting them. This prevents them from showing up in the system by default while preserving all of their history, including classes, cohort associations, and grades. It also allows you to reactivate a student if they ever return to the school. </p>
+          </div>
+
+          <h4>Creating a New Student</h4>
+          <p>To add a new student to the system, click on the “Add Student” button in the upper-right corner of the Students page. This brings up a special window where you’ll enter the first and last name of the student, as well as their student ID, grade level, and, optionally, gender. Click “Create” to finish adding them.</p>
+
+          <h3>Student Details</h3>
+          <p>Selecting a student from the Students page will display their profile, including any classes they are enrolled in. As with the Classes page, the Student Profile page defaults to the current term. This can be changed using the drop-down menu in the bottom-right corner of the page next to the “Actions” menu. The class list is sorted by name, but you can optionally sort by subject, period, grade, or teacher by clicking on the column headers.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>Administrators can see all of the classes that the student is enrolled in, while teachers can only see the classes that they manage.</p>
+          </div>
+
+          <h4>Editing the Student</h4>
+          <p>To edit the student’s profile, simply click the “Edit” button in the top-right corner of the Student Profile page. This will display an edit window that is virtually identical to the one for creating a student. From here, you can change the student’s first and last name, student ID, grade level, and gender. You can also activate or deactivate the student using the checkboxes. When you’re done, simply click “Update” and your changes will be instantly reflected on the page.</p>
+
+          <h4>Performing Actions on Multiple Classes</h4>
+          <p>At any time, you can select the checkboxes next to one or more classes a student is enrolled in, allowing you to compare them on the Performance page or remove them from the class via the “Actions” menu.</p>
         </div>
-        <div class="tab-pane fade" id="cohortsinstr"><br>
-          <p>
-            Cohorts instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="cohorts"><br>
+          <h3>Cohorts List</h3>
+          <p>The Cohorts page displays a list of all of the cohorts in the Progress Workbook.</p>
+
+          <h4>Searching</h4>
+          <p>While the cohorts list could become very long, you can quickly find a specific cohort by typing its name in the search bar at the top of the page. This filters the results to show only the cohorts which match the search term.</p>
+
+          <h4>Performing Actions on Multiple Cohorts</h4>
+          <p>At any time, you can select the checkboxes next to one or more cohorts, allowing you to compare them on the Performance page or delete them from the system via the “Actions” menu.</p>
+
+          <h4>Creating a New Cohort</h4>
+          <p>To add a new cohort to the system, click on the “Create Cohort” button in the upper-right corner of the Cohorts page. Simply enter the name of the cohort and click “Create” to finish the process.</p>
+
+          <h3>Cohort Details</h3>
+          <p>Selecting a cohort from the Cohorts page will display the list of students in the cohort. Only active students are visible. The list of students is sorted by last name, but you can optionally sort by first name, student ID, or grade level by clicking on the column headers.</p>
+
+          <h4>Editing the Cohort</h4>
+          <p>To edit the cohort, simply click the “Edit” button in the top-right corner of the Cohort Details page. This will display an edit window that is virtually identical to the one for creating a cohort. Simply type in the new name and click “Update” to see your changes instantly reflected on the page.</p>
+
+          <h4>Performing Actiosnon Multiple Students in a Cohort</h4>
+          <p>At any time, you can select the checkboxes next to one or more students in a cohort, allowing you to compare them on the Performance page or remove them from the cohort via the “Actions” menu.</p>
         </div>
-        <div class="tab-pane fade" id="settingsinstr"><br>
-          <p>
-            Settings instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="users"><br>
+          <h3>Users List</h3>
+          <p>The Users page displays a list of all of the users – teachers and administrators – in the Progress Workbook. Only active users are shown by default, but you can view the list of inactive users by clicking the “Show Inactive” button in the bottom-left corner of the screen next to the “Actions” menu. The users list is sorted by last name, but you can optionally sort by first name, username, or admin status by clicking on the column headers.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>The Users page is only accessible to administrators.</p>
+          </div>
+
+          <h4>Searching</h4>
+          <p>While the users list could become very long, you can quickly find a specific user by typing their name in the search bar at the top of the page. This filters the results to show only the users whose first name, last name, username, or admin status match the search term.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>Searching for “true” will display a list of all admins, while searching for “false” will display a list of all teachers.</p>
+          </div>
+
+          <h4>Performing Actions on Multiple Users</h4>
+          <p>At any time, you can select the checkboxes next to one or more users, allowing you to compare them on the Performance page, deactivate them, promote/demote their admin status, or delete them from the system via the “Actions” menu.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>We highly recommend deactivating users rather than deleting them. This prevents them from showing up in the system by default while preserving all of their prior classes, assessments, and other crucial information.</p>
+          </div>
+
+          <h4>Creating a New User</h4>
+          <p>To add a new user to the system, click on the “Create User” button in the upper-right corner of the Users page. This brings up a special window where you’ll enter the first and last name of the user, as well as their username and password. Selecting the checkbox will set their account as an administrator as well. Click “Create” to finish adding them.</p>
+
+          <h3>User Details</h3>
+          <p>Selecting a user from the Users page will display their profile, including any classes they teach. As with the Classes page, the User Profile page defaults to the current term. This can be changed using the drop-down menu in the bottom-right corner of the page next to the “Actions” menu. The class list is sorted by name, but you can optionally sort by subject, period, grade, or teacher by clicking on the column headers.</p>
+
+          <h4>Editing the User</h4>
+          <p>To edit the user’s profile, simply click the “Edit” button in the top-right corner of the User Profile page. This will display an edit window that is virtually identical to the one for creating a user. From here, you can change the user’s first and last name. Administrators have the option to override the user’s current password. The username, however, cannot be changed. Whether or not the user is active or an administrator can be changed here as well. When you’re done, simply click “Update” and your changes will be instantly reflected on the page.</p>
+
+          <h4>Performing Actions on Multiple Classes</h4>
+          <p>At any time, you can select the checkboxes next to one or more classes taught by a user, allowing you to compare them on the Performance page or delete the class from the system via the “Actions” menu.</p>
         </div>
-        <div class="tab-pane fade" id="admininstr"><br>
-          <p>
-            Classes instructions coming soon.
-          </p>
+        <div class="tab-pane fade" id="performance"><br>
+          <p>The Performance page is a “data playground” of sorts. The central focus is the graph, which runs across the top of the page. While the graph is initially empty, you can plot the system’s data in a virtually endless number of configurations using the data sets.</p>
+
+          <h3>Using Data Sets</h3>
+          <p>Each piece of data on the graph has an associated data set which has been color-coded appropriately. Data sets are highly customizable, allowing you to compare any number of combinations of students, classes, teachers, cohorts, assessments, criteria, and more.</p>
+          <p>In order to plot a data set on the graph, you’ll need to select a term, class, and statistic (see section 9.1.1 for more details). At this point, additional options for the data set will begin to unlock, including the assessment type, assessment, and criterion. To narrow down the options for a specific student, cohort, or teacher, simply search for a name and select the desired person or group. Once you’re happy with your selection, click “Save” to plot the data on the graph and add another data set. You can also delete or duplicate a data set, as well as minimize it by clicking on its name.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>The available options in the data set will vary based on your current selection, and only administrators can search for a teacher.</p>
+          </div>
+
+          <h4>Statistics</h4>
+          <p>Statistics allow you to choose how the data appears on the graph. You can combine data sets with various statistics to look at performance data from multiple angles.</p>
+          <dl class="dl-horizontal">
+            <dt>Total Correct</dt>
+            <dd>A raw score which is the sum of the grades.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Percentage Correct</dt>
+            <dd>The percentage of correct answers.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Total Possible</dt>
+            <dd>The maximum points possible based on the number of students present.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Total Goal</dt>
+            <dd>The maximum points possible if every single student is present.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Percent of Term</dt>
+            <dd>A linear representation of the expected progress throughout the term. Starts at 0 for the first assessment and ends at the maximum possible value by the last assessment. Often used to determine where a student is expected to be at any given point during a term (assuming a linear progression).</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Score Dist. (Total)</dt>
+            <dd>The number of students who received each grade for a given assessment (e.g. three students received a 1, two students received a 2, five students received a 3, etc.).</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Score Dist. (Percent)</dt>
+            <dd>The percentage of students who received each grade for a given assessment (e.g. 30% of students received a 1, 20% of students received a 2, 50% of students received a 3, etc.).</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Students Present</dt>
+            <dd>The number of students present for a given assessment.</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Students Enrolled</dt>
+            <dd>The number of students enrolled in a given class.</dd>
+          </dl>
+
+          <h4>Common Configurations</h4>
+          <p>There are a virtually infinite number of possible data set configurations. Here are a few ideas to get you started:</p>
+          <dl>
+            <dt>Compare the Actual Grade of a Class to Its Potential Grade</dt>
+            <dd>
+              Data Set 1: Select a class and choose the “Total Correct” statistic.<br>
+              Data Set 2: Select the same class and choose the “Total Possible” statistic.
+            </dd>
+          </dl>
+          <dl>
+            <dt>View the Overall Grade for an Assessment Type</dt>
+            <dd>Data Set 1: Select a class and assessment type, then and choose the “Percentage Correct” statistic.</dd>
+          </dl>
+          <dl>
+            <dt>View a Particular Score for a Student in an Assessment</dt>
+            <dd>Data Set 1: Search for the student and select a class, assessment type, and assessment. Then choose the “Total Correct” statistic.</dd>
+          </dl>
+          <dl>
+            <dt>Compare a Cohort to a Class</dt>
+            <dd>
+              Data Set 1: Select a class and choose the “Percentage Correct” statistic.<br>
+              Data Set 2: Search for a cohort and select a class. Then choose the “Percentage Correct” statistic.
+            </dd>
+          </dl>
+          <dl>
+            <dt>Compare the Performance of Two Students on a Particular Criterion</dt>
+            <dd>
+              Data Set 1: Search for the first student, then select a class, assessment type, assessment, and criterion. Then choose the “Total Correct” statistic.<br>
+              Data Set 2: Search for the second student, then select a class, assessment type, assessment, and criterion. Then choose the “Total Correct” statistic.
+            </dd>
+          </dl>
+
+          <h4>Automatically Configuring the Performance Graph</h4>
+          <p>Selecting the “Compare” action on any page will automatically navigate to the Performance page and configure the data sets appropriately. This makes it easy to quickly compare students, classes, cohorts, and more. You can, of course, tweak the pre-configured data sets as needed.</p>
         </div>
-        <div class="tab-pane fade" id="support"><br>
-          <p>
-            Support information coming soon.
-          </p>
+        <div class="tab-pane fade" id="settings"><br>
+          <p>The Settings page allows users to change their password. Administrators can also access additional options like importing students from a CSV file, adding subjects, and advancing the term.</p>
+
+          <h3>Changing Your Account Password</h3>
+          <p>To change your password, enter your current password followed by your desired new password. Confirm your choice to prevent a typographical error, then select the “Change” button.</p>
+
+          <h3>Advancing the Term</h3>
+          <p>At the end of a term (e.g. year, semester, quarter, etc.), administrators have the option of archiving the current classes and creating a new term. Archived classes can always be accessed via the term drop-down menu on any page which displays a list of classes.</p>
+          <p>When advancing the term, admins can also choose to advance the grade level of every active student in the system. This is designed to be used once a year, saving teachers and administrators the time and energy required to manually update the grade for each enrolled student. If a student’s grade is at the maximum grade level, their profile is deactivated and their grade is left untouched. Inactive students can be found by clicking on the “Inactive Students” button on the Students page.</p>
+
+          <h3>Creating New Subjects</h3>
+          <p>When a user creates a class (section 4.1.3), they are required to choose a subject. To add a new subject, an administrator must click the “Add Subject” button on the Settings page, enter the subject name, and select “Create.”</p>
+
+          <h3>Importing Students</h3>
+          <p>To save time during the initial setup or when a large group of new students enter the school, administrators can import a comma separated values (CSV) file with the student details. The CSV must include the following columns (in order): first name, last name, gender (optional), grade level, and student ID (optional). The file should contain all five columns, even if optional values are left blank.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Note</h4>
+            <p>It is recommend that you ensure that each student ID is unique. Additionally, students which already exist in the system will not be imported..</p>
+          </div>
         </div>
-        <div class="tab-pane fade" id="tips"><br>
-          <p>
-            Tips coming soon.
-          </p>
+        <div class="tab-pane fade" id="faqs"><br>
+          <h4>How do I create a new account?</h4>
+          <p>User accounts can be created on the Users page. To create a new account, simply click the “Create User” button in the upper-right corner, fill out the form, and submit it. The user will now have access to the system.</p>
+
+          <h4>I can’t remember my password or access my account</h4>
+          <p>If you can’t access your account, please check with your administrator to ensure that the account is active. They’ll also be able to reset your password if necessary.</p>
+
+          <h4>How do I edit a class/student/user/cohort?</h4>
+          <p>Navigate to the details page (in the case of classes and cohorts) or the profile page (in the case of students and users) and click the “Edit” button in the top-right corner.</p>
+
+          <h4>How do I delete a class/student/user/cohort/assessment?</h4>
+          <p>Navigate to the Class, Student, User, Cohort, or Class Details page and select the checkboxes next to the items you want to delete. In the “Actions” drop-down menu in the lower-left corner, click “Delete” and then confirm your choice.</p>
+
+          <h4>Why aren’t any classes listed on a student/user’s profile?</h4>
+          <p>Most likely, the student or user doesn’t have any classes associated with their profile. To fix this, add the student to a class or have the teacher create a new class. If you’re sure the profile has an associated class, try changing the term using the drop-down menu at the bottom of the page.</p>
+
+          <h4>Why can’t I find a specific student/user?</h4>
+          <p>If you can’t find a student or user, chances are their profile was deactivated. Click the “Show Inactive” button at the bottom of the page to view the list of inactive students or users. There’s also a possibility, however unlikely, that they were deleted from the system.</p>
+
+          <h4>What's the difference between a teacher and an admin</h4>
+          <p>Teachers are able to create and manage cohorts and their own classes, add new students to the system, and manage their account. Administrators can do all this and more, including managing users, deleting students, viewing the classes of other teachers, and managing various system settings.</p>
+
+          <h4>What’s the difference between an assessment and an assessment type?</h4>
+          <p>An assessment type consists of multiple assessments. Most classes have a number of assessment types, such as exams, quizzes, papers, lab reports, etc. Each assessment type has a different purpose, and they are distributed at different times and intervals throughout the term. An assessment is a single instance (or distribution) of an assessment type, so a midterm and a final are two different assessments in the exams assessment type.</p>
         </div>
       </div>
 
@@ -80,7 +308,7 @@
         $('#myTab a').click(function (e) {
           e.preventDefault()
           $(this).tab('show')
-        })
+        });
       </script>
 
 	  </div>
