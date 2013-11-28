@@ -54,6 +54,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.defaultPanel = {
     id: 0,
     open: true,
+    searchBox: null,
     filterType: "",
     filterDatum: null,
     termId: null,
@@ -73,9 +74,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 	   */
 	  setupSearch: function() {
 	    var self = this;
-	    var search = $('input#search' + self.id);
+	    self.searchBox = $('input#search' + self.id);
 
-      search.typeahead([{
+      self.searchBox.typeahead([{
         name: 'students',
         limit: 3,
         header: '<h5><img src="/assets/gradcap.png">Students</h5>',
@@ -96,15 +97,32 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       // if duplicating, set the value of the search bar
       if (self.filterDatum != null) {
-        search.val(self.filterDatum.value);
+        self.searchBox.val(self.filterDatum.value);
       }
 
-      //
-      search.bind('typeahead:selected', function(event, datum, name) {
+      // filter sections by students or users
+      self.searchBox.bind('typeahead:selected', function(event, datum, name) {
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
         self.updateTerm();
       });
+
+      // reset the dataset if the search box is emptied
+      self.searchBox.keyup(angular.bind(self, self.checkEmpty));
+    },
+
+    /*
+     * Resets the dataset when the search box is cleared
+     */
+    checkEmpty: function() {
+      if (!this.searchBox.val()) {
+        this.filterDatum = null;
+        this.filterType = null;
+        this.termId = $scope.terms.length;
+        this.statisticId = null;
+        this.statistics = $scope.sectionStatistics;
+        this.updateTerm();
+      }
     },
 
     /*
