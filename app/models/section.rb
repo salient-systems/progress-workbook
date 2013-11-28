@@ -5,7 +5,6 @@ class Section < ActiveRecord::Base
     belongs_to :subject
     belongs_to :user
 
-    #has_many :assessment_types, dependent: :destroy
     has_many :assessment_types, dependent: :destroy
     has_many :class_students, dependent: :destroy
     belongs_to :term

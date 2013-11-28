@@ -16,11 +16,11 @@ class Student < ActiveRecord::Base
   has_many :criterions, through: :criterion_grades
   has_many :assessments, through: :criterion_grades
   
-   attr_accessor :scores  
-   
-   def as_json(options={})
-     options[:methods] ||= []
-     options[:methods] << :scores
-     super(options)
-   end
+  attr_accessor :scores
+
+  def as_json(options={})
+    options[:methods] ||= []
+    options[:methods] << :scores
+    super(options)
+  end
 end
