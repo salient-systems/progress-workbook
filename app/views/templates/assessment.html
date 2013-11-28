@@ -31,7 +31,7 @@
               <td class="assessment1-student-name"><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></td>
               <td class="scoreHorizLeft" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
-              <td ng-repeat="criterion in student.scores" class="assessment-criterion" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" >
+              <td ng-repeat="criterion in student.scores" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ criterion.score / criterions[$index].max +')'}" >
                 <!--<input type="number" class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>-->
                 <input class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,0)'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>
               </td>
@@ -62,7 +62,7 @@
                 </div>
               </td>
               <td class="assessment2-criterion-name">{{criterions[$index % sizeAssessment[0]].name}}</td>
-              <td ng-repeat="b in range(assessments.length)" class="assessment-criterion" ng-style="{background: 'rgba(0,0,204,'+ students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score / criterions[domod($parent.$index,sizeAssessment[0])].max +')'}">
+              <td ng-repeat="b in range(assessments.length)" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score / criterions[domod($parent.$index,sizeAssessment[0])].max +')'}">
               <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score" ng-focus="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]])" />
               </td>
             </tr>
@@ -108,7 +108,7 @@
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
               <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
-              <td ng-repeat="student in students" class="assessment-criterion" ng-style="{background: 'rgba(0,0,204,'+ student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score / criterions[getCritStart($parent.$parent.$index) + $parent.$index].max +')'}">
+              <td ng-repeat="student in students" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score / criterions[getCritStart($parent.$parent.$index) + $parent.$index].max +')'}">
               <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score" ng-focus="checkVal(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" ng-blur="saveGrade(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" />
               </td>
             </tr>

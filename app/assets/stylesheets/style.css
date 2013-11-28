@@ -274,14 +274,12 @@ chart {
 }
 
 .assessment-criterion {
-  background:#0000CC;
   border: 1px solid black;
   width: 45px;
   height: 30px;
 }
 
 .assessment-criterion-input {
-  background:#0000CC;
   width: 100%;
   height: 30px;
   text-align: center;
