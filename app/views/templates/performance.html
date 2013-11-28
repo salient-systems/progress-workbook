@@ -52,7 +52,7 @@
                          <!-- Statistic selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" name="statistic" ng-model="panel.statistic" ng-change="panel.updateStatistic()" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in panel.statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" name="statistic" ng-model="panel.statisticId" ng-change="panel.updateStatistic()" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in panel.statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
@@ -90,8 +90,8 @@
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save($last)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
-  	              <button type="button" ng-click="duplicate(panel)"class="btn btn-default pull-right btn-action">Duplicate</button>
+  	              <button type="button" ng-click="save($last, panel)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
+  	              <button type="button" ng-click="duplicate(panel)" class="btn btn-default pull-right btn-action">Duplicate</button>
   	              <button type="button" ng-click="remove($index, $last)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>
               </div>

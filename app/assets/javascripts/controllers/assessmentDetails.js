@@ -48,7 +48,6 @@ assessment_type.getList('assessments').then(function(thereturn){
     $scope.criterions = thereturn;
 
 	$scope.modalCriterions = Restangular.copy(thereturn);
-	$scope.newCriterionsIndex = 0;
 	$scope.newCriterions = [];
 
 
@@ -449,7 +448,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 //controller for the modal that edits the assessment info for an assessment type
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
-  $scope.newCritCount = 0;
+  $scope.changedOldCritFlags = [];
 
   $scope.setupEditCriterion = function() {
     $scope.editCriterion = {
@@ -462,7 +461,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   $scope.newCriterion = function() {
     var newCrit = {
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
-      name: "Criterion " + ($scope.modalCriterions.length + 1),
+      name: ($scope.modalCriterions.length + 1),
       assessment_id: $scope.assessments[0].id
     };
     $scope.newCriterionIndex++;
@@ -478,10 +477,24 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       editable.post();
     });
     $scope.newCriterions = [];
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]]; 
+      $scope.criterions[$scope.changedOldCritFlags[i]].put();
+    }
+    location.reload();
   };
 
   $scope.cancel = function() {
+    $scope.newCriterions.forEach(function(crit){
+      var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
+      $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    });
     $scope.newCriterions = [];
+    
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      var index = $scope.changedOldCritFlags[i];
+      $scope.modalCriterions[index].name = $scope.criterions[index].name;
+    }
   };
 
   $scope.remove = function(criterion) {
@@ -501,6 +514,13 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       var editable = Restangular.copy(criterion);
       editable.route = "criterions";
       editable.remove();
+    }
+  };
+  
+  $scope.changedOldCriterion = function(criterion, index){
+    if($scope.newCriterions.indexOf(criterion) < 0){
+      $scope.changedOldCritFlags.push(index);
+      console.log("your index was: " + index);
     }
   };
 

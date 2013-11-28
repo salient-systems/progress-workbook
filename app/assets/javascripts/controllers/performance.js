@@ -41,9 +41,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   ];
 
   $scope.criterionStatistics = [
-    { id: 1, name: "Total Correct" },
-    { id: 2, name: "Percentage Correct" },
-    { id: 3, name: "Total Possible" },
+    //{ id: 1, name: "Total Correct" },
+    //{ id: 2, name: "Percentage Correct" },
+    //{ id: 3, name: "Total Possible" },
     { id: 6, name: "Score Distribution (Total)" },
     { id: 7, name: "Score Distribution (Percent)" },
   ];
@@ -54,6 +54,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.defaultPanel = {
     id: 0,
     open: true,
+    searchBox: null,
     filterType: "",
     filterDatum: null,
     termId: null,
@@ -73,9 +74,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 	   */
 	  setupSearch: function() {
 	    var self = this;
-	    var search = $('input#search' + self.id);
+	    self.searchBox = $('input#search' + self.id);
 
-      search.typeahead([{
+      self.searchBox.typeahead([{
         name: 'students',
         limit: 3,
         header: '<h5><img src="/assets/gradcap.png">Students</h5>',
@@ -96,15 +97,32 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       // if duplicating, set the value of the search bar
       if (self.filterDatum != null) {
-        search.val(self.filterDatum.value);
+        self.searchBox.val(self.filterDatum.value);
       }
 
-      //
-      search.bind('typeahead:selected', function(event, datum, name) {
+      // filter sections by students or users
+      self.searchBox.bind('typeahead:selected', function(event, datum, name) {
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
         self.updateTerm();
       });
+
+      // reset the dataset if the search box is emptied
+      self.searchBox.keyup(angular.bind(self, self.checkEmpty));
+    },
+
+    /*
+     * Resets the dataset when the search box is cleared
+     */
+    checkEmpty: function() {
+      if (!this.searchBox.val()) {
+        this.filterDatum = null;
+        this.filterType = null;
+        this.termId = $scope.terms.length;
+        this.statisticId = null;
+        this.statistics = $scope.sectionStatistics;
+        this.updateTerm();
+      }
     },
 
     /*
@@ -164,7 +182,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       if (self.assessmentTypeId !== undefined) {
         Restangular.one('assessment_types', self.assessmentTypeId).getList('assessments').then(function(assessments) {
           self.assessments = assessments;
-          console.log(self.assessments);
         });
 
         self.statisticId = null;
@@ -227,8 +244,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   /* ----------------------- Save/Dupe/Remove Panels ----------------------- */
 
-  $scope.save = function(isLast) {
+  $scope.save = function(isLast, panel) {
     // TODO get the performance data!
+
     // create new dataset if we're saving the last dataset
     if (isLast) {
       $scope.createPanel($scope.defaultPanel);
@@ -286,34 +304,27 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
  * Chart Controller
  *
  */
-app.controller('ChartCtrl', function($scope){
+app.controller('ChartCtrl', function($scope, $http){
   //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
-  var daftPoints = [[0, 4]], punkPoints = [[1, 14]];
-  //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
-  var data1 = [
-    {
-      data: daftPoints,
-      color: '#00b9d7',
-      bars: {show: true, barWidth:1, fillColor: '#00b9d7', order: 1, align: "center" }
-    }, {
-      data: punkPoints,
-      color: '#3a4452',
-      bars: {show: true, barWidth:1, fillColor: '#3a4452', order: 2, align: "center" }
-    }
-  ];
-  //$scope.data = data1;
 
-  var options = {
-      /*xaxis: {
-        ticks:[[0,'Daft'],[1,'Punk']]
-      },*/
-    grid: {
-      labelMargin: 10,
-      backgroundColor: '#e2e6e9',
-      color: '#ffffff',
-      borderColor: null
-    }
-  };
+  $http.get('/performance/student/1/assessment_type/1').success(function(response) {
 
-  $.plot($("#perfGraph"), data1, options);
+    var data = _.pluck(response, 'dataPoint');
+    var options = {
+      lines: {
+        show: true
+      },
+      points: {
+        show: true
+      },
+      xaxis: {
+        mode: "categories"
+      },
+      yaxis: {
+        max: response[0].max
+      }
+    };
+
+    $.plot($("#perfGraph"), [ { label: 'Dataset 1', data: data } ], options);
+  });
 });
