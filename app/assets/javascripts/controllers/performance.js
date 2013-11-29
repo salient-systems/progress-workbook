@@ -311,6 +311,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.$watch('location.search()', function() {
       var panel = $scope.panels[0];
 
+      //retrieve student/teacher/cohort ID
+
       if(urlParam.term != undefined) {
         panel.termId = parseInt(urlParam.term);
 
@@ -339,9 +341,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
           }
         }
 
-        if(urlParam.statistic != undefined) {
-          panel.statisticId = parseInt(urlParam.statistic);
-        }
+        panel.statisticId = parseInt(urlParam.statistic);
       }
     }, true);
   };
