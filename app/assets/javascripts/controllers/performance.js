@@ -2,7 +2,7 @@
  * Master Performance Controller
  *
  */
-app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout) {
+app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout, $location) {
 
   $scope.panelIndex = 0;
   $scope.noDelete = true;
@@ -293,11 +293,59 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.panels[0].termId = $scope.terms.length;
     $scope.defaultPanel.termId = $scope.terms.length;
 
+
+    $scope.parseUrl();
+
+
     Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
       $scope.panels[0].sections = sections;
       $scope.defaultPanel.sections = sections;
     });
   });
+
+
+  // parse URL and configure data sets (if applicable)
+  $scope.parseUrl = function() {
+    $scope.location = $location;
+    var urlParam = ($location.search());
+    $scope.$watch('location.search()', function() {
+      var panel = $scope.panels[0];
+
+      if(urlParam.term != undefined) {
+        panel.termId = parseInt(urlParam.term);
+
+        if(urlParam.section != undefined) {
+          panel.sectionId = parseInt(urlParam.section);
+          Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+            panel.assessmentTypes = assessmenttypes;
+          });
+
+          if(urlParam.type != undefined) {
+            panel.assessmentTypeId = parseInt(urlParam.type);
+            Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+              panel.assessments = assessments;
+            });
+
+            if(urlParam.assessment != undefined) {
+              panel.assessmentId = parseInt(urlParam.assessment);
+              Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+                panel.criterions = criterions;
+              });
+
+              if(urlParam.criterion != undefined) {
+                panel.criterionId = parseInt(urlParam.criterion);
+              }
+            }
+          }
+        }
+
+        if(urlParam.statistic != undefined) {
+          panel.statisticId = parseInt(urlParam.statistic);
+        }
+      }
+    }, true);
+  };
+
 });
 
 /*
