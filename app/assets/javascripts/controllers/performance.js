@@ -320,8 +320,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
             panel.assessmentTypes = assessmenttypes;
           });
 
-          if(urlParam.type != undefined) {
-            panel.assessmentTypeId = parseInt(urlParam.type);
+          if(urlParam.assessmentType != undefined) {
+            panel.assessmentTypeId = parseInt(urlParam.assessmentType);
             Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
               panel.assessments = assessments;
             });
