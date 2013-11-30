@@ -9,5 +9,5 @@ json.set! :subject do
 end
 
 json.set! :term do
-  json.extract! @section.term, :name
+  json.extract! @section.term, :name, :id
 end

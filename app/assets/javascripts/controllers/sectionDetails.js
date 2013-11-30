@@ -1,6 +1,6 @@
 // section details
 app.controller('SectionCtrl',
-function($scope, $routeParams, Restangular) {
+function($scope, $routeParams, Restangular, $location) {
   var section = Restangular.one('sections', $routeParams.id);
 
   section.get().then(function(thesection) {
@@ -95,9 +95,9 @@ function($scope, $routeParams, Restangular) {
     _.each($scope.selections, function(student, i) {
       datasets[i] = {
         filterType: 'students',
-        filterDatum: student.id,
-        termId: section.term,
-        sectionId: section.id,
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
         assessmentTypeId: undefined,
         assessmentId: undefined,
         criterionId: undefined,
@@ -106,6 +106,7 @@ function($scope, $routeParams, Restangular) {
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+    console.log(datasets);
   };
 
   // add student typeahead

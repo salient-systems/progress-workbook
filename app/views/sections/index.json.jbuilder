@@ -10,7 +10,7 @@ json.array!(@sections) do |section|
   end
 
   json.set! :term do
-    json.extract! section.term, :name
+    json.extract! section.term, :name, :id
   end
   
   #json.url section_url(section, format: :json)
