@@ -63,25 +63,23 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular, $loc
   };
 
   $scope.compare = function() {
-      Restangular.all('terms').getList().then(function(terms) {
-      var datasets = [];
+    var datasets = [];
 
-      _.each($scope.selections, function(student, i) {
-        datasets[i] = {
-          filterType: 'students',
-          filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
-          termId: terms.length,
-          sectionId: undefined,
-          assessmentTypeId: undefined,
-          assessmentId: undefined,
-          criterionId: undefined,
-          statisticId: undefined
-        };
-      });
-
-      $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-      console.log(datasets);
+    _.each($scope.selections, function(student, i) {
+      datasets[i] = {
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: undefined,
+        sectionId: undefined,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: undefined
+      };
     });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+    console.log(datasets);
   };
 
   $scope.toggleActiveStudent = function() {
