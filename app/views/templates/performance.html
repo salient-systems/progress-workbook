@@ -90,16 +90,17 @@
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save($last, panel)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
-  	              <button type="button" ng-click="duplicate(panel)" class="btn btn-default pull-right btn-action">Duplicate</button>
-  	              <button type="button" ng-click="remove($index, $last)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
+  	              <button type="button" ng-click="save(panel)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
+  	              <button type="button" ng-click="remove($index)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
+  	    <button type="button" style="margin: 10px 0px 15px 0px;" ng-click="addPanel()" class="btn btn-default btn-sm pull-right btn-action">Add Data Set</button>
         <br>
-		<!-- end of accordion -->
+        <div style="clear: both"></div>
+		  <!-- end of accordion -->
 	  </div>
 	</div>
 	</div>
