@@ -271,10 +271,10 @@
           <p>When a user creates a class (section 4.1.3), they are required to choose a subject. To add a new subject, an administrator must click the "Add Subject" button on the Settings page, enter the subject name, and select "Create."</p>
 
           <h3>Importing Students</h3>
-          <p>To save time during the initial setup or when a large group of new students enter the school, administrators can import a comma separated values (CSV) file with the student details. The CSV must include the following columns (in order): first name, last name, gender (optional), grade level, and student ID (optional). The file should contain all five columns, even if optional values are left blank.</p>
+          <p>To save time during the initial setup or when a large group of new students enter the school, administrators can import a comma separated values (CSV) file with the student details. The CSV must include a header row containing column names. Columns may be in any order, but the columns must be named as given in parentheses. The following columns are mandatory: first name (fname), last name (lname), grade level (grade_level), student ID (sid). The following column is optional: gender (gender). Mandatory columns must contain a non-blank value for each student. If values are missing, the import process will error out. All students prior to the failing record will be imported, but the failing record and all subsequent records in the file will not.</p>
           <div class="bs-callout bs-callout-info">
             <h4>Note</h4>
-            <p>It is recommend that you ensure that each student ID is unique. Additionally, students which already exist in the system will not be imported..</p>
+            <p>It is recommend that you ensure that each student ID is unique. Additionally, importing students that already exist in the system will create duplicates.</p>
           </div>
         </div>
         <div class="tab-pane fade" id="faq"><br>
