@@ -1,5 +1,5 @@
 // Class list
-app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
+app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $location) {
 
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
@@ -60,6 +60,25 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.compare = function() {
+    var datasets = [];
+
+    _.each($scope.selections, function(section, i) {
+      datasets[i] = {
+        filterType: null,
+        filterDatum: null,
+        termId: $scope.termId,
+        sectionId: section.id,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      };
+    });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
   $scope.updateTerm = function(){
