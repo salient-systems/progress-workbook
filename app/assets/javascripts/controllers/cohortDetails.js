@@ -84,7 +84,24 @@ function($scope, $routeParams, Restangular, $location) {
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
+  $scope.compare = function() {
+    var datasets = [];
 
+    _.each($scope.selections, function(student, i) {
+      datasets[i] = {
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: undefined,
+        sectionId: undefined,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      };
+    });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+  };
 
     // add student typeahead
   $('input#studentSearch').typeahead({
