@@ -96,7 +96,7 @@ function($scope, $routeParams, Restangular, $location) {
         assessmentTypeId: undefined,
         assessmentId: undefined,
         criterionId: undefined,
-        statisticId: undefineds
+        statisticId: undefined
       };
     });
 
