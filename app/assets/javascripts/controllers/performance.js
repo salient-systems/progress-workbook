@@ -2,7 +2,7 @@
  * Master Performance Controller
  *
  */
-app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout) {
+app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout, $location) {
 
   $scope.panelIndex = 0;
   $scope.noDelete = true;
@@ -242,7 +242,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     }
   };
 
-  /* ----------------------- Save/Dupe/Remove Panels ----------------------- */
+  /* ----------------------- Panel Management ----------------------- */
 
   $scope.save = function(isLast, panel) {
     // TODO get the performance data!
@@ -251,6 +251,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     if (isLast) {
       $scope.createPanel($scope.defaultPanel);
     }
+
+    $scope.updateURL();
   };
 
   $scope.duplicate = function(panel) {
@@ -275,6 +277,53 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
   };
 
+ // parse URL and configure data sets (if applicable)
+  $scope.parseUrl = function() {
+    $scope.location = $location;
+    var urlParam = ($location.search());
+    var i = 1;
+    var panel = $scope.panels[i-1];
+
+    //retrieve student/teacher/cohort ID
+
+    if(urlParam['term'+i] != undefined) {
+      panel.termId = parseInt(urlParam['term'+i]);
+
+      if(urlParam['section'+i] != undefined) {
+        panel.sectionId = parseInt(urlParam['section'+i]);
+        Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+          panel.assessmentTypes = assessmenttypes;
+        });
+
+        if(urlParam['assessmentType'+i] != undefined) {
+          panel.assessmentTypeId = parseInt(urlParam['assessmentType'+i]);
+          Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+            panel.assessments = assessments;
+          });
+
+          if(urlParam['assessment'+i] != undefined) {
+            panel.assessmentId = parseInt(urlParam['assessment'+i]);
+            Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+              panel.criterions = criterions;
+            });
+
+            if(urlParam['criterion'+i] != undefined) {
+              panel.criterionId = parseInt(urlParam['criterion'+i]);
+            }
+          }
+        }
+      }
+
+      panel.statisticId = parseInt(urlParam['statistic'+i]);
+    }
+  };
+
+  // update URL based on data set configuration
+  $scope.updateURL = function() {
+    //for each data set, update the URL
+    $location.search({test: 1});
+  };
+
   /* --------------------------- Start the party! -------------------------- */
 
   // insert the default first panel
@@ -297,7 +346,10 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       $scope.panels[0].sections = sections;
       $scope.defaultPanel.sections = sections;
     });
+
+    $scope.parseUrl();
   });
+
 });
 
 /*
