@@ -415,7 +415,7 @@ input::-webkit-inner-spin-button {
 
 
 .btn-modal-new-view1 {
-  margin-right: 44px;	
+  margin-right: 44px;
 }
 
 .criterion-modal-label-view1 {
@@ -428,8 +428,9 @@ input::-webkit-inner-spin-button {
 
 .remove-modal-label-view1 {
 	margin-left: 101px;
-/* Performance Page Styles */
+}
 
+/* Performance Page Styles */
 #perfGraph {
   width: 100%;
   height: 400px;
