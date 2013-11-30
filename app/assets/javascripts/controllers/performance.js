@@ -244,19 +244,14 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   /* ----------------------- Panel Management ----------------------- */
 
-  $scope.save = function(isLast, panel) {
+  $scope.save = function(panel) {
     // TODO get the performance data!
-
-    // create new dataset if we're saving the last dataset
-    if (isLast) {
-      $scope.createPanel($scope.defaultPanel);
-    }
 
     $scope.updateURL();
   };
 
-  $scope.duplicate = function(panel) {
-    $scope.createPanel(panel);
+  $scope.addPanel = function() {
+    $scope.createPanel($scope.defaultPanel);
   };
 
   $scope.createPanel = function(panel) {
@@ -265,12 +260,14 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.panels.push(newPanel);
     $timeout(function() { angular.bind(newPanel, newPanel.setupSearch)(); }, 0);
     $scope.noDelete = false;
-    $scope.scrollToBottom();
+    //$scope.scrollToBottom();
   };
 
-  $scope.remove = function(panelIndex, isLast) {
+  $scope.remove = function(panelIndex) {
     $scope.panels.splice(panelIndex, 1);
-    $scope.noDelete = isLast;
+    if($scope.panels.length == 1) {
+      $scope.noDelete = true;
+    }
   };
 
   $scope.scrollToBottom = function() {
@@ -279,49 +276,70 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
  // parse URL and configure data sets (if applicable)
   $scope.parseUrl = function() {
-    $scope.location = $location;
-    var urlParam = ($location.search());
-    var i = 1;
-    var panel = $scope.panels[i-1];
-
     //retrieve student/teacher/cohort ID
+    if($location.search().datasets !== undefined) {
+      var datasets = ($.parseJSON(decodeURIComponent($location.search().datasets)));
 
-    if(urlParam['term'+i] != undefined) {
-      panel.termId = parseInt(urlParam['term'+i]);
-
-      if(urlParam['section'+i] != undefined) {
-        panel.sectionId = parseInt(urlParam['section'+i]);
-        Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
-          panel.assessmentTypes = assessmenttypes;
-        });
-
-        if(urlParam['assessmentType'+i] != undefined) {
-          panel.assessmentTypeId = parseInt(urlParam['assessmentType'+i]);
-          Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
-            panel.assessments = assessments;
-          });
-
-          if(urlParam['assessment'+i] != undefined) {
-            panel.assessmentId = parseInt(urlParam['assessment'+i]);
-            Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
-              panel.criterions = criterions;
+      var i = 0;
+      do {
+        var panel = $scope.panels[i];
+        if(datasets[i].termId != undefined) {
+          panel.termId = datasets[i].termId;
+          Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
+              panel.sections = sections;
             });
 
-            if(urlParam['criterion'+i] != undefined) {
-              panel.criterionId = parseInt(urlParam['criterion'+i]);
+          if(datasets[i].sectionId != undefined) {
+            panel.sectionId = datasets[i].sectionId;
+            Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+              panel.assessmentTypes = assessmenttypes;
+            });
+
+            if(datasets[i].assessmentTypeId != undefined) {
+              panel.assessmentTypeId = datasets[i].assessmentTypeId;
+              Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+                panel.assessments = assessments;
+              });
+
+              if(datasets[i].assessmentId != undefined) {
+                panel.assessmentId = datasets[i].assessmentId;
+                Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+                  panel.criterions = criterions;
+                });
+
+                if(datasets[i].criterionId != undefined) {
+                  panel.criterionId = datasets[i].criterionId;
+                }
+              }
             }
           }
-        }
-      }
 
-      panel.statisticId = parseInt(urlParam['statistic'+i]);
+          panel.statisticId = datasets[i].statisticId;
+        }
+
+        $scope.createPanel($scope.defaultPanel);
+        i++;
+      } while (i < datasets.length);
     }
   };
 
   // update URL based on data set configuration
   $scope.updateURL = function() {
-    //for each data set, update the URL
-    $location.search({test: 1});
+    var datasets = [];
+
+    for (var i=0; i < $scope.panels.length; i++) {
+      var panel = $scope.panels[i];
+      datasets[i] = {
+        termId: panel.termId,
+        sectionId: panel.sectionId,
+        assessmentTypeId: panel.assessmentTypeId,
+        assessmentId: panel.assessmentId,
+        criterionId: panel.criterionId,
+        statisticId: panel.statisticId
+      };
+    }
+
+    $location.search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
   /* --------------------------- Start the party! -------------------------- */
@@ -373,7 +391,7 @@ app.controller('ChartCtrl', function($scope, $http){
         mode: "categories"
       },
       yaxis: {
-        max: response[0].max
+        max: 10
       }
     };
 

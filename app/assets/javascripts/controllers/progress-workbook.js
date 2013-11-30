@@ -28,7 +28,8 @@ app.config(function($routeProvider) {
     }).
     when('/performance', {
       templateUrl: 'templates/performance.html',
-      controller: 'PerformanceCtrl'
+      controller: 'PerformanceCtrl',
+      reloadOnSearch: false
     }).
     when('/users', {
       templateUrl: 'templates/users.html',
