@@ -83,8 +83,16 @@
           </dl>
         </div>
         <div class="tab-pane fade" id="assessments"><br>
-          <h4>TBD</h4>
-          <p>Coming soon...</p>
+          <p>To enter grades for an assessment, select the appropriate assessment type on the Class Details page. This will display an Excel-like spreadsheet containing the list of students, assessments, and any applicable criteria in one of three styles: Run Chart, Criteria-Based, and Standards-Based.</p>
+          <p>The grades for each assessment or criterion are color-coded, allowing you to quickly see at-a-glance which students are doing well or are underperforming. The darker the shade of blue, the better the grade. To add or update a grade, simply select the cell you want to edit and enter a value. The grade will be automatically saved and the cell color will update accordingly.</p>
+          <p>The three assessment layouts also contain summary grades, allowing you to see how a student is performing overall or how a class is performing on a single assessment or criterion. Summary grades greater than one and less than 75% are displayed in red, indicating that the student needs assistance or the entire class is struggling. Average grades between 75% and 85% are shown in yellow, and grades greater than 85% are indicated in green.</p>
+          <div class="bs-callout bs-callout-info">
+            <h4>Tip</h4>
+            <p>Hover over a student’s name to see a graph of their progress compared to the rest of the class.</p>
+          </div>
+
+          <h4>Editing the Assessment</h4>
+          <p>By default, new assessments contain a single assessment with a single criterion. To add additional assessments and criteria, simply click the "Edit" button in the top-right corner of the page. This will open a special window which allows you to add, update, or delete the assessments and criteria. In most cases, each assessment may have multiple criteria, and each criterion has a maximum value (which is used to calculate the percentages). The exact options may vary based on the assessment style. When you’re finished, click "Save"" to apply your changes and refresh the page.</p>
         </div>
         <div class="tab-pane fade" id="students"><br>
           <h3>Students List</h3>
@@ -177,7 +185,7 @@
 
           <h3>Using Data Sets</h3>
           <p>Each piece of data on the graph has an associated data set which has been color-coded appropriately. Data sets are highly customizable, allowing you to compare any number of combinations of students, classes, teachers, cohorts, assessments, criteria, and more.</p>
-          <p>In order to plot a data set on the graph, you'll need to select a term, class, and statistic (see section 9.1.1 for more details). At this point, additional options for the data set will begin to unlock, including the assessment type, assessment, and criterion. To narrow down the options for a specific student, cohort, or teacher, simply search for a name and select the desired person or group. Once you're happy with your selection, click "Save" to plot the data on the graph and add another data set. You can also delete or duplicate a data set, as well as minimize it by clicking on its name.</p>
+          <p>In order to plot a data set on the graph, you'll need to select a term, class, and statistic (see section 9.1.1 for more details). At this point, additional options for the data set will begin to unlock, including the assessment type, assessment, and criterion. To narrow down the options for a specific student, cohort, or teacher, simply search for a name and select the desired person or group. Once you're happy with your selection, click "Save" to plot the data on the graph. Additional data sets can be added using the "Add Data Set" button in the lower-right corner of the page. To minimize a data set and reduce the amount of screen real estate it takes up, simply click on its name.</p>
           <div class="bs-callout bs-callout-info">
             <h4>Note</h4>
             <p>The available options in the data set will vary based on your current selection, and only administrators can search for a teacher.</p>
@@ -271,7 +279,7 @@
           <p>When a user creates a class (section 4.1.3), they are required to choose a subject. To add a new subject, an administrator must click the "Add Subject" button on the Settings page, enter the subject name, and select "Create."</p>
 
           <h3>Importing Students</h3>
-          <p>To save time during the initial setup or when a large group of new students enter the school, administrators can import a comma separated values (CSV) file with the student details. The CSV must include a header row containing column names. Columns may be in any order, but the columns must be named as given in parentheses. The following columns are mandatory: first name (fname), last name (lname), grade level (grade_level), student ID (sid). The following column is optional: gender (gender). Mandatory columns must contain a non-blank value for each student. If values are missing, the import process will error out. All students prior to the failing record will be imported, but the failing record and all subsequent records in the file will not.</p>
+          <p>To save time during the initial setup or when a large group of new students enter the school, administrators can import a comma separated values (CSV) file with the student details. The CSV must include a header row containing column names. Columns may be in any order, but the columns must be named as given in parentheses. The following columns are mandatory: first name (fname), last name (lname), grade level (grade_level), and student ID (sid). The following column is optional: gender (gender). Mandatory columns must contain a non-blank value for each student. If values are missing, the import process will fail and display an error. All students prior to the failing record will be imported, but the failing record and all subsequent records in the file will not.</p>
           <div class="bs-callout bs-callout-info">
             <h4>Note</h4>
             <p>It is recommend that you ensure that each student ID is unique. Additionally, importing students that already exist in the system will create duplicates.</p>
