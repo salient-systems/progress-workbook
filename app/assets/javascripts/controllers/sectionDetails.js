@@ -2,6 +2,7 @@
 app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular, $location) {
   var section = Restangular.one('sections', $routeParams.id);
+  var deleteAssessmentType = null;
 
   section.get().then(function(thesection) {
     $scope.section = thesection;
@@ -79,7 +80,7 @@ function($scope, $routeParams, Restangular, $location) {
     ]
   };
 
-  $scope.removeFromClass = function() { //TODO: Finish implementing after updating Rails
+  $scope.removeFromClass = function() {
     _.each($scope.selections, function(student, key) {
       class_student = Restangular.one('class_students').get({"section_id": $routeParams.id, "student_id": student.id}).then(function(thereturn){
       	Restangular.one('class_students',thereturn[0].id).remove();
@@ -87,6 +88,44 @@ function($scope, $routeParams, Restangular, $location) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.deleteAssessmentType = function() {
+    if(deleteAssessmentType !== null) {
+      Restangular.one('assessment_types', deleteAssessmentType.id).remove();
+      //$scope.assessment_types = _.without($scope.assessment_types, deleteAssessmentType);
+      var section = Restangular.one('sections', $routeParams.id);
+      $scope.assessment_types = section.getList('assessment_types');
+      console.log($scope.assessment_types);
+      deleteAssessmentType = null;
+    }
+  };
+
+  $scope.saveAssessmentTypeId = function(assessmentType) {
+    deleteAssessmentType = assessmentType;
+  };
+
+  $scope.saveAssessment = function() {
+    var newAssessment = angular.copy($scope.newAssessment);
+    newAssessment.section_id = $scope.section.id;
+    Restangular.all('assessment_types').post(newAssessment).then(function(response) {
+      $scope.assessment_types.push(response);
+    });
+    $('#createAssessmentModal').modal('hide');
+    $scope.newAssessment = null; // reset the form
+    $scope.resetValidation();
+  };
+
+  $scope.plotAssessentType = function(assessmentType) {
+    //write code to plot the graph based on the assessmentType parameter
+  };
+
+  $scope.resetValidation = function() {
+    $scope.newAssessment = null;
+    $scope.validateName = false;
+    $scope.validateNumAssessments = false;
+    $scope.validateStyle = false;
+    $scope.validateType = false;
   };
 
   $scope.compare = function() {
@@ -142,27 +181,6 @@ function($scope, $routeParams, Restangular, $location) {
       $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
     }
   });
-});
-
-app.controller('AddAssessment', function($scope, Restangular) {
-  $scope.saveAssessment = function() {
-    var newAssessment = angular.copy($scope.newAssessment);
-    newAssessment.section_id = $scope.section.id;
-    Restangular.all('assessment_types').post(newAssessment).then(function(response) {
-      $scope.assessment_types.push(response);
-    });
-    $('#createAssessmentModal').modal('hide');
-    $scope.newAssessment = null; // reset the form
-    $scope.resetValidation();
-  };
-
-  $scope.resetValidation = function() {
-    $scope.newAssessment = null;
-    $scope.validateName = false;
-    $scope.validateNumAssessments = false;
-    $scope.validateStyle = false;
-    $scope.validateType = false;
-  };
 });
 
 app.controller('AddToCohort', function($scope, Restangular) {

@@ -453,3 +453,12 @@ input::-webkit-inner-spin-button {
 .assessment3-sub-assess-pos {
   margin-top: 132px;
 }
+
+.btn-full-width {
+  width: 100%;
+}
+
+.btn-btn-width {
+    width: 90.9%;
+    text-align: left;
+}
