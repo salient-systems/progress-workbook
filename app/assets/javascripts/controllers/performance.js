@@ -294,21 +294,21 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     angular.forEach(datasets, function(dataset, index) {
       var panel = $scope.addPanel();
 
-      if (dataset.filterDatum !== null) {
-        panel.filterType = dataset.filterType;
-        panel.filterDatum = dataset.filterDatum;
-      }
-
       if (dataset.termId != undefined) {
         panel.termId = dataset.termId;
       }
 
-      if (dataset.filterType && dataset.filterType != 'cohorts') {
-        // if a student or user has been selected, only show their sections
-        var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
-        userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
-            panel.sections = sections;
-        });
+      if (dataset.filterType) {
+        panel.filterType = dataset.filterType;
+        panel.filterDatum = dataset.filterDatum;
+
+        if (dataset.filterType != 'cohorts') {
+          // if a student or user has been selected, only show their sections
+          var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
+          userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
+              panel.sections = sections;
+          });
+        }
       } else {
         Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
           panel.sections = sections;
