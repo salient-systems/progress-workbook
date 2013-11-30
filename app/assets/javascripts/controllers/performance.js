@@ -283,11 +283,24 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       var i = 0;
       do {
         var panel = $scope.panels[i];
+        if(datasets[i].filterDatum !== null) {
+          panel.filterType = datasets[i].filterType;
+          panel.filterDatum = datasets[i].filterDatum;
+        }
+
         if(datasets[i].termId != undefined) {
           panel.termId = datasets[i].termId;
-          Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
-              panel.sections = sections;
+          if (self.filterDatum != null) {
+            // if a student or user has been selected, only show their sections
+            var userOrStudent = Restangular.one(self.filterType, self.filterDatum.id);
+            userOrStudent.all('sections').getList({term_id: self.termId}).then(function(sections) {
+                self.sections = sections;
             });
+          } else {
+            Restangular.one('terms', self.termId).getList('sections').then(function(sections) {
+              self.sections = sections;
+            });
+          }
 
           if(datasets[i].sectionId != undefined) {
             panel.sectionId = datasets[i].sectionId;
@@ -330,6 +343,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     for (var i=0; i < $scope.panels.length; i++) {
       var panel = $scope.panels[i];
       datasets[i] = {
+        filterType: panel.filterType,
+        filterDatum: panel.filterDatum,
         termId: panel.termId,
         sectionId: panel.sectionId,
         assessmentTypeId: panel.assessmentTypeId,
