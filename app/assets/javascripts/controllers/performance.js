@@ -242,7 +242,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     }
   };
 
-  /* ----------------------- Save/Dupe/Remove Panels ----------------------- */
+  /* ----------------------- Panel Management ----------------------- */
 
   $scope.save = function(isLast, panel) {
     // TODO get the performance data!
@@ -251,6 +251,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     if (isLast) {
       $scope.createPanel($scope.defaultPanel);
     }
+
+    $scope.updateURL();
   };
 
   $scope.duplicate = function(panel) {
@@ -275,6 +277,53 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $('html, body').animate({scrollTop:$(document).height()}, 1500);
   };
 
+ // parse URL and configure data sets (if applicable)
+  $scope.parseUrl = function() {
+    $scope.location = $location;
+    var urlParam = ($location.search());
+    var i = 1;
+    var panel = $scope.panels[i-1];
+
+    //retrieve student/teacher/cohort ID
+
+    if(urlParam['term'+i] != undefined) {
+      panel.termId = parseInt(urlParam['term'+i]);
+
+      if(urlParam['section'+i] != undefined) {
+        panel.sectionId = parseInt(urlParam['section'+i]);
+        Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+          panel.assessmentTypes = assessmenttypes;
+        });
+
+        if(urlParam['assessmentType'+i] != undefined) {
+          panel.assessmentTypeId = parseInt(urlParam['assessmentType'+i]);
+          Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+            panel.assessments = assessments;
+          });
+
+          if(urlParam['assessment'+i] != undefined) {
+            panel.assessmentId = parseInt(urlParam['assessment'+i]);
+            Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+              panel.criterions = criterions;
+            });
+
+            if(urlParam['criterion'+i] != undefined) {
+              panel.criterionId = parseInt(urlParam['criterion'+i]);
+            }
+          }
+        }
+      }
+
+      panel.statisticId = parseInt(urlParam['statistic'+i]);
+    }
+  };
+
+  // update URL based on data set configuration
+  $scope.updateURL = function() {
+    //for each data set, update the URL
+    $location.search({test: 1});
+  };
+
   /* --------------------------- Start the party! -------------------------- */
 
   // insert the default first panel
@@ -293,58 +342,13 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.panels[0].termId = $scope.terms.length;
     $scope.defaultPanel.termId = $scope.terms.length;
 
-
-    $scope.parseUrl();
-
-
     Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
       $scope.panels[0].sections = sections;
       $scope.defaultPanel.sections = sections;
     });
+
+    $scope.parseUrl();
   });
-
-
-  // parse URL and configure data sets (if applicable)
-  $scope.parseUrl = function() {
-    $scope.location = $location;
-    var urlParam = ($location.search());
-    $scope.$watch('location.search()', function() {
-      var panel = $scope.panels[0];
-
-      //retrieve student/teacher/cohort ID
-
-      if(urlParam.term != undefined) {
-        panel.termId = parseInt(urlParam.term);
-
-        if(urlParam.section != undefined) {
-          panel.sectionId = parseInt(urlParam.section);
-          Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
-            panel.assessmentTypes = assessmenttypes;
-          });
-
-          if(urlParam.assessmentType != undefined) {
-            panel.assessmentTypeId = parseInt(urlParam.assessmentType);
-            Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
-              panel.assessments = assessments;
-            });
-
-            if(urlParam.assessment != undefined) {
-              panel.assessmentId = parseInt(urlParam.assessment);
-              Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
-                panel.criterions = criterions;
-              });
-
-              if(urlParam.criterion != undefined) {
-                panel.criterionId = parseInt(urlParam.criterion);
-              }
-            }
-          }
-        }
-
-        panel.statisticId = parseInt(urlParam.statistic);
-      }
-    }, true);
-  };
 
 });
 
