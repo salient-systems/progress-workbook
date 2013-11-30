@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 20131120164809) do
     t.boolean  "is_active",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sid"
+    t.string   "sid",         null:false
   end
 
   create_table "subjects", force: true do |t|

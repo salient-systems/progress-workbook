@@ -46,10 +46,8 @@ app.controller('SettingsCtrl', function($scope, Restangular) {
   };
 
   $scope.resetImportValidation = function() {
-    $scope.studentListFile = null;
-    $("input:file").change(function() {
-       document.getElementById('importButton').disabled = true;
-     });
+    $scope.file = null;
+    document.getElementById('importButton').disabled = true;
   };
 
   $(function() {

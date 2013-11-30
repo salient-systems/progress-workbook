@@ -151,26 +151,25 @@
         <button type="button" ng-click="resetImportValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Import Students</h4>
       </div>
+      <form name="importStudentsForm" class="form-horizontal" role="form" action="/students/import" enctype="multipart/form-data" method="post">
       <div class="modal-body">
 
-        <form name="importStudentsForm" class="form-horizontal" role="form">
           <div class="form-group">
             <br>
             <label for="importStudents" class="col-lg-2 control-label">CSV File</label>
             <div class="col-lg-9 col-lg-offset-1">
               <div class="form-group">
-                <input type="file" ng-model="studentListFile" id="studentListFile" name="studentListFile" >
+                <input type="file" ng-model="file" id="file" name="file" >
               </div>
             </div>
 
           </div>
-        </form>
-
       </div>
       <div class="modal-footer">
         <button ng-click="resetImportValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button ng-click="importStudents()" value="submit" id="importButton" class="btn btn-success" disabled="disabled">Import</button>
+        <button value="submit" id="importButton" class="btn btn-success" disabled="disabled">Import</button>
       </div>
+      <form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

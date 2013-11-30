@@ -1,3 +1,4 @@
+require 'csv'
 class Student < ActiveRecord::Base
   validates :fname, :presence => true
   validates :lname, :presence => true
@@ -23,4 +24,11 @@ class Student < ActiveRecord::Base
     options[:methods] << :scores
     super(options)
   end
+
+  def self.import(file)
+    CSV.foreach(file.path, headers:true) do |row|
+      Student.create! row.to_hash
+    end
+  end
+
 end
