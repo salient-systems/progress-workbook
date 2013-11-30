@@ -1,5 +1,5 @@
 // user list
-app.controller('UserListCtrl', function($scope, Restangular) {
+app.controller('UserListCtrl', function($scope, Restangular, $location) {
   $scope.active = true;
   Restangular.all('users').getList({"is_active":$scope.active}).then(function(users) {
     $scope.users = users;
@@ -51,6 +51,28 @@ app.controller('UserListCtrl', function($scope, Restangular) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.compare = function() {
+      Restangular.all('terms').getList().then(function(terms) {
+      var datasets = [];
+
+      _.each($scope.selections, function(user, i) {
+        datasets[i] = {
+          filterType: 'users',
+          filterDatum: {id: user.id, value: user.fname + ' ' + user.lname},
+          termId: terms.length,
+          sectionId: undefined,
+          assessmentTypeId: undefined,
+          assessmentId: undefined,
+          criterionId: undefined,
+          statisticId: undefined
+        };
+      });
+
+      $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+      console.log(datasets);
+    });
   };
 
   $scope.promoteAdmin = function() {

@@ -106,7 +106,6 @@ function($scope, $routeParams, Restangular, $location) {
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-    console.log(datasets);
   };
 
   // add student typeahead

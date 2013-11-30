@@ -1,5 +1,5 @@
 // student details page
-app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
+app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $location) {
   var student = Restangular.one('students', $routeParams.id);
   student.get().then(function(thestudent) {
     $scope.student = thestudent;
@@ -119,6 +119,25 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.compare = function() {
+    var datasets = [];
+
+    _.each($scope.selections, function(section, i) {
+      datasets[i] = {
+        filterType: 'students',
+        filterDatum: {id: $scope.student.id, value: $scope.student.fname + ' ' + $scope.student.lname},
+        termId: section.term.id,
+        sectionId: section.id,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      };
+    });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
 });
