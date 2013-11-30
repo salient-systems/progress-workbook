@@ -137,9 +137,15 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < $scope.assessments.length; i++){
-    	 $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+    	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
        }
 
+       //Calculating class total
+       $scope.section.totalpercent = 0;
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.section.totalpercent += $scope.assessments[i].percent;
+       }
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length); 
 
        //Calculating student score per assessment
        counter = 0;
@@ -386,6 +392,13 @@ assessment_type.getList('assessments').then(function(thereturn){
          $scope.students[i].assessmentPercent[k] = Math.floor($scope.students[i].assessmentTotal[k] / $scope.students[i].assessmentMax[k] * 100);
        }
      }
+     
+     //Calculating class total
+       $scope.section.totalpercent = 0;
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.section.totalpercent += $scope.assessments[i].percent;
+       }
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
 
   };
 

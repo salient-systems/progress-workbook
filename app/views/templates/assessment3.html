@@ -25,7 +25,7 @@
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
-              <td class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">%</td> <!-- Add overall percentage here -->
+              <td class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{section.totalpercent}}%</td> <!-- Add overall percentage here -->
               <td ng-repeat="student in students" class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
             </tr>
           </tbody>
