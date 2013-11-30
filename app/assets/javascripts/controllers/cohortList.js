@@ -1,5 +1,5 @@
 // cohort list
-app.controller('CohortListCtrl', function($scope, Restangular) {
+app.controller('CohortListCtrl', function($scope, Restangular, $location) {
   Restangular.all('cohorts').getList().then(function(cohorts) {
     $scope.cohorts = cohorts;
   });
@@ -36,6 +36,26 @@ app.controller('CohortListCtrl', function($scope, Restangular) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.compare = function() {
+    var datasets = [];
+
+    _.each($scope.selections, function(cohort, i) {
+      datasets[i] = {
+        filterType: 'cohorts',
+        filterDatum: {id: cohort.id, value: cohort.name},
+        termId: undefined,
+        sectionId: undefined,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: undefined
+      };
+    });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+    console.log(datasets);
   };
 
 });

@@ -1,6 +1,6 @@
 // cohort details page
 app.controller('CohortCtrl',
-function($scope, $routeParams, Restangular) {
+function($scope, $routeParams, Restangular, $location) {
   var cohort = Restangular.one('cohorts', $routeParams.id);
   cohort.get().then(function(cohort) {
     $scope.cohort = cohort;
@@ -83,6 +83,8 @@ function($scope, $routeParams, Restangular) {
 
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
+
+
 
     // add student typeahead
   $('input#studentSearch').typeahead({

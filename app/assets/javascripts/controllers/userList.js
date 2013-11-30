@@ -54,25 +54,23 @@ app.controller('UserListCtrl', function($scope, Restangular, $location) {
   };
 
   $scope.compare = function() {
-      Restangular.all('terms').getList().then(function(terms) {
-      var datasets = [];
+    var datasets = [];
 
-      _.each($scope.selections, function(user, i) {
-        datasets[i] = {
-          filterType: 'users',
-          filterDatum: {id: user.id, value: user.fname + ' ' + user.lname},
-          termId: terms.length,
-          sectionId: undefined,
-          assessmentTypeId: undefined,
-          assessmentId: undefined,
-          criterionId: undefined,
-          statisticId: undefined
-        };
-      });
-
-      $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-      console.log(datasets);
+    _.each($scope.selections, function(user, i) {
+      datasets[i] = {
+        filterType: 'users',
+        filterDatum: {id: user.id, value: user.fname + ' ' + user.lname},
+        termId: undefined,
+        sectionId: undefined,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: undefined
+      };
     });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+    console.log(datasets);
   };
 
   $scope.promoteAdmin = function() {

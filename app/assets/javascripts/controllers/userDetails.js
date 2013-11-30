@@ -1,11 +1,11 @@
 // user details page
-app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
+app.controller('UserCtrl', function($scope, $routeParams, Restangular, $location) {
   var user = Restangular.one('users', $routeParams.id);
   user.get().then(function(theuser) {
     $scope.user = theuser;
     $scope.setupEditUser();
   });
-  
+
   $scope.selections = [];
 
   Restangular.all('terms').getList().then(function(theterms) {
@@ -107,6 +107,25 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular) {
       });
     });
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
+  };
+
+  $scope.compare = function() {
+    var datasets = [];
+
+    _.each($scope.selections, function(section, i) {
+      datasets[i] = {
+        filterType: 'users',
+        filterDatum: {id: $scope.user.id, value: $scope.user.fname + ' ' + $scope.user.lname},
+        termId: section.term.id,
+        sectionId: section.id,
+        assessmentTypeId: undefined,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      };
+    });
+
+    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
 });
