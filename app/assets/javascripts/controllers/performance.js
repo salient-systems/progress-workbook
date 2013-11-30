@@ -303,7 +303,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         panel.termId = dataset.termId;
       }
 
-      if (dataset.filterType != null && dataset.filterType != 'cohorts') {
+      if (dataset.filterType && dataset.filterType != 'cohorts') {
         // if a student or user has been selected, only show their sections
         var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
         userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
