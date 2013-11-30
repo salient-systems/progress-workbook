@@ -286,7 +286,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $location.search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
-    // parse URL and configure data sets (if applicable)
+  // parse URL and configure data sets (if applicable)
   $scope.parseUrl = function() {
     //retrieve student/teacher/cohort ID
     var datasets = $.parseJSON(decodeURIComponent($location.search().datasets));
@@ -315,6 +315,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         });
       }
 
+      panel.statisticId = dataset.statisticId;
+
       if (dataset.sectionId != undefined) {
         panel.sectionId = dataset.sectionId;
         Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
@@ -339,9 +341,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
           }
         }
       }
-
-      panel.statisticId = dataset.statisticId;
-
     });
   };
 
