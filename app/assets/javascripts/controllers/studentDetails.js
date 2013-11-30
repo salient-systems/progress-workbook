@@ -70,9 +70,6 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
     $scope.validateGrade = false;
   };
 
-  //var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/classes/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
-  var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-
   $scope.gridOptions = {
     data: 'sections',
     selectedItems: $scope.selections,
