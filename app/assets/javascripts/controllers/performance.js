@@ -2,9 +2,10 @@
  * Master Performance Controller
  *
  */
-app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout, $location) {
+app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout, $location, $q) {
 
-  $scope.panelIndex = 0;
+  $scope.panels = [];
+  $scope.panelIndex = -1;
   $scope.noDelete = true;
 
   /*
@@ -251,90 +252,17 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   };
 
   $scope.addPanel = function() {
-    $scope.createPanel($scope.defaultPanel);
-  };
-
-  $scope.createPanel = function(panel) {
-    var newPanel = angular.copy(panel);
+    var newPanel = angular.copy($scope.defaultPanel);
     newPanel.id = ++$scope.panelIndex;
     $scope.panels.push(newPanel);
     $timeout(function() { angular.bind(newPanel, newPanel.setupSearch)(); }, 0);
-    $scope.noDelete = false;
-    //$scope.scrollToBottom();
+    $scope.noDelete = ($scope.panels.length == 1); // can't delete if there's only 1 dataset
+    return newPanel;
   };
 
   $scope.remove = function(panelIndex) {
     $scope.panels.splice(panelIndex, 1);
-    if($scope.panels.length == 1) {
-      $scope.noDelete = true;
-    }
-  };
-
-  $scope.scrollToBottom = function() {
-    $('html, body').animate({scrollTop:$(document).height()}, 1500);
-  };
-
- // parse URL and configure data sets (if applicable)
-  $scope.parseUrl = function() {
-    //retrieve student/teacher/cohort ID
-    if($location.search().datasets !== undefined) {
-      if(i != 0) {
-        $scope.createPanel($scope.defaultPanel);
-      }
-
-      var datasets = ($.parseJSON(decodeURIComponent($location.search().datasets)));
-
-      for (var i = 0; i < datasets.length; i++) {
-        var panel = $scope.panels[i];
-        if(datasets[i].filterDatum !== null) {
-          panel.filterType = datasets[i].filterType;
-          panel.filterDatum = datasets[i].filterDatum;
-        }
-
-        if(datasets[i].termId != undefined) {
-          panel.termId = datasets[i].termId;
-
-          if (self.filterDatum != null) {
-            // if a student or user has been selected, only show their sections
-            var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
-            userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
-                panel.sections = sections;
-            });
-          } else {
-            Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
-              panel.sections = sections;
-            });
-          }
-
-          if(datasets[i].sectionId != undefined) {
-            panel.sectionId = datasets[i].sectionId;
-            Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
-              panel.assessmentTypes = assessmenttypes;
-            });
-
-            if(datasets[i].assessmentTypeId != undefined) {
-              panel.assessmentTypeId = datasets[i].assessmentTypeId;
-              Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
-                panel.assessments = assessments;
-              });
-
-              if(datasets[i].assessmentId != undefined) {
-                panel.assessmentId = datasets[i].assessmentId;
-                Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
-                  panel.criterions = criterions;
-                });
-
-                if(datasets[i].criterionId != undefined) {
-                  panel.criterionId = datasets[i].criterionId;
-                }
-              }
-            }
-          }
-
-          panel.statisticId = datasets[i].statisticId;
-        }
-      }
-    }
+    $scope.noDelete = ($scope.panels.length == 1);
   };
 
   // update URL based on data set configuration
@@ -358,39 +286,91 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $location.search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
+    // parse URL and configure data sets (if applicable)
+  $scope.parseUrl = function() {
+    //retrieve student/teacher/cohort ID
+    var datasets = $.parseJSON(decodeURIComponent($location.search().datasets));
+
+    angular.forEach(datasets, function(dataset, index) {
+      var panel = $scope.addPanel();
+
+      if (dataset.filterDatum !== null) {
+        panel.filterType = dataset.filterType;
+        panel.filterDatum = dataset.filterDatum;
+      }
+
+      if (dataset.termId != undefined) {
+        panel.termId = dataset.termId;
+
+        if (dataset.filterDatum != null) {
+          // if a student or user has been selected, only show their sections
+          var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
+          userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
+              panel.sections = sections;
+          });
+        } else {
+          Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
+            panel.sections = sections;
+          });
+        }
+
+        if (dataset.sectionId != undefined) {
+          panel.sectionId = dataset.sectionId;
+          Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+            panel.assessmentTypes = assessmenttypes;
+          });
+
+          if (dataset.assessmentTypeId != undefined) {
+            panel.assessmentTypeId = dataset.assessmentTypeId;
+            Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+              panel.assessments = assessments;
+            });
+
+            if (dataset.assessmentId != undefined) {
+              panel.assessmentId = dataset.assessmentId;
+              Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+                panel.criterions = criterions;
+              });
+
+              if (dataset.criterionId != undefined) {
+                panel.criterionId = dataset.criterionId;
+              }
+            }
+          }
+        }
+
+        panel.statisticId = dataset.statisticId;
+      }
+    });
+  };
+
   /* --------------------------- Start the party! -------------------------- */
 
-  // insert the default first panel
-  $scope.panels = [angular.copy($scope.defaultPanel)];
+  $q.all([
+    $http.get('/performance/search.json'),
+    Restangular.all('terms').getList()
+  ]).then(function (response) {
+    $scope.searchDatums = response[0].data;
+    $scope.terms = response[1];
 
-  // prefetch the twitter typeahead datums
-  $http.get('/performance/search.json').success(function(datums) {
-    $scope.searchDatums = datums;
-    // now we have datums, so setup the typeahead for the default panel
-    angular.bind($scope.panels[0], $scope.panels[0].setupSearch)();
+    if ($location.search().datasets == undefined) {
+      $scope.defaultPanel.termId = $scope.terms.length;
+
+      Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
+        $scope.defaultPanel.sections = sections;
+        $scope.addPanel();
+      });
+    } else {
+      $scope.parseUrl();
+    }
   });
-
-  // prefetch the latest term and and its sections
-  Restangular.all('terms').getList().then(function(terms) {
-    $scope.terms = terms;
-    $scope.panels[0].termId = $scope.terms.length;
-    $scope.defaultPanel.termId = $scope.terms.length;
-
-    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
-      $scope.panels[0].sections = sections;
-      $scope.defaultPanel.sections = sections;
-    });
-
-    $scope.parseUrl();
-  });
-
 });
 
 /*
  * Chart Controller
  *
  */
-app.controller('ChartCtrl', function($scope, $http){
+app.controller('ChartCtrl', function($scope, $http) {
   //color : #F26C4F, #FBAF5C, #FFF467, #00BFF3, #3BB878, #438CCA, #A763A8, #F06EA9, #998675, #754C24
 
   $http.get('/performance/student/1/assessment_type/1').success(function(response) {
