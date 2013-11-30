@@ -24,14 +24,14 @@
               <td>&nbsp;</td>
               <td ng-repeat="assessment in assessments" class="scoreHoriz" ng-style="{background: percentColor(assessment.percent)}">{{assessment.percent}}%</td>
             </tr>
-            <tr ng-repeat="a in range(domulti(students.length, sizeAssessment[0]))" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
+            <tr ng-repeat="a in studentbycrit" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
               <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row">
                 <div class="assessment-relative-position">
                   <p class="css-vertical-text"><a href="#/students/{{student.id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a></p>
                 </div>
               </td>
               <td class="assessment2-criterion-name">{{criterions[$index % sizeAssessment[0]].name}}</td>
-              <td ng-repeat="b in range(assessments.length)" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score / criterions[domod($parent.$index,sizeAssessment[0])].max +')'}">
+              <td ng-repeat="assessment in assessments" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score / criterions[domod($parent.$index,sizeAssessment[0])].max +')'}">
               <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score" ng-focus="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]])" />
               </td>
             </tr>

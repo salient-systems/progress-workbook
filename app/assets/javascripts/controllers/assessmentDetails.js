@@ -75,11 +75,17 @@ assessment_type.getList('assessments').then(function(thereturn){
 		$scope.indexAssessment[i] = z;
 	}
 
-
+  $scope.numOfCritArray = [];
+  for(var i = 0; i < $scope.numOfCrit.length; i++){
+    $scope.numOfCritArray[i] = $scope.range($scope.numOfCrit[i]);  
+  }
+  
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	   $scope.students = thereturn;
 
 	   //Calculating Criterion Totals
+	     $scope.studentbycrit = $scope.range($scope.sizeAssessment[0] * thereturn.length);
+	     
        $scope.criterions.present = [];
        $scope.criterions.total = [];
        $scope.criterions.percent = [];
