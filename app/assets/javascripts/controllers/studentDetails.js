@@ -16,14 +16,11 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
     });
   });
 
-	//Restangular.one('class_students').get({"section_id": $routeParams.id, "student_id": student.id})
-
-  $scope.updateTerm = function(){
+  $scope.updateTerm = function() {
   	student.all('sections').getList({term_id: $scope.termId}).then(function(sections) {
       $scope.sections = sections;
     });
   };
-
 
   $scope.save = function() {
     $scope.student.fname = $scope.editStudent.fname;
@@ -106,9 +103,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
         displayName: 'Teacher',
         cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/users/{{row.getProperty(\'id\')}}">{{row.getProperty(\'user.fname\')}} {{row.getProperty(\'user.lname\')}}</a></div>',
         width: '30%'
-      },/*{
-        displayName: 'Action', cellTemplate: '<a href="" ng-click="editUser(row.getProperty(\'id\'))"><i class="glyphicon glyphicon-pencil" />Edit</a>'
-      }*/
+      }
     ]
   };
 
@@ -139,5 +134,4 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
-
 });
