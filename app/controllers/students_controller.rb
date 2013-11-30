@@ -84,6 +84,11 @@ class StudentsController < ApplicationController
     @students = Student.where(is_active: 'true').all
   end
 
+  def import
+    Student.import(params[:file])
+    redirect_to "/#/settings"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
