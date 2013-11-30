@@ -278,10 +278,13 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.parseUrl = function() {
     //retrieve student/teacher/cohort ID
     if($location.search().datasets !== undefined) {
+      if(i != 0) {
+        $scope.createPanel($scope.defaultPanel);
+      }
+
       var datasets = ($.parseJSON(decodeURIComponent($location.search().datasets)));
 
-      var i = 0;
-      do {
+      for (var i = 0; i < datasets.length; i++) {
         var panel = $scope.panels[i];
         if(datasets[i].filterDatum !== null) {
           panel.filterType = datasets[i].filterType;
@@ -290,15 +293,16 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
         if(datasets[i].termId != undefined) {
           panel.termId = datasets[i].termId;
+
           if (self.filterDatum != null) {
             // if a student or user has been selected, only show their sections
-            var userOrStudent = Restangular.one(self.filterType, self.filterDatum.id);
-            userOrStudent.all('sections').getList({term_id: self.termId}).then(function(sections) {
-                self.sections = sections;
+            var userOrStudent = Restangular.one(panel.filterType, panel.filterDatum.id);
+            userOrStudent.all('sections').getList({term_id: panel.termId}).then(function(sections) {
+                panel.sections = sections;
             });
           } else {
-            Restangular.one('terms', self.termId).getList('sections').then(function(sections) {
-              self.sections = sections;
+            Restangular.one('terms', panel.termId).getList('sections').then(function(sections) {
+              panel.sections = sections;
             });
           }
 
@@ -329,10 +333,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
           panel.statisticId = datasets[i].statisticId;
         }
-
-        $scope.createPanel($scope.defaultPanel);
-        i++;
-      } while (i < datasets.length);
+      }
     }
   };
 
