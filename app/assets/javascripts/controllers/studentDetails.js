@@ -57,7 +57,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
     $scope.editStudent = {
       fname: $scope.student.fname,
       lname: $scope.student.lname,
-      sid: $scope.student.sid,
+      sid: parseInt($scope.student.sid),
       grade_level: $scope.student.grade_level,
       gender: $scope.student.gender,
       is_active: $scope.student.is_active
