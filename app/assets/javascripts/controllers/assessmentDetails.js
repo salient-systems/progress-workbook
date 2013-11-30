@@ -4,22 +4,6 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
-  $scope.view1 = false;
-  $scope.view1 = false;
-  $scope.view1 = false;
-
-  if($routeParams.view_id == 1){
-  	$scope.view1 = true;
-  }
-
-  if($routeParams.view_id == 2){
-  	$scope.view2 = true;
-  }
-
-  if($routeParams.view_id == 3){
-  	$scope.view3 = true;
-  }
-
   $scope.assessment_type = assessment_type.get();
 
   section.get().then(function(thesection) {
@@ -478,7 +462,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     });
     $scope.newCriterions = [];
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
-      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]]; 
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
       $scope.criterions[$scope.changedOldCritFlags[i]].put();
     }
     location.reload();
@@ -490,7 +474,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
     $scope.newCriterions = [];
-    
+
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
@@ -516,7 +500,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       editable.remove();
     }
   };
-  
+
   $scope.changedOldCriterion = function(criterion, index){
     if($scope.newCriterions.indexOf(criterion) < 0){
       $scope.changedOldCritFlags.push(index);

@@ -10,8 +10,16 @@ app.config(function($routeProvider) {
       templateUrl: 'templates/sections.html',
       controller: 'SectionListCtrl'
     }).
-    when('/classes/:section_id/assessment_type/:assessment_type_id/view/:view_id', {
-      templateUrl: 'templates/assessment.html',
+    when('/classes/:section_id/assessment_type/:assessment_type_id/view/1', {
+      templateUrl: 'templates/assessment1.html',
+      controller: 'AssessmentCtrl'
+    }).
+    when('/classes/:section_id/assessment_type/:assessment_type_id/view/2', {
+      templateUrl: 'templates/assessment2.html',
+      controller: 'AssessmentCtrl'
+    }).
+    when('/classes/:section_id/assessment_type/:assessment_type_id/view/3', {
+      templateUrl: 'templates/assessment3.html',
       controller: 'AssessmentCtrl'
     }).
     when('/classes/:id', {

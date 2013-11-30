@@ -1,0 +1,158 @@
+<div class="container">
+  <div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <h3><img src="/assets/assessment.png"> {{assessment_type.name}}
+        <a data-toggle="modal" href="#editAssessmentModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+      </h3>
+      <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
+
+      <!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
+      <br>
+
+      <!-- #3 view -->
+      <div class="assessment-view">
+        <table>
+          <thead>
+            <th class="assessment-heading-space-name"></th>
+            <th class="assessment-heading-space-assessment"></th>
+            <th class="assessment-heading-space-criterion"></th>
+      <th></th>
+            <th ng-repeat="student in students" class="assessment1-criterion-name"><p class="css-vertical-text"><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></p></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">%</td> <!-- Add overall percentage here -->
+              <td ng-repeat="student in students" class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
+            </tr>
+          </tbody>
+          <tbody ng-repeat="assessment in assessments">
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+              <td class="scoreHoriz" colspan=2 ng-style="{background: percentColor(assessment.percent)}" >{{assessment.percent}}%</td>
+              <td class="assessment-label-row">&nbsp;</td>
+              <td class="assessment-label-avg">Avg.</td>
+              <td class="scoreHoriz" ng-repeat="student in students" ng-style="{background: percentColor(student.assessmentPercent[$parent.$index])}" >{{student.assessmentPercent[$parent.$index]}}%</td>
+            </tr>
+            <tr ng-repeat="a in range(numOfCrit[$index])" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
+              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-subject">
+                <p class="css-vertical-text"><strong>{{assessments[$parent.$index].subject}}</strong></p>
+              </td>
+              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-assessment">
+                <p class="css-vertical-text">{{assessments[$parent.$index].name}}</p>
+              </td>
+              <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
+              <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
+              <td ng-repeat="student in students" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score / criterions[getCritStart($parent.$parent.$index) + $parent.$index].max +')'}">
+              <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="student.scores[getCritStart($parent.$parent.$index) + $parent.$index].score" ng-focus="checkVal(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" ng-blur="saveGrade(student.scores[getCritStart($parent.$parent.$index) + $parent.$index])" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-end"></div>
+      </div>
+
+      <p>
+      <!-- Drop-down button -->
+<!--     <div class="btn-group">
+       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+         Bulk Actions <span class="caret"></span>
+       </button>
+       <ul class="dropdown-menu" role="menu">
+         <li><a href="#">Compare</a></li>
+         <li><a data-toggle="modal" href="#addToCohortModal">Add to Cohort</a></li>
+         <li><a href="#">Remove from Class</a></li>
+       </ul>
+     </div>
+-->
+     <!-- Right-aligned button trigger modal -->
+<!--      <a data-toggle="modal" href="#addStudentModal" class="btn btn-default pull-right">Add Student</a>
+-->
+      <!-- Modal -->
+<!--      <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Add to Class</h4>
+            </div>
+            <div class="modal-body">
+              <input type="search" class="form-control input" placeholder="Search students..." />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+   </p>
+-->
+    <!-- Modal #1-->
+    <div ng-controller="EditRunChartCtrl" class="modal fade" id="editAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- head of modal -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Edit Criteria</h4>
+          </div>
+          <!-- body of modal -->
+          <div class="modal-body">
+            <div class="row">
+              <label style="height:11px" class="control-label criterion-modal-label-view1">Criterion Name</label>
+              <label style="height:11px" class="control-label max-modal-label-view1">Max</label>
+              <label style="height:11px" class="remove-label remove-modal-label-view1">Remove</label>
+            </div>
+            <form name="dataSetForm" class="form-horizontal" role="form">
+              <!-- repeat criterions -->
+              <div ng-repeat="criterion in modalCriterions">
+                <div class="row">
+                   <div class="form-group" >
+                     <div class="col-md-1"></div>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <div class="col-md-3">
+                       <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   </div>
+                   <div class="col-md-1"></div>
+                 </div>
+               </div>
+               <!--<div ng-repeat="newCriterion in newCriterions">
+                <div class="row">
+                   <div class="form-group" >
+                     <label for="inputDataType" style="height:11px" class="col-md-3 control-label">Criterion {{$index + 1}}</label>
+                     <div class="col-md-5">
+                       <input type="text" class="form-control" ng-model="newCriterion.name" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <div class="col-md-3">
+                       <input type="text" class="form-control" ng-model="newCriterion.max" name="name" ng-blur="validateName=true" required>
+                     </div>
+                     <button type="button" class="btn btn-default btn-xs" ng-click="remove(newCriterion)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   </div>
+                 </div>
+               </div>-->
+               <!-- add criterion button -->
+                 <button type="button" class="btn btn-default btn-xs pull-right btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+            </form>
+          </div>
+          <!-- footer of modal -->
+          <div class="modal-footer">
+            <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" ng-click="save()" class="btn btn-primary" data-dismiss="modal">Save</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+	  </div>
+	</div>
+  </div>
+</div>
