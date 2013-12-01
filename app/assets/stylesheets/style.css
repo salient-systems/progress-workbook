@@ -466,8 +466,12 @@ input::-webkit-inner-spin-button {
 }
 
 .btn-btn-width {
-    width: 90.9%;
+    width: 91.8%;
     text-align: left;
+}
+
+.btn-drop-margin {
+    margin-left: -4px !important;
 }
 
 /* Assessment styling */
@@ -481,12 +485,20 @@ input::-webkit-inner-spin-button {
   margin-left: -15px;
 }
 
+.edit-criterion-name {
+  margin-left: -30px;
+}
+
 .edit-assessment-max {
   margin-left: 5px;
 }
 
-.edit-assessment-remove {
-  margin-left: 0px;
+.edit-criterion-max {
+  margin-left: 10px;
+}
+
+.edit-criterion-remove {
+    margin-left: 10px;
 }
 
 /* Performance Page Styles */

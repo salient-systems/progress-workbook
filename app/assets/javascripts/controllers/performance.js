@@ -14,16 +14,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
    */
   $scope.graphOptions = {
     series: {
-      lines: {
-        show: true,
-      },
-      points: {
-        show: true
-      }
+      lines: { show: true },
+      points: { show: true }
     },
     xaxis: {
       mode: "categories"
-      }
+    }
   };
 
   /*
@@ -74,7 +70,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     id: 0,
     open: true,
     searchBox: null,
-    filterType: "",
+    filterType: '',
     filterDatum: null,
     termId: null,
     sectionId: null,
@@ -253,37 +249,53 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         self.statisticId = null;
         self.statistics = $scope.assessmentStatistics;
       }
-    },
-
-    /*
-     * Update statistic
-     */
-    updateStatistic: function() {
-      // TODO do the math for the current statistic
     }
   };
 
   /* ----------------------------- Graphs  --------------------------------- */
 
   $scope.plot = function(dataset) {
-    var url = '/performance/section/'
-      + dataset.sectionId
-      + '/assessment_type/'
-      + dataset.assessmentTypeId;
+
+    if (dataset.filterType == 'students') {
+      var url = '/p/student/'
+        + dataset.studentId
+        + '/type/'
+        + dataset.assessmentTypeId;
+    }
+
+    if (dataset.filterType == '' || dataset.filterType == 'users') {
+      var url = '/p/section/'
+        + dataset.sectionId
+        + '/type/'
+        + dataset.assessmentTypeId;
+    }
 
     $http.get(url).success(function(assessments) {
-      var graphPoints = [];
+      var series = {
+        label: 'Dataset ' + parseInt(dataset.id + 1),
+        data: []
+      };
 
+      // crunch the numbers
       angular.forEach(assessments, function(assessment, index) {
-        var grades = _.pluck(assessment.grades, 'score');
-        var percent = $scope.sum(grades) / $scope.getTotalPossible(assessment);
-        graphPoints.push([assessment.name, percent]);
+        // percentage correct
+        if (dataset.statisticId == 2) {
+          var grades = _.pluck(assessment.grades, 'score');
+          var percent = $scope.sum(grades) / $scope.getTotalPossible(assessment);
+          series.data.push([assessment.name, percent]);
+        }
+
+        // total correct
+        if (dataset.statisticId == 1) {
+          var grades = _.pluck(assessment.grades, 'score');
+          series.data.push([assessment.name, $scope.sum(grades)]);
+        }
       });
 
       if (dataset.graphPointsIndex == null) {
-        dataset.graphPointsIndex = $scope.allGraphPoints.push(graphPoints) - 1;
+        dataset.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
       } else {
-        $scope.allGraphPoints[dataset.graphPointsIndex] = graphPoints;
+        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
       }
 
       // plot the data
@@ -377,6 +389,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
     angular.forEach(datasets, function(dataset, index) {
       var panel = $scope.addPanel();
+      dataset.id = panel.id;
       $scope.plot(dataset);
 
       if (dataset.termId != undefined) {
@@ -447,7 +460,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         $scope.defaultPanel.sections = sections;
         $scope.addPanel();
       });
-      $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions); // empty placeholder graph
+      $.plot("#graph", [[]]); // empty placeholder graph
     } else {
       $scope.parseUrl();
     }
