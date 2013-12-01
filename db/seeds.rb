@@ -126,11 +126,11 @@ puts "   -> creating criteria"
 1.upto(NUM_CRITERIA) do |num|
   assessment = (num - 1) % NUM_ASSESSMENTS + 1
   assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
-  if (assessment_type % 4 != 1) || (num < NUM_ASSESSMENTS)
+  #if (assessment_type % 4 != 1) || (num < NUM_ASSESSMENTS)
   	Criterion.create(max: 10,
   		name: "Criterion #{num}",
   		assessment_id: assessment)
-  end
+  #end
 end
 
 puts "   -> creating criterion grades"
@@ -141,7 +141,7 @@ puts "   -> creating criterion grades"
     assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
     section = (assessment_type - 1) / 4 + 1
     user = (section - 1) % NUM_USERS + 1
-    if (assessment_type % 4 != 1) || (criterion < NUM_ASSESSMENTS)
+    #if (assessment_type % 4 != 1) || (criterion < NUM_ASSESSMENTS)
       CriterionGrade.create(score: rng.rand(10) + 1,
         student_id: (section - 1) * 10 + student,
         criterion_id: criterion,
@@ -149,6 +149,6 @@ puts "   -> creating criterion grades"
         assessment_type_id: assessment_type,
         section_id: section,
         user_id: user)
-    end
+    #end
   end
 end
