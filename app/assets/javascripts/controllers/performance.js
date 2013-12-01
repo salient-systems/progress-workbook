@@ -256,20 +256,10 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   $scope.plot = function(dataset) {
 
-    if (dataset.filterType == 'students') {
-      var url = '/p/student/'
-        + dataset.studentId
-        + '/type/'
-        + dataset.assessmentTypeId;
-    }
+    console.log(dataset);
+    var url = $scope.buildRequestUrl(dataset);
 
-    if (dataset.filterType == '' || dataset.filterType == 'users') {
-      var url = '/p/section/'
-        + dataset.sectionId
-        + '/type/'
-        + dataset.assessmentTypeId;
-    }
-
+    /*
     $http.get(url).success(function(assessments) {
       var series = {
         label: 'Dataset ' + parseInt(dataset.id + 1),
@@ -300,7 +290,23 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       // plot the data
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
-    });
+    });*/
+  };
+
+  $scope.buildRequestUrl = function(dataset) {
+    if (dataset.filterType == 'students') {
+      var url = '/p/student/'
+        + dataset.studentId
+        + '/type/'
+        + dataset.assessmentTypeId;
+    }
+
+    if (dataset.filterType == '' || dataset.filterType == 'users') {
+      var url = '/p/section/'
+        + dataset.sectionId
+        + '/type/'
+        + dataset.assessmentTypeId;
+    }
   };
 
   $scope.sum = function(numbers) {
