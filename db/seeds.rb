@@ -123,14 +123,20 @@ puts "   -> creating assessments"
 end
 
 puts "   -> creating criteria"
+criteria = Array.new(NUM_CRITERIA + 1)
 1.upto(NUM_CRITERIA) do |num|
-	Criterion.create(max: 10,
-		name: "Criterion #{num}",
-		assessment_id: (num - 1) % NUM_ASSESSMENTS + 1)
+  assessment = (num - 1) % NUM_ASSESSMENTS + 1
+  assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
+  if ((assessment_type % 4 != 1) or (num < NUM_ASSESSMENTS))
+  	criteria[num] = Criterion.create(max: 10,
+  		name: "Criterion #{num}",
+  		assessment_id: assessment)
+  end
 end
 
 puts "   -> creating criterion grades"
-  1.upto(NUM_CRITERIA) do |criterion|
+1.upto(NUM_CRITERIA) do |criterion|
+  if criteria[criterion] != nil
     1.upto(10) do |student|
       rng = Random.new(criterion * 100 + student)
       assessment = ((criterion - 1) % NUM_ASSESSMENTS + 1)
@@ -139,10 +145,11 @@ puts "   -> creating criterion grades"
       user = (section - 1) % NUM_USERS + 1
       CriterionGrade.create(score: rng.rand(10) + 1,
         student_id: (section - 1) * 10 + student,
-        criterion_id: criterion,
+        criterion_id: criteria[criterion].id,
         assessment_id: assessment,
         assessment_type_id: assessment_type,
         section_id: section,
         user_id: user)
+    end
   end
 end

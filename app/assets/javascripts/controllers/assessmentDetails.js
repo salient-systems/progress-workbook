@@ -8,7 +8,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.assessment_type = thereturn;
     $scope.assessment_type_name = thereturn.name;
   });
-  
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
   });
@@ -476,6 +476,12 @@ assessment_type.getList('assessments').then(function(thereturn){
     }
   };
 */
+
+  $scope.edit = function(){
+    $('div#assessmentTable').hide();
+    $('div#editButton').hide();
+    $('div#editAssessment').show();
+  };
 });
 
 //controller for the modal that edits the assessment info for an assessment type
@@ -497,10 +503,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
       name: ($scope.modalCriterions.length + 1)
     };
-    
+
     $scope.newCriterionIndex++;
     $scope.modalCriterions.push(newCrit);
-    $scope.newCriterions.push(newCrit);     
+    $scope.newCriterions.push(newCrit);
   };
 
   $scope.save = function() {
@@ -511,7 +517,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
-    
+
     //adding new criterion/assessments
     $scope.newCriterions.forEach(function(crit){
       var newAssessment = {
@@ -523,7 +529,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       var restCopy1 = Restangular.copy(newAssessment);
       restCopy1.route = "assessments";
       restCopy1.post();
-      
+
       var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
       assessment_type.getList('assessments').then(function(thereturn){
         var saved_new_assessments = thereturn;
@@ -536,7 +542,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       });
     });
     $scope.newCriterions = [];
-    
+
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
@@ -547,25 +553,33 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     }
     $scope.changedOldCritFlags = [];
     //location.reload();
+        
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
   };
 
   $scope.cancel = function() {
     //cancel assessment_type name change
     $scope.assessmentTypeNameFlag = false;
     $scope.assessment_type_name = $scope.assessment_type.name;
-    
+
     //cancel new criterions that were created
     $scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
     $scope.newCriterions = [];
-    
+
     //cancel changed old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
+    
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
   };
 
   $scope.remove = function(criterion) {
@@ -594,7 +608,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       console.log("your index was: " + index);
     }
   };
-  
+
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
