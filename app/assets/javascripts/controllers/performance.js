@@ -247,7 +247,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   /* ----------------------- Panel Management ----------------------- */
 
   $scope.save = function(dataset) {
-    // TODO get the performance data!
     $scope.plot(dataset);
     $scope.updateURL();
   };
