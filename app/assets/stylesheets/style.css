@@ -466,8 +466,12 @@ input::-webkit-inner-spin-button {
 }
 
 .btn-btn-width {
-    width: 90.9%;
+    width: 91.8%;
     text-align: left;
+}
+
+.btn-drop-margin {
+    margin-left: -4px !important;
 }
 
 /* Assessment styling */
