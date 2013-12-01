@@ -4,5 +4,5 @@ class Criterion < ActiveRecord::Base
 
   belongs_to :assessment
 
-  has_many :criterion_grades
+  has_many :criterion_grades, dependent: :destroy
 end

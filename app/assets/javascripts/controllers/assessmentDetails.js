@@ -574,7 +574,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     $('div#assessmentTable').show();
   };
 
-  $scope.remove = function(criterion) {
+  $scope.remove = function(criterion, index) {
     var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
     var indexToRemove = $scope.criterions.indexOf(criterion);
     var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
@@ -589,8 +589,8 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     else
     {
       
-      var editable = Restangular.copy(criterion);
-      editable.route = "criterions";
+      var editable = Restangular.copy($scope.assessments[index]);
+      editable.route = "assessments";
       editable.remove();
     }
   };
@@ -626,9 +626,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
             }   
         }
   });
-
-
 });
+
+
+
 
 
 /*
@@ -773,9 +774,10 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
             }   
         }
   });
-
-
 });
+
+
+
 
 
 /*
@@ -920,6 +922,4 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
             }   
         }
   });
-
-
 });
