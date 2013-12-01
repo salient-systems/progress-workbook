@@ -4,8 +4,11 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
-  $scope.assessment_type = assessment_type.get();
-
+  assessment_type.get().then(function(thereturn){
+    $scope.assessment_type = thereturn;
+    $scope.assessment_type_name = thereturn.name;
+  });
+  
   section.get().then(function(thesection) {
     $scope.section = thesection;
   });
@@ -452,6 +455,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
   $scope.changedOldCritFlags = [];
+  $scope.assessmentTypeNameFlag = false;
 
   $scope.setupEditCriterion = function() {
     $scope.editCriterion = {
@@ -462,6 +466,12 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.newCriterion = function() {
+    var newAssessment = {
+      data_type: 0,
+      subject: "",
+      name: ($scope.modalCriterions.length + 1),
+      assessment_type_id: $scope.assessment_types[0].id
+    };
     var newCrit = {
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
       name: ($scope.modalCriterions.length + 1),
@@ -473,6 +483,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.save = function() {
+    //changing assessment_type name
+    if($scope.assessmentTypeNameFlag){
+      $scope.assessment_type.name = $scope.assessment_type_name;
+      console.log($scope.assessment_type);
+      $scope.assessment_type.put();
+      $scope.assessmentTypeNameFlag = false;
+    }
+    //adding new criterion/assessments
     $scope.newCriterions.forEach(function(crit){
       $scope.criterions.push(crit);
       var editable = Restangular.copy(crit);
@@ -480,20 +498,36 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       editable.post();
     });
     $scope.newCriterions = [];
+    
+    //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
-      $scope.criterions[$scope.changedOldCritFlags[i]].put();
+      console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
+      //$scope.criterions[$scope.changedOldCritFlags[i]].route = "criterions";
+      //$scope.criterions[$scope.changedOldCritFlags[i]].put();
+      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editable.route = "criterions";
+      editable.put();
+      //editable.route = "criterions";
+      //$scope.criterions[0].put();
     }
-    location.reload();
+    $scope.changedOldCritFlags = [];
+    //location.reload();
   };
 
   $scope.cancel = function() {
+    //cancel assessment_type name change
+    $scope.assessmentTypeNameFlag = false;
+    $scope.assessment_type_name = $scope.assessment_type.name;
+    
+    //cancel new criterions that were created
     $scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
     $scope.newCriterions = [];
-
+    
+    //cancel changed old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
@@ -521,10 +555,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.changedOldCriterion = function(criterion, index){
-    if($scope.newCriterions.indexOf(criterion) < 0){
+    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
       $scope.changedOldCritFlags.push(index);
       console.log("your index was: " + index);
     }
+  };
+  
+  $scope.changeAssessmentTypeName = function(){
+    $scope.assessmentTypeNameFlag = true;
   };
 
 });
