@@ -195,6 +195,7 @@ chart {
   width: 100%;
   overflow-y: hidden;
   overflow-x: scroll;
+  display: none;
 }
 
 .assessment1-heading-space {
