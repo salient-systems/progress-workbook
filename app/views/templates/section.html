@@ -8,15 +8,31 @@
     </div>
     <div class="col-md-4" id="var-height-assessment">
         <div class="box">
-        	<h3>Assessments</h3>
+        	<h3>Assessments <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/add.png"> Create Assessment</a></h3>
           <p>
             <div ng-repeat="assessment_type in assessment_types">
+              <div class="btn-group btn-full-width">
+                <a class="btn btn-default btn-btn-width" ng-href="#/classes/{{section.id}}/assessment_type/{{assessment_type.id}}/view/{{assessment_type.view}}" style="color: #428BCA;">{{assessment_type.name}}</a>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu btn-btn-width" role="menu">
+                  <li><a ng-click="plotAssessentType(assessment_type)">Show on Graph</a></li>
+                  <li><a data-toggle="modal" href="#confirmDeleteAssessmentTypeModal" ng-click="saveAssessmentTypeId(assessment_type)">Delete</a></li>
+                  <!-- "saveAssessmentTypeId({{assessment_type.id}})" -->
+                </ul>
+              </div>
+
+
+              <!-- old code
               <a ng-href="#/classes/{{section.id}}/assessment_type/{{assessment_type.id}}/view/{{assessment_type.view}}">{{assessment_type.name}}</a>
+              <a data-toggle="modal" href="#editSectionModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/remove.png"> Edit</a>-->
             </div>
           </p>
           <p>
             <!-- Right-aligned button trigger modal -->
-            <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default btn-xs"><img class="btn-img-sm" src="/assets/add.png"> Create Assessment Type</a>
+
           </p>
         </div>
     </div>
@@ -78,7 +94,7 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" ng-controller="AddAssessment" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="createAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -218,6 +234,30 @@
         <div class="modal-footer">
           <button class="btn btn-default" data-dismiss="modal">Cancel</button>
           <a data-dismiss="modal" href="" ng-click="removeFromClass()" class="btn btn-warning">Remove</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal: Confirm Deletion -->
+  <div class="modal fade" id="confirmDeleteAssessmentTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm Deletion</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="bs-callout bs-callout-danger">
+            <h4>Warning</h4>
+            <p>Are you sure you want to delete this assessment type? All associated assessments and grades will be removed as well. This change cannot be undone.</p>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a data-dismiss="modal" href="" ng-click="deleteAssessmentType()" class="btn btn-danger">Delete</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -195,6 +195,7 @@ chart {
   width: 100%;
   overflow-y: hidden;
   overflow-x: scroll;
+  display: none;
 }
 
 .assessment1-heading-space {
@@ -291,7 +292,7 @@ chart {
 }
 
 .assessment-heading-space-name, assessment-heading-space-subject {
-  height:200px;
+  height:150px;
   width: 30px;
 }
 
@@ -435,4 +436,30 @@ input::-webkit-inner-spin-button {
   width: 100%;
   height: 400px;
   margin: 20px 0px 20px 0px;
+}
+
+.assessment3-student-name-size {
+  margin-bottom: -20px;
+}
+
+.assessment3-student-name {
+  border: 1px solid black;
+  position: relative;
+  /*background-color: #EEEEEE;*/
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.assessment3-sub-assess-pos {
+  margin-top: 132px;
+}
+
+.btn-full-width {
+  width: 100%;
+}
+
+.btn-btn-width {
+    width: 90.9%;
+    text-align: left;
 }

@@ -11,7 +11,10 @@
       <br>
 
       <!-- #1 view -->
-      <div class="assessment-view">
+      <div id="loadingIcon">
+        <center><img src="/assets/ajax-loader-circle-ball.gif"></center><br><br>
+      </div>
+      <div id="assessmentTable" class="assessment-view">
         <table>
           <thead>
             <th class="assessment1-heading-space">&nbsp;</th>
@@ -87,7 +90,19 @@
           <!-- body of modal -->
           <div class="modal-body">
             <div class="row">
-              <label style="height:11px" class="control-label criterion-modal-label-view1">Criterion Name</label>
+              <label style="height:11px" class="control-label criterion-modal-label-view1">Assessment Type Name</label>    
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-md-1"></div>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" ng-change="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
+                </div>
+                <div class="col-md-2"></div>
+              </div>    
+            </div>
+            <div class="row">
+              <label style="height:11px" class="control-label criterion-modal-label-view1">Assessment Name</label>
               <label style="height:11px" class="control-label max-modal-label-view1">Max</label>
               <label style="height:11px" class="remove-label remove-modal-label-view1">Remove</label>
             </div>
@@ -108,20 +123,6 @@
                    <div class="col-md-1"></div>
                  </div>
                </div>
-               <!--<div ng-repeat="newCriterion in newCriterions">
-                <div class="row">
-                   <div class="form-group" >
-                     <label for="inputDataType" style="height:11px" class="col-md-3 control-label">Criterion {{$index + 1}}</label>
-                     <div class="col-md-5">
-                       <input type="text" class="form-control" ng-model="newCriterion.name" name="name" ng-blur="validateName=true" required>
-                     </div>
-                     <div class="col-md-3">
-                       <input type="text" class="form-control" ng-model="newCriterion.max" name="name" ng-blur="validateName=true" required>
-                     </div>
-                     <button type="button" class="btn btn-default btn-xs" ng-click="remove(newCriterion)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
-                   </div>
-                 </div>
-               </div>-->
                <!-- add criterion button -->
                  <button type="button" class="btn btn-default btn-xs pull-right btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
             </form>

@@ -4,8 +4,11 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
-  $scope.assessment_type = assessment_type.get();
-
+  assessment_type.get().then(function(thereturn){
+    $scope.assessment_type = thereturn;
+    $scope.assessment_type_name = thereturn.name;
+  });
+  
   section.get().then(function(thesection) {
     $scope.section = thesection;
   });
@@ -75,11 +78,17 @@ assessment_type.getList('assessments').then(function(thereturn){
 		$scope.indexAssessment[i] = z;
 	}
 
+  $scope.numOfCritArray = [];
+  for(var i = 0; i < $scope.numOfCrit.length; i++){
+    $scope.numOfCritArray[i] = $scope.range($scope.numOfCrit[i]);
+  }
 
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	   $scope.students = thereturn;
 
 	   //Calculating Criterion Totals
+	     $scope.studentbycrit = $scope.range($scope.sizeAssessment[0] * thereturn.length);
+
        $scope.criterions.present = [];
        $scope.criterions.total = [];
        $scope.criterions.percent = [];
@@ -131,9 +140,15 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < $scope.assessments.length; i++){
-    	 $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+    	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
        }
 
+       //Calculating class total
+       $scope.section.totalpercent = 0;
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.section.totalpercent += $scope.assessments[i].percent;
+       }
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
 
        //Calculating student score per assessment
        counter = 0;
@@ -198,6 +213,9 @@ assessment_type.getList('assessments').then(function(thereturn){
         $scope.myDefs2[i+1] = myobj2;
 	  }
 */
+    $('div#loadingIcon').hide();
+    $('div#assessmentTable').show();
+
 	});
   });
 });
@@ -381,6 +399,13 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
      }
 
+     //Calculating class total
+       $scope.section.totalpercent = 0;
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.section.totalpercent += $scope.assessments[i].percent;
+       }
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
+
   };
 
   $scope.checkVal = function(criterion) {
@@ -433,6 +458,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
   $scope.changedOldCritFlags = [];
+  $scope.assessmentTypeNameFlag = false;
 
   $scope.setupEditCriterion = function() {
     $scope.editCriterion = {
@@ -445,36 +471,73 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   $scope.newCriterion = function() {
     var newCrit = {
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
-      name: ($scope.modalCriterions.length + 1),
-      assessment_id: $scope.assessments[0].id
+      name: ($scope.modalCriterions.length + 1)
     };
+    
     $scope.newCriterionIndex++;
     $scope.modalCriterions.push(newCrit);
-    $scope.newCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);     
   };
 
   $scope.save = function() {
+    //changing assessment_type name
+    if($scope.assessmentTypeNameFlag){
+      $scope.assessment_type.name = $scope.assessment_type_name;
+      console.log($scope.assessment_type);
+      $scope.assessment_type.put();
+      $scope.assessmentTypeNameFlag = false;
+    }
+    
+    //adding new criterion/assessments
     $scope.newCriterions.forEach(function(crit){
-      $scope.criterions.push(crit);
-      var editable = Restangular.copy(crit);
-      editable.route = "criterions";
-      editable.post();
+      var newAssessment = {
+        data_type: 1,
+        subject: "hello",
+        name: (crit.name).toString(),
+        assessment_type_id: $scope.assessment_type.id
+      };
+      var restCopy1 = Restangular.copy(newAssessment);
+      restCopy1.route = "assessments";
+      restCopy1.post();
+      
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        //console.log(thereturn)
+        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(crit);
+        var editable = Restangular.copy(crit);
+        editable.route = "criterions";
+        editable.post();
+      });
     });
     $scope.newCriterions = [];
+    
+    //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
-      $scope.criterions[$scope.changedOldCritFlags[i]].put();
+      console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
+      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editable.route = "criterions";
+      editable.put();
     }
-    location.reload();
+    $scope.changedOldCritFlags = [];
+    //location.reload();
   };
 
   $scope.cancel = function() {
+    //cancel assessment_type name change
+    $scope.assessmentTypeNameFlag = false;
+    $scope.assessment_type_name = $scope.assessment_type.name;
+    
+    //cancel new criterions that were created
     $scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
     $scope.newCriterions = [];
-
+    
+    //cancel changed old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
@@ -502,10 +565,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.changedOldCriterion = function(criterion, index){
-    if($scope.newCriterions.indexOf(criterion) < 0){
+    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
       $scope.changedOldCritFlags.push(index);
       console.log("your index was: " + index);
     }
+  };
+  
+  $scope.changeAssessmentTypeName = function(){
+    $scope.assessmentTypeNameFlag = true;
   };
 
 });

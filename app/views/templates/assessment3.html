@@ -11,21 +11,24 @@
       <br>
 
       <!-- #3 view -->
-      <div class="assessment-view">
+      <div id="loadingIcon">
+        <center><img src="/assets/ajax-loader-circle-ball.gif"></center><br><br>
+      </div>
+      <div id="assessmentTable" class="assessment-view">
         <table>
           <thead>
             <th class="assessment-heading-space-name"></th>
             <th class="assessment-heading-space-assessment"></th>
             <th class="assessment-heading-space-criterion"></th>
       <th></th>
-            <th ng-repeat="student in students" class="assessment1-criterion-name"><p class="css-vertical-text"><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></p></th>
+            <th ng-repeat="student in students" class="assessment1-criterion-name"><p class="css-vertical-text assessment3-student-name-size"><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></p></th>
           </thead>
           <tbody>
             <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
-              <td class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">%</td> <!-- Add overall percentage here -->
+              <td class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{section.totalpercent}}%</td> <!-- Add overall percentage here -->
               <td ng-repeat="student in students" class="scoreHoriz" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
             </tr>
           </tbody>
@@ -37,12 +40,12 @@
               <td class="assessment-label-avg">Avg.</td>
               <td class="scoreHoriz" ng-repeat="student in students" ng-style="{background: percentColor(student.assessmentPercent[$parent.$index])}" >{{student.assessmentPercent[$parent.$index]}}%</td>
             </tr>
-            <tr ng-repeat="a in range(numOfCrit[$index])" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
+            <tr ng-repeat="a in numOfCritArray[$index]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
               <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-subject">
-                <p class="css-vertical-text"><strong>{{assessments[$parent.$index].subject}}</strong></p>
+                <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].subject}}</strong></p>
               </td>
               <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-assessment">
-                <p class="css-vertical-text">{{assessments[$parent.$index].name}}</p>
+                <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].name}}</p>
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
               <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
