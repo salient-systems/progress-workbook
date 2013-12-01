@@ -5,7 +5,7 @@
       <h3><img src="/assets/assessment.png"> {{assessment_type.name}}
         <div id="editButton">
           <a data-toggle="modal" id="editButton" ng-click="edit()" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
-        </div>        
+        </div>
       </h3>
       <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
 
@@ -47,17 +47,17 @@
       <!-- edit assessment -->
       <div ng-controller="EditRunChartCtrl" id="editAssessment" class="edit-assessment">
         <div class="row">
-          <label style="height:11px" class="control-label">Assessment Type Name</label>    
+          <label class="control-label">Name</label>
         </div>
         <div class="row">
           <div class="form-group">
-            <div class="col-md-9">
+            <div class="col-md-12">
               <input type="text" class="form-control" ng-change="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
             </div>
         </div>
         <div class="row">
           <div class="col-md-8">
-            <label class="control-label">Assessment Name</label>
+            <label class="control-label">Assessment</label>
           </div>
           <div class="col-md-3">
             <label class="control-label">Max</label>
@@ -84,7 +84,7 @@
              </div>
            </div>
            <!-- add criterion button -->
-           <div style="height:75px;">                       
+           <div style="height:75px;">
              <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
