@@ -5,11 +5,9 @@
 	  	<h3><img src="/assets/graph.png"> Performance</h3>
 
       <!-- Graph -->
-      <div>
-        <div id="perfGraph"></div>
-      </div>
+      <div id="graph"></div>
 
-	  	<!-- Accordion Panel -->
+	  	<!-- Datasets -->
       <div class="panel-group" id="accordion" >
 
           <div ng-repeat="panel in panels" class="panel panel-default" style="overflow: visible" >
@@ -90,7 +88,7 @@
         					 </div>
 
   	              <!-- Right-aligned buttons -->
-  	              <button type="button" ng-click="save(panel)" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
+  	              <button type="button" ng-click="panel.save()" class="btn btn-default pull-right btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Save</button>
   	              <button type="button" ng-click="remove($index)" class="btn btn-default pull-right btn-action" ng-disabled="noDelete">Delete</button>
                 </form>
               </div>

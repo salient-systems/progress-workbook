@@ -7,6 +7,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.panels = [];
   $scope.panelIndex = -1;
   $scope.noDelete = true;
+  $scope.plotData = [];
 
   /*
    * Availables stats for each graph type
@@ -245,9 +246,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   /* ----------------------- Panel Management ----------------------- */
 
-  $scope.save = function(panel) {
-    // TODO get the performance data!
-
+  $scope.save = function(dataset) {
+    $scope.plot(dataset);
     $scope.updateURL();
   };
 
@@ -293,6 +293,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
     angular.forEach(datasets, function(dataset, index) {
       var panel = $scope.addPanel();
+      $scope.plot(dataset);
 
       if (dataset.termId != undefined) {
         panel.termId = dataset.termId;
@@ -344,30 +345,78 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     });
   };
 
-  /* ----------------------------- Graphs :( ------------------------------- */
+  /* ----------------------------- Graphs  --------------------------------- */
 
+  $scope.plot = function(dataset) {
+    var url = '/performance/section/'
+            + dataset.sectionId
+            + '/assessment_type/'
+            + dataset.assessmentTypeId;
 
-  $http.get('/performance/student/1/assessment_type/1').success(function(response) {
+    $http.get(url).success(function(assessments) {
 
-    var data = _.pluck(response, 'dataPoint');
-    var options = {
-      lines: {
-        show: true
-      },
-      points: {
-        show: true
-      },
-      xaxis: {
-        mode: "categories"
-      },
-      yaxis: {
-        max: 10
+      angular.forEach(assessments, function(assessment, index) {
+        var grades = _.pluck(assessment.grades, 'score');
+        var percent = $scope.sum(grades) / $scope.getTotalPossible(assessment);
+        $scope.plotData.push([assessment.name, percent]);
+      });
+
+      // plot the data
+      $.plot("#graph", [ $scope.plotData ], {
+        series: {
+          lines: {
+            show: true,
+          },
+          points: {
+            show: true
+          }
+        },
+        xaxis: {
+          mode: "categories"
+        }
+      });
+
+    });
+  };
+
+  $scope.sum = function(numbers) {
+    var sum = 0;
+    var i = numbers.length;
+    while(i--) sum += numbers[i];
+    return sum;
+  };
+
+  $scope.getTotalPossible = function(assessment) {
+    var grades = assessment.grades;
+    var criteria = assessment.criteria;
+    var sum = 0;
+
+    for (var i in grades) {
+      sum += criteria[grades[i].criterion_id].max;
+    }
+
+    return sum;
+  };
+
+  $scope.getScoreDistribution = function(criterionId, grades) {
+    var distribution = {};
+
+    for (var i in grades) {
+      if (grades[i].criterion_id == criterionId) {
+        if (distribution[grades[i].score] !== undefined) {
+          distribution[grades[i].score]++;
+        } else {
+          distribution[grades[i].score] = 1;
+        }
       }
-    };
+    }
 
-    $.plot($("#perfGraph"), [ { label: 'Dataset 1', data: data } ], options);
+    return distribution;
+  };
 
-  });
+  //var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
+
+
 
   /* --------------------------- Start the party! -------------------------- */
 

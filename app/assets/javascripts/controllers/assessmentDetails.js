@@ -8,7 +8,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.assessment_type = thereturn;
     $scope.assessment_type_name = thereturn.name;
   });
-  
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
   });
@@ -479,10 +479,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
       name: ($scope.modalCriterions.length + 1)
     };
-    
+
     $scope.newCriterionIndex++;
     $scope.modalCriterions.push(newCrit);
-    $scope.newCriterions.push(newCrit);     
+    $scope.newCriterions.push(newCrit);
   };
 
   $scope.save = function() {
@@ -493,7 +493,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
-    
+
     //adding new criterion/assessments
     $scope.newCriterions.forEach(function(crit){
       var newAssessment = {
@@ -505,7 +505,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       var restCopy1 = Restangular.copy(newAssessment);
       restCopy1.route = "assessments";
       restCopy1.post();
-      
+
       var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
       assessment_type.getList('assessments').then(function(thereturn){
         var saved_new_assessments = thereturn;
@@ -518,7 +518,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       });
     });
     $scope.newCriterions = [];
-    
+
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
@@ -539,14 +539,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     //cancel assessment_type name change
     $scope.assessmentTypeNameFlag = false;
     $scope.assessment_type_name = $scope.assessment_type.name;
-    
+
     //cancel new criterions that were created
     $scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
     $scope.newCriterions = [];
-    
+
     //cancel changed old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       var index = $scope.changedOldCritFlags[i];
@@ -584,9 +584,31 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       console.log("your index was: " + index);
     }
   };
-  
+
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
+  
+  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
+      if(ev.which === 13) {
+        ev.preventDefault();
+        var cell = $(ev.currentTarget).parent();
+        var index = cell.index();
+        cell.parent().next().children().eq(index).find("input").focus();
+      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+       }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+  });
+
 
 });
