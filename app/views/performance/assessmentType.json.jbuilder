@@ -1,4 +1,10 @@
-json.array!(@criterion_grades) do |criterion_grade|
-  json.max criterion_grade.criterion.max
-  json.dataPoint [criterion_grade.assessment.name, criterion_grade.score]
+json.array!(@assessments) do |assessment|
+  json.extract! assessment, :id, :name
+  json.grades assessment.criterion_grade, :score, :student_id, :criterion_id
+  
+  json.criteria do
+    assessment.criterions.each { |criterion|
+      json.set! criterion.id, criterion, :max, :name
+    }
+  end
 end
