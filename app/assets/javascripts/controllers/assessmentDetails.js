@@ -452,6 +452,12 @@ assessment_type.getList('assessments').then(function(thereturn){
     }
   };
 */
+
+  $scope.edit = function(){
+    $('div#assessmentTable').hide();
+    $('div#editButton').hide();
+    $('div#editAssessment').show();
+  };
 });
 
 //controller for the modal that edits the assessment info for an assessment type
@@ -523,6 +529,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     }
     $scope.changedOldCritFlags = [];
     //location.reload();
+        
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
   };
 
   $scope.cancel = function() {
@@ -542,6 +552,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
+    
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
   };
 
   $scope.remove = function(criterion) {
