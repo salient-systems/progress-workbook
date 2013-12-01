@@ -416,7 +416,7 @@ input::-webkit-inner-spin-button {
 
 
 .btn-modal-new-view1 {
-  margin-left: 55px;
+  margin-left: -15px;
 }
 
 .criterion-modal-label-view1 {
@@ -460,9 +460,18 @@ input::-webkit-inner-spin-button {
   width: 100%;
 }
 
+.btn-assessment1-save-cancel {
+  height: 75px; 
+  margin-right: -109px;
+}
+
 .btn-btn-width {
-    width: 90.9%;
+    width: 91.8%;
     text-align: left;
+}
+
+.btn-drop-margin {
+    margin-left: -4px !important;
 }
 
 /* Assessment styling */
@@ -470,6 +479,18 @@ input::-webkit-inner-spin-button {
   width: 450px;
   margin: 0 auto;
   display: none;
+}
+
+.edit-assessment-name {
+  margin-left: -15px;
+}
+
+.edit-assessment-max {
+  margin-left: 5px;
+}
+
+.edit-assessment-remove {
+  margin-left: 0px;
 }
 
 /* Performance Page Styles */

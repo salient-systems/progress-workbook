@@ -105,7 +105,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < $scope.criterions.length; i++){
-    	 $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    	   $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    	   if(isNaN($scope.criterions.percent[i])){
+    	     $scope.criterions.percent[i] = 0;
+    	   }
        }
 
 
@@ -120,7 +123,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < thereturn.length; i++){
-    	 $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+    	   $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+    	   if(isNaN($scope.students[i].percent)){
+    	     $scope.students[i].percent;
+    	   }
        }
 
        //Calculating Assessment Totals
@@ -138,17 +144,25 @@ assessment_type.getList('assessments').then(function(thereturn){
       	   counter++;
          }
        }
-
+       //console.log($scope.assessments);
        for(var i = 0; i < $scope.assessments.length; i++){
     	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+    	   if(isNaN($scope.assessments[i].percent)){
+    	     $scope.assessments[i].percent = 0;
+    	   }
        }
 
        //Calculating class total
        $scope.section.totalpercent = 0;
+       var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         $scope.section.totalpercent += $scope.assessments[i].percent;
+         if(!isNaN($scope.assessments[i].percent)){
+           $scope.section.totalpercent += $scope.assessments[i].percent;
+         }else{
+           notused++;
+         }
        }
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
 
        //Calculating student score per assessment
        counter = 0;
@@ -185,6 +199,10 @@ assessment_type.getList('assessments').then(function(thereturn){
      	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
      	 $scope.criterions[i].studentAverage = average.toFixed(1);
      	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
+     	 if(isNaN($scope.criterions[i].studentPercent)){
+         $scope.criterions[i].studentPercent = 0;
+         $scope.criterions[i].studentAverage = 0;
+       }
        }
 
 /*
@@ -215,7 +233,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 */
     $('div#loadingIcon').hide();
     $('div#assessmentTable').show();
-
+    //console.log($scope.students);
 	});
   });
 });
@@ -331,6 +349,9 @@ assessment_type.getList('assessments').then(function(thereturn){
     for(var i = 0; i < $scope.criterions.length; i++){
       $scope.criterions.percent[i] = 0;
       $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+      if(isNaN($scope.criterions.percent[i])){
+        $scope.criterions.percent[i] = 0;
+      }
     }
 
     //This section is for calculating the Students totals
@@ -345,6 +366,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
     for(var i = 0; i < $scope.students.length; i++){
       $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+      if(isNaN($scope.students[i].percent)){
+        $scope.students[i].percent = 0;
+      }
     }
 
     //This section is for calculating the Assessment totals
@@ -365,6 +389,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
      for(var i = 0; i < $scope.assessments.length; i++){
        $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+       if(isNaN($scope.assessments[i].percent)){
+         $scope.assessments[i].percent = 0;
+       }
      }
 
 
@@ -381,6 +408,10 @@ assessment_type.getList('assessments').then(function(thereturn){
      	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
      	 $scope.criterions[i].studentAverage = average.toFixed(1);
      	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
+     	 if(isNaN($scope.criterions[i].studentPercent)){
+     	   $scope.criterions[i].studentPercent = 0;
+     	   $scope.criterions[i].studentAverage = 0;
+     	 }
        }
 
      //Calculating student score per assessment
@@ -401,11 +432,17 @@ assessment_type.getList('assessments').then(function(thereturn){
 
      //Calculating class total
        $scope.section.totalpercent = 0;
+       var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         $scope.section.totalpercent += $scope.assessments[i].percent;
+         if(!isNaN($scope.assessments[i].percent)){
+           $scope.section.totalpercent += $scope.assessments[i].percent;
+         }else{
+           notused++;
+         }
        }
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
-
+       
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
+       
   };
 
   $scope.checkVal = function(criterion) {
@@ -460,19 +497,13 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 });
 
-//controller for the modal that edits the assessment info for an assessment type
+/*
+ * edit view 1 controller
+ */
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
   $scope.changedOldCritFlags = [];
   $scope.assessmentTypeNameFlag = false;
-
-  $scope.setupEditCriterion = function() {
-    $scope.editCriterion = {
-      name: $scope.user.fname,
-      max: $scope.user.lname,
-    };
-    $scope.updateRole();
-  };
 
   $scope.newCriterion = function() {
     var newCrit = {
@@ -480,7 +511,154 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       name: ($scope.modalCriterions.length + 1)
     };
 
-    $scope.newCriterionIndex++;
+    $scope.modalCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);
+  };
+
+  $scope.save = function() {
+    //changing assessment_type name
+    if($scope.assessmentTypeNameFlag){
+      $scope.assessment_type.name = $scope.assessment_type_name;
+      console.log($scope.assessment_type);
+      $scope.assessment_type.put();
+      $scope.assessmentTypeNameFlag = false;
+    }
+
+    //adding new criterion/assessments
+    $scope.newCriterions.forEach(function(crit){
+      var newAssessment = {
+        data_type: 1,
+        subject: "hello",
+        name: (crit.name).toString(),
+        assessment_type_id: $scope.assessment_type.id
+      };
+      var restCopy1 = Restangular.copy(newAssessment);
+      restCopy1.route = "assessments";
+      restCopy1.post();
+
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(crit);
+        var editable = Restangular.copy(crit);
+        editable.route = "criterions";
+        editable.post();
+      });
+    });
+    $scope.newCriterions = [];
+
+    //updating old criterion/assessments
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
+      console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
+      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editable.route = "criterions";
+      editable.put();
+    }
+    $scope.changedOldCritFlags = [];
+    //location.reload();
+        
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
+  };
+
+  $scope.cancel = function() {
+    //cancel assessment_type name change
+    $scope.assessmentTypeNameFlag = false;
+    $scope.assessment_type_name = $scope.assessment_type.name;
+
+    //cancel new criterions that were created
+    $scope.newCriterions.forEach(function(crit){
+      var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
+      $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    });
+    $scope.newCriterions = [];
+
+    //cancel changed old criterion
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      var index = $scope.changedOldCritFlags[i];
+      $scope.modalCriterions[index].name = $scope.criterions[index].name;
+    }
+    
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
+  };
+
+  $scope.remove = function(criterion, index) {
+    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
+    var indexToRemove = $scope.criterions.indexOf(criterion);
+    var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
+    $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    if(indexToRemove >= 0)
+    {
+      $scope.criterions.splice(indexToRemove, 1);
+    }
+    if(indexToRemoveNew >= 0){
+      $scope.newCriterions.splice(indexToRemoveNew, 1);
+    }
+    else
+    {
+      
+      var editable = Restangular.copy($scope.assessments[index]);
+      editable.route = "assessments";
+      editable.remove();
+    }
+  };
+
+  $scope.changedOldCriterion = function(criterion, index){
+    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
+      $scope.changedOldCritFlags.push(index);
+      console.log("your index was: " + index);
+    }
+  };
+
+  $scope.changeAssessmentTypeName = function(){
+    $scope.assessmentTypeNameFlag = true;
+  };
+  
+  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
+      if(ev.which === 13) {
+        ev.preventDefault();
+        var cell = $(ev.currentTarget).parent();
+        var index = cell.index();
+        cell.parent().next().children().eq(index).find("input").focus();
+      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+       }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+  });
+});
+
+
+
+
+
+/*
+ * edit view 2 controller
+ */
+app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangular){
+
+  $scope.changedOldCritFlags = [];
+  $scope.assessmentTypeNameFlag = false;
+
+  $scope.newCriterion = function() {
+    var newCrit = {
+      max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
+      name: ($scope.modalCriterions.length + 1)
+    };
+
     $scope.modalCriterions.push(newCrit);
     $scope.newCriterions.push(newCrit);
   };
@@ -609,6 +787,152 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
             }   
         }
   });
+});
 
 
+
+
+
+/*
+ * edit view 3 controller
+ */
+app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangular){
+
+  $scope.changedOldCritFlags = [];
+  $scope.assessmentTypeNameFlag = false;
+
+  $scope.newCriterion = function() {
+    var newCrit = {
+      max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
+      name: ($scope.modalCriterions.length + 1)
+    };
+
+    $scope.modalCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);
+  };
+
+  $scope.save = function() {
+    //changing assessment_type name
+    if($scope.assessmentTypeNameFlag){
+      $scope.assessment_type.name = $scope.assessment_type_name;
+      //console.log($scope.assessment_type);
+      $scope.assessment_type.put();
+      $scope.assessmentTypeNameFlag = false;
+    }
+
+    //adding new criterion/assessments
+    $scope.newCriterions.forEach(function(crit){
+      var newAssessment = {
+        data_type: 1,
+        subject: "hello",
+        name: (crit.name).toString(),
+        assessment_type_id: $scope.assessment_type.id
+      };
+      var restCopy1 = Restangular.copy(newAssessment);
+      restCopy1.route = "assessments";
+      restCopy1.post();
+
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        //console.log(thereturn)
+        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(crit);
+        var editable = Restangular.copy(crit);
+        editable.route = "criterions";
+        editable.post();
+      });
+    });
+    $scope.newCriterions = [];
+
+    //updating old criterion/assessments
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
+      //console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
+      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editable.route = "criterions";
+      editable.put();
+    }
+    $scope.changedOldCritFlags = [];
+    //location.reload();
+        
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
+  };
+
+  $scope.cancel = function() {
+    //cancel assessment_type name change
+    $scope.assessmentTypeNameFlag = false;
+    $scope.assessment_type_name = $scope.assessment_type.name;
+
+    //cancel new criterions that were created
+    $scope.newCriterions.forEach(function(crit){
+      var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
+      $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    });
+    $scope.newCriterions = [];
+
+    //cancel changed old criterion
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      var index = $scope.changedOldCritFlags[i];
+      $scope.modalCriterions[index].name = $scope.criterions[index].name;
+    }
+    
+    $('div#editAssessment').hide();
+    $('div#editButton').show();
+    $('div#assessmentTable').show();
+  };
+
+  $scope.remove = function(criterion) {
+    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
+    $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    var indexToRemove = $scope.criterions.indexOf(criterion);
+    if(indexToRemove >= 0)
+    {
+      $scope.criterions.splice(indexToRemove, 1);
+    }
+    var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
+    if(indexToRemoveNew >= 0){
+      $scope.newCriterions.splice(indexToRemoveNew, 1);
+    }
+    else
+    {
+      var editable = Restangular.copy(criterion);
+      editable.route = "criterions";
+      editable.remove();
+    }
+  };
+
+  $scope.changedOldCriterion = function(criterion, index){
+    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
+      $scope.changedOldCritFlags.push(index);
+      console.log("your index was: " + index);
+    }
+  };
+
+  $scope.changeAssessmentTypeName = function(){
+    $scope.assessmentTypeNameFlag = true;
+  };
+  
+  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
+      if(ev.which === 13) {
+        ev.preventDefault();
+        var cell = $(ev.currentTarget).parent();
+        var index = cell.index();
+        cell.parent().next().children().eq(index).find("input").focus();
+      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+       }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault(); 
+            }   
+        }
+  });
 });

@@ -4,8 +4,8 @@
     <div class="box" style="margin-bottom:30px;">
       <h3><img src="/assets/assessment.png"> {{assessment_type.name}}
         <div id="editButton">
-          <a data-toggle="modal" id="editButton" ng-click="edit()" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
-        </div>        
+          <a ng-click="edit()" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
+        </div>
       </h3>
       <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
 
@@ -21,7 +21,6 @@
           <thead>
             <th class="assessment1-heading-space">&nbsp;</th>
             <th class="assessment1-heading-space-cover">&nbsp;</th>
-            <th class="assessment-relative-left">&nbsp;</th>
             <th ng-repeat="criterion_name in criterions" class="assessment1-criterion-name"><p class="css-vertical-text">{{criterion_name.name}}</p></th>
           </thead>
           <tbody>
@@ -47,23 +46,21 @@
       <!-- edit assessment -->
       <div ng-controller="EditRunChartCtrl" id="editAssessment" class="edit-assessment">
         <div class="row">
-          <label style="height:11px" class="control-label">Assessment Type Name</label>    
+          <div class="col-md-10 col-md-offset-1">
+            <label class="control-label">Name</label>
+            <input type="text" class="form-control" ng-change="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
+          </div>
         </div>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-md-9">
-              <input type="text" class="form-control" ng-change="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
-            </div>
-        </div>
+        <br><br>
         <div class="row">
           <div class="col-md-8">
-            <label class="control-label">Assessment Name</label>
+            <label class="control-label edit-assessment-name">Assessment</label>
           </div>
           <div class="col-md-3">
-            <label class="control-label">Max</label>
+            <label class="control-label edit-assessment-max">Max</label>
           </div>
           <div class="col-md-1">
-            <label class="remove-label">Remove</label>
+            <label class="remove-label edit-assessment-remove">Remove</label>
           </div>
         </div>
         <form name="dataSetForm" class="form-horizontal" role="form">
@@ -78,14 +75,14 @@
                    <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateName=true" required>
                  </div>
                  <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
+               <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              </div>
            </div>
            <!-- add criterion button -->
-           <div style="height:75px;">                       
-             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+           <div class="btn-assessment1-save-cancel">
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
                <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -95,7 +92,6 @@
            </div>
         </form>
       </div>
-
 
 	  </div>
 	</div>
