@@ -69,20 +69,20 @@
             <div class="row">
                <div class="form-group" >
                  <div class="col-md-8">
-                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateName=true" required>
+                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
                  </div>
                  <div class="col-md-3">
-                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateName=true" required>
+                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-md-1">
                    <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
-               <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              </div>
            </div>
            <!-- add criterion button -->
            <div class="btn-assessment1-save-cancel">
+             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
                <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>

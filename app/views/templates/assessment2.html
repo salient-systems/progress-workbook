@@ -46,7 +46,7 @@
       </div>
 
       <!-- edit assessment -->
-      <div ng-controller="EditCriteriaController" id="editAssessment"> <!--class="edit-assessment"-->
+      <div id="editAssessment" class="edit-assessment"> <!-- ng-controller="EditCriteriaController"  -->
         <div class="row">
           <div class="col-md-10 col-md-offset-1">
             <label class="control-label">Name</label>
@@ -55,26 +55,49 @@
         </div>
         <br><br>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-11">
             <label class="control-label edit-assessment-name">Assessment</label>
           </div>
-          <div class="col-md-3">
-            <label class="control-label edit-assessment-max">Max</label>
-          </div>
           <div class="col-md-1">
-            <label class="remove-label edit-assessment-remove">Remove</label>
+            <label class="remove-label">Remove</label>
           </div>
         </div>
         <form name="dataSetForm" class="form-horizontal" role="form">
           <!-- repeat criterions -->
-          <div ng-repeat="criterion in modalCriterions">
+          <div ng-repeat="assessment in modalAssessments">
+            <div class="row">
+               <div class="form-group" >
+                 <div class="col-md-11">
+                   <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
+                 </div>
+                 <div class="col-md-1">
+                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div>
+             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newAssessment()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+           </div><br><br>
+
+          <div class="col-md-8">
+            <label class="control-label edit-criterion-name">Criterion</label>
+          </div>
+          <div class="col-md-3">
+            <label class="control-label edit-criterion-max">Max</label>
+          </div>
+          <div class="col-md-1">
+            <label class="remove-label edit-criterion-remove">Remove</label>
+          </div>
+
+           <div ng-repeat="criterion in modalCriterions"> <!-- only display the list of criteria for the first assessment -->
             <div class="row">
                <div class="form-group" >
                  <div class="col-md-8">
-                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateName=true" required>
+                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
                  </div>
                  <div class="col-md-3">
-                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateName=true" required>
+                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-md-1">
                    <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
@@ -82,6 +105,7 @@
                </div>
              </div>
            </div>
+
            <!-- add criterion button -->
            <div class="btn-assessment1-save-cancel">
              <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
@@ -97,5 +121,4 @@
 
 	  </div>
 	</div>
-  </div>
 </div>
