@@ -105,7 +105,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < $scope.criterions.length; i++){
-    	 $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    	   $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+    	   if(isNaN($scope.criterions.percent[i])){
+    	     $scope.criterions.percent[i] = 0;
+    	   }
        }
 
 
@@ -120,7 +123,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        for(var i = 0; i < thereturn.length; i++){
-    	 $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+    	   $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+    	   if(isNaN($scope.students[i].percent)){
+    	     $scope.students[i].percent;
+    	   }
        }
 
        //Calculating Assessment Totals
@@ -138,7 +144,7 @@ assessment_type.getList('assessments').then(function(thereturn){
       	   counter++;
          }
        }
-       console.log($scope.assessments);
+       //console.log($scope.assessments);
        for(var i = 0; i < $scope.assessments.length; i++){
     	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
     	   if(isNaN($scope.assessments[i].percent)){
@@ -227,7 +233,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 */
     $('div#loadingIcon').hide();
     $('div#assessmentTable').show();
-    console.log($scope.students);
+    //console.log($scope.students);
 	});
   });
 });
@@ -343,6 +349,9 @@ assessment_type.getList('assessments').then(function(thereturn){
     for(var i = 0; i < $scope.criterions.length; i++){
       $scope.criterions.percent[i] = 0;
       $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+      if(isNaN($scope.criterions.percent[i])){
+        $scope.criterions.percent[i] = 0;
+      }
     }
 
     //This section is for calculating the Students totals
@@ -357,6 +366,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
     for(var i = 0; i < $scope.students.length; i++){
       $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+      if(isNaN($scope.students[i].percent)){
+        $scope.students[i].percent = 0;
+      }
     }
 
     //This section is for calculating the Assessment totals
@@ -428,8 +440,9 @@ assessment_type.getList('assessments').then(function(thereturn){
            notused++;
          }
        }
+       
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
-
+       
   };
 
   $scope.checkVal = function(criterion) {
@@ -802,7 +815,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     //changing assessment_type name
     if($scope.assessmentTypeNameFlag){
       $scope.assessment_type.name = $scope.assessment_type_name;
-      console.log($scope.assessment_type);
+      //console.log($scope.assessment_type);
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
@@ -835,7 +848,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
-      console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
+      //console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
       var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
       editable.route = "criterions";
       editable.put();
