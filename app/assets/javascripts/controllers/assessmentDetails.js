@@ -138,17 +138,25 @@ assessment_type.getList('assessments').then(function(thereturn){
       	   counter++;
          }
        }
-
+       console.log($scope.assessments);
        for(var i = 0; i < $scope.assessments.length; i++){
     	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+    	   if(isNaN($scope.assessments[i].percent)){
+    	     $scope.assessments[i].percent = 0;
+    	   }
        }
 
        //Calculating class total
        $scope.section.totalpercent = 0;
+       var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         $scope.section.totalpercent += $scope.assessments[i].percent;
+         if(!isNaN($scope.assessments[i].percent)){
+           $scope.section.totalpercent += $scope.assessments[i].percent;
+         }else{
+           notused++;
+         }
        }
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
 
        //Calculating student score per assessment
        counter = 0;
@@ -185,6 +193,10 @@ assessment_type.getList('assessments').then(function(thereturn){
      	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
      	 $scope.criterions[i].studentAverage = average.toFixed(1);
      	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
+     	 if(isNaN($scope.criterions[i].studentPercent)){
+         $scope.criterions[i].studentPercent = 0;
+         $scope.criterions[i].studentAverage = 0;
+       }
        }
 
 /*
@@ -215,7 +227,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 */
     $('div#loadingIcon').hide();
     $('div#assessmentTable').show();
-
+    console.log($scope.students);
 	});
   });
 });
@@ -365,6 +377,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
      for(var i = 0; i < $scope.assessments.length; i++){
        $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
+       if(isNaN($scope.assessments[i].percent)){
+         $scope.assessments[i].percent = 0;
+       }
      }
 
 
@@ -381,6 +396,10 @@ assessment_type.getList('assessments').then(function(thereturn){
      	 var average = $scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent;
      	 $scope.criterions[i].studentAverage = average.toFixed(1);
      	 $scope.criterions[i].studentPercent = Math.floor($scope.criterions[i].studentTotal / $scope.criterions[i].studentPresent / $scope.criterions[i].max * 100);
+     	 if(isNaN($scope.criterions[i].studentPercent)){
+     	   $scope.criterions[i].studentPercent = 0;
+     	   $scope.criterions[i].studentAverage = 0;
+     	 }
        }
 
      //Calculating student score per assessment
@@ -401,10 +420,15 @@ assessment_type.getList('assessments').then(function(thereturn){
 
      //Calculating class total
        $scope.section.totalpercent = 0;
+       var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         $scope.section.totalpercent += $scope.assessments[i].percent;
+         if(!isNaN($scope.assessments[i].percent)){
+           $scope.section.totalpercent += $scope.assessments[i].percent;
+         }else{
+           notused++;
+         }
        }
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / $scope.assessments.length);
+       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
 
   };
 
