@@ -36,7 +36,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 
 	$scope.modalCriterions = Restangular.copy(thereturn);
 	$scope.newCriterions = [];
-
+	$scope.newAssessments = [];
+  $scope.newCritAssessId = [];
+  $scope.saved_new_assessments = [];
 
 	$scope.numOfCrit = [];
 	$scope.numOfCrit[0] = 1;
@@ -508,15 +510,36 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   $scope.newCriterion = function() {
     var newCrit = {
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
-      name: ($scope.modalCriterions.length + 1)
+      name: ($scope.modalCriterions.length + 1).toString()
     };
 
+    var newAssessment = {
+      data_type: 1,
+      subject: "hello",
+      name: newCrit.name,
+      assessment_type_id: $scope.assessment_type.id
+    };
+    var restCopy1 = Restangular.copy(newAssessment);
+    restCopy1.route = "assessments";
+    restCopy1.post().then(function(thereturn){
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        newCrit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(newCrit);
+        var editable = Restangular.copy(newCrit);
+        editable.route = "criterions";
+        editable.post();
+      });
+    });
+    
     $scope.modalCriterions.push(newCrit);
     $scope.newCriterions.push(newCrit);
   };
 
   $scope.save = function() {
     //changing assessment_type name
+    //$scope.newCritAssessId = [];
     if($scope.assessmentTypeNameFlag){
       $scope.assessment_type.name = $scope.assessment_type_name;
       console.log($scope.assessment_type);
@@ -524,8 +547,83 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.assessmentTypeNameFlag = false;
     }
 
+    /*
     //adding new criterion/assessments
-    $scope.newCriterions.forEach(function(crit){
+    //$scope.newCriterions.forEach(function(crit){
+    //$scope.newAssessmentIds = [];
+    for(var i = 0; i < $scope.newCriterions.length; i++){
+      var newAssessment = {
+        data_type: 1,
+        subject: "hello",
+        name: ($scope.newCriterions[i].name).toString(),
+        assessment_type_id: $scope.assessment_type.id
+      };
+      var restCopy1 = Restangular.copy(newAssessment);
+      restCopy1.route = "assessments";
+      restCopy1.post().then(function(something){
+        $scope.newCritAssessId.push(something.id);
+      });
+    }
+    
+    var newAssessIDs = [];
+    var tempCrits = $scope.newCriterions;
+    var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+    assessment_type.getList('assessments').then(function(thereturn){
+      $scope.saved_new_assessments = thereturn;
+      console.log($scope.saved_new_assessments.length);
+      console.log(tempCrits.length);
+      //console.log(tempCrits);
+      for(var i = 0; i < $scope.saved_new_assessments.length; i++){
+        for(var j = 0; j < tempCrits.length; j++){
+          if($scope.saved_new_assessments[i].name == tempCrits[j].name){
+            newAssessIDs.push(i);
+            //console.log("yay");
+          }
+          //console.log(j);
+        }
+        //console.log(i);
+      }
+      console.log(newAssessIDs);
+    });
+    //console.log(newAssessIDs);
+      //console.log(saved_new_assessments);
+    //console.log($scope.saved_new_assessments.length);
+    //console.log($scope.newCriterions);
+    //console.log(tempCrits);
+    for(var i = 0; i < $scope.saved_new_assessments.length; i++){
+      for(var j = 0; j < $scope.newCriterions.length; j++){
+        if($scope.saved_new_assessments[i].name == $scope.newCriterions[j].name){
+          newAssessIDs.push(i);
+          //console.log(i);
+        }
+        //console.log(j);
+        //console.log($scope.newCriterions[j].name);
+      }
+      //console.log($scope.saved_new_assessments[i].name);
+      //console.log($scope.newCriterions);
+    }
+    
+    for(var i = 0; i < $scope.newCriterions.length; i++){
+      var crit = Restangular.copy($scope.newCriterions[i]);
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        //console.log(thereturn)
+        //var j = saved_new_assessments.indexOf()
+        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(crit);
+        var crit = Restangular.copy(crit);
+        crit.route = "criterions";
+        crit.post();
+      });
+      //console.log($scope.newCritAssessId);
+      //var editable1 = Restangular.copy($scope.newCriterions[i]);
+      //editable1.assessment_id = $scope.newCritAssessId[i];
+      //editable1.route = "criterions";
+      //editable1.post();
+    }
+      
+       $scope.newCriterions.forEach(function(crit){
       var newAssessment = {
         data_type: 1,
         subject: "hello",
@@ -534,19 +632,20 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       };
       var restCopy1 = Restangular.copy(newAssessment);
       restCopy1.route = "assessments";
-      restCopy1.post();
+      restCopy1.post().then(function(something){
 
-      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
-      assessment_type.getList('assessments').then(function(thereturn){
-        var saved_new_assessments = thereturn;
-        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+ 
+        crit.assessment_id = something.id;
         $scope.criterions.push(crit);
         var editable = Restangular.copy(crit);
         editable.route = "criterions";
         editable.post();
       });
-    });
-    $scope.newCriterions = [];
+      
+
+    //console.log($scope.newCritAssessId);
+    $scope.newCriterions = [];*/
+    
 
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
@@ -557,11 +656,13 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       editable.put();
     }
     $scope.changedOldCritFlags = [];
-    //location.reload();
+    location.reload();
         
-    $('div#editAssessment').hide();
-    $('div#editButton').show();
-    $('div#assessmentTable').show();
+    //$('div#editAssessment').hide();
+    //$('div#editButton').show();
+    //$('div#assessmentTable').append($scope.criterions);
+    //$('div#assessmentTable').append($scope.criterions.percent);
+    //$('div#assessmentTable').show();
   };
 
   $scope.cancel = function() {
@@ -581,16 +682,18 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
+    location.reload();
     
-    $('div#editAssessment').hide();
-    $('div#editButton').show();
-    $('div#assessmentTable').show();
+    //$('div#editAssessment').hide();
+    //$('div#editButton').show();
+    //$('div#assessmentTable').show();
   };
 
   $scope.remove = function(criterion, index) {
     var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
     var indexToRemove = $scope.criterions.indexOf(criterion);
     var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
+    Restangular.one("assessments",criterion.assessment_id).remove();
     $scope.modalCriterions.splice(indexToRemoveModal, 1);
     if(indexToRemove >= 0)
     {
@@ -602,9 +705,9 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     else
     {
       
-      var editable = Restangular.copy($scope.assessments[index]);
-      editable.route = "assessments";
-      editable.remove();
+      //var editable = Restangular.copy($scope.assessments[index]);
+      //editable.route = "assessments";
+      //editable.remove();
     }
   };
 
