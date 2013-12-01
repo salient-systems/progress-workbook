@@ -4,7 +4,9 @@ Pwtest::Application.routes.draw do
   get '/students/search.json' => 'students#search', :defaults => { :format => 'json' }
 
   # performance page routes
-  get '/performance/section/:sid/assessment_type/:aid' => 'performance#assessmentType', :defaults => { :format => 'json' }
+  get '/p/section/:sid/type/:aid' => 'performance#section', :defaults => { :format => 'json' }
+  get '/p/student/:sid/assesstype/:atid' => 'performance#student', :defaults => { :format => 'json' }
+  get '/p/student/:sid/assessment/:aid' => 'performance#student', :defaults => { :format => 'json' }
 
   resources :studentassessments
 
