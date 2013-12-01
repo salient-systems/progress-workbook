@@ -469,20 +469,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.newCriterion = function() {
-    var newAssessment = {
-      data_type: 0,
-      subject: "",
-      name: ($scope.modalCriterions.length + 1),
-      assessment_type_id: $scope.assessment_types[0].id
-    };
     var newCrit = {
       max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
-      name: ($scope.modalCriterions.length + 1),
-      assessment_id: $scope.assessments[0].id
+      name: ($scope.modalCriterions.length + 1)
     };
+    
     $scope.newCriterionIndex++;
     $scope.modalCriterions.push(newCrit);
-    $scope.newCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);     
   };
 
   $scope.save = function() {
@@ -493,12 +487,29 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
+    
     //adding new criterion/assessments
     $scope.newCriterions.forEach(function(crit){
-      $scope.criterions.push(crit);
-      var editable = Restangular.copy(crit);
-      editable.route = "criterions";
-      editable.post();
+      var newAssessment = {
+        data_type: 1,
+        subject: "hello",
+        name: (crit.name).toString(),
+        assessment_type_id: $scope.assessment_type.id
+      };
+      var restCopy1 = Restangular.copy(newAssessment);
+      restCopy1.route = "assessments";
+      restCopy1.post();
+      
+      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
+      assessment_type.getList('assessments').then(function(thereturn){
+        var saved_new_assessments = thereturn;
+        //console.log(thereturn)
+        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
+        $scope.criterions.push(crit);
+        var editable = Restangular.copy(crit);
+        editable.route = "criterions";
+        editable.post();
+      });
     });
     $scope.newCriterions = [];
     
@@ -506,13 +517,9 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
       console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
-      //$scope.criterions[$scope.changedOldCritFlags[i]].route = "criterions";
-      //$scope.criterions[$scope.changedOldCritFlags[i]].put();
       var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
       editable.route = "criterions";
       editable.put();
-      //editable.route = "criterions";
-      //$scope.criterions[0].put();
     }
     $scope.changedOldCritFlags = [];
     //location.reload();
