@@ -138,13 +138,14 @@ puts "   -> creating criterion grades"
 1.upto(NUM_CRITERIA) do |criterion|
   if criteria[criterion] != nil
     1.upto(10) do |student|
-      rng = Random.new(criterion * 100 + student)
+      rng = Random.new(criterion * 10 + student)
       assessment = ((criterion - 1) % NUM_ASSESSMENTS + 1)
       assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
       section = (assessment_type - 1) / 4 + 1
       user = (section - 1) % NUM_USERS + 1
+      student_id = ((section - 1) * 10 + student - 1) % NUM_STUDENTS + 1
       CriterionGrade.create(score: rng.rand(10) + 1,
-        student_id: (section - 1) * 10 + student,
+        student_id: student_id,
         criterion_id: criteria[criterion].id,
         assessment_id: assessment,
         assessment_type_id: assessment_type,
