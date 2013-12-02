@@ -251,7 +251,7 @@ chart {
     z-index: 200;
     width: 140px;
     background-color: inherit;
-    overflow: hidden;
+    overflow: visible;
     text-align: right;
     padding-right: 7px;
     padding-top: 5px;
@@ -508,3 +508,8 @@ input::-webkit-inner-spin-button {
   margin: 20px 0px 20px 0px;
 }
 
+.student-popover{
+  position: relative;
+  width: 300px;
+  height: 300px;
+}	
