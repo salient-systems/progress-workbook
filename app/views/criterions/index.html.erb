@@ -6,6 +6,7 @@
       <th>Max</th>
       <th>Name</th>
       <th>Assessment</th>
+      <th>Id</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,6 +19,7 @@
         <td><%= criterion.max %></td>
         <td><%= criterion.name %></td>
         <td><%= criterion.assessment_id %></td>
+        <td><%= criterion.id %></td>
         <td><%= link_to 'Show', criterion %></td>
         <td><%= link_to 'Edit', edit_criterion_path(criterion) %></td>
         <td><%= link_to 'Destroy', criterion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
