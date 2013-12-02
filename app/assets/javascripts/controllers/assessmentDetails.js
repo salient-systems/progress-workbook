@@ -20,7 +20,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
    var idnumpop = '#studentplot'+index;
    var studentArr = $scope.createStudentData(index);
    var legendcontainer = '#legend'+index;
-   $(idnum).popover('toggle').delay(100);
+   //$(idnum).popover('toggle').delay(200);
    //$.plot(idnumpop,[[[0,1],[1,2],[2,4],[3,8]]]);
    //$.plot(idnumpop,[$scope.createStudentData(index),$scope.classDataSet]);
    var options = {
@@ -31,16 +31,24 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     xaxis: {
       show: false
     },
+    yaxis: {
+      min: 0,
+      max: 100,
+      ticks: 5
+    },
     legend: {
       container: legendcontainer,
-      noColumns: 2
+      noColumns: 1
     }
    };
-   $.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
+   $(idnum).on('shown.bs.popover', function () {
+     $.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
+   });
+   //$.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
   };
   
   $scope.createTemplate = function(index){
-    var testTemplate = '<div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'"></div>';
+    var testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
     return testTemplate;
   };
   
@@ -280,8 +288,8 @@ assessment_type.getList('assessments').then(function(thereturn){
     $('div#assessmentTable').show("fast", function(){
       $("[rel=popover]").popover({
         html: true,
-        placement : 'left',
-        trigger: 'manual',
+        placement : 'right',
+        trigger: 'click',
         //container: '.student-popover',
       });
     });
