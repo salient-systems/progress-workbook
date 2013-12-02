@@ -22,17 +22,17 @@ NUM_CRITERIA = 5 * NUM_ASSESSMENTS * NUM_MODIFIER
 NUM_CRITERION_GRADES = 1 * NUM_CRITERIA * NUM_MODIFIER
 NUM_ASSESSMENT_GRADES = 1 * NUM_ASSESSMENTS * NUM_MODIFIER
 
+rng = Random.new(1138)
 
 puts "-- seeding database"
 
 puts "   -> creating users"
 fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya"]
 lnames = ["Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas"]
-names = fnames.product(lnames)
 users = Array.new
 1.upto(NUM_USERS) do |num|
-	users[num] = User.create(fname: names[num-1][0],
-		lname: names[num-1][1],
+	users[num] = User.create(fname: fnames[rng.rand(fnames.length)],
+		lname: lnames[rng.rand(lnames.length)],
 		username: "user#{num}",
 		password: "pass#{num}",
 		is_active: num % 11 != 0,
@@ -49,14 +49,13 @@ end
 puts "   -> creating students"
 fnames = ["James", "Brett", "Jacob", "Natalie", "Brandon", "Jayden", "Alena", "Owen", "Ryan", "Malaya", "Jean-Luc", "Bella", "Anakin", "Joyce", "Sarah", "Billie", "Walky", "Sal", "Dorothy", "Danny", "Ethan", "Amber", "Dina", "Roz", "Becky", "Ruth", "Joe", "Mike", "Marten", "Faye"]
 lnames = ["Torvalds", "Jobs", "Turing", "Bush", "Obama", "Jones", "Sagan", "Field", "Wales", "Lee", "Kelly", "Cruz", "Reagan", "Andrews", "Christian", "Hogan", "Hernandez", "Lambert", "Soto", "Small", "Tuttle", "Warren", "Thomas", "Gates", "Elop", "Stallman", "Musk", "Scoble", "Montana", "Kenobi", "Vega", "Wallace", "White", "Kirk", "Picard"]
-names = fnames.product(lnames)
 genders = ["m", "f", nil]
 students = Array.new
 1.upto(NUM_STUDENTS) do |num|
-	students[num] = Student.create(fname: names[num-1][0],
-		lname: names[num-1][1],
+	students[num] = Student.create(fname: fnames[rng.rand(fnames.length)],
+		lname: lnames[rng.rand(lnames.length)],
 		gender: genders[num % 3],
-		grade_level: num % 3 + 6,
+		grade_level: rng.rand(3)+6,
 		sid: num + 1137,
 		is_active: num % 11 != 0)
 end
@@ -89,10 +88,10 @@ sectionnames = (number.product(level).product(topic).product(modifier)).map{|x| 
 sections = Array.new
 1.upto(NUM_SECTIONS) do |num|
 	sections[num] = Section.create(name: sectionnames[num],
-		grade_level: num % 3 + 6,
+		grade_level: rng.rand(3)+6,
 		user_id: users[(num - 1) % NUM_USERS + 1].id,
-		period: num % 4 + 1,
-		subject_id: subjects[(num - 1) % NUM_SUBJECTS + 1].id,
+		period: rng.rand(6)+1,
+		subject_id: subjects[rng.rand(subjects.length - 1) + 1].id,
 		term_id: num % 2 + 1)
 end
 
@@ -138,13 +137,14 @@ puts "   -> creating criterion grades"
 1.upto(NUM_CRITERIA) do |criterion|
   if criteria[criterion] != nil
     1.upto(10) do |student|
-      rng = Random.new(criterion * 100 + student)
+      rng = Random.new(criterion * 10 + student)
       assessment = ((criterion - 1) % NUM_ASSESSMENTS + 1)
       assessment_type = (assessment - 1) % (NUM_ASS_TYPES*4) + 1
       section = (assessment_type - 1) / 4 + 1
       user = (section - 1) % NUM_USERS + 1
+      student_id = ((section - 1) * 10 + student - 1) % NUM_STUDENTS + 1
       CriterionGrade.create(score: rng.rand(10) + 1,
-        student_id: (section - 1) * 10 + student,
+        student_id: student_id,
         criterion_id: criteria[criterion].id,
         assessment_id: assessment,
         assessment_type_id: assessment_type,

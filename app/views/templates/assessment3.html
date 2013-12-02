@@ -61,7 +61,7 @@
       </div>
 
       <!-- edit assessment -->
-      <div ng-controller="EditStandardsCtrl" id="editAssessment" class="edit-assessment">
+      <div ng-controller="EditStandardsBasedCtrl" id="editAssessment" class="edit-assessment3">
         <div class="row">
           <div class="col-md-10 col-md-offset-1">
             <label class="control-label">Name</label>
@@ -69,37 +69,101 @@
           </div>
         </div>
         <br><br>
-        <div class="row">
-          <div class="col-md-8">
-            <label class="control-label edit-assessment-name">Assessment</label>
-          </div>
-          <div class="col-md-3">
-            <label class="control-label edit-assessment-max">Max</label>
-          </div>
-          <div class="col-md-1">
-            <label class="remove-label edit-assessment-remove">Remove</label>
-          </div>
-        </div>
+
         <form name="dataSetForm" class="form-horizontal" role="form">
-          <!-- repeat criterions -->
-          <div ng-repeat="criterion in modalCriterions">
-            <div class="row">
-               <div class="form-group" >
-                 <div class="col-md-8">
-                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
-                 </div>
-                 <div class="col-md-3">
-                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
-                 </div>
-                 <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
-                 </div>
-               </div>
-             </div>
-           </div>
-           <!-- add criterion button -->
-           <div class="btn-assessment1-save-cancel">
-             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+          <!-- Repeat accordion -->
+          <div ng-repeat="assessment in modalAssessments">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      Assessment {{$index+1}}: {{assessment.name}}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                  <div class="panel-body edit-assessment3-accordion">
+
+                     <!-- criterion headers -->
+                    <div class="col-md-11">
+                      <label class="control-label edit-criterion-name">Assessment</label>
+                    </div>
+                    <div class="col-md-1">
+                      <label class="remove-label edit-criterion-remove">Remove</label>
+                    </div>
+
+                    <!-- assessment name -->
+                    <div class="row">
+                      <div class="form-group" >
+                        <div class="col-md-11">
+                          <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
+                        </div>
+                        <div class="col-md-1">
+                          <button type="button" class="btn btn-default btn-xs" ng-click="remove(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-11">
+                      <label class="control-label edit-criterion-name">Subject</label>
+                    </div>
+                    <div class="col-md-1">
+                      <label class="remove-label edit-criterion-remove">Remove</label>
+                    </div>
+
+                    <!-- assessment subject -->
+                    <div class="row">
+                      <div class="form-group" >
+                        <div class="col-md-11">
+                          <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.subject" name="subject" ng-blur="validateAssessmentSubject=true" required>
+                        </div>
+                        <div class="col-md-1">
+                          <button type="button" class="btn btn-default btn-xs" ng-click="remove(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                        </div>
+                      </div>
+                    </div><br><br>
+
+                    <!-- criterion headers -->
+                    <div class="col-md-8">
+                      <label class="control-label edit-criterion-name">Criterion</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="control-label edit-criterion-max">Max</label>
+                    </div>
+                    <div class="col-md-1">
+                      <label class="remove-label edit-criterion-remove">Remove</label>
+                    </div>
+
+                    <!-- repeat criterions -->
+                    <div ng-repeat="criterion in modalCriterions">
+                      <div class="row">
+                         <div class="form-group" >
+                           <div class="col-md-8">
+                             <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
+                           </div>
+                           <div class="col-md-3">
+                             <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
+                           </div>
+                           <div class="col-md-1">
+                             <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                     <div>
+                       <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+                     </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+           <!-- add assessment button -->
+           <div class="btn-assessment3-save-cancel">
+             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newAssessment()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
                <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>

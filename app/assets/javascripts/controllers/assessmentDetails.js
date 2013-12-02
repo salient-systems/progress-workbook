@@ -1,5 +1,6 @@
 //Assessment Details Page(s)
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
+  
 
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
@@ -13,7 +14,44 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.section = thesection;
   });
 
-
+  
+  $scope.plotit = function(index){
+   var idnum = '#student'+index;
+   var idnumpop = '#studentplot'+index;
+   var studentArr = $scope.createStudentData(index);
+   var legendcontainer = '#legend'+index;
+   $(idnum).popover('toggle').delay(100);
+   //$.plot(idnumpop,[[[0,1],[1,2],[2,4],[3,8]]]);
+   //$.plot(idnumpop,[$scope.createStudentData(index),$scope.classDataSet]);
+   var options = {
+    series: {
+        lines: { show: true },
+        points: { show: true }
+    },
+    xaxis: {
+      show: false
+    },
+    legend: {
+      container: legendcontainer,
+      noColumns: 2
+    }
+   };
+   $.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
+  };
+  
+  $scope.createTemplate = function(index){
+    var testTemplate = '<div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'"></div>';
+    return testTemplate;
+  };
+  
+  $scope.createStudentData = function(index){
+    var scores = [];
+    for(var i = 0; i < $scope.students[index].assessmentPercent.length; i++){
+      scores.push([i,$scope.students[index].assessmentPercent[i]]);
+    }
+    //console.log(scores);
+    return scores;
+  };
 /*
   var myHeaderCellTemplate =   '<div class="ngHeaderSortColumn {{col.headerClass}}" ng-style="{cursor: col.cursor}" ng-class="{ ngSorted: !noSortVisible }">'+
                                '<div style="word-wrap: break-word;" ng-click="col.sort($event)" ng-class="colt + col.index" class="ngHeaderText">{{col.displayName}}</div>'+
@@ -212,6 +250,11 @@ assessment_type.getList('assessments').then(function(thereturn){
          $scope.criterions[i].studentAverage = 0;
        }
        }
+       
+       $scope.classDataSet = [];
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.classDataSet.push([i,$scope.assessments[i].percent]);
+       }
 
 /*
        $scope.myDefs2 = [];
@@ -240,8 +283,15 @@ assessment_type.getList('assessments').then(function(thereturn){
 	  }
 */
     $('div#loadingIcon').hide();
-    $('div#assessmentTable').show();
-    //console.log($scope.students);
+    $('div#assessmentTable').show("fast", function(){
+      $("[rel=popover]").popover({
+        html: true,
+        placement : 'left',
+        trigger: 'manual',
+        //container: '.student-popover',
+      });
+    });
+    
 	});
   });
 });
@@ -451,6 +501,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
        
+       $scope.classDataSet = [];
+       for(var i = 0; i < $scope.assessments.length; i++){
+         $scope.classDataSet.push([i,$scope.assessments[i].percent]);
+       }
   };
 
   $scope.checkVal = function(criterion) {
