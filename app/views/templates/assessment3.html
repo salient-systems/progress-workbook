@@ -72,7 +72,7 @@
 
         <form name="dataSetForm" class="form-horizontal" role="form">
           <!-- Repeat accordion -->
-          <div ng-repeat="assessment in modalAssessments">
+          <div ng-repeat="assessment in editView3Assessments">
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
@@ -136,7 +136,7 @@
                     </div>
 
                     <!-- repeat criterions -->
-                    <div ng-repeat="criterion in modalCriterions">
+                    <div ng-repeat="criterion in assessment.criterions">
                       <div class="row">
                          <div class="form-group" >
                            <div class="col-md-8">

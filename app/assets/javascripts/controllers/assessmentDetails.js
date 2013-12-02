@@ -77,9 +77,22 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
 assessment_type.getList('assessments').then(function(thereturn){
   $scope.assessments = thereturn;
   $scope.editView2Assessments = Restangular.copy(thereturn);
+  $scope.editView3Assessments = Restangular.copy(thereturn);
   
-  console.log($scope.assessments[0]);
-  Restangular.all('criterions').getList({assessment_id: $scope.assessments[0].id}).then(function(thereturn1){
+  //var criterions = [];
+  angular.forEach($scope.editView3Assessments, function(assessment){
+    Restangular.one('assessments', assessment.id).getList('criterions').then(function(criteria){
+      assessment.criterions = criteria;
+    });
+  });
+  /*
+  for(var i = 0; i <  $scope.editView3Assessments.length; i++){
+    $scope.editView3Assessments[i].criterions = criterions[i];
+    console.log($scope.editView3Assessments[i]);
+  }*/
+  
+  //console.log($scope.assessments[0]);
+  Restangular.one('assessments', $scope.assessments[0].id).getList('criterions').then(function(thereturn1){
     $scope.editView2Criterions = thereturn1;
   });
   
