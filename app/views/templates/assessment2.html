@@ -64,14 +64,14 @@
         </div>
         <form name="dataSetForm" class="form-horizontal" role="form">
           <!-- repeat criterions -->
-          <div ng-repeat="assessment in modalAssessments">
+          <div ng-repeat="assessment in editView2Assessments">
             <div class="row">
                <div class="form-group" >
                  <div class="col-md-11">
                    <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
                  </div>
                  <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
              </div>
@@ -90,17 +90,17 @@
             <label class="remove-label edit-criterion-remove">Remove</label>
           </div>
 
-           <div ng-repeat="criterion in modalCriterions"> <!-- only display the list of criteria for the first assessment -->
+           <div ng-repeat="criterion in editView2Criterions"> <!-- only display the list of criteria for the first assessment -->
             <div class="row">
                <div class="form-group" >
                  <div class="col-md-8">
                    <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
                  </div>
                  <div class="col-md-3">
-                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
+                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
              </div>

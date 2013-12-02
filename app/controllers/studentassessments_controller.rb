@@ -27,13 +27,10 @@ class StudentassessmentsController < ApplicationController
             if item.scores.length == 0
               critassesId = Criterion.find(criterionId[i].id);
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
-            elsif j == (criterionId.length-1)
-              critassesId = Criterion.find(criterionId[i].id);
-              CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
             elsif item.scores[j].criterion_id != criterionId[i].id
               critassesId = Criterion.find(criterionId[i].id);
               CriterionGrade.create(criterion_id: "#{criterionId[i].id}", assessment_id: "#{critassesId.assessment_id}", student_id: "#{item.id}", section_id: "#{sectionId}", assessment_type_id: "#{assessmenttypeId}", user_id: "#{userId}");
-            else
+            elsif j != (item.scores.length - 1)
               j = j + 1;
             end
           end
