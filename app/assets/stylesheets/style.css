@@ -419,6 +419,10 @@ input::-webkit-inner-spin-button {
   margin-left: -15px;
 }
 
+.btn-modal-new-assessment-view3 {
+  margin-top: 5px;
+}
+
 .criterion-modal-label-view1 {
 	margin-left: 72px;
 }
@@ -465,6 +469,11 @@ input::-webkit-inner-spin-button {
   margin-right: -109px;
 }
 
+.btn-assessment3-save-cancel {
+  height: 75px; 
+  margin-right: -80px;
+}
+
 .btn-btn-width {
     width: 91.8%;
     text-align: left;
@@ -479,6 +488,16 @@ input::-webkit-inner-spin-button {
   width: 450px;
   margin: 0 auto;
   display: none;
+}
+
+.edit-assessment3 {
+  width: 550px;
+  margin: 0 auto;
+  display: none;
+}
+
+.edit-assessment3-accordion {
+  padding: 55px;
 }
 
 .edit-assessment-name {
