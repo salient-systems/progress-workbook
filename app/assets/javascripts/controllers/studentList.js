@@ -79,7 +79,6 @@ app.controller('StudentListCtrl', function($scope, $rootScope, Restangular, $loc
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-    console.log(datasets);
   };
 
   $scope.toggleActiveStudent = function() {
