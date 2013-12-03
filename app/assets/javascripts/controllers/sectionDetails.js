@@ -2,7 +2,7 @@
 app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular, $location) {
   var section = Restangular.one('sections', $routeParams.id);
-  var deleteAssessmentType = null;
+  $scope.assessmentTypeToDelete = null;
 
   section.get().then(function(thesection) {
     $scope.section = thesection;
@@ -14,7 +14,9 @@ function($scope, $routeParams, Restangular, $location) {
   });
   $scope.selections = [];
 
-  $scope.assessment_types = section.getList('assessment_types');
+  section.getList('assessment_types').then(function(assessmentTypes) {
+    $scope.assessment_types = assessmentTypes;
+  });
 
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
@@ -91,18 +93,19 @@ function($scope, $routeParams, Restangular, $location) {
   };
 
   $scope.deleteAssessmentType = function() {
-    if(deleteAssessmentType !== null) {
-      Restangular.one('assessment_types', deleteAssessmentType.id).remove();
-      //$scope.assessment_types = _.without($scope.assessment_types, deleteAssessmentType);
-      var section = Restangular.one('sections', $routeParams.id);
-      $scope.assessment_types = section.getList('assessment_types');
-      console.log($scope.assessment_types);
-      deleteAssessmentType = null;
-    }
+    var assessType = $scope.assessmentTypeToDelete;
+    Restangular.one('assessment_types', assessType.id).remove();
+    $scope.assessment_types = _.without($scope.assessment_types, assessType);
+    /*
+    var section = Restangular.one('sections', $routeParams.id);
+        $scope.assessment_types = section.getList('assessment_types');
+        console.log($scope.assessment_types);*/
+
+    $scope.assessmentTypeToDelete = null;
   };
 
   $scope.saveAssessmentTypeId = function(assessmentType) {
-    deleteAssessmentType = assessmentType;
+    $scope.assessmentTypeToDelete = assessmentType;
   };
 
   $scope.saveAssessment = function() {
