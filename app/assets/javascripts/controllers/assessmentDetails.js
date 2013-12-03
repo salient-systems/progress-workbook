@@ -18,9 +18,6 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
    var idnumpop = '#studentplot'+index;
    var studentArr = $scope.createStudentData(index);
    var legendcontainer = '#legend'+index;
-   //$(idnum).popover('toggle').delay(200);
-   //$.plot(idnumpop,[[[0,1],[1,2],[2,4],[3,8]]]);
-   //$.plot(idnumpop,[$scope.createStudentData(index),$scope.classDataSet]);
    var options = {
     series: {
         lines: { show: true },
@@ -44,18 +41,50 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
                       { label: "Student", data: $scope.createStudentData(index), clickable: true }]
                       ,options);
    });
-   //$.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
   };
+
+$scope.plotitv2 = function(index){
+   var idnum = '#student'+index;
+   var idnumpop = '#studentplot'+index;
+   var someNum = $scope.tofloor(index / $scope.sizeAssessment[0]);
+   var studentArr = $scope.createStudentData(someNum);
+   var legendcontainer = '#legend'+index;
+   var options = {
+    series: {
+        lines: { show: true },
+        points: { show: true }
+    },
+    xaxis: {
+      show: false
+    },
+    yaxis: {
+      min: 0,
+      max: 100,
+      ticks: 5
+    },
+    legend: {
+      container: legendcontainer,
+      noColumns: 1
+    }
+   };
+   $(idnum).on('shown.bs.popover', function () {
+     $.plot(idnumpop,[{ label: "Class", data: $scope.classDataSet, color: "DodgerBlue" },
+                      { label: "Student", data: $scope.createStudentData(someNum), clickable: true }]
+                      ,options);
+   });
+  };
+
 
   $scope.createTemplate = function(index){
     var testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
     return testTemplate;
   };
 
-  $scope.createStudentData = function(index){
+  $scope.createStudentData = function(indexx){
+    //console.log(indexx);
     var scores = [];
-    for(var i = 0; i < $scope.students[index].assessmentPercent.length; i++){
-      scores.push([i,$scope.students[index].assessmentPercent[i]]);
+    for(var i = 0; i < $scope.students[indexx].assessmentPercent.length; i++){
+      scores.push([i,$scope.students[indexx].assessmentPercent[i]]);
     }
     //console.log(scores);
     return scores;
