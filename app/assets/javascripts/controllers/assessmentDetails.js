@@ -607,6 +607,9 @@ assessment_type.getList('assessments').then(function(thereturn){
     $scope.noDeleteCriterion2 = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 criterion
     $scope.noDeleteAssessment2 = ($scope.editView2Assessments.length == 1); // can't delete if there's only 1 assessment
     $scope.noDeleteAssessment3 = ($scope.editView3Assessments.length == 1); // can't delete if there's only 1 assessment
+    $scope.editView3Assessments.forEach(function(assessment){
+        assessment.noDeleteCriterion3 = (assessment.criterions.length == 1);
+      });
   };
 });
 
@@ -978,7 +981,10 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     var newCritRestCopy = Restangular.copy(newCrit);
     newCritRestCopy.route = "criterions";
     newCritRestCopy.post().then(function(thereturn){
-      $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
+      $scope.editView3Assessments[index].criterions.push(thereturn);
+      $scope.editView3Assessments.forEach(function(assessment){
+        assessment.noDeleteCriterion3 = (assessment.criterions.length == 1);
+      });
     });
   };
 
@@ -1069,10 +1075,11 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
   };
 
   $scope.removeCriterion = function(parentIndex, index) {
-    var editable = $scope.editView3Assessments[parentIndex].criterions[index];
-    editable.route = "criterions";
-    editable.remove();
+    Restangular.one("criterions",$scope.editView3Assessments[parentIndex].criterions[index].id).remove();
     $scope.editView3Assessments[parentIndex].criterions.splice(index, 1);
+    $scope.editView3Assessments.forEach(function(assessment){
+      assessment.noDeleteCriterion3 = (assessment.criterions.length == 1);
+    });
   };
 
   $scope.removeAssessment = function(index) {
