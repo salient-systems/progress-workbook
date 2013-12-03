@@ -12,13 +12,34 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   /*
    * Default configuration for the graph
    */
-  $scope.graphOptions = {
+  $scope.graphOptions = {};
+
+  $scope.defaultLineGraphOptions = {
     series: {
       lines: { show: true },
       points: { show: true }
     },
     xaxis: {
       mode: "categories"
+    },
+    yaxis: {
+      min: 0
+    }
+  };
+
+  $scope.defaultBarGraphOptions = {
+    series: {
+      bars: {
+        show: true,
+        barWidth: 0.6
+      }
+    },
+    xaxis: {
+      mode: "categories",
+      tickLength: 0
+    },
+    yaxis: {
+      min: 0
     }
   };
 
@@ -27,9 +48,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
    */
   $scope.sectionStatistics = [
     { id: 1, name: "Total Correct" },
-    { id: 2, name: "Percentage Correct" },
-    { id: 3, name: "Total Possible" },
-    { id: 4, name: "Total Goal" }
+    { id: 2, name: "Percentage Correct" }
   ];
 
   $scope.assessmentTypeStatistics = [
@@ -51,14 +70,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     { id: 4, name: "Total Goal" },
     { id: 6, name: "Score Distribution (Total)" },
     { id: 7, name: "Score Distribution (Percent)" },
-    { id: 8, name: "Students Present" },
-    { id: 9, name: "Students Enrolled" }
   ];
 
   $scope.criterionStatistics = [
-    //{ id: 1, name: "Total Correct" },
-    //{ id: 2, name: "Percentage Correct" },
-    //{ id: 3, name: "Total Possible" },
     { id: 6, name: "Score Distribution (Total)" },
     { id: 7, name: "Score Distribution (Percent)" },
   ];
@@ -121,7 +135,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       self.searchBox.bind('typeahead:selected', function(event, datum, name) {
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
-        self.updateTerm();
+        self.updateTerm(self.filterType == 'cohorts');
       });
 
       // reset the dataset if the search box is emptied
@@ -138,14 +152,14 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         this.termId = $scope.terms.length;
         this.statisticId = null;
         this.statistics = $scope.sectionStatistics;
-        this.updateTerm();
+        this.updateTerm(false);
       }
     },
 
     /*
      * Update sections when term changes
      */
-    updateTerm: function() {
+    updateTerm: function(cohortSelected) {
       var self = this;
       self.sectionId = null;
       self.assessmentTypeId = null;
@@ -155,13 +169,13 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       self.assessments = [];
       self.criterion = [];
 
-      if (self.filterDatum != null) {
+      if (self.filterType == 'users' || self.filterType == 'students') {
         // if a student or user has been selected, only show their sections
         var userOrStudent = Restangular.one(self.filterType, self.filterDatum.id);
         userOrStudent.all('sections').getList({term_id: self.termId}).then(function(sections) {
             self.sections = sections;
         });
-      } else {
+      } else if (!cohortSelected) { // don't fetch sections if cohort is selected in typeahead
         Restangular.one('terms', self.termId).getList('sections').then(function(sections) {
           self.sections = sections;
         });
@@ -254,59 +268,158 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   /* ----------------------------- Graphs  --------------------------------- */
 
-  $scope.plot = function(dataset) {
-
-    console.log(dataset);
+  $scope.plot = function(dataset, panel) {
     var url = $scope.buildRequestUrl(dataset);
+    var series = {
+      label: 'Dataset ' + parseInt(panel.id + 1),
+      data: []
+    };
+    dataset.id = panel.id;
 
-    /*
-    $http.get(url).success(function(assessments) {
-      var series = {
-        label: 'Dataset ' + parseInt(dataset.id + 1),
-        data: []
-      };
-
-      // crunch the numbers
-      angular.forEach(assessments, function(assessment, index) {
-        // percentage correct
-        if (dataset.statisticId == 2) {
-          var grades = _.pluck(assessment.grades, 'score');
-          var percent = $scope.sum(grades) / $scope.getTotalPossible(assessment);
-          series.data.push([assessment.name, percent]);
-        }
-
-        // total correct
-        if (dataset.statisticId == 1) {
-          var grades = _.pluck(assessment.grades, 'score');
-          series.data.push([assessment.name, $scope.sum(grades)]);
-        }
-      });
-
-      if (dataset.graphPointsIndex == null) {
-        dataset.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
+    $http.get(url).success(function(data) {
+      if (dataset.criterionId) {
+        $scope.graphCriterion(dataset, data[0], series);
+      } else if (dataset.assessmentId) {
+        $scope.graphAssessment(dataset, data[0], series);
+      } else if (dataset.assessmentTypeId) {
+        $scope.graphAssessmentType(dataset, data, series);
       } else {
-        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
+        // plot overall data for a section
       }
 
-      // plot the data
+      if (panel.graphPointsIndex) {
+        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
+      } else {
+        panel.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
+      }
+
+      // draw the graph
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
-    });*/
+    });
   };
 
-  $scope.buildRequestUrl = function(dataset) {
-    if (dataset.filterType == 'students') {
-      var url = '/p/student/'
-        + dataset.studentId
-        + '/type/'
-        + dataset.assessmentTypeId;
+  $scope.graphAssessment = function(dataset, assessment, series) {
+
+  };
+
+  $scope.graphCriterion = function(dataset, assessment, series) {
+    var distribution = $scope.getCriterionScoreDistribution(dataset.criterionId, assessment.grades);
+    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
+    //$scope.graphOptions.xaxis.mode = null;
+    series.bars = {
+      show: true,
+      barWidth: 0.3,
+      order: dataset.id,
+    };
+
+    if (dataset.statisticId == 6) {
+      _.each(distribution, function(numScores, score) {
+        series.data.push([score, numScores]);
+      });
+      $scope.graphOptions.yaxis.tickSize = 1;
+    } else if (dataset.statisticId == 7) {
+      _.each(distribution, function(numScores, score) {
+        series.data.push([score, (numScores/assessment.numStudents) * 100]);
+      });
+      $scope.graphOptions.yaxis.tickSize = 10;
+      $scope.graphOptions.yaxis.max = 100;
+    }
+  };
+
+  $scope.graphAssessmentType = function(dataset, assessments, series) {
+    // plot data about assessments of a single type
+    var graphOptions = angular.copy($scope.defaultLineGraphOptions);
+    var numStudents = assessments[0].numStudents;
+
+    // total correct or percentage correct
+    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
+      var maxList = [];
+      _.each(assessments, function(assessment) {
+        var thisMax = 0;
+        _.each(assessment.criteria, function(criterion) {
+            thisMax += criterion.max;
+        });
+
+        var grades = $scope.sum(_.pluck(assessment.grades, 'score'));
+
+        if (dataset.statisticId == 2) {
+          grades = grades / thisMax * numStudents;
+        }
+
+        series.data.push([assessment.name, grades]);
+        maxList.push(thisMax);
+      });
+
+      if (dataset.statisticId == 1) {
+        graphOptions.yaxis.max = _.max(maxList) * numStudents;
+      } else {
+        graphOptions.yaxis.max = 100;
+        graphOptions.yaxis.tickSize = 10;
+      }
     }
 
-    if (dataset.filterType == '' || dataset.filterType == 'users') {
-      var url = '/p/section/'
-        + dataset.sectionId
-        + '/type/'
-        + dataset.assessmentTypeId;
+    $scope.graphOptions = graphOptions;
+
+    /*
+    // percentage correct
+    if (dataset.statisticId == 2) {
+      _.each(assessments, function(assessment, index) {
+        var grades = _.pluck(assessment.grades, 'score');
+        var percent = ($scope.sum(grades) / $scope.getTotalPossible(assessment)) * 100;
+        series.data.push([assessment.name, percent]);
+        graphOptions.yaxis.max = 100;
+        graphOptions.yaxis.min = 0;
+        graphOptions.yaxis.ticksize = 5;
+      });
+    }*/
+
+
+    /*// score distribution
+    if (dataset.statisticId == 6 || dataset.statisticId == 7) {
+      graphOptions = $scope.defaultBarGraphOptions;
+      var grades = _.flatten(_.pluck(assessments, 'grades'));
+      var distribution = $scope.getOverallScoreDistribution(grades);
+
+      if (dataset.statisticId == 6) {
+        // total
+        _.each(distribution, function(total, score) {
+          series.data.push([score, total]);
+        });
+      } else {
+        // percent
+        var numStudents = assessments[0].numStudents;
+        _.each(distribution, function(total, score) {
+          series.data.push([score, total/numStudents]);
+        });
+
+        graphOptions.yaxis.min = 0;
+        graphOptions.yaxis.tickSize = 1;
+      }
+    }*/
+  };
+
+  /* --------------------------- Graph Helpers  ---------------------------- */
+
+   $scope.buildRequestUrl = function(dataset) {
+    var url = '/p/';
+
+    if (dataset.filterType == 'students') {
+      url += 'students/' + dataset.filterDatum.id;
+    } else if (dataset.filterType == 'cohorts') {
+      url += 'cohorts/' + dataset.filterDatum.id;
+    } else {
+      url += 'sections/' + dataset.sectionId;
     }
+
+    if (dataset.criterionId || dataset.assessmentId) {
+      url += '/assessment/' + dataset.assessmentId;
+    } else if (dataset.assessmentTypeId) {
+      url += '/assesstype/' + dataset.assessmentTypeId;
+    } else if (dataset.sectionId) {
+      // TODO get all data about all assessments
+    }
+
+    return url;
   };
 
   $scope.sum = function(numbers) {
@@ -328,11 +441,11 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     return sum;
   };
 
-  $scope.getScoreDistribution = function(criterionId, grades) {
+  $scope.getCriterionScoreDistribution = function(criterionId, grades) {
     var distribution = {};
 
     for (var i in grades) {
-      if (grades[i].criterion_id == criterionId) {
+      if (criterionId && grades[i].criterion_id == criterionId) {
         if (distribution[grades[i].score] !== undefined) {
           distribution[grades[i].score]++;
         } else {
@@ -344,12 +457,26 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     return distribution;
   };
 
+  $scope.getOverallScoreDistribution = function(grades) {
+    var distribution = {};
+
+    for (var i in grades) {
+      if (distribution[grades[i].score] !== undefined) {
+        distribution[grades[i].score]++;
+      } else {
+        distribution[grades[i].score] = 1;
+      }
+    }
+
+    return distribution;
+  };
+
 
   /* ----------------------- Panel Management ----------------------- */
 
   $scope.save = function(dataset) {
     $scope.updateURL();
-    $scope.plot(dataset);
+    $scope.plot(dataset, dataset);
   };
 
   $scope.addPanel = function() {
@@ -395,8 +522,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
     angular.forEach(datasets, function(dataset, index) {
       var panel = $scope.addPanel();
-      dataset.id = panel.id;
-      $scope.plot(dataset);
+      $scope.plot(dataset, panel);
 
       if (dataset.termId != undefined) {
         panel.termId = dataset.termId;
@@ -428,18 +554,23 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         });
 
         if (dataset.assessmentTypeId != undefined) {
+          panel.statistics = $scope.assessmentTypeStatistics;
           panel.assessmentTypeId = dataset.assessmentTypeId;
+
           Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
             panel.assessments = assessments;
           });
 
           if (dataset.assessmentId != undefined) {
+            panel.statistics = $scope.assessmentStatistics;
             panel.assessmentId = dataset.assessmentId;
+
             Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
               panel.criterions = criterions;
             });
 
             if (dataset.criterionId != undefined) {
+              panel.statistics = $scope.criterionStatistics;
               panel.criterionId = dataset.criterionId;
             }
           }
@@ -466,7 +597,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         $scope.defaultPanel.sections = sections;
         $scope.addPanel();
       });
-      $.plot("#graph", [[]]); // empty placeholder graph
+
+      // empty placeholder graph
+      $.plot("#graph", [[]], {
+        xaxis: { min: 0, max: 1 },
+        yaxis: { min: 0, max: 1 }
+      });
     } else {
       $scope.parseUrl();
     }

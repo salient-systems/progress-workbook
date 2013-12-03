@@ -20,6 +20,7 @@
 //= require bootstrap.min
 //= require jquery.flot.min
 //= require jquery.flot.categories
+//= require jquery.flot.orderBars
 //= require excanvas.min
 //= require typeahead.min
 //= require_directory
