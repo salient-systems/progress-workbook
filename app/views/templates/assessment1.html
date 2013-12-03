@@ -6,6 +6,9 @@
         <div id="editButton">
           <a ng-click="edit()" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/edit.png"> Edit</a>
         </div>
+        <div id="backButton">
+          <a ng-click="back()" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/back.png"> Back</a>
+        </div>
       </h3>
       <p class="text-muted"><a ng-href="#/classes/{{section.id}}">{{section.name}}</a> • <a ng-href="#/users/{{section.user.id}}">{{section.user.fname}} {{section.user.lname}}</a></p>
 
@@ -48,7 +51,7 @@
         <div class="row">
           <div class="col-sm-10 col-sm-offset-1">
             <label class="control-label">Name</label>
-            <input type="text" class="form-control" ng-change="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
+            <input type="text" class="form-control" ng-blur="changeAssessmentTypeName()" ng-model="assessment_type_name" name="name" ng-blur="validateName=true" required>
           </div>
         </div>
         <br><br>
@@ -65,14 +68,14 @@
         </div>
         <form name="dataSetForm" class="form-horizontal" role="form">
           <!-- repeat criterions -->
-          <div ng-repeat="criterion in modalCriterions">
+          <div ng-repeat="criterion in criterions">
             <div class="row">
                <div class="form-group" >
                  <div class="col-sm-8">
-                   <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
+                   <input type="text" class="form-control" ng-blur="changedOldCriterion(criterion, $index)" ng-model="criterion.name" name="name" ng-blur="validateCriterionName=true" required>
                  </div>
                  <div class="col-sm-3">
-                   <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
+                   <input type="text" class="form-control" ng-blur="changedOldCriterion(criterion, $index)" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-sm-1">
                    <button type="button" class="btn btn-default btn-sm" ng-click="remove(criterion, $index)" ng-disabled="modalCriterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
@@ -80,13 +83,12 @@
                </div>
              </div>
            </div>
-           <!-- add criterion button -->
-           <div class="btn-assessment1-save-cancel">
-             <button type="button" class="btn btn-default btn-sm btn-modal-new-view1" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+           <!-- back button -->
+           <div class="btn-assessment3-save-cancel">
+             <button type="button" class="btn btn-default btn-xs" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
-               <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
-               <button type="button" ng-click="save()" class="btn btn-primary" data-dismiss="modal">Save</button>
+               <button type="button" ng-click="back()" class="btn btn-primary" data-dismiss="modal">Done</button>
              </div>
              <div style="clear:both;"></div>
            </div>
