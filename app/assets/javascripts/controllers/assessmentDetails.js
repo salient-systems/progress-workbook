@@ -13,7 +13,8 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
 
 
-  $scope.plotit = function(index){
+  $scope.plotit = function(index, student){
+   $scope.studentLink = student;
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
    var studentArr = $scope.createStudentData(index);
@@ -75,8 +76,31 @@ $scope.plotitv2 = function(index){
   };
 
 
-  $scope.createTemplate = function(index){
-    var testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+  $scope.createTemplate = function(index) {
+    var student = $scope.studentLink;
+    var datasets = [{
+      filterType: 'students',
+      filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+      termId: $scope.section.term.id,
+      sectionId: $scope.section.id,
+      assessmentTypeId: $scope.assessment_type.id,
+      assessmentId: undefined,
+      criterionId: undefined,
+      statisticId: 2
+    }, {
+      filterType: null,
+      filterDatum: null,
+      termId: $scope.section.term.id,
+      sectionId: $scope.section.id,
+      assessmentTypeId: $scope.assessment_type.id,
+      assessmentId: undefined,
+      criterionId: undefined,
+      statisticId: 2
+    }];
+
+    var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+
+    var testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
     return testTemplate;
   };
 
