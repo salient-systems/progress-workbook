@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="start2">
   <div class="row">
   <div class="col-md-12">
     <div class="box">
@@ -30,9 +30,9 @@
               <td ng-repeat="assessment in assessments" class="scoreHoriz" ng-style="{background: percentColor(assessment.percent)}">{{assessment.percent}}%</td>
             </tr>
             <tr ng-repeat="a in studentbycrit" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row">
+              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row" id="student{{$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[tofloor($index / sizeAssessment[0])].id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a>' data-container="#start2" data-content={{createTemplate($index)}} ng-mousedown="plotitv2($index)">
                 <div class="assessment-relative-position">
-                  <p class="css-vertical-text"><a href="#/students/{{student.id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a></p>
+                  <p class="css-vertical-text">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p>
                 </div>
               </td>
               <td class="assessment2-criterion-name">{{criterions[$index % sizeAssessment[0]].name}}</td>
@@ -71,7 +71,7 @@
                    <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
                  </div>
                  <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment(assessment, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment(assessment, $index)" ng-disabled="editView2Assessments.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
              </div>
@@ -100,7 +100,7 @@
                    <input type="text" class="form-control" ng-change="changedOldCriterion(criterion, $index)" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-md-1">
-                   <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion(criterion, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion(criterion, $index)" ng-disabled="editView2Criterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
              </div>

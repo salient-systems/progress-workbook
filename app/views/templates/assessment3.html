@@ -43,10 +43,10 @@
               <td class="scoreHoriz" ng-repeat="student in students" ng-style="{background: percentColor(student.assessmentPercent[$parent.$index])}" >{{student.assessmentPercent[$parent.$index]}}%</td>
             </tr>
             <tr ng-repeat="a in numOfCritArray[$index]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-subject">
+              <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-subject">
                 <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].subject}}</strong></p>
               </td>
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-assessment">
+              <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-assessment">
                 <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].name}}</p>
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
@@ -77,46 +77,38 @@
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                      Assessment {{$index+1}}: {{assessment.name}}
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#assessment{{assessment.id}}">
+                      {{assessment.name}} <button type="button" class="btn btn-default btn-xs pull-right" ng-click="removeAssessment($index)" ng-disabled="editView3Assessments.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"> Remove</button>
                     </a>
                   </h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
+                <div id="assessment{{assessment.id}}" class="panel-collapse collapse in">
                   <div class="panel-body edit-assessment3-accordion">
 
                      <!-- criterion headers -->
                     <div class="col-md-11">
                       <label class="control-label edit-criterion-name">Assessment</label>
                     </div>
-                    <div class="col-md-1">
-                      <label class="remove-label edit-criterion-remove">Remove</label>
-                    </div>
 
                     <!-- assessment name -->
                     <div class="row">
                       <div class="form-group" >
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                           <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
-                        </div>
-                        <div class="col-md-1">
-                          <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment($index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-md-11">
+                    <div class="col-md-12">
                       <label class="control-label edit-criterion-name">Subject</label>
                     </div>
-                    <div class="col-md-1"></div>
 
                     <!-- assessment subject -->
                     <div class="row">
                       <div class="form-group" >
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                           <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.subject" name="subject" ng-blur="validateAssessmentSubject=true" required>
                         </div>
-                        <div class="col-md-1"></div>
                       </div>
                     </div><br><br>
 
@@ -142,7 +134,7 @@
                              <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                            </div>
                            <div class="col-md-1">
-                             <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion($parent.$index, $index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                             <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion($parent.$index, $index)" ng-disabled="assessment.criterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                            </div>
                          </div>
                        </div>
@@ -159,7 +151,7 @@
 
            <!-- add assessment button -->
            <div class="btn-assessment3-save-cancel">
-             <button type="button" class="btn btn-default btn-xs btn-modal-new-view1" ng-click="newAssessment()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+             <button type="button" class="btn btn-default btn-xs" ng-click="newAssessment()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
                <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">Cancel</button>
