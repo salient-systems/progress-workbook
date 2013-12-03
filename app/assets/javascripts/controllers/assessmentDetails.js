@@ -1,5 +1,6 @@
 //Assessment Details Page(s)
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
+  $('div#backButton').hide();
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
@@ -652,9 +653,14 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 */
 
+  $scope.back = function(){
+    location.reload();
+  };
+  
   $scope.edit = function(){
     $('div#assessmentTable').hide();
     $('div#editButton').hide();
+    $('div#backButton').show();
     $('div#editAssessment').show();
   };
 });
@@ -774,27 +780,6 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
-
-  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
-      if(ev.which === 13) {
-        ev.preventDefault();
-        var cell = $(ev.currentTarget).parent();
-        var index = cell.index();
-        cell.parent().next().children().eq(index).find("input").focus();
-      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
-             // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) ||
-             // Allow: home, end, left, right
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
-                 // let it happen, don't do anything
-                 return;
-       }else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault();
-            }
-        }
-  });
 });
 
 
@@ -978,27 +963,6 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
-
-  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
-      if(ev.which === 13) {
-        ev.preventDefault();
-        var cell = $(ev.currentTarget).parent();
-        var index = cell.index();
-        cell.parent().next().children().eq(index).find("input").focus();
-      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
-             // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) ||
-             // Allow: home, end, left, right
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
-                 // let it happen, don't do anything
-                 return;
-       }else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault();
-            }
-        }
-  });
 });
 
 
@@ -1053,9 +1017,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     });
   };
 
-  $scope.back = function(){
-    location.reload();
-  };
+
 
   $scope.removeCriterion = function(parentIndex, index) {
     Restangular.one("criterions",$scope.editView3Assessments[parentIndex].criterions[index].id).remove();
