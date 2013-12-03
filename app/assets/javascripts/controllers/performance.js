@@ -20,7 +20,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       points: { show: true }
     },
     xaxis: {
-      mode: "categories"
+      mode: 'categories'
     },
     yaxis: {
       min: 0
@@ -31,11 +31,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     series: {
       bars: {
         show: true,
-        barWidth: 0.6
+        barWidth: 0.6,
+        align: 'center'
       }
     },
     xaxis: {
-      mode: "categories",
+      mode: 'categories',
       tickLength: 0
     },
     yaxis: {
