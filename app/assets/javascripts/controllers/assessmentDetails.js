@@ -604,7 +604,7 @@ assessment_type.getList('assessments').then(function(thereturn){
     $('div#editButton').hide();
     $('div#editAssessment').show();
     $scope.noDeleteCriterion1 = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 criterion
-    $scope.noDeleteCriterion2 = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 criterion
+    $scope.noDeleteCriterion2 = ($scope.editView2Criterions.length == 1); // can't delete if there's only 1 criterion
     $scope.noDeleteAssessment2 = ($scope.editView2Assessments.length == 1); // can't delete if there's only 1 assessment
     $scope.noDeleteAssessment3 = ($scope.editView3Assessments.length == 1); // can't delete if there's only 1 assessment
   };
@@ -774,7 +774,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       newCritRestCopy.route = "criterions";
       newCritRestCopy.post();
     }
-    $scope.noDeleteCriterion2 = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 criterion
+    $scope.noDeleteCriterion2 = ($scope.editView2Criterions.length == 1); // can't delete if there's only 1 criterion
   };
 
   $scope.newAssessment = function() {
@@ -893,7 +893,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
         editable.remove();
       });
     }
-    $scope.noDeleteCriterion2 = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 criterion
+    $scope.noDeleteCriterion2 = ($scope.editView2Criterions.length == 1); // can't delete if there's only 1 criterion
   };
 
   $scope.removeAssessment = function(assessment) {
