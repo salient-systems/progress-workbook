@@ -1,7 +1,5 @@
 //Assessment Details Page(s)
 app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
-  
-
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
@@ -14,7 +12,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     $scope.section = thesection;
   });
 
-  
+
   $scope.plotit = function(index){
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
@@ -48,12 +46,12 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
    });
    //$.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
   };
-  
+
   $scope.createTemplate = function(index){
     var testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
     return testTemplate;
   };
-  
+
   $scope.createStudentData = function(index){
     var scores = [];
     for(var i = 0; i < $scope.students[index].assessmentPercent.length; i++){
@@ -80,7 +78,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   $scope.assessments = thereturn;
   $scope.editView2Assessments = Restangular.copy(thereturn);
   $scope.editView3Assessments = Restangular.copy(thereturn);
-  
+
   //var criterions = [];
   angular.forEach($scope.editView3Assessments, function(assessment){
     Restangular.one('assessments', assessment.id).getList('criterions').then(function(criteria){
@@ -92,12 +90,12 @@ assessment_type.getList('assessments').then(function(thereturn){
     $scope.editView3Assessments[i].criterions = criterions[i];
     console.log($scope.editView3Assessments[i]);
   }*/
-  
+
   //console.log($scope.assessments[0]);
   Restangular.one('assessments', $scope.assessments[0].id).getList('criterions').then(function(thereturn1){
     $scope.editView2Criterions = thereturn1;
   });
-  
+
   Restangular.all('criterions').getList({assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
     $scope.criterions = thereturn;
 
@@ -289,7 +287,7 @@ assessment_type.getList('assessments').then(function(thereturn){
          $scope.criterions[i].studentAverage = 0;
        }
        }
-       
+
        $scope.classDataSet = [];
        for(var i = 0; i < $scope.assessments.length; i++){
          $scope.classDataSet.push([i,$scope.assessments[i].percent]);
@@ -338,7 +336,7 @@ assessment_type.getList('assessments').then(function(thereturn){
         //container: '.student-popover',
       });
     });
-    
+
 	});
   });
 });
@@ -465,7 +463,7 @@ assessment_type.getList('assessments').then(function(thereturn){
       $scope.students[i].max = 0;
       for(var j = 0; j < $scope.criterions.length; j++){
         if($scope.students[i].scores[j].score != null){
-          $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;  
+          $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
         }
        	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
       }
@@ -547,9 +545,9 @@ assessment_type.getList('assessments').then(function(thereturn){
            notused++;
          }
        }
-       
+
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
-       
+
        $scope.classDataSet = [];
        for(var i = 0; i < $scope.assessments.length; i++){
          $scope.classDataSet.push([i,$scope.assessments[i].percent]);
@@ -612,6 +610,7 @@ assessment_type.getList('assessments').then(function(thereturn){
  * ========================================================edit view 1 controller========================================================
  */
 app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
+  $scope.noDeleteCriterion = true;
 
   $scope.changedOldCritFlags = [];
   $scope.assessmentTypeNameFlag = false;
@@ -641,9 +640,10 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
         editable.post();
       });
     });
-    
+
     $scope.modalCriterions.push(newCrit);
     $scope.newCriterions.push(newCrit);
+    $scope.noDeleteCriterion = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 dataset
   };
 
   $scope.save = function() {
@@ -685,7 +685,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
     location.reload();
-    
+
     //$('div#editAssessment').hide();
     //$('div#editButton').show();
     //$('div#assessmentTable').show();
@@ -704,6 +704,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     if(indexToRemoveNew >= 0){
       $scope.newCriterions.splice(indexToRemoveNew, 1);
     }
+    $scope.noDeleteCriterion = ($scope.modalCriterions.length == 1); // can't delete if there's only 1 dataset
   };
 
   $scope.changedOldCriterion = function(criterion, index){
@@ -716,7 +717,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
-  
+
   $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
       if(ev.which === 13) {
         ev.preventDefault();
@@ -725,7 +726,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
         cell.parent().next().children().eq(index).find("input").focus();
       }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
              // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) || 
+            (event.keyCode == 65 && event.ctrlKey === true) ||
              // Allow: home, end, left, right
             (event.keyCode >= 35 && event.keyCode <= 39)) {
                  // let it happen, don't do anything
@@ -733,8 +734,8 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
        }else {
             // Ensure that it is a number and stop the keypress
             if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault(); 
-            }   
+                event.preventDefault();
+            }
         }
   });
 });
@@ -751,7 +752,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   $scope.changedOldCritFlags = [];
   $scope.changedOldAssessFlags = [];
   $scope.assessmentTypeNameFlag = false;
-  
+
   $scope.newCriterion = function() {
     var newCrit = {
       max: $scope.editView2Criterions[$scope.editView2Criterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
@@ -761,13 +762,13 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     $scope.editView2Criterions.push(newCrit);
     $scope.newCriterions.push(newCrit);
     for(var i = 0; i < $scope.editView2Assessments.length; i++){
-      newCrit.assessment_id = $scope.editView2Assessments[i].id;     
+      newCrit.assessment_id = $scope.editView2Assessments[i].id;
       var newCritRestCopy = Restangular.copy(newCrit);
       newCritRestCopy.route = "criterions";
       newCritRestCopy.post();
     }
   };
-  
+
   $scope.newAssessment = function() {
     var newAssess = {
       data_type: 1,
@@ -775,17 +776,17 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       name: ($scope.editView2Assessments.length + 1),
       assessment_type_id: $scope.assessment_type.id
     };
-    
+
     var newAssessRestCopy = Restangular.copy(newAssess);
     newAssessRestCopy.route = "assessments";
     newAssessRestCopy.post().then(function(thereturn){
-      newAssessRestCopy.id = thereturn.id;      
+      newAssessRestCopy.id = thereturn.id;
       for(var i = 0; i < $scope.editView2Criterions.length; i++){
         var newCrit = {
           max: $scope.editView2Criterions[i].max,
           name: $scope.editView2Criterions[i].name,
           assessment_id: newAssessRestCopy.id
-        };    
+        };
         newCritRestCopy = Restangular.copy(newCrit);
         newCritRestCopy.route = "criterions";
         newCritRestCopy.post();
@@ -814,7 +815,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       }
     }
     $scope.changedOldCritFlags = [];
-    
+
     //updating old assessments
     for(var i = 0; i < $scope.changedOldAssessFlags.length; i++){
       $scope.assessments[$scope.changedOldAssessFlags[i]] = $scope.editView2Assessments[$scope.changedOldCritFlags[i]];
@@ -823,9 +824,9 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       editable.put();
     }
     $scope.changedOldAssessFlags = [];
-    
+
     location.reload();
-        
+
     //$('div#editAssessment').hide();
     //$('div#editButton').show();
     //$('div#assessmentTable').show();
@@ -848,15 +849,15 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       var index = $scope.changedOldCritFlags[i];
       $scope.editView2Criterions[index].name = $scope.criterions[index].name;
     }
-    
+
     //cancel changed old assessments
     for(var i = 0; i < $scope.changedOldAssessFlags.length; i++){
       var index = $scope.changedOldAssessFlags[i];
       $scope.editView2Assessments[index].name = $scope.assessments[index].name;
     }
-    
+
     location.reload();
-    
+
     //$('div#editAssessment').hide();
     //$('div#editButton').show();
     //$('div#assessmentTable').show();
@@ -904,13 +905,13 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       editable.remove();
     }
   };
-  
+
   $scope.changedOldCriterion = function(criterion, index){
     if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
       $scope.changedOldCritFlags.push(index);
     }
   };
-  
+
   $scope.changedOldAssessment = function(assessment, index){
     if(($scope.newAssessments.indexOf(assessment) < 0) && ($scope.changedOldAssessFlags.indexOf(index) < 0)){
       $scope.changedOldAssessFlags.push(index);
@@ -920,7 +921,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
-  
+
   $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
       if(ev.which === 13) {
         ev.preventDefault();
@@ -929,7 +930,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
         cell.parent().next().children().eq(index).find("input").focus();
       }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
              // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) || 
+            (event.keyCode == 65 && event.ctrlKey === true) ||
              // Allow: home, end, left, right
             (event.keyCode >= 35 && event.keyCode <= 39)) {
                  // let it happen, don't do anything
@@ -937,8 +938,8 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
        }else {
             // Ensure that it is a number and stop the keypress
             if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault(); 
-            }   
+                event.preventDefault();
+            }
         }
   });
 });
@@ -962,14 +963,14 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       name: ($scope.editView3Assessments[index].criterions.length + 1)
     };
 
-    newCrit.assessment_id = $scope.editView3Assessments[index].id; 
+    newCrit.assessment_id = $scope.editView3Assessments[index].id;
     var newCritRestCopy = Restangular.copy(newCrit);
     newCritRestCopy.route = "criterions";
     newCritRestCopy.post().then(function(thereturn){
       $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
     });
   };
-  
+
   $scope.newAssessment = function() {
     var newAssess = {
       data_type: 1,
@@ -978,16 +979,16 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       assessment_type_id: $scope.assessment_type.id,
       criterions: []
     };
-    
+
     var newAssessRestCopy = Restangular.copy(newAssess);
     newAssessRestCopy.route = "assessments";
     newAssessRestCopy.post().then(function(thereturn){
-      newAssessRestCopy.id = thereturn.id;      
+      newAssessRestCopy.id = thereturn.id;
       var newCrit = {
         max: $scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions[$scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions.length - 1].max,
         name: 1,
         assessment_id: newAssessRestCopy.id
-      };    
+      };
       newCritRestCopy = Restangular.copy(newCrit);
       newCritRestCopy.route = "criterions";
       newCritRestCopy.post().then(function(thereturn){
@@ -1025,7 +1026,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       newAssessRestCopy.put();
     });
     $scope.changedOldAssessFlags = [];
-        
+
     //$('div#editAssessment').hide();
     //$('div#editButton').show();
     //$('div#assessmentTable').show();
@@ -1048,7 +1049,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       var index = $scope.changedOldCritFlags[i];
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
-    
+
     //$('div#editAssessment').hide();
     //$('div#editButton').show();
     //$('div#assessmentTable').show();
@@ -1060,7 +1061,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     editable.remove();
     $scope.editView3Assessments[parentIndex].criterions.splice(index, 1);
   };
-  
+
   $scope.removeAssessment = function(index) {
     var editable = $scope.editView3Assessments[index];
     editable.route = "assessments";
@@ -1080,11 +1081,11 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
         $scope.changedOldCritFlags[i].name = changeCrit.name;
         $scope.changedOldCritFlags[i].max = changeCrit.max;
         return;
-      }      
+      }
     }
     $scope.changedOldCritFlags.push(changeCrit);
   };
-  
+
   $scope.changedOldAssessment = function(assessment, index){
     var changeAssessment = {
       subject: assessment.subject,
@@ -1096,7 +1097,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
         $scope.changedOldAssessFlags[i].name = changeAssessment.name;
         $scope.changedOldAssessFlags[i].subject = changeAssessment.subject;
         return;
-      }      
+      }
     }
     $scope.changedOldAssessFlags.push(changeAssessment);
   };
