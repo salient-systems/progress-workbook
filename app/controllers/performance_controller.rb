@@ -59,11 +59,13 @@ class PerformanceController < ApplicationController
 
   # get all of a student's grades for one assessment type
   def studentAssessType
+
       @criterion_grades = CriterionGrade
         .where(student_id: params[:sid], assessment_type_id: params[:aid])
         .includes(:criterion, :assessment)
         .order(assessment_id: :asc)
         .all
+      @assessment_ids = @criterion_grades.map(&:assessment_id).uniq
       render :template => 'performance/grade'
   end
 

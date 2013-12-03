@@ -272,7 +272,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.plot = function(dataset, panel) {
     var url = $scope.buildRequestUrl(dataset);
     var series = {
-      label: 'Dataset ' + parseInt(panel.id + 1),
+      label: 'Data Set ' + parseInt(panel.id + 1),
       data: []
     };
     dataset.id = panel.id;
@@ -283,12 +283,16 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       } else if (dataset.assessmentId) {
         $scope.graphAssessment(dataset, data[0], series);
       } else if (dataset.assessmentTypeId) {
-        $scope.graphAssessmentType(dataset, data, series);
+        if (dataset.filterType == 'students') {
+          $scope.graphAssessmentTypeStudent(dataset, data, series);
+        } else {
+          $scope.graphAssessmentTypeOverall(dataset, data, series);
+        }
       } else {
         // plot overall data for a section
       }
 
-      if (panel.graphPointsIndex) {
+      if (panel.graphPointsIndex != null) {
         $scope.allGraphPoints[dataset.graphPointsIndex] = series;
       } else {
         panel.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
@@ -299,6 +303,20 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     });
   };
 
+  $scope.graphAssessmentTypeStudent = function(dataset, criteria, series) {
+    $scope.graphOptions = angular.copy($scope.defaultLineGraphOptions);
+
+    assessments = _.groupBy(criteria, 'assessment_id');
+    _.each(assessments, function(assessment) {
+      var grade = $scope.sum(_.pluck(assessment, 'score'));
+      var max = $scope.sum(_.pluck(assessment, 'criterionMax'));
+      series.data.push([assessment[0].assessmentName, (grade/max) * 100]);
+    });
+
+    $scope.graphOptions.yaxis.tickSize = 10;
+    $scope.graphOptions.yaxis.max = 100;
+  };
+
   $scope.graphAssessment = function(dataset, assessment, series) {
 
   };
@@ -306,11 +324,11 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.graphCriterion = function(dataset, assessment, series) {
     var distribution = $scope.getCriterionScoreDistribution(dataset.criterionId, assessment.grades);
     $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
-    //$scope.graphOptions.xaxis.mode = null;
+
     series.bars = {
       show: true,
       barWidth: 0.3,
-      order: dataset.id,
+      order: dataset.id + 1
     };
 
     if (dataset.statisticId == 6) {
@@ -327,7 +345,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     }
   };
 
-  $scope.graphAssessmentType = function(dataset, assessments, series) {
+  $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
     // plot data about assessments of a single type
     var graphOptions = angular.copy($scope.defaultLineGraphOptions);
     var numStudents = assessments[0].numStudents;
@@ -491,7 +509,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
   $scope.remove = function(panelIndex) {
     $scope.panels.splice(panelIndex, 1);
+    $scope.updateURL();
     $scope.allGraphPoints.splice(panelIndex, 1);
+    $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
     $scope.noDelete = ($scope.panels.length == 1);
   };
 
