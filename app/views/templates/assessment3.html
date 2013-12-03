@@ -78,7 +78,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#assessment{{assessment.id}}">
-                      {{assessment.name}} <button type="button" class="btn btn-default btn-xs pull-right" ng-click="removeAssessment($index)" ng-disabled="noDeleteAssessment3"><img style="height:11px" src="/assets/remove.png" align="absmiddle"> Remove</button>
+                      {{assessment.name}} <button type="button" class="btn btn-default btn-xs pull-right" ng-click="removeAssessment($index)" ng-disabled="editView3Assessments.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"> Remove</button>
                     </a>
                   </h4>
                 </div>
@@ -134,7 +134,7 @@
                              <input type="text" class="form-control" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                            </div>
                            <div class="col-md-1">
-                             <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion($parent.$index, $index)" ng-disabled="assessment.noDeleteCriterion3"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                             <button type="button" class="btn btn-default btn-xs" ng-click="removeCriterion($parent.$index, $index)" ng-disabled="assessment.criterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                            </div>
                          </div>
                        </div>
