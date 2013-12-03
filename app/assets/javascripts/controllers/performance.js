@@ -613,20 +613,19 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $scope.terms = response[1];
     $scope.defaultPanel.termId = $scope.terms.length;
 
-    if ($location.search().datasets == undefined) {
-      Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
-        $scope.defaultPanel.sections = sections;
+    Restangular.one('terms', $scope.defaultPanel.termId).getList('sections').then(function(sections) {
+      $scope.defaultPanel.sections = sections;
+      if ($location.search().datasets == undefined) {
+        // empty placeholder graph
+        $.plot("#graph", [[]], {
+          xaxis: { min: 0, max: 1 },
+          yaxis: { min: 0, max: 1 }
+        });
         $scope.addPanel();
-      });
-
-      // empty placeholder graph
-      $.plot("#graph", [[]], {
-        xaxis: { min: 0, max: 1 },
-        yaxis: { min: 0, max: 1 }
-      });
-    } else {
-      $scope.parseUrl();
-    }
+      } else {
+        $scope.parseUrl();
+      }
+    });
   });
 
 });
