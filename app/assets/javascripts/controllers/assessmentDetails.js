@@ -392,6 +392,13 @@ assessment_type.getList('assessments').then(function(thereturn){
         trigger: 'click',
         //container: '.student-popover',
       });
+      
+      $("[rel=popover-down]").popover({
+        html: true,
+        placement : 'bottom',
+        trigger: 'click',
+        //container: '.student-popover',
+      });
     });
 
 	});

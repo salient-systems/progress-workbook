@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="start">
   <div class="row">
   <div class="col-md-12">
     <div class="box">
@@ -26,7 +26,7 @@
             <th class="assessment-heading-space-assessment"></th>
             <th class="assessment-heading-space-criterion"></th>
       <th></th>
-            <th ng-repeat="student in students" class="assessment1-criterion-name"><p class="css-vertical-text assessment3-student-name-size"><a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a></p></th>
+            <th ng-repeat="student in students" class="assessment1-criterion-name" id="student{{$index}}" rel="popover-down" data-toggle="popover" title='<a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a>' data-container="#start" data-content={{createTemplate($index)}} ng-click="plotit($index, student)" ><p class="css-vertical-text assessment3-student-name-size">{{student.fname}} {{student.lname}}</p></th>
           </thead>
           <tbody>
             <tr>
