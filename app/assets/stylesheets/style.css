@@ -486,13 +486,13 @@ input::-webkit-inner-spin-button {
 
 /* Assessment styling */
 .edit-assessment {
-  width: 450px;
+  max-width: 450px;
   margin: 0 auto;
   display: none;
 }
 
 .edit-assessment3 {
-  width: 550px;
+  max-width: 550px;
   margin: 0 auto;
   display: none;
 }
