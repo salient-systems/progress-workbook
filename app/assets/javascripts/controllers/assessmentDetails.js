@@ -608,6 +608,10 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 });
 
+
+
+
+
 /*
  * ========================================================edit view 1 controller========================================================
  */
@@ -999,6 +1003,8 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       newCritRestCopy.post().then(function(thereturn){
         $scope.editView3Assessments.push(newAssessRestCopy);
         $scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions.push(newCritRestCopy);
+        console.log($scope.editView3Assessments.length);
+        $scope.noDelete = ($scope.editView3Assessments.length == 1);
       });
     });
   };
@@ -1072,6 +1078,8 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     editable.route = "assessments";
     editable.remove();
     $scope.editView3Assessments.splice(index, 1);
+    console.log($scope.editView3Assessments.length);
+    $scope.noDelete = ($scope.editView3Assessments.length == 1);
   };
 
   $scope.changedOldCriterion = function(criterion, parentIndex, index){

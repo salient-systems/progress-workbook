@@ -78,7 +78,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                      Assessment {{$index+1}}: {{assessment.name}}
+                      {{assessment.name}}
                     </a>
                   </h4>
                 </div>
@@ -100,7 +100,7 @@
                           <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
                         </div>
                         <div class="col-md-1">
-                          <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment($index)"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                          <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment($index)" ng-disabled="noDelete"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                         </div>
                       </div>
                     </div>
