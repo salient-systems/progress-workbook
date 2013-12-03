@@ -712,11 +712,14 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
-      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
-      console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
-      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
-      editable.route = "criterions";
-      editable.put();
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];      
+      var editedCrit = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editedCrit.route = "criterions";
+      editedCrit.put();
+      $scope.assessments[$scope.changedOldCritFlags[i]].name = $scope.modalCriterions[$scope.changedOldCritFlags[i]].name;
+      var editedAssess = Restangular.copy($scope.assessments[$scope.changedOldCritFlags[i]]);
+      editedAssess.route = "assessments";
+      editedAssess.put();
     }
     $scope.changedOldCritFlags = [];
     //location.reload();
