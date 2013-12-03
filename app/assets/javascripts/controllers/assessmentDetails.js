@@ -1021,7 +1021,8 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     var newCritRestCopy = Restangular.copy(newCrit);
     newCritRestCopy.route = "criterions";
     newCritRestCopy.post().then(function(thereturn){
-      $scope.editView3Assessments[index].criterions.push(thereturn);
+      newCritRestCopy.id = thereturn.id; 
+      $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
     });
   };
 
@@ -1047,12 +1048,12 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       newCritRestCopy.route = "criterions";
       newCritRestCopy.post().then(function(thereturn){
         $scope.editView3Assessments.push(newAssessRestCopy);
+        newCritRestCopy.id = thereturn.id;
         $scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions.push(newCritRestCopy);
         console.log($scope.editView3Assessments.length);
       });
     });
   };
-
 
   $scope.save = function() {
     //changing assessment_type name
