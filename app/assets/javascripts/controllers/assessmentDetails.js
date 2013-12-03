@@ -13,8 +13,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
 
 
-  $scope.plotit = function(index, student){
-   $scope.studentLink = student;
+  $scope.plotit = function(index){
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
    var studentArr = $scope.createStudentData(index);
@@ -42,6 +41,9 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
                       { label: "Student", data: $scope.createStudentData(index), clickable: true }]
                       ,options);
    });
+  };
+
+  $scope.setStudent = function (student) {
   };
 
 $scope.plotitv2 = function(index){
@@ -75,32 +77,36 @@ $scope.plotitv2 = function(index){
    });
   };
 
+  $scope.createTemplate = function(index, student) {
+    var testTemplate;
 
-  $scope.createTemplate = function(index) {
-    var student = $scope.studentLink;
-    var datasets = [{
-      filterType: 'students',
-      filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
-      termId: $scope.section.term.id,
-      sectionId: $scope.section.id,
-      assessmentTypeId: $scope.assessment_type.id,
-      assessmentId: undefined,
-      criterionId: undefined,
-      statisticId: 2
-    }, {
-      filterType: null,
-      filterDatum: null,
-      termId: $scope.section.term.id,
-      sectionId: $scope.section.id,
-      assessmentTypeId: $scope.assessment_type.id,
-      assessmentId: undefined,
-      criterionId: undefined,
-      statisticId: 2
-    }];
+    if(student) {
+      var datasets = [{
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }, {
+        filterType: null,
+        filterDatum: null,
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }];
 
-    var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
-
-    var testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+      var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+      testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+    }
+    else {
+      testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+    }
     return testTemplate;
   };
 
@@ -712,7 +718,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
-      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];      
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
       var editedCrit = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
       editedCrit.route = "criterions";
       editedCrit.put();
@@ -1020,7 +1026,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     var newCritRestCopy = Restangular.copy(newCrit);
     newCritRestCopy.route = "criterions";
     newCritRestCopy.post().then(function(thereturn){
-      newCritRestCopy.id = thereturn.id; 
+      newCritRestCopy.id = thereturn.id;
       $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
     });
   };
