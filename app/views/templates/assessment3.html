@@ -78,7 +78,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#assessment{{assessment.id}}">
-                      {{assessment.name}}
+                      {{assessment.name}} <button type="button" class="btn btn-default btn-xs pull-right" ng-click="removeAssessment($index)" ng-disabled="noDeleteAssessment3"><img style="height:11px" src="/assets/remove.png" align="absmiddle"> Remove</button>
                     </a>
                   </h4>
                 </div>
@@ -89,34 +89,26 @@
                     <div class="col-md-11">
                       <label class="control-label edit-criterion-name">Assessment</label>
                     </div>
-                    <div class="col-md-1">
-                      <label class="remove-label edit-criterion-remove">Remove</label>
-                    </div>
 
                     <!-- assessment name -->
                     <div class="row">
                       <div class="form-group" >
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                           <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
-                        </div>
-                        <div class="col-md-1">
-                          <button type="button" class="btn btn-default btn-xs" ng-click="removeAssessment($index)" ng-disabled="noDeleteAssessment3"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-md-11">
+                    <div class="col-md-12">
                       <label class="control-label edit-criterion-name">Subject</label>
                     </div>
-                    <div class="col-md-1"></div>
 
                     <!-- assessment subject -->
                     <div class="row">
                       <div class="form-group" >
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                           <input type="text" class="form-control" ng-change="changedOldAssessment(assessment, $index)" ng-model="assessment.subject" name="subject" ng-blur="validateAssessmentSubject=true" required>
                         </div>
-                        <div class="col-md-1"></div>
                       </div>
                     </div><br><br>
 
