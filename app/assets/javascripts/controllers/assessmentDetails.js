@@ -620,113 +620,12 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
 
   $scope.save = function() {
     //changing assessment_type name
-    //$scope.newCritAssessId = [];
     if($scope.assessmentTypeNameFlag){
       $scope.assessment_type.name = $scope.assessment_type_name;
       console.log($scope.assessment_type);
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
-
-    /*
-    //adding new criterion/assessments
-    //$scope.newCriterions.forEach(function(crit){
-    //$scope.newAssessmentIds = [];
-    for(var i = 0; i < $scope.newCriterions.length; i++){
-      var newAssessment = {
-        data_type: 1,
-        subject: "hello",
-        name: ($scope.newCriterions[i].name).toString(),
-        assessment_type_id: $scope.assessment_type.id
-      };
-      var restCopy1 = Restangular.copy(newAssessment);
-      restCopy1.route = "assessments";
-      restCopy1.post().then(function(something){
-        $scope.newCritAssessId.push(something.id);
-      });
-    }
-    
-    var newAssessIDs = [];
-    var tempCrits = $scope.newCriterions;
-    var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
-    assessment_type.getList('assessments').then(function(thereturn){
-      $scope.saved_new_assessments = thereturn;
-      console.log($scope.saved_new_assessments.length);
-      console.log(tempCrits.length);
-      //console.log(tempCrits);
-      for(var i = 0; i < $scope.saved_new_assessments.length; i++){
-        for(var j = 0; j < tempCrits.length; j++){
-          if($scope.saved_new_assessments[i].name == tempCrits[j].name){
-            newAssessIDs.push(i);
-            //console.log("yay");
-          }
-          //console.log(j);
-        }
-        //console.log(i);
-      }
-      console.log(newAssessIDs);
-    });
-    //console.log(newAssessIDs);
-      //console.log(saved_new_assessments);
-    //console.log($scope.saved_new_assessments.length);
-    //console.log($scope.newCriterions);
-    //console.log(tempCrits);
-    for(var i = 0; i < $scope.saved_new_assessments.length; i++){
-      for(var j = 0; j < $scope.newCriterions.length; j++){
-        if($scope.saved_new_assessments[i].name == $scope.newCriterions[j].name){
-          newAssessIDs.push(i);
-          //console.log(i);
-        }
-        //console.log(j);
-        //console.log($scope.newCriterions[j].name);
-      }
-      //console.log($scope.saved_new_assessments[i].name);
-      //console.log($scope.newCriterions);
-    }
-    
-    for(var i = 0; i < $scope.newCriterions.length; i++){
-      var crit = Restangular.copy($scope.newCriterions[i]);
-      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
-      assessment_type.getList('assessments').then(function(thereturn){
-        var saved_new_assessments = thereturn;
-        //console.log(thereturn)
-        //var j = saved_new_assessments.indexOf()
-        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
-        $scope.criterions.push(crit);
-        var crit = Restangular.copy(crit);
-        crit.route = "criterions";
-        crit.post();
-      });
-      //console.log($scope.newCritAssessId);
-      //var editable1 = Restangular.copy($scope.newCriterions[i]);
-      //editable1.assessment_id = $scope.newCritAssessId[i];
-      //editable1.route = "criterions";
-      //editable1.post();
-    }
-      
-       $scope.newCriterions.forEach(function(crit){
-      var newAssessment = {
-        data_type: 1,
-        subject: "hello",
-        name: (crit.name).toString(),
-        assessment_type_id: $scope.assessment_type.id
-      };
-      var restCopy1 = Restangular.copy(newAssessment);
-      restCopy1.route = "assessments";
-      restCopy1.post().then(function(something){
-
- 
-        crit.assessment_id = something.id;
-        $scope.criterions.push(crit);
-        var editable = Restangular.copy(crit);
-        editable.route = "criterions";
-        editable.post();
-      });
-      
-
-    //console.log($scope.newCritAssessId);
-    $scope.newCriterions = [];*/
-    
 
     //updating old criterion/assessments
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
@@ -738,12 +637,6 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
     }
     $scope.changedOldCritFlags = [];
     location.reload();
-        
-    //$('div#editAssessment').hide();
-    //$('div#editButton').show();
-    //$('div#assessmentTable').append($scope.criterions);
-    //$('div#assessmentTable').append($scope.criterions.percent);
-    //$('div#assessmentTable').show();
   };
 
   $scope.cancel = function() {
@@ -916,11 +809,11 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     $scope.assessment_type_name = $scope.assessment_type.name;
 
     //cancel new criteria that were created >>>>>>>>>>>>>>>>>>>===================DOESNT WORK==============================<<<<<<<<<<<<<<<<<<
-    $scope.newCriterions.forEach(function(crit){
+    /*$scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.editView2Criterions.indexOf(crit);
       $scope.editView2Criterions.splice(indexToRemoveModal, 1);
     });
-    $scope.newCriterions = [];
+    $scope.newCriterions = [];*/
 
     //cancel changed old criteria
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
@@ -1032,66 +925,82 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
 app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangular){
 
   $scope.changedOldCritFlags = [];
+  $scope.changedOldAssessFlags = [];
   $scope.assessmentTypeNameFlag = false;
 
-  $scope.newCriterion = function() {
+  $scope.newCriterion = function(index) {
     var newCrit = {
-      max: $scope.modalCriterions[$scope.modalCriterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
-      name: ($scope.modalCriterions.length + 1)
+      max: $scope.editView3Assessments[index].criterions[$scope.editView3Assessments[index].criterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
+      name: ($scope.editView3Assessments[index].criterions.length + 1)
     };
 
-    $scope.modalCriterions.push(newCrit);
-    $scope.newCriterions.push(newCrit);
+    newCrit.assessment_id = $scope.editView3Assessments[index].id; 
+    var newCritRestCopy = Restangular.copy(newCrit);
+    newCritRestCopy.route = "criterions";
+    newCritRestCopy.post().then(function(thereturn){
+      $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
+    });
   };
+  
+  $scope.newAssessment = function() {
+    var newAssess = {
+      data_type: 1,
+      subject: $scope.editView3Assessments[$scope.editView3Assessments.length - 1].subject,
+      name: ($scope.editView3Assessments.length + 1),
+      assessment_type_id: $scope.assessment_type.id,
+      criterions: []
+    };
+    
+    var newAssessRestCopy = Restangular.copy(newAssess);
+    newAssessRestCopy.route = "assessments";
+    newAssessRestCopy.post().then(function(thereturn){
+      newAssessRestCopy.id = thereturn.id;      
+      var newCrit = {
+        max: $scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions[$scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions.length - 1].max,
+        name: 1,
+        assessment_id: newAssessRestCopy.id
+      };    
+      newCritRestCopy = Restangular.copy(newCrit);
+      newCritRestCopy.route = "criterions";
+      newCritRestCopy.post().then(function(thereturn){
+        $scope.editView3Assessments.push(newAssessRestCopy);
+        $scope.editView3Assessments[$scope.editView3Assessments.length - 1].criterions.push(newCritRestCopy);
+      });
+    });
+  };
+
 
   $scope.save = function() {
     //changing assessment_type name
     if($scope.assessmentTypeNameFlag){
       $scope.assessment_type.name = $scope.assessment_type_name;
-      //console.log($scope.assessment_type);
       $scope.assessment_type.put();
       $scope.assessmentTypeNameFlag = false;
     }
 
-    //adding new criterion/assessments
-    $scope.newCriterions.forEach(function(crit){
-      var newAssessment = {
-        data_type: 1,
-        subject: "hello",
-        name: (crit.name).toString(),
-        assessment_type_id: $scope.assessment_type.id
-      };
-      var restCopy1 = Restangular.copy(newAssessment);
-      restCopy1.route = "assessments";
-      restCopy1.post();
-
-      var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
-      assessment_type.getList('assessments').then(function(thereturn){
-        var saved_new_assessments = thereturn;
-        //console.log(thereturn)
-        crit.assessment_id = saved_new_assessments[saved_new_assessments.length - 1].id;
-        $scope.criterions.push(crit);
-        var editable = Restangular.copy(crit);
-        editable.route = "criterions";
-        editable.post();
-      });
+    //editing criterions
+    $scope.changedOldCritFlags.forEach(function(changedCrit){
+      $scope.editView3Assessments[changedCrit.assessment].criterions[changedCrit.criterion].name = changedCrit.name;
+      $scope.editView3Assessments[changedCrit.assessment].criterions[changedCrit.criterion].max = changedCrit.max;
+      var newCritRestCopy = Restangular.copy($scope.editView3Assessments[changedCrit.assessment].criterions[changedCrit.criterion]);
+      newCritRestCopy.route = "criterions";
+      newCritRestCopy.put();
     });
-    $scope.newCriterions = [];
-
-    //updating old criterion/assessments
-    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
-      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
-      //console.log($scope.criterions[$scope.changedOldCritFlags[i]]);
-      var editable = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
-      editable.route = "criterions";
-      editable.put();
-    }
     $scope.changedOldCritFlags = [];
-    //location.reload();
+
+    //editing assessments
+    $scope.changedOldAssessFlags.forEach(function(changedAssessment){
+      $scope.editView3Assessments[changedAssessment.assessment].name = changedAssessment.name;
+      $scope.editView3Assessments[changedAssessment.assessment].subject = changedAssessment.subject;
+      var newAssessRestCopy = Restangular.copy($scope.editView3Assessments[changedAssessment.assessment]);
+      newAssessRestCopy.route = "assessments";
+      newAssessRestCopy.put();
+    });
+    $scope.changedOldAssessFlags = [];
         
-    $('div#editAssessment').hide();
-    $('div#editButton').show();
-    $('div#assessmentTable').show();
+    //$('div#editAssessment').hide();
+    //$('div#editButton').show();
+    //$('div#assessmentTable').show();
   };
 
   $scope.cancel = function() {
@@ -1099,12 +1008,12 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     $scope.assessmentTypeNameFlag = false;
     $scope.assessment_type_name = $scope.assessment_type.name;
 
-    //cancel new criterions that were created
-    $scope.newCriterions.forEach(function(crit){
+    //cancel new criterions that were created  >>>>>>>>>>>>>>>>>>>>>>>===================================NOT WORKING======================================<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /*$scope.newCriterions.forEach(function(crit){
       var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
       $scope.modalCriterions.splice(indexToRemoveModal, 1);
     });
-    $scope.newCriterions = [];
+    $scope.newCriterions = [];*/
 
     //cancel changed old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
@@ -1112,60 +1021,59 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
       $scope.modalCriterions[index].name = $scope.criterions[index].name;
     }
     
-    $('div#editAssessment').hide();
-    $('div#editButton').show();
-    $('div#assessmentTable').show();
+    //$('div#editAssessment').hide();
+    //$('div#editButton').show();
+    //$('div#assessmentTable').show();
   };
 
-  $scope.remove = function(criterion) {
-    var indexToRemoveModal = $scope.modalCriterions.indexOf(criterion);
-    $scope.modalCriterions.splice(indexToRemoveModal, 1);
-    var indexToRemove = $scope.criterions.indexOf(criterion);
-    if(indexToRemove >= 0)
-    {
-      $scope.criterions.splice(indexToRemove, 1);
-    }
-    var indexToRemoveNew = $scope.newCriterions.indexOf(criterion);
-    if(indexToRemoveNew >= 0){
-      $scope.newCriterions.splice(indexToRemoveNew, 1);
-    }
-    else
-    {
-      var editable = Restangular.copy(criterion);
-      editable.route = "criterions";
-      editable.remove();
-    }
+  $scope.removeCriterion = function(parentIndex, index) {
+    var editable = $scope.editView3Assessments[parentIndex].criterions[index];
+    editable.route = "criterions";
+    editable.remove();
+    $scope.editView3Assessments[parentIndex].criterions.splice(index, 1);
+  };
+  
+  $scope.removeAssessment = function(index) {
+    var editable = $scope.editView3Assessments[index];
+    editable.route = "assessments";
+    editable.remove();
+    $scope.editView3Assessments.splice(index, 1);
   };
 
-  $scope.changedOldCriterion = function(criterion, index){
-    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
-      $scope.changedOldCritFlags.push(index);
-      console.log("your index was: " + index);
+  $scope.changedOldCriterion = function(criterion, parentIndex, index){
+    var changeCrit = {
+      name: criterion.name,
+      max: criterion.max,
+      criterion: index,
+      assessment: parentIndex
+    };
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      if(($scope.changedOldCritFlags[i].criterion == changeCrit.criterion) && ($scope.changedOldCritFlags[i].assessment == changeCrit.assessment)){
+        $scope.changedOldCritFlags[i].name = changeCrit.name;
+        $scope.changedOldCritFlags[i].max = changeCrit.max;
+        return;
+      }      
     }
+    $scope.changedOldCritFlags.push(changeCrit);
+  };
+  
+  $scope.changedOldAssessment = function(assessment, index){
+    var changeAssessment = {
+      subject: assessment.subject,
+      name: assessment.name,
+      assessment: index
+    };
+    for(var i = 0; i < $scope.changedOldAssessFlags.length; i++){
+      if($scope.changedOldAssessFlags[i].assessment == changeAssessment.assessment){
+        $scope.changedOldAssessFlags[i].name = changeAssessment.name;
+        $scope.changedOldAssessFlags[i].subject = changeAssessment.subject;
+        return;
+      }      
+    }
+    $scope.changedOldAssessFlags.push(changeAssessment);
   };
 
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
-  
-  $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
-      if(ev.which === 13) {
-        ev.preventDefault();
-        var cell = $(ev.currentTarget).parent();
-        var index = cell.index();
-        cell.parent().next().children().eq(index).find("input").focus();
-      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
-             // Allow: Ctrl+A
-            (event.keyCode == 65 && event.ctrlKey === true) || 
-             // Allow: home, end, left, right
-            (event.keyCode >= 35 && event.keyCode <= 39)) {
-                 // let it happen, don't do anything
-                 return;
-       }else {
-            // Ensure that it is a number and stop the keypress
-            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
-                event.preventDefault(); 
-            }   
-        }
-  });
 });
