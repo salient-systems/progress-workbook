@@ -149,10 +149,26 @@ assessment_type.getList('assessments').then(function(thereturn){
   for(var i = 0; i < $scope.numOfCrit.length; i++){
     $scope.numOfCritArray[i] = $scope.range($scope.numOfCrit[i]);
   }
+  
+  
 
+
+  
 	Restangular.all('studentassessments').getList({section_id: $routeParams.section_id, assessment_type_id: $routeParams.assessment_type_id}).then(function(thereturn){
 	   $scope.students = thereturn;
 
+      $scope.showArray = [];
+      for(var j = 0; j < $scope.assessments.length; j++){
+        $scope.showArray[j] = [];
+        for(var i = 0; i < $scope.numOfCrit[j]; i++){
+          if( i == 0){
+            $scope.showArray[j][i] = true;
+          }else{
+            $scope.showArray[j][i] = false;  
+          }
+        }
+      }
+      
 	   //Calculating Criterion Totals
 	     $scope.studentbycrit = $scope.range($scope.sizeAssessment[0] * thereturn.length);
 
@@ -276,7 +292,15 @@ assessment_type.getList('assessments').then(function(thereturn){
        for(var i = 0; i < $scope.assessments.length; i++){
          $scope.classDataSet.push([i,$scope.assessments[i].percent]);
        }
+       
+       $scope.maxNumOfCrit = $scope.numOfCrit[1];
+       for(var i = 0; i < $scope.numOfCrit.length; i++){
+         if($scope.maxNumOfCrit < $scope.numOfCrit[i]){
+           $scope.maxNumOfCrit = $scope.numOfCrit[i];
+         }
+       }
 
+       
 /*
        $scope.myDefs2 = [];
        var myobj = {};
@@ -1089,4 +1113,6 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
   $scope.changeAssessmentTypeName = function(){
     $scope.assessmentTypeNameFlag = true;
   };
+  
+
 });

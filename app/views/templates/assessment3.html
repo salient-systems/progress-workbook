@@ -43,10 +43,10 @@
               <td class="scoreHoriz" ng-repeat="student in students" ng-style="{background: percentColor(student.assessmentPercent[$parent.$index])}" >{{student.assessmentPercent[$parent.$index]}}%</td>
             </tr>
             <tr ng-repeat="a in numOfCritArray[$index]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-subject">
+              <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-subject">
                 <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].subject}}</strong></p>
               </td>
-              <td rowspan={{sizeAssessment[$index]}} ng-show=showAssessment[$index] class="assessment3-label-assessment">
+              <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-assessment">
                 <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].name}}</p>
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
