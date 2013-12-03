@@ -8,11 +8,11 @@
     </div>
     <div class="col-md-4" id="var-height-assessment">
         <div class="box">
-        	<h3>Assessments <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/add.png"> Create Assessment</a></h3>
+        	<h3>Assessments <a data-toggle="modal" href="#createAssessmentModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/add.png"> New</a></h3>
           <p>
             <div ng-repeat="assessment_type in assessment_types">
               <div class="btn-group btn-full-width">
-                <a class="btn btn-default btn-btn-width" ng-href="#/classes/{{section.id}}/assessment_type/{{assessment_type.id}}/view/{{assessment_type.view}}" style="color: #428BCA;">{{assessment_type.name}}</a>
+                <a class="btn btn-default btn-group btn-btn-width" ng-href="#/classes/{{section.id}}/assessment_type/{{assessment_type.id}}/view/{{assessment_type.view}}" style="color: #428BCA;">{{assessment_type.name}}</a>
                 <button type="button" class="btn btn-default dropdown-toggle btn-drop-margin" data-toggle="dropdown">
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
@@ -99,7 +99,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" ng-click="resetValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Create an Assessment Type</h4>
+          <h4 class="modal-title">New Assessment Type</h4>
         </div>
         <div class="modal-body">
 
