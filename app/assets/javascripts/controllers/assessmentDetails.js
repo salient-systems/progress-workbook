@@ -42,7 +42,9 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
     }
    };
    $(idnum).on('shown.bs.popover', function () {
-     $.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
+     $.plot(idnumpop,[{ label: "Class", data: $scope.classDataSet, color: "DodgerBlue" },
+                      { label: "Student", data: $scope.createStudentData(index), clickable: true }]
+                      ,options);
    });
    //$.plot(idnumpop,[{ label: "Student", data: $scope.createStudentData(index) }, { label: "Class", data: $scope.classDataSet }],options);
   };
@@ -438,7 +440,9 @@ assessment_type.getList('assessments').then(function(thereturn){
       $scope.students[i].total = 0;
       $scope.students[i].max = 0;
       for(var j = 0; j < $scope.criterions.length; j++){
-        $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
+        if($scope.students[i].scores[j].score != null){
+          $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;  
+        }
        	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
       }
     }
