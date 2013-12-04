@@ -24,16 +24,18 @@ function($scope, $routeParams, Restangular, $location, $http) {
     $scope.assessment_types = assessmentTypes;
     $scope.assessmentTypeId = assessmentTypes[0].id;
     
-    $http.get("/p/sections/1/assesstype/2").success(function(data) {
+    $http.get("/p/sections/"+ $routeParams.id+"/assesstype/"+assessmentTypes.id).success(function(data) {
       $scope.thedata = data;
       console.log(data);
       var assessmentTotals = [];
       var assessmentMaxs = [];
-      $scope.assessmentPlot = [];
+      var assessmentPlot = [];
+      var xticks = [];
       for(var i = 0; i < data.length; i++){
         assessmentTotals[i] = $scope.sum(data[i].grades);
         assessmentMaxs[i] = $scope.getTotalPossible(data[i]);
-        $scope.assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
+        assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
+        xticks.push([i,data[i].name]);
       }
       
       var options = {
@@ -42,19 +44,20 @@ function($scope, $routeParams, Restangular, $location, $http) {
           points: { show: true }
       },
       xaxis: {
-        show: false
+        show: true,
+        ticks: xticks
       },
       yaxis: {
         min: 0,
         max: 100,
-        ticks: 5
+        ticks: 10
       },
       legend: {
         noColumns: 1
       }
      };
      
-     $.plot('#graph',[{ label: assessmentTypes[0].name, data: $scope.assessmentPlot, color: "DodgerBlue" }],options);
+     $.plot('#graph',[{ label: assessmentTypes[0].name, data: assessmentPlot, color: "DodgerBlue" }],options);
    }); 
   });
   
@@ -169,7 +172,39 @@ function($scope, $routeParams, Restangular, $location, $http) {
   };
 
   $scope.plotAssessentType = function(assessmentType) {
-    //write code to plot the graph based on the assessmentType parameter
+    $http.get("/p/sections/"+ $routeParams.id+"/assesstype/"+assessmentType.id).success(function(data) {
+      var assessmentTotals = [];
+      var assessmentMaxs = [];
+      var assessmentPlot = [];
+      var xticks = [];
+      for(var i = 0; i < data.length; i++){
+        assessmentTotals[i] = $scope.sum(data[i].grades);
+        assessmentMaxs[i] = $scope.getTotalPossible(data[i]);
+        assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
+        xticks.push([i,data[i].name]);
+      }
+      
+      var options = {
+      series: {
+          lines: { show: true },
+          points: { show: true }
+      },
+      xaxis: {
+        show: true,
+        ticks: xticks
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        ticks: 10
+      },
+      legend: {
+        noColumns: 1
+      }
+     };
+     
+     $.plot('#graph',[{ label: assessmentType.name, data: assessmentPlot, color: "DodgerBlue" }],options);
+   }); 
   };
 
   $scope.resetValidation = function() {
@@ -345,25 +380,6 @@ app.controller('AddToCohort', function($scope, Restangular) {
       // draw the graph
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
     });
-  };
-  
-  $scope.sum = function(numbers) {
-    var sum = 0;
-    var i = numbers.length;
-    while(i--) sum += numbers[i];
-    return sum;
-  };
-  
-  $scope.getTotalPossible = function(assessment) {
-    var grades = assessment.grades;
-    var criteria = assessment.criteria;
-    var sum = 0;
-
-    for (var i in grades) {
-      sum += criteria[grades[i].criterion_id].max;
-    }
-
-    return sum;
   };
   
 });
