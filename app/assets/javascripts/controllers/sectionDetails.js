@@ -40,8 +40,12 @@ function($scope, $routeParams, Restangular, $location, $http) {
       
       var options = {
       series: {
-          lines: { show: true },
-          points: { show: true }
+          lines: { show: true,
+                   lineWidth: 6 
+                 },
+          points: { show: true,
+                    radius: 4 
+                  }
       },
       xaxis: {
         show: true,
@@ -186,8 +190,12 @@ function($scope, $routeParams, Restangular, $location, $http) {
       
       var options = {
       series: {
-          lines: { show: true },
-          points: { show: true }
+          lines: { show: true,
+                   lineWidth: 6 
+                 },
+          points: { show: true,
+                    radius: 4 
+                  }
       },
       xaxis: {
         show: true,
