@@ -14,8 +14,7 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   });
 
 
-  $scope.plotit = function(index, student){
-   $scope.studentLink = student;
+  $scope.plotit = function(index){
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
    var studentArr = $scope.createStudentData(index);
@@ -43,6 +42,9 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
                       { label: "Student", data: $scope.createStudentData(index), clickable: true }]
                       ,options);
    });
+  };
+
+  $scope.setStudent = function (student) {
   };
 
 $scope.plotitv2 = function(index){
@@ -76,34 +78,66 @@ $scope.plotitv2 = function(index){
    });
   };
 
-
   $scope.createTemplate = function(index) {
-    var student = $scope.studentLink;
-    var datasets = [{
-      filterType: 'students',
-      filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
-      termId: $scope.section.term.id,
-      sectionId: $scope.section.id,
-      assessmentTypeId: $scope.assessment_type.id,
-      assessmentId: undefined,
-      criterionId: undefined,
-      statisticId: 2
-    }, {
-      filterType: null,
-      filterDatum: null,
-      termId: $scope.section.term.id,
-      sectionId: $scope.section.id,
-      assessmentTypeId: $scope.assessment_type.id,
-      assessmentId: undefined,
-      criterionId: undefined,
-      statisticId: 2
-    }];
+    var testTemplate;
+    var student = $scope.students[index];
+    
+      var datasets = [{
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }, {
+        filterType: null,
+        filterDatum: null,
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }];
 
-    var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
-
-    var testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+      var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+      testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+    
     return testTemplate;
   };
+
+  $scope.createTemplate2 = function(index) {
+    var testTemplate;
+    var student = $scope.students[$scope.tofloor(index / $scope.sizeAssessment[0])];
+    
+      var datasets = [{
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }, {
+        filterType: null,
+        filterDatum: null,
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }];
+
+      var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+      testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+    
+    return testTemplate;
+  };
+
 
   $scope.createStudentData = function(indexx){
     //console.log(indexx);
@@ -386,6 +420,13 @@ assessment_type.getList('assessments').then(function(thereturn){
         trigger: 'click',
         //container: '.student-popover',
       });
+      
+      $("[rel=popover-down]").popover({
+        html: true,
+        placement : 'bottom',
+        trigger: 'click',
+        //container: '.student-popover',
+      });
     });
 
 	});
@@ -653,7 +694,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   $scope.back = function(){
     location.reload();
   };
-  
+
   $scope.edit = function(){
     $('div#assessmentTable').hide();
     $('div#editButton').hide();
@@ -697,6 +738,57 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
         $scope.criterions.push(newCrit);
       });
     });
+
+    $scope.modalCriterions.push(newCrit);
+    $scope.newCriterions.push(newCrit);
+  };
+
+  $scope.save = function() {
+    //changing assessment_type name
+    if($scope.assessmentTypeNameFlag){
+      $scope.assessment_type.name = $scope.assessment_type_name;
+      console.log($scope.assessment_type);
+      $scope.assessment_type.put();
+      $scope.assessmentTypeNameFlag = false;
+    }
+
+    //updating old criterion/assessments
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      $scope.criterions[$scope.changedOldCritFlags[i]] = $scope.modalCriterions[$scope.changedOldCritFlags[i]];
+      var editedCrit = Restangular.copy($scope.modalCriterions[$scope.changedOldCritFlags[i]]);
+      editedCrit.route = "criterions";
+      editedCrit.put();
+      $scope.assessments[$scope.changedOldCritFlags[i]].name = $scope.modalCriterions[$scope.changedOldCritFlags[i]].name;
+      var editedAssess = Restangular.copy($scope.assessments[$scope.changedOldCritFlags[i]]);
+      editedAssess.route = "assessments";
+      editedAssess.put();
+    }
+    $scope.changedOldCritFlags = [];
+    //location.reload();
+  };
+
+  $scope.cancel = function() {
+    //cancel assessment_type name change
+    $scope.assessmentTypeNameFlag = false;
+    $scope.assessment_type_name = $scope.assessment_type.name;
+
+    //cancel new criterions that were created>>>>>>>>>===============================NOT WORKING=================================<<<<<<<<<<<<
+    $scope.newCriterions.forEach(function(crit){
+      var indexToRemoveModal = $scope.modalCriterions.indexOf(crit);
+      $scope.modalCriterions.splice(indexToRemoveModal, 1);
+    });
+    $scope.newCriterions = [];
+
+    //cancel changed old criterion
+    for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
+      var index = $scope.changedOldCritFlags[i];
+      $scope.modalCriterions[index].name = $scope.criterions[index].name;
+    }
+    location.reload();
+
+    //$('div#editAssessment').hide();
+    //$('div#editButton').show();
+    //$('div#assessmentTable').show();
   };
 
   $scope.remove = function(criterion, index) {
@@ -929,7 +1021,7 @@ app.controller('EditStandardsBasedCtrl', function($scope, $routeParams, Restangu
     var newCritRestCopy = Restangular.copy(newCrit);
     newCritRestCopy.route = "criterions";
     newCritRestCopy.post().then(function(thereturn){
-      newCritRestCopy.id = thereturn.id; 
+      newCritRestCopy.id = thereturn.id;
       $scope.editView3Assessments[index].criterions.push(newCritRestCopy);
     });
   };
