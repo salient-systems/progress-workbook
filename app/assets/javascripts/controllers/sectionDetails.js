@@ -1,9 +1,15 @@
 // section details
 app.controller('SectionCtrl',
-function($scope, $routeParams, Restangular, $location) {
+function($scope, $routeParams, Restangular, $location, $http) {
   var section = Restangular.one('sections', $routeParams.id);
   $scope.assessmentTypeToDelete = null;
-
+  
+  
+  
+  
+  
+  
+  
   section.get().then(function(thesection) {
     $scope.section = thesection;
     $scope.setupEditSection();
@@ -16,11 +22,54 @@ function($scope, $routeParams, Restangular, $location) {
 
   section.getList('assessment_types').then(function(assessmentTypes) {
     $scope.assessment_types = assessmentTypes;
+    $scope.assessmentTypeId = assessmentTypes[0].id;
+    
+    $http.get("/p/sections/1/assesstype/2").success(function(data) {
+      $scope.thedata = data;
+      console.log(data);
+      var assessmentTotals = [];
+      var assessmentMaxs = [];
+      $scope.assessmentPlot = [];
+      for(var i = 0; i < data.length; i++){
+        assessmentTotals[i] = $scope.sum(data[i].grades);
+        assessmentMaxs[i] = $scope.getTotalPossible(data[i]);
+        $scope.assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
+      }
+      
+      var options = {
+      series: {
+          lines: { show: true },
+          points: { show: true }
+      },
+      xaxis: {
+        show: false
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        ticks: 5
+      },
+      legend: {
+        noColumns: 1
+      }
+     };
+     
+     $.plot('#graph',[{ label: assessmentTypes[0].name, data: $scope.assessmentPlot, color: "DodgerBlue" }],options);
+   }); 
   });
-
+  
+  
+  
+  //Restangular.one('assessment_types', $scope.assessmentTypeId).getList('assessments').then(function(assessments) {
+  //  $scope.assessments = assessments;
+  //});
+  
+  
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
   });
+
+
 
   $scope.save = function() {
     $scope.section.name = $scope.editSection.name;
@@ -184,6 +233,29 @@ function($scope, $routeParams, Restangular, $location) {
       $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
     }
   });
+  
+  $scope.sum = function(numbers) {
+    var sum = 0;
+    for(var i = 0; i < numbers.length; i++){
+      if(numbers[i].score){
+        sum += numbers[i].score;  
+      }
+    }
+    return sum;
+  };
+  
+  $scope.getTotalPossible = function(assessment) {
+    var grades = assessment.grades;
+    var criteria = assessment.criteria;
+    var sum = 0;
+
+    for (var i in grades) {
+      sum += criteria[grades[i].criterion_id].max;
+    }
+    
+    return sum;
+  };
+  
 });
 
 app.controller('AddToCohort', function($scope, Restangular) {
@@ -205,4 +277,93 @@ app.controller('AddToCohort', function($scope, Restangular) {
     $scope.cohortId = null;
     $scope.validateCohort = false;
   };
+  
+  $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
+    var graphOptions = angular.copy($scope.defaultLineGraphOptions);
+    var numStudents = assessments[0].numStudents;
+
+    // total correct or percentage correct
+    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
+      var maxList = [];
+      _.each(assessments, function(assessment) {
+        var thisMax = 0;
+        _.each(assessment.criteria, function(criterion) {
+            thisMax += criterion.max;
+        });
+
+        var grades = $scope.sum(_.pluck(assessment.grades, 'score'));
+
+        if (dataset.statisticId == 2) {
+          grades = grades / thisMax * numStudents;
+        }
+
+        series.data.push([assessment.name, grades]);
+        maxList.push(thisMax);
+      });
+
+      if (dataset.statisticId == 1) {
+        graphOptions.yaxis.max = _.max(maxList) * numStudents;
+      } else {
+        graphOptions.yaxis.max = 100;
+        graphOptions.yaxis.tickSize = 10;
+      }
+    }
+
+    $scope.graphOptions = graphOptions;
+  };
+  
+  
+  $scope.plot = function(dataset, panel) {
+    var url = $scope.buildRequestUrl(dataset);
+    var series = {
+      label: $scope.assessment_types[0].name,
+      data: []
+    };
+    dataset.id = panel.id;
+
+    $http.get(url).success(function(data) {
+      if (dataset.criterionId) {
+        $scope.graphCriterion(dataset, data[0], series);
+      } else if (dataset.assessmentId) {
+          $scope.graphAssessment(dataset, data[0], series);
+      } else if (dataset.assessmentTypeId) {
+        if (dataset.filterType == 'students') {
+          $scope.graphAssessmentTypeStudent(dataset, data, series);
+        } else {
+          $scope.graphAssessmentTypeOverall(dataset, data, series);
+        }
+      } else {
+        // plot overall data for a section
+      }
+
+      if (panel.graphPointsIndex != null) {
+        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
+      } else {
+        panel.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
+      }
+
+      // draw the graph
+      $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
+    });
+  };
+  
+  $scope.sum = function(numbers) {
+    var sum = 0;
+    var i = numbers.length;
+    while(i--) sum += numbers[i];
+    return sum;
+  };
+  
+  $scope.getTotalPossible = function(assessment) {
+    var grades = assessment.grades;
+    var criteria = assessment.criteria;
+    var sum = 0;
+
+    for (var i in grades) {
+      sum += criteria[grades[i].criterion_id].max;
+    }
+
+    return sum;
+  };
+  
 });
