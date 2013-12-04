@@ -4,6 +4,32 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
+
+    $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
+     if(ev.which === 13) {
+        ev.preventDefault();
+        var cell = $(ev.currentTarget).parent();
+        var index = cell.index();
+        cell.parent().next().children().eq(index).find("input").focus();
+      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+       }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+  });
+
+
+
+
+
   assessment_type.get().then(function(thereturn){
     $scope.assessment_type = thereturn;
     $scope.assessment_type_name = thereturn.name;
@@ -649,32 +675,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   	}
   	return thereturn;
   };
-/*
-  $scope.gridOptions = {
-    data: 'students',
-    selectedItems: $scope.mySelections,
-    multiSelect: true,
-    showSelectionCheckbox: false,
-    selectWithCheckboxOnly: true,
-    enableCellSelection: true,
-    enableCellEditOnFocus: true,
-    enableRowSelection: false,
-    enableCellEdit: true,
-    //headerRowHeight: 200,
-    sortInfo: {fields:['fname'], directions:['asc']},
-    filterOptions: { filterText: '', useExternalFilter: false },
-    columnDefs: 'myDefs2' ,
 
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      //saveGrade(col.index);
-      console.log(col.index);
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
-  };
-*/
 
   $scope.back = function(){
     location.reload();
