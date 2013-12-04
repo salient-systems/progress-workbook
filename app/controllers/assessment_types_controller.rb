@@ -40,6 +40,8 @@ class AssessmentTypesController < ApplicationController
         format.json { render json: @assessment_type.errors, status: :unprocessable_entity }
       end
     end
+    assessment = Assessment.create(data_type: 1, subject: "1", name: "1", assessment_type_id: @assessment_type.id);
+    Criterion.create(max: 10, name: "1", assessment_id: assessment.id);
   end
 
   # PATCH/PUT /assessment_types/1
