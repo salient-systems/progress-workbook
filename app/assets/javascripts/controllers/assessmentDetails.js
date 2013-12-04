@@ -861,13 +861,6 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   };
 
   $scope.save = function() {
-    //changing assessment_type name
-    if($scope.assessmentTypeNameFlag){
-      $scope.assessment_type.name = $scope.assessment_type_name;
-      $scope.assessment_type.put();
-      $scope.assessmentTypeNameFlag = false;
-    }
-
     //updating old criterion
     for(var i = 0; i < $scope.changedOldCritFlags.length; i++){
       for(var j = 0; j < $scope.editView2Assessments.length; j++){
@@ -947,7 +940,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
         editable.route = "criterions";
         editable.remove();
       });
-    }
+    }    
   };
 
   $scope.removeAssessment = function(assessment) {
@@ -971,8 +964,14 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   };
 
   $scope.changedOldCriterion = function(criterion, index){
-    if(($scope.newCriterions.indexOf(criterion) < 0) && ($scope.changedOldCritFlags.indexOf(index) < 0)){
-      $scope.changedOldCritFlags.push(index);
+    for(var j = 0; j < $scope.editView2Assessments.length; j++){
+      console.log(j);
+      console.log(index + (j * $scope.editView2Criterions.length));
+      $scope.criterions[index + (j * $scope.editView2Criterions.length)].name = $scope.editView2Criterions[index].name;
+      $scope.criterions[index + (j * $scope.editView2Criterions.length)].max = $scope.editView2Criterions[index].max;
+      var editable = Restangular.copy($scope.criterions[index + (j * $scope.editView2Assessments.length)]);
+      editable.route = "criterions";
+      editable.put();
     }
   };
 
@@ -983,7 +982,8 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   };
 
   $scope.changeAssessmentTypeName = function(){
-    $scope.assessmentTypeNameFlag = true;
+    $scope.assessment_type.name = $scope.assessment_type_name;
+    $scope.assessment_type.put();
   };
 });
 
