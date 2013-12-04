@@ -470,6 +470,10 @@ input::-webkit-inner-spin-button {
   margin-right: -109px;
 }
 
+.btn-assessment1-back {
+    margin-left: -15px;
+}
+
 .btn-assessment3-save-cancel {
   height: 75px; 
   margin-right: -80px;
