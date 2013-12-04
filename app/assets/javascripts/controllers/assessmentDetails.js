@@ -78,10 +78,10 @@ $scope.plotitv2 = function(index){
    });
   };
 
-  $scope.createTemplate = function(index, student) {
+  $scope.createTemplate = function(index) {
     var testTemplate;
-
-    if(student) {
+    var student = $scope.students[index];
+    
       var datasets = [{
         filterType: 'students',
         filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
@@ -104,12 +104,40 @@ $scope.plotitv2 = function(index){
 
       var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
       testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
-    }
-    else {
-      testTemplate = '<div style="height: 90px; width: 210px;"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
-    }
+    
     return testTemplate;
   };
+
+  $scope.createTemplate2 = function(index) {
+    var testTemplate;
+    var student = $scope.students[$scope.tofloor(index / $scope.sizeAssessment[0])];
+    
+      var datasets = [{
+        filterType: 'students',
+        filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }, {
+        filterType: null,
+        filterDatum: null,
+        termId: $scope.section.term.id,
+        sectionId: $scope.section.id,
+        assessmentTypeId: $scope.assessment_type.id,
+        assessmentId: undefined,
+        criterionId: undefined,
+        statisticId: 2
+      }];
+
+      var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+      testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
+    
+    return testTemplate;
+  };
+
 
   $scope.createStudentData = function(indexx){
     //console.log(indexx);
