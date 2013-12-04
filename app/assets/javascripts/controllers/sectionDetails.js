@@ -24,7 +24,7 @@ function($scope, $routeParams, Restangular, $location, $http) {
     $scope.assessment_types = assessmentTypes;
     $scope.assessmentTypeId = assessmentTypes[0].id;
     
-    $http.get("/p/sections/"+ $routeParams.id+"/assesstype/"+assessmentTypes.id).success(function(data) {
+    $http.get("/p/sections/"+ $routeParams.id+"/assesstype/"+assessmentTypes[0].id).success(function(data) {
       $scope.thedata = data;
       console.log(data);
       var assessmentTotals = [];
