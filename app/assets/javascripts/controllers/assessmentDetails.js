@@ -279,24 +279,6 @@ assessment_type.getList('assessments').then(function(thereturn){
     	   }
        }
 
-
-       //Calculating Student Totals
-       for(var i = 0; i < thereturn.length ; i++){
-       	$scope.students[i].total = 0;
-       	$scope.students[i].max = 0;
-       	 for(var j = 0; j < $scope.criterions.length; j++){
-       	 	$scope.students[i].total = $scope.students[i].total + thereturn[i].scores[j].score;
-       	 	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
-       	 }
-       }
-
-       for(var i = 0; i < thereturn.length; i++){
-    	   $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
-    	   if(isNaN($scope.students[i].percent)){
-    	     $scope.students[i].percent;
-    	   }
-       }
-
        //Calculating Assessment Totals
        var counter = 0;
        for(var j = 0; j < $scope.assessments.length; j++){
@@ -312,7 +294,7 @@ assessment_type.getList('assessments').then(function(thereturn){
       	   counter++;
          }
        }
-       //console.log($scope.assessments);
+       
        for(var i = 0; i < $scope.assessments.length; i++){
     	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
     	   if(isNaN($scope.assessments[i].percent)){
@@ -320,16 +302,41 @@ assessment_type.getList('assessments').then(function(thereturn){
     	   }
        }
 
+       //Calculating Student Totals
+       for(var i = 0; i < thereturn.length ; i++){
+        $scope.students[i].total = 0;
+        $scope.students[i].max = 0;
+         for(var j = 0; j < $scope.criterions.length; j++){
+          $scope.students[i].total = $scope.students[i].total + thereturn[i].scores[j].score;
+          if($scope.criterions.present[j] != 0){
+            $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;  
+          }
+          
+         }
+       }
+
+       for(var i = 0; i < thereturn.length; i++){
+         $scope.students[i].percent = Math.floor($scope.students[i].total / $scope.students[i].max * 100);
+         if(isNaN($scope.students[i].percent)){
+           $scope.students[i].percent = 0;
+         }
+       }
+
        //Calculating class total
        $scope.section.totalpercent = 0;
        var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         if(!isNaN($scope.assessments[i].percent)){
-           $scope.section.totalpercent += $scope.assessments[i].percent;
+         if($scope.assessments[i].present != 0){
+           if(!isNaN($scope.assessments[i].percent)){
+             $scope.section.totalpercent += $scope.assessments[i].percent;
+           }else{
+             notused++;
+           }
          }else{
            notused++;
-         }
+         }   
        }
+       
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
 
        //Calculating student score per assessment
@@ -386,46 +393,19 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
 
-/*
-       $scope.myDefs2 = [];
-       var myobj = {};
-       myobj.field = 'fname';
-       myobj.displayName = 'Name';
-       myobj.cellTemplate = vcellTemplate;
-       myobj.enableCellEdit = false;
-       myobj.resizable = true;
-       myobj.width = '15%';
 
-       $scope.myDefs2[0] = myobj;
-
-
-	  for(var i = 0; i < $scope.criterions.length; i++){
-
-	    var myobj2 = {};
-	    myobj2.field = "scores["+i+"].score";
-        myobj2.displayName = $scope.criterions[i].name;
-        myobj2.editableCellTemplate = editTemplate;
-        myobj2.enableCellEdit = true;
-        myobj2.resizable = true;
-        myobj2.headerCellTemplate = myHeaderCellTemplate;
-        myobj2.width = '35px';
-        $scope.myDefs2[i+1] = myobj2;
-	  }
-*/
     $('div#loadingIcon').hide();
     $('div#assessmentTable').show("fast", function(){
       $("[rel=popover]").popover({
         html: true,
         placement : 'right',
         trigger: 'click',
-        //container: '.student-popover',
       });
       
       $("[rel=popover-down]").popover({
         html: true,
         placement : 'bottom',
         trigger: 'click',
-        //container: '.student-popover',
       });
     });
 
@@ -527,27 +507,25 @@ assessment_type.getList('assessments').then(function(thereturn){
 
   var recalc = function(){
     //This Section is for calculating the criterion totals
-  	for(var j = 0; j < $scope.criterions.length; j++){
-        $scope.criterions.present[j] = 0;
-        $scope.criterions.total[j] = 0;
-        for(var i = 0; i < $scope.students.length; i++){
-        	if ($scope.students[i].scores[j].score != null){
-      	      $scope.criterions.present[j] = $scope.criterions.present[j] + 1;
-      	      if($scope.students[i].scores[j].score != 0){
-      	        $scope.criterions.total[j] = $scope.criterions.total[j] + $scope.students[i].scores[j].score;
-      	      }
 
-      	    }
-        }
-    }
 
-    for(var i = 0; i < $scope.criterions.length; i++){
-      $scope.criterions.percent[i] = 0;
-      $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
-      if(isNaN($scope.criterions.percent[i])){
-        $scope.criterions.percent[i] = 0;
-      }
-    }
+       for(var j = 0; j < $scope.criterions.length; j++){
+         $scope.criterions.present[j] = 0;
+         $scope.criterions.total[j] = 0;
+         for(var i = 0; i < $scope.students.length; i++){
+          if ($scope.students[i].scores[j].score != null){
+              $scope.criterions.present[j] = $scope.criterions.present[j] + 1;
+              $scope.criterions.total[j] = $scope.criterions.total[j] + $scope.students[i].scores[j].score;
+            }
+         }
+       }
+
+       for(var i = 0; i < $scope.criterions.length; i++){
+         $scope.criterions.percent[i] = Math.floor($scope.criterions.total[i] / $scope.criterions.present[i] / $scope.criterions[i].max * 100);
+         if(isNaN($scope.criterions.percent[i])){
+           $scope.criterions.percent[i] = 0;
+         }
+       }
 
     //This section is for calculating the Students totals
     for(var i = 0; i < $scope.students.length ; i++){
@@ -557,7 +535,10 @@ assessment_type.getList('assessments').then(function(thereturn){
         if($scope.students[i].scores[j].score != null){
           $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
         }
-       	$scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
+        if($scope.criterions.present[j] != 0){
+          $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;  
+        }
+       	
       }
     }
 
@@ -631,11 +612,15 @@ assessment_type.getList('assessments').then(function(thereturn){
        $scope.section.totalpercent = 0;
        var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
-         if(!isNaN($scope.assessments[i].percent)){
-           $scope.section.totalpercent += $scope.assessments[i].percent;
+         if($scope.assessments[i].present != 0){
+           if(!isNaN($scope.assessments[i].percent)){
+             $scope.section.totalpercent += $scope.assessments[i].percent;
+           }else{
+             notused++;
+           }
          }else{
            notused++;
-         }
+         }   
        }
 
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
