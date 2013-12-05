@@ -217,26 +217,41 @@ assessment_type.getList('assessments').then(function(thereturn){
 	$scope.newAssessments = [];
 
 	$scope.numOfCrit = [];
-	$scope.numOfCrit[0] = 1;
+	$scope.numOfCrit[0] = 0;
 	$scope.startOfCrit = [];
 	$scope.startOfCrit[0] = 0;
 	$scope.showAssessment = [];
 	$scope.showAssessment[0] = true;
 	var currentassessment = thereturn[0].assessment_id;
 	var z = 0;
-	for(var i = 1; i < thereturn.length; i++){
+	for(var i = 0; i < thereturn.length; i++){
 		if(thereturn[i].assessment_id == currentassessment){
 			$scope.numOfCrit[z] = $scope.numOfCrit[z] + 1;
-			$scope.showAssessment[i] = false;
+			//$scope.showAssessment[i] = false;
 		}else{
 			z = z + 1;
 			currentassessment = thereturn[i].assessment_id;
-			$scope.showAssessment[i] = true;
+			//$scope.showAssessment[i] = true;
 			$scope.startOfCrit[z] = i;
 			$scope.numOfCrit[z] = 1;
 		}
 	}
-
+	
+	z = 0;
+	currentassessment = thereturn[0].assessment_id;
+	for(var i = 1; i < thereturn.length; i++){
+    if(thereturn[i].assessment_id == currentassessment){
+      $scope.showAssessment[i] = false;
+    }else{
+      z = z + 1;
+      currentassessment = thereturn[i].assessment_id;
+      $scope.showAssessment[i] = true;
+    }
+  }
+	
+  console.log($scope.numOfCrit);
+  console.log($scope.criterions);
+	
 	$scope.sizeAssessment = [];
 	z = 0;
 	for(var i = 0; i < $scope.numOfCrit.length; i++){
@@ -245,6 +260,9 @@ assessment_type.getList('assessments').then(function(thereturn){
 			z = z + 1;
 		}
 	}
+  console.log($scope.sizeAssessment);
+  console.log($scope.showAssessment);
+
 
 	$scope.indexAssessment = [];
 	$scope.indexAssessment[0] = 0;
@@ -411,7 +429,7 @@ assessment_type.getList('assessments').then(function(thereturn){
          $scope.classDataSet.push([i,$scope.assessments[i].percent]);
        }
 
-       $scope.maxNumOfCrit = $scope.numOfCrit[1];
+       $scope.maxNumOfCrit = $scope.numOfCrit[0];
        for(var i = 0; i < $scope.numOfCrit.length; i++){
          if($scope.maxNumOfCrit < $scope.numOfCrit[i]){
            $scope.maxNumOfCrit = $scope.numOfCrit[i];

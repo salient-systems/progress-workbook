@@ -3,18 +3,11 @@ app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular, $location, $http) {
   var section = Restangular.one('sections', $routeParams.id);
   $scope.assessmentTypeToDelete = null;
-  
-  $('#graph2').resize();
+    
   $( window ).resize(function() {
     $('#graph2').text('');
     $.plot('#graph2',[{ label: $scope.plotAssessmentName, data: $scope.assessmentPlot, color: "DodgerBlue" }],$scope.plotOptions).resize();
   });
-  $('#graph2').resize(function(){
-    
-    
-  });
-  
-  
   
   section.get().then(function(thesection) {
     $scope.section = thesection;
