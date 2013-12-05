@@ -174,20 +174,7 @@ $scope.plotitv2 = function(index){
     //console.log(scores);
     return scores;
   };
-/*
-  var myHeaderCellTemplate =   '<div class="ngHeaderSortColumn {{col.headerClass}}" ng-style="{cursor: col.cursor}" ng-class="{ ngSorted: !noSortVisible }">'+
-                               '<div style="word-wrap: break-word;" ng-click="col.sort($event)" ng-class="colt + col.index" class="ngHeaderText">{{col.displayName}}</div>'+
-                               '<div class="ngSortButtonDown" ng-show="col.showSortButtonDown()"></div>'+
-                               '<div class="ngSortButtonUp" ng-show="col.showSortButtonUp()"></div>'+
-                               '<div class="ngSortPriority">{{col.sortPriority}}</div>'+
-                               '</div>'+
-                               '<div ng-show="col.resizable" class="ngHeaderGrip" ng-click="col.gripClick($event)" ng-mousedown="col.gripOnMouseDown($event)"></div>';
 
-  var editTemplate2 = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" />';
-  var editTemplate = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" ng-focus="backupGrade(col.index)" />';
-  var headerrow = '<div style="writing-mode: tb-rl">Hello</div>';
-  var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
-*/
 assessment_type.getList('assessments').then(function(thereturn){
   $scope.assessments = thereturn;
   $scope.editView2Assessments = Restangular.copy(thereturn);
@@ -249,9 +236,7 @@ assessment_type.getList('assessments').then(function(thereturn){
     }
   }
 	
-  console.log($scope.numOfCrit);
-  console.log($scope.criterions);
-	
+
 	$scope.sizeAssessment = [];
 	z = 0;
 	for(var i = 0; i < $scope.numOfCrit.length; i++){
@@ -260,9 +245,6 @@ assessment_type.getList('assessments').then(function(thereturn){
 			z = z + 1;
 		}
 	}
-  console.log($scope.sizeAssessment);
-  console.log($scope.showAssessment);
-
 
 	$scope.indexAssessment = [];
 	$scope.indexAssessment[0] = 0;
