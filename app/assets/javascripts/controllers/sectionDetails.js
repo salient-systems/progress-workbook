@@ -209,6 +209,7 @@ function($scope, $routeParams, Restangular, $location, $http) {
         ticks: 10
       },
       legend: {
+        container: '#legendContainer',
         noColumns: 1
       }
      };

@@ -364,6 +364,9 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
        
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
+       if(isNaN($scope.section.totalpercent)){
+         $scope.section.totalpercent = 0;
+       }
 
        //Calculating student score per assessment
        counter = 0;
@@ -650,6 +653,10 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
+       
+       if(isNaN($scope.section.totalpercent)){
+         $scope.section.totalpercent = 0;
+       }
 
        $scope.classDataSet = [];
        for(var i = 0; i < $scope.assessments.length; i++){
