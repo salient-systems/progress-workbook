@@ -3,12 +3,12 @@ app.controller('SectionCtrl',
 function($scope, $routeParams, Restangular, $location, $http) {
   var section = Restangular.one('sections', $routeParams.id);
   $scope.assessmentTypeToDelete = null;
-    
+
   $( window ).resize(function() {
     $('#graph2').text('');
     $.plot('#graph2',[{ label: $scope.plotAssessmentName, data: $scope.assessmentPlot, color: "DodgerBlue" }],$scope.plotOptions).resize();
   });
-  
+
   section.get().then(function(thesection) {
     $scope.section = thesection;
     $scope.setupEditSection();
@@ -18,11 +18,11 @@ function($scope, $routeParams, Restangular, $location, $http) {
     $scope.students = students;
   });
   $scope.selections = [];
- 
+
   section.getList('assessment_types').then(function(assessmentTypes) {
     $scope.assessment_types = assessmentTypes;
     $scope.assessmentTypeId = assessmentTypes[0].id;
-    
+
     $http.get("/p/sections/"+ $routeParams.id+"/assesstype/"+assessmentTypes[0].id).success(function(data) {
       $scope.thedata = data;
       console.log(data);
@@ -37,14 +37,14 @@ function($scope, $routeParams, Restangular, $location, $http) {
         $scope.assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
         xticks.push([i,data[i].name]);
       }
-      
+
       $scope.plotOptions = {
       series: {
           lines: { show: true,
-                   lineWidth: 6 
+                   lineWidth: 6
                  },
           points: { show: true,
-                    radius: 4 
+                    radius: 4
                   }
       },
       xaxis: {
@@ -61,18 +61,34 @@ function($scope, $routeParams, Restangular, $location, $http) {
         container: '#legendContainer'
       }
      };
-     
+
+     //Configure graph URL
+     var datasets = [
+     {
+       filterType: null,
+       filterDatum: null,
+       termId: $scope.section.term.id,
+       sectionId: $scope.section.id,
+       assessmentTypeId: assessmentTypes[0].id,
+       assessmentId: undefined,
+       criterionId: undefined,
+       statisticId: 2
+     }];
+
+     var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+     document.getElementById('graphLink').href = graphUrl;
+
      $.plot('#graph2',[{ label: $scope.plotAssessmentName, data: $scope.assessmentPlot, color: "DodgerBlue" }],$scope.plotOptions);
-   }); 
+   });
   });
-  
-  
-  
+
+
+
   //Restangular.one('assessment_types', $scope.assessmentTypeId).getList('assessments').then(function(assessments) {
   //  $scope.assessments = assessments;
   //});
-  
-  
+
+
   Restangular.all('subjects').getList().then(function(thesubjects) {
     $scope.subjects = thesubjects;
   });
@@ -189,14 +205,14 @@ function($scope, $routeParams, Restangular, $location, $http) {
         $scope.assessmentPlot.push([i,assessmentTotals[i]/assessmentMaxs[i]*100]);
         xticks.push([i,data[i].name]);
       }
-      
+
       $scope.plotOptions = {
       series: {
           lines: { show: true,
-                   lineWidth: 6 
+                   lineWidth: 6
                  },
           points: { show: true,
-                    radius: 4 
+                    radius: 4
                   }
       },
       xaxis: {
@@ -213,9 +229,25 @@ function($scope, $routeParams, Restangular, $location, $http) {
         noColumns: 1
       }
      };
-     
+
+     //Configure graph URL
+     var datasets = [
+     {
+       filterType: null,
+       filterDatum: null,
+       termId: $scope.section.term.id,
+       sectionId: $scope.section.id,
+       assessmentTypeId: assessmentType.id,
+       assessmentId: undefined,
+       criterionId: undefined,
+       statisticId: 2
+     }];
+
+     var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
+     document.getElementById('graphLink').href = graphUrl;
+
      $.plot('#graph2',[{ label: $scope.plotAssessmentName, data: $scope.assessmentPlot, color: "DodgerBlue" }],$scope.plotOptions);
-   }); 
+   });
   };
 
   $scope.resetValidation = function() {
@@ -279,17 +311,17 @@ function($scope, $routeParams, Restangular, $location, $http) {
       $('span#inClass').fadeIn(500).delay(2000).fadeOut(500);
     }
   });
-  
+
   $scope.sum = function(numbers) {
     var sum = 0;
     for(var i = 0; i < numbers.length; i++){
       if(numbers[i].score){
-        sum += numbers[i].score;  
+        sum += numbers[i].score;
       }
     }
     return sum;
   };
-  
+
   $scope.getTotalPossible = function(assessment) {
     var grades = assessment.grades;
     var criteria = assessment.criteria;
@@ -298,10 +330,10 @@ function($scope, $routeParams, Restangular, $location, $http) {
     for (var i in grades) {
       sum += criteria[grades[i].criterion_id].max;
     }
-    
+
     return sum;
   };
-  
+
 });
 
 app.controller('AddToCohort', function($scope, Restangular) {
@@ -323,7 +355,7 @@ app.controller('AddToCohort', function($scope, Restangular) {
     $scope.cohortId = null;
     $scope.validateCohort = false;
   };
-  
+
   $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
     var graphOptions = angular.copy($scope.defaultLineGraphOptions);
     var numStudents = assessments[0].numStudents;
@@ -357,8 +389,8 @@ app.controller('AddToCohort', function($scope, Restangular) {
 
     $scope.graphOptions = graphOptions;
   };
-  
-  
+
+
   $scope.plot = function(dataset, panel) {
     var url = $scope.buildRequestUrl(dataset);
     var series = {
@@ -392,5 +424,5 @@ app.controller('AddToCohort', function($scope, Restangular) {
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
     });
   };
-  
+
 });
