@@ -78,14 +78,14 @@
                    <input type="text" class="form-control" ng-blur="changedOldCriterion(criterion, $index)" ng-model="criterion.max" name="name" ng-blur="validateCriterionMax=true" required>
                  </div>
                  <div class="col-sm-1">
-                   <button type="button" class="btn btn-default btn-sm" ng-click="remove(criterion, $index)" ng-disabled="criterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
+                   <button type="button" class="btn btn-default btn-xs" ng-click="remove(criterion, $index)" ng-disabled="criterions.length==1"><img style="height:11px" src="/assets/remove.png" align="absmiddle"></button>
                  </div>
                </div>
              </div>
            </div>
            <!-- back button -->
-           <div class="btn-assessment3-save-cancel">
-             <button type="button" class="btn btn-default btn-xs" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
+           <div class="btn-assessment1-save-cancel">
+             <button type="button" class="btn btn-default btn-xs btn-assessment1-back" ng-click="newCriterion()"><img style="height:11px" src="/assets/add.png" align="absmiddle"> New</button>
              <div style="clear:both;"></div>
              <div class="row cancel-save-button pull-right">
                <button type="button" ng-click="back()" class="btn btn-primary" data-dismiss="modal">Done</button>

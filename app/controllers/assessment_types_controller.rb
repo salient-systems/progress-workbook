@@ -6,7 +6,7 @@ class AssessmentTypesController < ApplicationController
   # GET /assessment_types.json
   def index
     if params[:section_id] != nil
-      @assessment_types = Section.find(params[:section_id]).assessment_types
+      @assessment_types = Section.find(params[:section_id]).assessment_types.order(id: :asc)
     else
       @assessment_types = AssessmentType.all
     end

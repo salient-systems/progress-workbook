@@ -4,6 +4,32 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   var assessment_type = Restangular.one('assessment_types', $routeParams.assessment_type_id);
   var section = Restangular.one('sections', $routeParams.section_id);
 
+
+    $('div.assessment-view').on('keydown', 'input.inputbox', function(ev) {
+     if(ev.which === 13) {
+        ev.preventDefault();
+        var cell = $(ev.currentTarget).parent();
+        var index = cell.index();
+        cell.parent().next().children().eq(index).find("input").focus();
+      }else if ( $.inArray(event.keyCode,[46,8,9,27,13,190]) !== -1 ||
+             // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+             // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+       }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+  });
+
+
+
+
+
   assessment_type.get().then(function(thereturn){
     $scope.assessment_type = thereturn;
     $scope.assessment_type_name = thereturn.name;
@@ -148,20 +174,7 @@ $scope.plotitv2 = function(index){
     //console.log(scores);
     return scores;
   };
-/*
-  var myHeaderCellTemplate =   '<div class="ngHeaderSortColumn {{col.headerClass}}" ng-style="{cursor: col.cursor}" ng-class="{ ngSorted: !noSortVisible }">'+
-                               '<div style="word-wrap: break-word;" ng-click="col.sort($event)" ng-class="colt + col.index" class="ngHeaderText">{{col.displayName}}</div>'+
-                               '<div class="ngSortButtonDown" ng-show="col.showSortButtonDown()"></div>'+
-                               '<div class="ngSortButtonUp" ng-show="col.showSortButtonUp()"></div>'+
-                               '<div class="ngSortPriority">{{col.sortPriority}}</div>'+
-                               '</div>'+
-                               '<div ng-show="col.resizable" class="ngHeaderGrip" ng-click="col.gripClick($event)" ng-mousedown="col.gripOnMouseDown($event)"></div>';
 
-  var editTemplate2 = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" />';
-  var editTemplate = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="saveGrade(col.index)" ng-focus="backupGrade(col.index)" />';
-  var headerrow = '<div style="writing-mode: tb-rl">Hello</div>';
-  var vcellTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/students/{{row.getProperty(\'id\')}}">{{row.getProperty(\'fname\')}} {{row.getProperty(\'lname\')}}</a></div>';
-*/
 assessment_type.getList('assessments').then(function(thereturn){
   $scope.assessments = thereturn;
   $scope.editView2Assessments = Restangular.copy(thereturn);
@@ -189,25 +202,38 @@ assessment_type.getList('assessments').then(function(thereturn){
 
 
 	$scope.numOfCrit = [];
-	$scope.numOfCrit[0] = 1;
+	$scope.numOfCrit[0] = 0;
 	$scope.startOfCrit = [];
 	$scope.startOfCrit[0] = 0;
 	$scope.showAssessment = [];
 	$scope.showAssessment[0] = true;
 	var currentassessment = thereturn[0].assessment_id;
 	var z = 0;
-	for(var i = 1; i < thereturn.length; i++){
+	for(var i = 0; i < thereturn.length; i++){
 		if(thereturn[i].assessment_id == currentassessment){
 			$scope.numOfCrit[z] = $scope.numOfCrit[z] + 1;
-			$scope.showAssessment[i] = false;
+			//$scope.showAssessment[i] = false;
 		}else{
 			z = z + 1;
 			currentassessment = thereturn[i].assessment_id;
-			$scope.showAssessment[i] = true;
+			//$scope.showAssessment[i] = true;
 			$scope.startOfCrit[z] = i;
 			$scope.numOfCrit[z] = 1;
 		}
 	}
+	
+	z = 0;
+	currentassessment = thereturn[0].assessment_id;
+	for(var i = 1; i < thereturn.length; i++){
+    if(thereturn[i].assessment_id == currentassessment){
+      $scope.showAssessment[i] = false;
+    }else{
+      z = z + 1;
+      currentassessment = thereturn[i].assessment_id;
+      $scope.showAssessment[i] = true;
+    }
+  }
+	
 
 	$scope.sizeAssessment = [];
 	z = 0;
@@ -321,12 +347,14 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        //Calculating class total
-       $scope.section.totalpercent = 0;
+       $scope.section.totalscore = 0;
+       $scope.section.maxscore = 0;
        var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
          if($scope.assessments[i].present != 0){
            if(!isNaN($scope.assessments[i].percent)){
-             $scope.section.totalpercent += $scope.assessments[i].percent;
+             $scope.section.totalscore += $scope.assessments[i].total;
+             $scope.section.maxscore += $scope.assessments[i].max;
            }else{
              notused++;
            }
@@ -335,7 +363,12 @@ assessment_type.getList('assessments').then(function(thereturn){
          }   
        }
        
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
+       
+       
+       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore * 100);
+       if(isNaN($scope.section.totalpercent)){
+         $scope.section.totalpercent = 0;
+       }
 
        //Calculating student score per assessment
        counter = 0;
@@ -383,7 +416,7 @@ assessment_type.getList('assessments').then(function(thereturn){
          $scope.classDataSet.push([i,$scope.assessments[i].percent]);
        }
 
-       $scope.maxNumOfCrit = $scope.numOfCrit[1];
+       $scope.maxNumOfCrit = $scope.numOfCrit[0];
        for(var i = 0; i < $scope.numOfCrit.length; i++){
          if($scope.maxNumOfCrit < $scope.numOfCrit[i]){
            $scope.maxNumOfCrit = $scope.numOfCrit[i];
@@ -466,6 +499,9 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 
   $scope.saveGrade = function(criterion) {
+    if(criterion.score.length != 0){
+      criterion.score = Number(criterion.score);
+    }
   	if ($scope.oldValue != criterion.score){
   	  if(criterion.score.length == 0){
   	  	criterion.score = null;
@@ -607,12 +643,14 @@ assessment_type.getList('assessments').then(function(thereturn){
      }
 
      //Calculating class total
-       $scope.section.totalpercent = 0;
+       $scope.section.totalscore = 0;
+       $scope.section.maxscore = 0;
        var notused = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
          if($scope.assessments[i].present != 0){
            if(!isNaN($scope.assessments[i].percent)){
-             $scope.section.totalpercent += $scope.assessments[i].percent;
+             $scope.section.totalscore += $scope.assessments[i].total;
+             $scope.section.maxscore += $scope.assessments[i].max;
            }else{
              notused++;
            }
@@ -620,8 +658,14 @@ assessment_type.getList('assessments').then(function(thereturn){
            notused++;
          }   
        }
+       
+       
+       
+       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore);
+       if(isNaN($scope.section.totalpercent)){
+         $scope.section.totalpercent = 0;
+       }
 
-       $scope.section.totalpercent = Math.floor($scope.section.totalpercent / ($scope.assessments.length - notused));
 
        $scope.classDataSet = [];
        for(var i = 0; i < $scope.assessments.length; i++){
@@ -630,8 +674,9 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 
   $scope.checkVal = function(criterion) {
-  	//console.log(criterion);
-  	$scope.oldValue = criterion.score;
+  	console.log(criterion);
+  	criterion.score = Number(criterion.score);
+  	$scope.oldValue = Number(criterion.score);
   };
 
   $scope.nochange = function(criterion){
@@ -647,32 +692,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   	}
   	return thereturn;
   };
-/*
-  $scope.gridOptions = {
-    data: 'students',
-    selectedItems: $scope.mySelections,
-    multiSelect: true,
-    showSelectionCheckbox: false,
-    selectWithCheckboxOnly: true,
-    enableCellSelection: true,
-    enableCellEditOnFocus: true,
-    enableRowSelection: false,
-    enableCellEdit: true,
-    //headerRowHeight: 200,
-    sortInfo: {fields:['fname'], directions:['asc']},
-    filterOptions: { filterText: '', useExternalFilter: false },
-    columnDefs: 'myDefs2' ,
 
-    afterSelectionChange: function () {
-      $scope.selectedIDs = [];
-      //saveGrade(col.index);
-      console.log(col.index);
-      angular.forEach($scope.mySelections, function ( item ) {
-          $scope.selectedIDs.push(item.id);
-      });
-    }
-  };
-*/
 
   $scope.back = function(){
     location.reload();

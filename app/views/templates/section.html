@@ -38,8 +38,10 @@
     </div>
     <div class="col-md-8" id="var-height-graph">
         <div class="box">
-            <h3>Graph</h3>
-            <div id="graph" style="width: 710px; height: 250px;"></div>
+            <!--<h3>Graph</h3>-->
+            <div id="legendContainer" style="margin: 10px 5px 10px 5px" class="pull-right"></div>
+            <div style="clear:both"></div>
+            <a href="#/performance" id="graphLink"><div id="graph2" style="width: 100%; height: 100%; min-height: 350px; margin: 0px 10px 10px 10px"></div></a>
         </div>
     </div>
   </div>
@@ -49,7 +51,7 @@
 	  <div class="box">
 	  	<h3>Students<a data-toggle="modal" href="#addStudentModal" class="btn btn-default btn-xs pull-right"><img class="btn-img-sm" src="/assets/add.png"> Add Student</a></h3>
 
-      <div resize2 id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
+      <div id="var-height-grid" ng-style="style()" ng-grid="gridOptions"></div>
 
      <p>
      <!-- Drop-down button -->
