@@ -211,6 +211,12 @@ function($scope, $routeParams, Restangular, $location, $http) {
           lines: { show: true,
                    lineWidth: 6
                  },
+          bars:  {
+                   show: false,
+                   barWidth: .8,
+                   align: 'center',
+                   fillColor: 'Blue'
+                 },
           points: { show: true,
                     radius: 4
                   }
