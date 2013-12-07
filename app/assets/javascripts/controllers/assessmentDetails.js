@@ -303,6 +303,8 @@ assessment_type.getList('assessments').then(function(thereturn){
     	   }
        }
 
+       console.log($scope.criterions);
+       
        //Calculating Assessment Totals
        var counter = 0;
        for(var j = 0; j < $scope.assessments.length; j++){
@@ -349,23 +351,20 @@ assessment_type.getList('assessments').then(function(thereturn){
        //Calculating class total
        $scope.section.totalscore = 0;
        $scope.section.maxscore = 0;
-       var notused = 0;
+       $scope.section.present = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
          if($scope.assessments[i].present != 0){
            if(!isNaN($scope.assessments[i].percent)){
              $scope.section.totalscore += $scope.assessments[i].total;
              $scope.section.maxscore += $scope.assessments[i].max;
-           }else{
-             notused++;
-           }
-         }else{
-           notused++;
-         }   
-       }
+             if($scope.section.present < $scope.assessments[i].present){
+               $scope.section.present = $scope.assessments[i].present;
+             }
+           }   
+         }
+       }   
        
-       
-       
-       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore * 100);
+       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore / $scope.section.present * 100);
        if(isNaN($scope.section.totalpercent)){
          $scope.section.totalpercent = 0;
        }
@@ -645,23 +644,20 @@ assessment_type.getList('assessments').then(function(thereturn){
      //Calculating class total
        $scope.section.totalscore = 0;
        $scope.section.maxscore = 0;
-       var notused = 0;
+       $scope.section.present = 0;
        for(var i = 0; i < $scope.assessments.length; i++){
          if($scope.assessments[i].present != 0){
            if(!isNaN($scope.assessments[i].percent)){
              $scope.section.totalscore += $scope.assessments[i].total;
              $scope.section.maxscore += $scope.assessments[i].max;
-           }else{
-             notused++;
-           }
-         }else{
-           notused++;
-         }   
-       }
+             if($scope.section.present < $scope.assessments[i].present){
+               $scope.section.present = $scope.assessments[i].present;
+             }
+           }   
+         }
+       }   
        
-       
-       
-       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore);
+       $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore / $scope.section.present * 100);
        if(isNaN($scope.section.totalpercent)){
          $scope.section.totalpercent = 0;
        }

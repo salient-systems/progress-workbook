@@ -47,10 +47,10 @@
             </tr>
             <tr ng-repeat="a in numOfCritArray[$index]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
               <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-subject">
-                <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].subject}}</strong></p>
+                <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].name}}</strong></p>
               </td>
               <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-assessment">
-                <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].name}}</p>
+                <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].subject}}</p>
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
               <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
@@ -90,7 +90,7 @@
 
                      <!-- criterion headers -->
                     <div class="col-sm-11">
-                      <label class="control-label edit-criterion-name">Assessment</label>
+                      <label class="control-label edit-criterion-name">Module</label>
                     </div>
 
                     <!-- assessment name -->
@@ -103,7 +103,7 @@
                     </div>
 
                     <div class="col-sm-12">
-                      <label class="control-label edit-criterion-name">Subject</label>
+                      <label class="control-label edit-criterion-name">Unit</label>
                     </div>
 
                     <!-- assessment subject -->
@@ -117,7 +117,7 @@
 
                     <!-- criterion headers -->
                     <div class="col-sm-8">
-                      <label class="control-label edit-criterion-name">Criterion</label>
+                      <label class="control-label edit-criterion-name">Standards</label>
                     </div>
                     <div class="col-sm-3">
                       <label class="control-label edit-criterion-max">Max</label>
