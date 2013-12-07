@@ -201,7 +201,7 @@ chart {
 .assessment1-heading-space {
   position: relative;
   float: left;
-  width: 188px;
+  width: 138px;
   z-index: 150;
 }
 
@@ -209,7 +209,7 @@ chart {
     border: 1px solid whitesmoke;
     position: absolute;
     float: left;
-    width: 189px;
+    width: 140px;
     height: 148px;
     z-index: 200;
     background-color: whitesmoke;
@@ -392,6 +392,26 @@ p.css-vertical-text {
 	margin-left: auto;
 	margin-right: auto;
     margin-top: 90px;
+}
+
+p.css-vertical-text2 {
+	color:#333;
+	border:0px solid red;
+	writing-mode:lr-bt;
+	-webkit-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	white-space:nowrap;
+	display:block;
+	width: 20px;
+	height:20px;
+	font-weight:normal;
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 140px;
 }
 
 .scoreHoriz {

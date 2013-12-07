@@ -33,9 +33,10 @@
               <td ng-repeat="assessment in assessments" class="scoreHoriz" ng-style="{background: percentColor(assessment.percent)}">{{assessment.percent}}%</td>
             </tr>
             <tr ng-repeat="a in studentbycrit" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row" id="student{{$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[tofloor($index / sizeAssessment[0])].id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a>' data-container="#start2" data-content={{createTemplate2($index)}} ng-mousedown="plotitv2($index)">
-                <div class="assessment-relative-position">
-                  <p class="css-vertical-text">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p>
+              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row" id="student{{$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[tofloor($index / sizeAssessment[0])].id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a> - {{students[tofloor($index / sizeAssessment[0])].percent}}%' data-container="#start2" data-content={{createTemplate2($index)}} ng-mousedown="plotitv2($index)">
+                <div class="assessment-relative-position" style="width: 34px;">
+                	<div style="width: 36px; position: absolute; top: -141px; left: -1px; background-color: blue; border-bottom: 1px solid black;z-index: 300; text-align: center;" ng-style="{background: percentColor(students[tofloor($index / sizeAssessment[0])].percent)}">{{students[tofloor($index / sizeAssessment[0])].percent}}%</div>
+                  <p class="css-vertical-text2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p>
                 </div>
               </td>
               <td class="assessment2-criterion-name">{{criterions[$index % sizeAssessment[0]].name}}</td>

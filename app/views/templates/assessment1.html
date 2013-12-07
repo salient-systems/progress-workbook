@@ -34,7 +34,7 @@
             </tr>
             <tr ng-repeat="student in students" class="assessment1-student" ng-class-odd="'odd'" ng-class-even="'even'">
               <td class="assessment1-student-name" id="student{{$index}}" rel="popover"class="pull-left" data-toggle="popover" title='<a href="#/students/{{student.id}}">{{student.fname}} {{student.lname}}</a>' data-container="#start" data-content={{createTemplate($index)}} ng-mousedown="plotit($index)">{{student.fname}} {{student.lname}}</td>
-              <td class="scoreHorizLeft" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>
+              <!--<td class="scoreHorizLeft" ng-style="{background: percentColor(student.percent)}">{{student.percent}}%</td>-->
               <!--<td ng-repeat="criterion in student.scores" style="border: 1px solid black; width: 45px; height: 30px;">{{criterion.score}}</d>-->
               <td ng-repeat="criterion in student.scores" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ criterion.score / criterions[$index].max +')'}" >
                 <!--<input type="number" class="inputbox assessment-criterion-input" type="text" ng-model="criterion.score" ng-style="{background: 'rgba(0,0,204,'+ criterion.score / criterions[$index].max +')'}" ng-focus="checkVal(criterion)" ng-blur="saveGrade(criterion)"/>-->
