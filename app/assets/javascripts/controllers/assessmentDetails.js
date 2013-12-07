@@ -745,8 +745,6 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
   };
 
   $scope.remove = function(criterion, index) {
-    var indexToRemove = $scope.criterions.indexOf(criterion);
-    var indexToRemove = $scope.criterions.indexOf(criterion);
     Restangular.one("assessments",criterion.assessment_id).remove();//dont need to remove criterion when removing assessment takes care of removing its criterions
     $scope.criterions.splice(index, 1);
     $scope.assessments.splice(index, 1);
@@ -780,7 +778,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       name: ($scope.editView2Criterions.length + 1)
     };
 
-    angular.forEach($scope.editView3Assessments, function(assessment){
+    angular.forEach($scope.editView2Assessments, function(assessment){
       var newCrit = {
         max: $scope.editView2Criterions[$scope.editView2Criterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
         name: ($scope.editView2Criterions.length + 1)
@@ -793,6 +791,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
         if(newCritRestCopy.assessment_id == $scope.editView2Assessments[0].id){
           $scope.editView2Criterions.push(newCrit);
         }
+        $scope.criterions.push(thereturn);
       });
     });
   };
@@ -824,57 +823,43 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
   };
 
   $scope.removeCriterion = function(criterion, index) {
-    for(var i = 0; i < $scope.assessments.length; i++){
-      console.log($scope.criterions[index + (i * $scope.assessments.length)].id);
-      Restangular.one("criterions", $scope.criterions[index + (i * $scope.assessments.length)].id).remove();
+    console.log($scope.criterions);
+    for(var i = 0; i < $scope.editView2Assessments.length; i++){
+      console.log(index + (i * $scope.editView2Criterions.length));
+      console.log($scope.criterions[index + (i * $scope.editView2Criterions.length)].id);
+      Restangular.one("criterions", $scope.criterions[index + (i * $scope.editView2Criterions.length)].id).remove();
     }
-    
+    console.log("FINISHED REMOVE.ONE");
     var indexToRemoveEdit = $scope.editView2Criterions.indexOf(criterion);
-    console.log(indexToRemoveEdit);
     $scope.editView2Criterions.splice(indexToRemoveEdit, 1);
-    var indexToRemove = $scope.criterions.indexOf(criterion);
-    console.log(indexToRemove);
-    if(indexToRemove >= 0)
-    {
-      $scope.criterions.splice(indexToRemove, 1);
-    }
-    for(var i = 0; i < $scope.assessments.length; i++){
-      Restangular.all('criterions').getList({assessment_id: $scope.assessments[i].id}).then(function(thereturn1){
-        var editable = thereturn1[indexToRemoveEdit];
-        editable.route = "criterions";
-        editable.remove();
-      });
+    console.log("WELL??");
+    for(var i = 0; i < $scope.editView2Assessments.length; i++){
+      console.log(indexToRemoveEdit + (i * $scope.editView2Criterions.length));
+      $scope.criterions.splice((indexToRemoveEdit + (i * $scope.editView2Criterions.length)), 1);
     }    
   };
 
   $scope.removeAssessment = function(assessment) {
     var indexToRemoveEdit = $scope.editView2Assessments.indexOf(assessment);
+    Restangular.one("assessments", $scope.editView2Assessments[indexToRemoveEdit].id).remove();
     $scope.editView2Assessments.splice(indexToRemoveEdit, 1);
-    $scope.assessments.splice(indexToRemove, 1);
-    var editable = Restangular.copy(assessment);
-    editable.route = "assessments";
-    editable.remove();
   };
 
   $scope.changedOldCriterion = function(criterion, index){
+    console.log($scope.criterions);
     for(var j = 0; j < $scope.editView2Assessments.length; j++){
-      console.log(j);
-      console.log(index + (j * $scope.editView2Criterions.length));
-      $scope.criterions[index + (j * $scope.editView2Criterions.length)].name = $scope.editView2Criterions[index].name;
-      $scope.criterions[index + (j * $scope.editView2Criterions.length)].max = $scope.editView2Criterions[index].max;
-      var editable = Restangular.copy($scope.criterions[index + (j * $scope.editView2Assessments.length)]);
+      console.log(index + (j * $scope.editView2Assessments.length));
+      console.log($scope.criterions[index + (j * $scope.editView2Assessments.length)]);
+      var editable = Restangular.copy($scope.criterions[index + (j * $scope.editView2Criterions.length)]);
       editable.route = "criterions";
       editable.put();
     }
   };
 
   $scope.changedOldAssessment = function(assessment, index){
-    /*for(var i = 0; i < $scope.changedOldAssessFlags.length; i++){
-      $scope.assessments[$scope.changedOldAssessFlags[i]] = $scope.editView2Assessments[$scope.changedOldCritFlags[i]];
-      var editable = Restangular.copy($scope.editView2Assessments[$scope.changedOldAssessFlags[i]]);
-      editable.route = "assessments";
-      editable.put();
-    }*/
+    var editable = Restangular.copy($scope.editView2Assessments[index]);
+    editable.route = "assessments";
+    editable.put();
   };
 
   $scope.changeAssessmentTypeName = function(){
