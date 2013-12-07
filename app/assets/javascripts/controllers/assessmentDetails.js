@@ -303,7 +303,7 @@ assessment_type.getList('assessments').then(function(thereturn){
     	   }
        }
 
-       console.log($scope.criterions);
+       //console.log($scope.criterions);
        
        //Calculating Assessment Totals
        var counter = 0;
@@ -498,7 +498,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 
   $scope.saveGrade = function(criterion) {
-    if(criterion.score.length != 0){
+    if(criterion.score != null && criterion.score.length != 0){
       criterion.score = Number(criterion.score);
     }
   	if ($scope.oldValue != criterion.score){
@@ -670,8 +670,7 @@ assessment_type.getList('assessments').then(function(thereturn){
   };
 
   $scope.checkVal = function(criterion) {
-  	console.log(criterion);
-  	criterion.score = Number(criterion.score);
+  	//criterion.score = Number(criterion.score);
   	$scope.oldValue = Number(criterion.score);
   };
 
@@ -734,7 +733,7 @@ app.controller('EditRunChartCtrl', function($scope, $routeParams, Restangular){
       editable.route = "criterions";
       editable.post().then(function(thereturn){
         newCrit.id = thereturn.id;
-        console.log(newCrit);
+        //console.log(newCrit);
         $scope.criterions.push(newCrit);
       });
     });
