@@ -47,10 +47,10 @@
             </tr>
             <tr ng-repeat="a in numOfCritArray[$index]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
               <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-subject">
-                <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].name}}</strong></p>
+                <p class="css-vertical-text assessment3-sub-assess-pos"><strong>{{assessments[$parent.$index].subject}}</strong></p>
               </td>
               <td rowspan={{maxNumOfCrit}} ng-show=showArray[$parent.$index][$index] class="assessment3-label-assessment">
-                <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].subject}}</p>
+                <p class="css-vertical-text assessment3-sub-assess-pos">{{assessments[$parent.$index].name}}</p>
               </td>
               <td class="assessment3-criterion-name">{{criterions[getCritStart($parent.$index) + $index].name}}</td>
               <td class="scoreHoriz" ng-style="{background: percentColor(criterions[getCritStart($parent.$index) + $index].studentPercent)}">{{criterions[getCritStart($parent.$index) + $index].studentAverage}}</td>
@@ -97,7 +97,7 @@
                     <div class="row">
                       <div class="form-group" >
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" ng-blur="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
+                          <input type="text" class="form-control" ng-blur="changedOldAssessment(assessment, $index)" ng-model="assessment.subject" name="subject" ng-blur="validateAssessmentSubject=true" required>
                         </div>
                       </div>
                     </div>
@@ -110,7 +110,7 @@
                     <div class="row">
                       <div class="form-group" >
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" ng-blur="changedOldAssessment(assessment, $index)" ng-model="assessment.subject" name="subject" ng-blur="validateAssessmentSubject=true" required>
+                          <input type="text" class="form-control" ng-blur="changedOldAssessment(assessment, $index)" ng-model="assessment.name" name="name" ng-blur="validateAssessmentName=true" required>
                         </div>
                       </div>
                     </div><br><br>
