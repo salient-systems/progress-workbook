@@ -35,19 +35,19 @@
           <tbody ng-repeat="student in students">
           	<tr style="height: 1px;"></tr>
             <tr ng-repeat="a in numOfCritArray[0]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[$index] class="assessment-label-row2" id="student{{$parent.$index*sizeAssessment[0]+$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[$parent.$index].id}}">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</a>' data-container="#start2" data-content={{createTemplate2($parent.$index*sizeAssessment[0]+$index,$parent.$index)}} ng-mousedown="plotitv2($parent.$index*sizeAssessment[0]+$index, $parent.$index)">
-              <!--<div style="position: absolute; width: 36px; top: 0px; left: 0px; border-bottom: 1px solid black; margin: 0px; z-index: 300; text-align: center;" ng-style="{background: percentColor(students[$parent.$index].percent)}">{{students[$parent.$index].percent}}%</div>--> 
-                <div class="assessment-relative-position" style="width: 34px;">  	
-                  <p class="css-vertical-text2">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}} - <font ng-style="{color: percentColor(students[$parent.$index].percent)}">{{students[$parent.$index].percent}}%</font></p>
+              <td ng-style="{background-color: percentColor(students[$parent.$index].percent)}" rowspan={{sizeAssessment[0]}} ng-show=showAssessment[$index] class="assessment-label-row2" id="student{{$parent.$index*sizeAssessment[0]+$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[$parent.$index].id}}">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</a>' data-container="#start2" data-content={{createTemplate2($parent.$index*sizeAssessment[0]+$index,$parent.$index)}} ng-mousedown="plotitv2($parent.$index*sizeAssessment[0]+$index, $parent.$index)">
+              <!--<div style="position: absolute; width: 36px; top: 0px; left: 0px; border-bottom: 1px solid black; margin: 0px; z-index: 300; text-align: center;" ng-style="{background: percentColor(students[$parent.$index].percent)}">{{students[$parent.$index].percent}}%</div>-->
+                <div class="assessment-relative-position" style="width: 34px;">
+                  <p class="css-vertical-text2">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}} ({{students[$parent.$index].percent}}%)</p>
                 </div>
-                
+
               </td>
               <td class="assessment2-criterion-name">{{criterions[$index].name}}</td>
               <td ng-repeat="assessment in assessments" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]].score / criterions[$parent.$index + $index*sizeAssessment[0]].max +')'}">
                 <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]].score" ng-focus="students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]])" />
               </td>
             </tr>
-            
+
           </tbody>
         </table>
         <div class="table-end"></div>
