@@ -59,7 +59,7 @@
         					   <div class="col-md-6">
                        <div class="form-group">
                          <!-- Assessment selector -->
-                         <label for="inputDataType" class="col-md-3 control-label">Assessment</label>
+                         <label for="inputDataType" class="col-md-3 control-label">{{panel.assessmentLabel}}</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panel.assessmentId" ng-change="panel.updateAssessment()" ng-options="assessment.id as assessment.name for assessment in panel.assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
                              <option value=""></option>
@@ -68,7 +68,7 @@
                        </div>
                        <div class="form-group">
                          <!-- Criterion selector -->
-                         <label for="inputDataType" class="col-md-3 control-label">Criterion</label>
+                         <label for="inputDataType" class="col-md-3 control-label">{{panel.criterionLabel}}</label>
                          <div class="col-md-9">
                            <select class="form-control row-sm-2" ng-model="panel.criterionId" ng-change="panel.updateCriterion()" ng-options="criterion.id as criterion.name for criterion in panel.criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
                              <option value=""></option>
