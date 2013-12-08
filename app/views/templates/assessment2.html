@@ -31,11 +31,11 @@
               <td>&nbsp;</td>
               <td ng-repeat="assessment in assessments" class="scoreHoriz" ng-style="{background: percentColor(assessment.percent)}">{{assessment.percent}}%</td>
             </tr>
-          </tbody><
+          </tbody>
           <tbody ng-repeat="student in students">
           	<tr style="height: 1px;"></tr>
             <tr ng-repeat="a in numOfCritArray[0]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[$index] class="assessment-label-row" style="position: relative"  id="student{{$parent.$index*$index+$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[$parent.$index].id}}">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</a>' data-container="#start2" data-content={{createTemplate2($parent.$index*$index+$index)}} ng-mousedown="plotitv2($parent.$index*$index+$index)">
+              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[$index] class="assessment-label-row" style="position: relative; border-left: 1px solid black;"  id="student{{$parent.$index*sizeAssessment[0]+$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[$parent.$index].id}}">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</a>' data-container="#start2" data-content={{createTemplate2($parent.$index*sizeAssessment[0]+$index,$parent.$index)}} ng-mousedown="plotitv2($parent.$index*sizeAssessment[0]+$index, $parent.$index)">
               <div style="width: 36px; position: absolute; top: 0px; left: 0px; background-color: blue; border-bottom: 1px solid black;z-index: 300; text-align: center;" ng-style="{background: percentColor(students[$parent.$index].percent)}">{{students[$parent.$index].percent}}%</div> 
                 <div class="assessment-relative-position" style="width: 34px;">
                 	

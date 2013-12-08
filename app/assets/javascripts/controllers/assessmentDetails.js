@@ -43,7 +43,6 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   $scope.plotit = function(index){
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
-   var studentArr = $scope.createStudentData(index);
    var legendcontainer = '#legend'+index;
    var options = {
     series: {
@@ -73,11 +72,9 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   $scope.setStudent = function (student) {
   };
 
-$scope.plotitv2 = function(index){
+$scope.plotitv2 = function(index,studentindex){
    var idnum = '#student'+index;
    var idnumpop = '#studentplot'+index;
-   var someNum = $scope.tofloor(index / $scope.sizeAssessment[0]);
-   var studentArr = $scope.createStudentData(someNum);
    var legendcontainer = '#legend'+index;
    var options = {
     series: {
@@ -99,7 +96,7 @@ $scope.plotitv2 = function(index){
    };
    $(idnum).on('shown.bs.popover', function () {
      $.plot(idnumpop,[{ label: "Class", data: $scope.classDataSet, color: "DodgerBlue" },
-                      { label: "Student", data: $scope.createStudentData(someNum), clickable: true }]
+                      { label: "Student", data: $scope.createStudentData(studentindex), clickable: true }]
                       ,options);
    });
   };
@@ -134,9 +131,11 @@ $scope.plotitv2 = function(index){
     return testTemplate;
   };
 
-  $scope.createTemplate2 = function(index) {
+  $scope.createTemplate2 = function(index,studentindex) {
+    console.log("index: " + index);
+    console.log("studentindex: " + studentindex);
     var testTemplate;
-    var student = $scope.students[$scope.tofloor(index / $scope.sizeAssessment[0])];
+    var student = $scope.students[studentindex];
     
       var datasets = [{
         filterType: 'students',
