@@ -190,7 +190,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       var self = this;
 
       if (self.sectionId !== undefined) {
-        Restangular.one('sections', self.sectionId).getList('assessment_types').then(function(assessmenttypes) {
+        Restangular.one('sections', self.sectionId).getList('assessment_types')
+        .then(function(assessmenttypes) {
           self.assessmentTypes = assessmenttypes;
         });
       }
@@ -267,222 +268,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     }
   };
 
-  /* ----------------------------- Graphs  --------------------------------- */
-
-   /*
-    * Chooses the url for fetching graph data
-    */
-   $scope.buildRequestUrl = function(dataset) {
-    var url = '/p/';
-
-    if (dataset.filterType == 'students') {
-      url += 'students/' + dataset.filterDatum.id;
-    } else if (dataset.filterType == 'cohorts') {
-      url += 'cohorts/' + dataset.filterDatum.id;
-    } else {
-      url += 'sections/' + dataset.sectionId;
-    }
-
-    if (dataset.criterionId || dataset.assessmentId) {
-      url += '/assessment/' + dataset.assessmentId;
-    } else if (dataset.assessmentTypeId) {
-      url += '/assesstype/' + dataset.assessmentTypeId;
-    } else if (dataset.sectionId) {
-      // TODO get all data about all assessments
-    }
-
-    return url;
-  };
-
-  /*
-   * Determines the graph type and then plots the graph
-   */
-  $scope.plot = function(dataset, panel) {
-    var url = $scope.buildRequestUrl(dataset);
-    var series = {
-      label: 'Data Set ' + parseInt(panel.id + 1),
-      data: []
-    };
-    dataset.id = panel.id;
-
-    $http.get(url).success(function(data) {
-      if (dataset.criterionId) {
-        $scope.graphCriterion(dataset, data[0], series);
-      } else if (dataset.assessmentId) {
-          $scope.graphAssessment(dataset, data[0], series);
-      } else if (dataset.assessmentTypeId) {
-        if (dataset.filterType == 'students') {
-          $scope.graphAssessmentTypeStudent(dataset, data, series);
-        } else {
-          $scope.graphAssessmentTypeOverall(dataset, data, series);
-        }
-      } else {
-        // plot overall data for a section
-      }
-
-      if (panel.graphPointsIndex != null) {
-        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
-      } else {
-        panel.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
-      }
-
-      // draw the graph
-      $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
-    });
-  };
-
-  /*
-   * caclulate percent/total distributions for one criterion
-   */
-  $scope.graphCriterion = function(dataset, assessment, series) {
-    var distribution = $scope.getCriterionScoreDistribution(dataset.criterionId, assessment.grades);
-    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
-
-    // TODO fix buggy multiple bars
-    series.bars = {
-      show: true,
-      barWidth: 0.3,
-      order: dataset.id + 1
-    };
-
-    if (dataset.statisticId == 6) {
-      _.each(distribution, function(numScores, score) {
-        series.data.push([score, numScores]);
-      });
-      $scope.graphOptions.yaxis.tickSize = 1;
-    } else if (dataset.statisticId == 7) {
-      _.each(distribution, function(numScores, score) {
-        series.data.push([score, (numScores/assessment.numStudents) * 100]);
-      });
-      $scope.graphOptions.yaxis.tickSize = 10;
-      $scope.graphOptions.yaxis.max = 100;
-    }
-  };
-
-  /*
-   * Calculations for a single assessment
-   */
-  $scope.graphAssessment = function(dataset, assessment, series) {
-    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
-    var criteriaPerStudent = _.groupBy(assessment.grades, 'student_id');
-    var distribution = {};
-
-    _.each(criteriaPerStudent, function(criteria) {
-      var grade = $scope.sum(_.pluck(criteria, 'score'));
-
-      if (distribution[grade] !== undefined) {
-        distribution[grade]++;
-      } else {
-        distribution[grade] = 1;
-      }
-    });
-
-    if (dataset.statisticId == 6) {
-      _.each(distribution, function(numScores, score) {
-        series.data.push([score, numScores]);
-      });
-      $scope.graphOptions.yaxis.tickSize = 1;
-    } else if (dataset.statisticId == 7) {
-      _.each(distribution, function(numScores, score) {
-        series.data.push([score, (numScores/assessment.numStudents) * 100]);
-      });
-      $scope.graphOptions.yaxis.tickSize = 10;
-      $scope.graphOptions.yaxis.max = 100;
-    }
-  };
-
-  /*
-   * caclulate student progress for an assessment type
-   */
-  $scope.graphAssessmentTypeStudent = function(dataset, criteria, series) {
-    $scope.graphOptions = angular.copy($scope.defaultLineGraphOptions);
-
-    assessments = _.groupBy(criteria, 'assessment_id');
-    _.each(assessments, function(assessment) {
-      var grade = $scope.sum(_.pluck(assessment, 'score'));
-      var max = $scope.sum(_.pluck(assessment, 'criterionMax'));
-      series.data.push([assessment[0].assessmentName, (grade/max) * 100]);
-    });
-
-    $scope.graphOptions.yaxis.tickSize = 10;
-    $scope.graphOptions.yaxis.max = 100;
-  };
-
-  /*
-   * calculate data about assessments of a single type
-   */
-  $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
-    var graphOptions = angular.copy($scope.defaultLineGraphOptions);
-    var numStudents = assessments[0].numStudents;
-
-    // total correct or percentage correct
-    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
-      var maxList = [];
-      _.each(assessments, function(assessment) {
-        var thisMax = 0;
-        _.each(assessment.criteria, function(criterion) {
-            thisMax += criterion.max;
-        });
-
-        var grades = $scope.sum(_.pluck(assessment.grades, 'score'));
-
-        if (dataset.statisticId == 2) {
-          grades = grades / thisMax * numStudents;
-        }
-
-        series.data.push([assessment.name, grades]);
-        maxList.push(thisMax);
-      });
-
-      if (dataset.statisticId == 1) {
-        graphOptions.yaxis.max = _.max(maxList) * numStudents;
-      } else {
-        graphOptions.yaxis.max = 100;
-        graphOptions.yaxis.tickSize = 10;
-      }
-    }
-
-    $scope.graphOptions = graphOptions;
-  };
-
-
-
-  /* --------------------------- Graph Helpers  ---------------------------- */
-
-  $scope.sum = function(numbers) {
-    var sum = 0;
-    var i = numbers.length;
-    while(i--) sum += numbers[i];
-    return sum;
-  };
-
-  $scope.getTotalPossible = function(assessment) {
-    var grades = assessment.grades;
-    var criteria = assessment.criteria;
-    var sum = 0;
-
-    for (var i in grades) {
-      sum += criteria[grades[i].criterion_id].max;
-    }
-
-    return sum;
-  };
-
-  $scope.getCriterionScoreDistribution = function(criterionId, grades) {
-    var distribution = {};
-
-    for (var i in grades) {
-      if (criterionId && grades[i].criterion_id == criterionId) {
-        if (distribution[grades[i].score] !== undefined) {
-          distribution[grades[i].score]++;
-        } else {
-          distribution[grades[i].score] = 1;
-        }
-      }
-    }
-
-    return distribution;
-  };
 
   /* ----------------------- Panel Management ----------------------- */
 
@@ -529,7 +314,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     $location.search({datasets: encodeURIComponent(JSON.stringify(datasets))});
   };
 
-  // parse URL and configure data sets (if applicable)
+  /*
+   * Parse URL and configure data sets (if applicable)
+   */
   $scope.parseUrl = function() {
     //retrieve student/teacher/cohort ID
     var datasets = $.parseJSON(decodeURIComponent($location.search().datasets));
@@ -590,11 +377,280 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
           }
         }
       }
-
-
     });
   };
 
+
+  /* ----------------------------- Graphs  --------------------------------- */
+
+   /*
+    * Chooses the url for fetching graph data
+    */
+   $scope.buildRequestUrl = function(dataset) {
+    var url = '/p/';
+
+    if (dataset.filterType == 'students') {
+      url += 'students/' + dataset.filterDatum.id;
+    } else if (dataset.filterType == 'cohorts') {
+      url += 'cohorts/' + dataset.filterDatum.id;
+    } else {
+      url += 'sections/' + dataset.sectionId;
+    }
+
+    if (dataset.criterionId || dataset.assessmentId) {
+      url += '/assessment/' + dataset.assessmentId;
+    } else if (dataset.assessmentTypeId) {
+      url += '/assesstype/' + dataset.assessmentTypeId;
+    } else if (dataset.sectionId) {
+      // TODO get all data about all assessments
+    }
+
+    return url;
+  };
+
+  /*
+   * Determines the graph type and delegates to appropriate method
+   */
+  $scope.plot = function(dataset, panel) {
+    var url = $scope.buildRequestUrl(dataset);
+    var series = {
+      label: 'Data Set ' + parseInt(panel.id + 1),
+      data: []
+    };
+    dataset.id = panel.id;
+
+    $http.get(url).success(function(data) {
+      if (dataset.criterionId) {
+        $scope.graphCriterion(dataset, data[0], series);
+      } else if (dataset.assessmentId) {
+          $scope.graphAssessment(dataset, data[0], series);
+      } else if (dataset.assessmentTypeId) {
+        if (dataset.filterType == 'students') {
+          $scope.graphAssessmentTypeStudent(dataset, data, series);
+        } else if (dataset.filterType == 'cohort') {
+          $scope.graphAssessmentTypeCohort(dataset, data, series);
+        } else {
+          $scope.graphAssessmentTypeOverall(dataset, data, series);
+        }
+      } else {
+        // plot overall data for a section
+      }
+
+      if (panel.graphPointsIndex != null) {
+        $scope.allGraphPoints[dataset.graphPointsIndex] = series;
+      } else {
+        panel.graphPointsIndex = $scope.allGraphPoints.push(series) - 1;
+      }
+
+      // draw the graph
+      $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
+    });
+  };
+
+  /*
+   * Calculate percent/total distributions for one criterion
+   */
+  $scope.graphCriterion = function(dataset, assessment, series) {
+    var distribution = $scope.getCriterionScoreDistribution(dataset.criterionId, assessment.grades);
+    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
+
+    // TODO fix buggy multiple bars
+    series.bars = {
+      show: true,
+      barWidth: 0.3,
+      order: dataset.id + 1
+    };
+
+    if (dataset.statisticId == 6) {
+      _.each(distribution, function(numScores, score) {
+        series.data.push([score, numScores]);
+      });
+      $scope.graphOptions.yaxis.tickSize = 1;
+    } else if (dataset.statisticId == 7) {
+      _.each(distribution, function(numScores, score) {
+        series.data.push([score, (numScores/assessment.numStudents) * 100]);
+      });
+      $scope.graphOptions.yaxis.tickSize = 10;
+      $scope.graphOptions.yaxis.max = 100;
+    }
+  };
+
+  /*
+   * Statistics for a single assessment
+   */
+  $scope.graphAssessment = function(dataset, assessment, series) {
+    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
+
+    // total and percentage correct
+    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
+      var criteria = _.groupBy(assessment.grades, 'criterion_id');
+
+      _.each(criteria, function(criterionGrades) {
+        var criterion = assessment.criteria[criterionGrades[0].criterion_id];
+        var totalCorrect = $scope.sum(_.pluck(criterionGrades, 'score'));
+
+        if (dataset.statisticId == 1) {
+          // total correct
+          series.data.push([criterion.name, totalCorrect]);
+        } else if (dataset.statisticId == 2) {
+          // percentage correct
+          var numStudents = _.uniq(_.pluck(assessment.grades, 'student_id')).length;
+          var totalPossible = numStudents * criterion.max;
+          series.data.push([criterion.name, (totalCorrect / totalPossible) * 100]);
+
+          $scope.graphOptions.yaxis.tickSize = 10;
+          $scope.graphOptions.yaxis.max = 100;
+        }
+      });
+    }
+
+    // total possible and total goal
+    if (dataset.statisticId == 3 || dataset.statisticId == 4) {
+      var criteria = _.groupBy(assessment.grades, 'criterion_id');
+
+      _.each(criteria, function(criterionGrades) {
+        var criterion = assessment.criteria[criterionGrades[0].criterion_id];
+
+        if (dataset.statisticId == 4) {
+          // total goal
+          series.data.push([criterion.name, assessment.numStudents * criterion.max]);
+        } else if (dataset.statisticId == 3) {
+          // total possible
+          var numStudents = _.uniq(_.pluck(assessment.grades, 'student_id')).length;
+          var totalPossible = numStudents * criterion.max;
+          series.data.push([criterion.name, totalPossible]);
+        }
+      });
+    }
+
+    // Score distribution (percent and total)
+    if (dataset.statisticId == 6 || dataset.statisticId == 7) {
+      var criteriaPerStudent = _.groupBy(assessment.grades, 'student_id');
+      var distribution = {};
+
+      _.each(criteriaPerStudent, function(criteria) {
+        var grade = $scope.sum(_.pluck(criteria, 'score'));
+
+        if (distribution[grade] !== undefined) {
+          distribution[grade]++;
+        } else {
+          distribution[grade] = 1;
+        }
+      });
+
+      if (dataset.statisticId == 6) {
+        // total correct
+        _.each(distribution, function(numScores, score) {
+          series.data.push([score, numScores]);
+        });
+        $scope.graphOptions.yaxis.tickSize = 1;
+      } else if (dataset.statisticId == 7) {
+        // percent correct
+        _.each(distribution, function(numScores, score) {
+          series.data.push([score, (numScores/assessment.numStudents) * 100]);
+        });
+        $scope.graphOptions.yaxis.tickSize = 10;
+        $scope.graphOptions.yaxis.max = 100;
+      }
+    }
+  };
+
+  /*
+   * Caclulate student progress for an assessment type
+   */
+  $scope.graphAssessmentTypeStudent = function(dataset, criteria, series) {
+    $scope.graphOptions = angular.copy($scope.defaultLineGraphOptions);
+
+    assessments = _.groupBy(criteria, 'assessment_id');
+    _.each(assessments, function(assessment) {
+      var grade = $scope.sum(_.pluck(assessment, 'score'));
+      var max = $scope.sum(_.pluck(assessment, 'criterionMax'));
+      series.data.push([assessment[0].assessmentName, (grade / max) * 100]);
+    });
+
+    $scope.graphOptions.yaxis.tickSize = 10;
+    $scope.graphOptions.yaxis.max = 100;
+  };
+
+  $scope.graphAssessmentTypeCohort = function(dataset, data, series) {
+    // TODO graph cohorts
+  };
+
+  /*
+   * Calculate data about assessments of a single type
+   */
+  $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
+    var graphOptions = angular.copy($scope.defaultLineGraphOptions);
+    var numStudents = assessments[0].numStudents;
+
+    // total correct or percentage correct
+    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
+      var maxList = [];
+      _.each(assessments, function(assessment) {
+        var thisMax = 0;
+        _.each(assessment.criteria, function(criterion) {
+            thisMax += criterion.max;
+        });
+
+        var grades = $scope.sum(_.pluck(assessment.grades, 'score'));
+
+        if (dataset.statisticId == 2) {
+          grades = grades / thisMax * numStudents;
+        }
+
+        series.data.push([assessment.name, grades]);
+        maxList.push(thisMax);
+      });
+
+      if (dataset.statisticId == 1) {
+        graphOptions.yaxis.max = _.max(maxList) * numStudents;
+      } else {
+        graphOptions.yaxis.max = 100;
+        graphOptions.yaxis.tickSize = 10;
+      }
+    }
+
+    $scope.graphOptions = graphOptions;
+  };
+
+
+
+  /* --------------------------- Graph Helpers  ---------------------------- */
+
+  $scope.sum = function(numbers) {
+    var sum = 0;
+    var i = numbers.length;
+    while(i--) sum += numbers[i];
+    return sum;
+  };
+
+  $scope.getTotalGoal = function(assessment) {
+    var grades = assessment.grades;
+    var criteria = assessment.criteria;
+    var sum = 0;
+
+    for (var i in grades) {
+      sum += criteria[grades[i].criterion_id].max;
+    }
+
+    return sum;
+  };
+
+  $scope.getCriterionScoreDistribution = function(criterionId, grades) {
+    var distribution = {};
+
+    for (var i in grades) {
+      if (criterionId && grades[i].criterion_id == criterionId) {
+        if (distribution[grades[i].score] !== undefined) {
+          distribution[grades[i].score]++;
+        } else {
+          distribution[grades[i].score] = 1;
+        }
+      }
+    }
+
+    return distribution;
+  };
 
   /* --------------------------- Start the party! -------------------------- */
 
