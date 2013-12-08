@@ -79,7 +79,7 @@
                          <!-- Statistic selector -->
                          <label for="inputDataType" class="col-md-3 control-label">Statistic</label>
                          <div class="col-md-9">
-                           <select class="form-control row-sm-2" name="statistic" ng-model="panel.statisticId" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in panel.statistics" name="statistic" ng-disabled="dataSetForm.section.$invalid" required>
+                           <select class="form-control row-sm-2" name="statistic" ng-model="panel.statisticId" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in panel.statistics" name="statistic" ng-disabled="dataSetForm.assessment_type.$invalid" required>
                              <option value=""></option>
                            </select>
                          </div>
