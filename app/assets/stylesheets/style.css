@@ -323,6 +323,13 @@ chart {
   border: 1px solid black;
 }
 
+.assessment-label-row2 {
+  padding: 0px;
+  background-color: #CCCCCC;
+  border: 1px solid black;
+}
+
+
 .assessment-label-avg {
   background-color: #AAAAAA;
   border: 1px solid black;
