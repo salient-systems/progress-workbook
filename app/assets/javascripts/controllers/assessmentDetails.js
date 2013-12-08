@@ -848,9 +848,10 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     console.log("WELL??");
     for(var i = 0; i < $scope.editView2Assessments.length; i++){
       console.log(indexToRemoveEdit + (i * $scope.editView2Criterions.length));
-      $scope.criterions.splice((indexToRemoveEdit + (i * $scope.editView2Criterions.length)), 1);
+      $scope.criterions.splice((indexToRemoveEdit + (i * $scope.editView2Criterions.length) - i), 1);
     }    
     $scope.editView2Criterions.splice(indexToRemoveEdit, 1);
+    console.log($scope.criterions);
   };
 
   $scope.removeAssessment = function(assessment, index) {
