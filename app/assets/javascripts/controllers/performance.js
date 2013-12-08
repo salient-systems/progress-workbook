@@ -60,8 +60,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     { id: 5, name: "Percent of Term" },
     { id: 6, name: "Score Distribution (Total)" },
     { id: 7, name: "Score Distribution (Percent)" },
-    { id: 8, name: "Students Present" },
-    { id: 9, name: "Students Enrolled" }
+    { id: 8, name: "Students Present" }
   ];
 
   $scope.assessmentStatistics = [
@@ -517,7 +516,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
           series.data.push([criterion.name, totalCorrect]);
         } else if (dataset.statisticId == 2) {
           // percentage correct
-          var numStudents = _.uniq(_.pluck(assessment.grades, 'student_id')).length;
+          var numStudents = $scope.getStudentsPresent(assessment);
           var totalPossible = numStudents * criterion.max;
           series.data.push([criterion.name, (totalCorrect / totalPossible) * 100]);
 
@@ -539,7 +538,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
           series.data.push([criterion.name, assessment.numStudents * criterion.max]);
         } else if (dataset.statisticId == 3) {
           // total possible
-          var numStudents = _.uniq(_.pluck(assessment.grades, 'student_id')).length;
+          var numStudents = $scope.getStudentsPresent(assessment);
           var totalPossible = numStudents * criterion.max;
           series.data.push([criterion.name, totalPossible]);
         }
@@ -600,7 +599,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   };
 
   /*
-   * Calculate data about assessments of a single type
+   * Calculate data about all assessments of a single type
    */
   $scope.graphAssessmentTypeOverall = function(dataset, assessments, series) {
     var graphOptions = angular.copy($scope.defaultLineGraphOptions);
@@ -633,6 +632,89 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       }
     }
 
+    // total possible and total goal
+    if (dataset.statisticId == 3 || dataset.statisticId == 4) {
+      _.each(assessments, function(assessment) {
+        var max = $scope.sum(_.pluck(assessment.criteria, 'max'))
+        if (dataset.statisticId == 3) {
+          // total possible
+          var studentsPresent = $scope.getStudentsPresent(assessment);
+          series.data.push([assessment.name, max * studentsPresent]);
+        } else {
+          // total goal
+          series.data.push([assessment.name, max * numStudents]);
+        }
+      });
+    }
+
+    // percent of term
+    if (dataset.statisticId == 5) {
+      var increment = 100 / (assessments.length - 1);
+      var y = 0;
+      _.each(assessments, function(assessment) {
+        series.data.push([assessment.name, y]);
+        y += increment;
+      });
+      graphOptions.yaxis.max = 100;
+    }
+
+    // score distribution (percent and total)
+    if (dataset.statisticId == 6 || dataset.statisticId == 7) {
+      graphOptions = angular.copy($scope.defaultBarGraphOptions);
+      var assessmentGrades = {};
+
+      _.each(assessments, function(assessment) {
+        var max = $scope.sum(_.pluck(assessment.criteria, 'max'));
+        var criteriaPerStudent = _.groupBy(assessment.grades, 'student_id');
+
+        _.each(criteriaPerStudent, function(criteria, studentId) {
+          if (assessmentGrades[studentId] !== undefined) {
+            assessmentGrades[studentId].push($scope.sum(_.pluck(criteria, 'score')) / max);
+          } else {
+            assessmentGrades[studentId] = [$scope.sum(_.pluck(criteria, 'score')) /  max];
+          }
+        });
+      });
+
+      var averagePercentGrades = _.map(assessmentGrades, function(grades) {
+        return Math.floor(($scope.sum(grades) / grades.length) * 100);
+      });
+
+      console.log(averagePercentGrades);
+
+      var distribution = {};
+      _.each(averagePercentGrades, function(grade) {
+        if (distribution[grade] !== undefined) {
+          distribution[grade]++;
+        } else {
+          distribution[grade] = 1;
+        }
+      });
+
+      if (dataset.statisticId == 6) {
+        // total correct
+        _.each(distribution, function(numScores, score) {
+          series.data.push([score, numScores]);
+        });
+        graphOptions.yaxis.tickSize = 1;
+      } else if (dataset.statisticId == 7) {
+        // percent correct
+        _.each(distribution, function(numScores, score) {
+          series.data.push([score, (numScores/numStudents) * 100]);
+        });
+        graphOptions.yaxis.tickSize = 10;
+        graphOptions.yaxis.max = 100;
+      }
+
+    }
+
+    // students present
+    if (dataset.statisticId == 8) {
+      _.each(assessments, function(assessment) {
+        series.data.push([assessment.name, $scope.getStudentsPresent(assessment)]);
+      });
+    }
+
     $scope.graphOptions = graphOptions;
   };
 
@@ -657,6 +739,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     }
 
     return sum;
+  };
+
+  $scope.getStudentsPresent = function(assessment) {
+    return _.uniq(_.pluck(_.reject(assessment.grades, function(grade) {
+        return grade.score == null;
+      }), 'student_id')).length;
   };
 
   $scope.getCriterionScoreDistribution = function(criterionId, grades) {
