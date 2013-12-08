@@ -774,6 +774,9 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       name: ($scope.editView2Criterions.length + 1)
     };
 
+    var critLength = $scope.editView2Criterions.length;
+    console.log("critLength is " + critLength);
+    var i = 0;
     angular.forEach($scope.editView2Assessments, function(assessment){
       var newCrit = {
         max: $scope.editView2Criterions[$scope.editView2Criterions.length-1].max, //gives new criterions the value for max the same as the last criterion in the assessment
@@ -785,9 +788,16 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
       newCritRestCopy.post().then(function(thereturn){
         newCritRestCopy.id = thereturn.id;
         if(newCritRestCopy.assessment_id == $scope.editView2Assessments[0].id){
-          $scope.editView2Criterions.push(newCrit);
+          $scope.editView2Criterions.push(thereturn);
         }
-        $scope.criterions.push(thereturn);
+        //$scope.criterions.push(thereturn);
+        console.log(i);
+        //console.log(critLength);
+        console.log(critLength + (i * critLength));
+        $scope.criterions.splice((critLength + (i * critLength) + i), 0, newCritRestCopy);
+        console.log($scope.criterions);
+        console.log($scope.editView2Criterions);
+        i++;
       });
     });
   };
@@ -804,17 +814,26 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     newAssessRestCopy.route = "assessments";
     newAssessRestCopy.post().then(function(thereturn){
       newAssessRestCopy.id = thereturn.id;
-      for(var i = 0; i < $scope.editView2Criterions.length; i++){
+      angular.forEach($scope.editView2Criterions, function(criterion){
         var newCrit = {
-          max: $scope.editView2Criterions[i].max,
-          name: $scope.editView2Criterions[i].name,
+          max: criterion.max,
+          name: criterion.name,
           assessment_id: newAssessRestCopy.id
         };
+        console.log(criterion.name);
+        console.log(criterion.max);
         newCritRestCopy = Restangular.copy(newCrit);
         newCritRestCopy.route = "criterions";
-        newCritRestCopy.post();
-      }
+        newCritRestCopy.post().then(function(thereturn){
+          newCrit.id = thereturn.id;
+          newCrit.route = "criterions";
+          console.log(newCrit);
+          $scope.criterions.push(newCrit);            
+        });
+      });
+      console.log(newAssessRestCopy);
       $scope.editView2Assessments.push(newAssessRestCopy);
+      console.log($scope.criterions);
     });
   };
 
@@ -827,27 +846,37 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     }
     console.log("FINISHED REMOVE.ONE");
     var indexToRemoveEdit = $scope.editView2Criterions.indexOf(criterion);
-    $scope.editView2Criterions.splice(indexToRemoveEdit, 1);
     console.log("WELL??");
     for(var i = 0; i < $scope.editView2Assessments.length; i++){
       console.log(indexToRemoveEdit + (i * $scope.editView2Criterions.length));
       $scope.criterions.splice((indexToRemoveEdit + (i * $scope.editView2Criterions.length)), 1);
     }    
+    $scope.editView2Criterions.splice(indexToRemoveEdit, 1);
   };
 
-  $scope.removeAssessment = function(assessment) {
-    var indexToRemoveEdit = $scope.editView2Assessments.indexOf(assessment);
-    Restangular.one("assessments", $scope.editView2Assessments[indexToRemoveEdit].id).remove();
-    $scope.editView2Assessments.splice(indexToRemoveEdit, 1);
+  $scope.removeAssessment = function(assessment, index) {
+    console.log($scope.criterions);
+    console.log(index);
+    Restangular.one("assessments", $scope.editView2Assessments[index].id).remove();
+    angular.forEach($scope.editView2Criterions, function(criterion){
+      console.log((index * $scope.editView2Criterions.length));
+      $scope.criterions.splice((index * $scope.editView2Criterions.length), 1);
+    });
+    $scope.editView2Assessments.splice(index, 1);
+    console.log($scope.criterions);
   };
 
   $scope.changedOldCriterion = function(criterion, index){
     console.log($scope.criterions);
+    console.log($scope.editView2Criterions);
+    console.log("length of assessments" + $scope.editView2Assessments.length);
     for(var j = 0; j < $scope.editView2Assessments.length; j++){
-      console.log(index + (j * $scope.editView2Assessments.length));
-      console.log($scope.criterions[index + (j * $scope.editView2Assessments.length)]);
+      console.log(index + (j * $scope.editView2Criterions.length));
+      console.log($scope.criterions[index + (j * $scope.editView2Criterions.length)]);
       var editable = Restangular.copy($scope.criterions[index + (j * $scope.editView2Criterions.length)]);
-      editable.route = "criterions";
+      editable.name = criterion.name;
+      editable.max = criterion.max;
+      //editable.route = "criterions";
       editable.put();
     }
   };
