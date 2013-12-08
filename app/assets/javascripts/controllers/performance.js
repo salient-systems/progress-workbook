@@ -221,19 +221,19 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
         self.statisticId = null;
         self.statistics = $scope.assessmentTypeStatistics;
+
+        var atype = _.findWhere(self.assessmentTypes, {id: self.assessmentTypeId});
+        if (atype.view == 3) {
+          self.assessmentLabel = 'Unit';
+          self.criterionLabel = 'Standard';
+        }
+        else {
+          self.assessmentLabel = 'Assessment';
+          self.criterionLabel = 'Criterion';
+        }
       } else {
         self.statisticId = null;
         self.statistics = $scope.sectionStatistics;
-      }
-
-      var atype = _.findWhere(self.assessmentTypes, {id: self.assessmentTypeId});
-      if (atype.view == 3) {
-        self.assessmentLabel = 'Unit';
-        self.criterionLabel = 'Standard';
-      }
-      else {
-        self.assessmentLabel = 'Assessment';
-        self.criterionLabel = 'Criterion';
       }
 
       self.assessmentId = null;
