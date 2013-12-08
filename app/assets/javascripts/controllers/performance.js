@@ -99,6 +99,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 	  statistics: $scope.sectionStatistics,
 	  graphData: null,
 	  graphPointsIndex: null,
+	  assessmentLabel: 'Assessment',
+	  criterionLabel: 'Criterion',
 
 	  /*
 	   * Setup the dataset typeahead
@@ -218,6 +220,16 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
         self.statisticId = null;
         self.statistics = $scope.assessmentTypeStatistics;
+
+        var atype = _.findWhere(self.assessmentTypes, {id: self.assessmentTypeId});
+        if (atype.view == 3) {
+          self.assessmentLabel = 'Unit';
+          self.criterionLabel = 'Standard';
+        }
+        else {
+          self.assessmentLabel = 'Assessment';
+          self.criterionLabel = 'Criterion';
+        }
       } else {
         self.statisticId = null;
         self.statistics = $scope.sectionStatistics;
@@ -351,30 +363,41 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         panel.sectionId = dataset.sectionId;
         Restangular.one('sections', panel.sectionId).getList('assessment_types').then(function(assessmenttypes) {
           panel.assessmentTypes = assessmenttypes;
-        });
 
-        if (dataset.assessmentTypeId != undefined) {
-          panel.statistics = $scope.assessmentTypeStatistics;
-          panel.assessmentTypeId = dataset.assessmentTypeId;
+          if (dataset.assessmentTypeId != undefined) {
+            panel.statistics = $scope.assessmentTypeStatistics;
+            panel.assessmentTypeId = dataset.assessmentTypeId;
 
-          Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
-            panel.assessments = assessments;
-          });
-
-          if (dataset.assessmentId != undefined) {
-            panel.statistics = $scope.assessmentStatistics;
-            panel.assessmentId = dataset.assessmentId;
-
-            Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
-              panel.criterions = criterions;
+            Restangular.one('assessment_types', panel.assessmentTypeId).getList('assessments').then(function(assessments) {
+              panel.assessments = assessments;
             });
 
-            if (dataset.criterionId != undefined) {
-              panel.statistics = $scope.criterionStatistics;
-              panel.criterionId = dataset.criterionId;
+            var atype = _.findWhere(panel.assessmentTypes, {id: dataset.assessmentTypeId});
+            if (atype.view == 3) {
+              panel.assessmentLabel = 'Unit';
+              panel.criterionLabel = 'Standard';
+            }
+            else {
+              panel.assessmentLabel = 'Assessment';
+              panel.criterionLabel = 'Criterion';
+            }
+
+            if (dataset.assessmentId != undefined) {
+              panel.statistics = $scope.assessmentStatistics;
+              panel.assessmentId = dataset.assessmentId;
+
+              Restangular.one('assessments', panel.assessmentId).getList('criterions').then(function(criterions) {
+                panel.criterions = criterions;
+              });
+
+              if (dataset.criterionId != undefined) {
+                panel.statistics = $scope.criterionStatistics;
+                panel.criterionId = dataset.criterionId;
+              }
             }
           }
-        }
+
+        });
       }
     });
   };

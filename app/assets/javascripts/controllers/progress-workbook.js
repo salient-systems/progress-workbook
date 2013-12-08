@@ -68,7 +68,7 @@ app.config(function($routeProvider) {
       when('/login', {
       templateUrl: 'templates/login.html'
     }).
-    otherwise({redirectTo: '/login'});
+    otherwise({redirectTo: '/classes'}); //change to /login after adding authentication
 });
 
 /*

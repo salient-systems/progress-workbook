@@ -14,7 +14,6 @@
 
       <!--<div resize ng-style="style()" ng-grid="gridOptions" id="var-height-grid"></div>-->
       <br>
-
       <!-- #2 view -->
       <div id="loadingIcon">
         <center><img src="/assets/ajax-loader-snake.gif"></center><br><br>
@@ -32,17 +31,20 @@
               <td>&nbsp;</td>
               <td ng-repeat="assessment in assessments" class="scoreHoriz" ng-style="{background: percentColor(assessment.percent)}">{{assessment.percent}}%</td>
             </tr>
-            <tr ng-repeat="a in studentbycrit" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
-              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[domod($index,sizeAssessment[0])] class="assessment-label-row" style="position: relative"  id="student{{$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[tofloor($index / sizeAssessment[0])].id}}">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</a> - {{students[tofloor($index / sizeAssessment[0])].percent}}%' data-container="#start2" data-content={{createTemplate2($index)}} ng-mousedown="plotitv2($index)">
-              <div style="width: 36px; position: absolute; top: 0px; left: 0px; background-color: blue; border-bottom: 1px solid black;z-index: 300; text-align: center;" ng-style="{background: percentColor(students[tofloor($index / sizeAssessment[0])].percent)}">{{students[tofloor($index / sizeAssessment[0])].percent}}%</div> 
+          </tbody>
+          <tbody ng-repeat="student in students">
+          	<tr style="height: 1px;"></tr>
+            <tr ng-repeat="a in numOfCritArray[0]" class="assessment-black-border" ng-class-odd="'odd'" ng-class-even="'even'">
+              <td rowspan={{sizeAssessment[0]}} ng-show=showAssessment[$index] class="assessment-label-row" style="position: relative; border-left: 1px solid black;"  id="student{{$parent.$index*sizeAssessment[0]+$index}}" rel="popover" class="pull-left" data-toggle="popover" title='<a href="#/students/{{students[$parent.$index].id}}">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</a>' data-container="#start2" data-content={{createTemplate2($parent.$index*sizeAssessment[0]+$index,$parent.$index)}} ng-mousedown="plotitv2($parent.$index*sizeAssessment[0]+$index, $parent.$index)">
+              <div style="width: 36px; position: absolute; top: 0px; left: 0px; background-color: blue; border-bottom: 1px solid black;z-index: 300; text-align: center;" ng-style="{background: percentColor(students[$parent.$index].percent)}">{{students[$parent.$index].percent}}%</div> 
                 <div class="assessment-relative-position" style="width: 34px;">
                 	
-                  <p class="css-vertical-text2">{{students[tofloor($index / sizeAssessment[0])].fname}} {{students[tofloor($index / sizeAssessment[0])].lname}}</p>
+                  <p class="css-vertical-text2">{{students[$parent.$index].fname}} {{students[$parent.$index].lname}}</p>
                 </div>
               </td>
-              <td class="assessment2-criterion-name">{{criterions[$index % sizeAssessment[0]].name}}</td>
-              <td ng-repeat="assessment in assessments" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score / criterions[domod($parent.$index,sizeAssessment[0])].max +')'}">
-              <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]].score" ng-focus="students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[tofloor($parent.$index / sizeAssessment[0])].scores[domod($parent.$index,sizeAssessment[0]) + $index*sizeAssessment[0]])" />
+              <td class="assessment2-criterion-name">{{criterions[$index].name}}</td>
+              <td ng-repeat="assessment in assessments" class="assessment-criterion" ng-style="{background: 'rgba(91,155,213,'+ students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]].score / criterions[$parent.$index + $index*sizeAssessment[0]].max +')'}">
+                <input class="inputbox assessment-criterion-input" type="text" ng-style="{background: 'rgba(0,0,204,0)'}" ng-model="students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]].score" ng-focus="students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]]" ng-blur="saveGrade(students[$parent.$parent.$index].scores[$parent.$index + $index*sizeAssessment[0]])" />
               </td>
             </tr>
           </tbody>
