@@ -88,6 +88,12 @@
                 </select>
               </div>
             </div>
+            <div class="form-group">
+              <label for="inputPeriod" class="col-lg-2 control-label">User</label>
+              <div class="col-lg-10">
+                <select class="form-control" ng-model="newSection.user_id" ng-options="user.id as user.fname + ' ' + user.lname for user in users" name="user" ng-blur="validateUser=true" required></select>
+              </div>
+            </div>
           </form>
 
         </div>

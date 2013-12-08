@@ -16,6 +16,10 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $loc
     $scope.subjects = thesubjects;
   });
 
+  Restangular.all('users').getList().then(function(theusers) {
+    $scope.users = theusers;
+  });
+
   $scope.gridOptions = {
     data: 'sections',
     selectedItems: $scope.selections,
@@ -93,7 +97,7 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $loc
     //  $scope.termId = theterms.length;
       newSection.term_id = $scope.termId;
     //});
-    newSection.user_id = 1; //TODO get id of the logged in user
+    //newSection.user_id = 1; //TODO get id of the logged in user
     console.log(newSection);
     Restangular.all('sections').post(newSection).then(function(response) {
       $scope.sections.push(response);
@@ -109,5 +113,6 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $loc
     $scope.validateSubject = false;
     $scope.validatePeriod = false;
     $scope.validateGrade = false;
+    $scope.validateUser = false;
   };
 });
