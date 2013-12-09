@@ -445,7 +445,11 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       if (dataset.criterionId) {
         $scope.graphCriterion(dataset, data[0], series);
       } else if (dataset.assessmentId) {
+        if (dataset.filterType == 'students') {
+          $scope.graphAssessmentStudent(dataset, data, series);
+        } else {
           $scope.graphAssessment(dataset, data[0], series);
+        }
       } else if (dataset.assessmentTypeId) {
         if (dataset.filterType == 'students') {
           $scope.graphAssessmentTypeStudent(dataset, data, series);
@@ -574,6 +578,29 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         $scope.graphOptions.yaxis.tickSize = 10;
         $scope.graphOptions.yaxis.max = 100;
       }
+    }
+  };
+
+  /*
+   * Statistics for an individual student's assessment
+   */
+  $scope.graphAssessmentStudent = function(dataset, criteria, series) {
+    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
+
+    // total and percentage correct
+    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
+      _.each(criteria, function(criterion) {
+        if (dataset.statisticId == 1) {
+          // total correct
+          series.data.push([criterion.criterionName, criterion.score]);
+        } else if (dataset.statisticId == 2) {
+          // percentage correct
+          series.data.push([criterion.criterionName, (criterion.score / criterion.criterionMax) * 100]);
+
+          $scope.graphOptions.yaxis.tickSize = 10;
+          $scope.graphOptions.yaxis.max = 100;
+        }
+      });
     }
   };
 
