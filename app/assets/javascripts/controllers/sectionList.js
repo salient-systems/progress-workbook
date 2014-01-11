@@ -1,6 +1,7 @@
 // Class list
-app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $location) {
-
+app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $location, graphConfig) {
+  $scope.graphConfig = graphConfig;
+  graphConfig.setTerm();
   $scope.selections = [];
   var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
 

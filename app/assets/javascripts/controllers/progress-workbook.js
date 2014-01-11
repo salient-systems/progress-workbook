@@ -88,6 +88,180 @@ app.factory('cache', function(Restangular) {
   };
 });*/
 
+/* Bulk performance service */
+app.factory('graphConfig', function(Restangular) {
+
+  var termId,
+  sectionId,
+  assessmentTypeId,
+  assessmentId,
+  criterionId,
+  statisticId;
+  var sections = [];
+  var assessmentTypes = [];
+  var assessments = [];
+  var criterions = [];
+
+  return {
+    sectionStatistics: [
+      { id: 1, name: "Total Correct" },
+      { id: 2, name: "Percentage Correct" }
+    ],
+
+    assessmentTypeStatistics: [
+      { id: 1, name: "Total Correct" },
+      { id: 2, name: "Percentage Correct" },
+      { id: 3, name: "Total Possible" },
+      { id: 4, name: "Total Goal" },
+      { id: 5, name: "Percent of Term" },
+      { id: 6, name: "Score Distribution (Total)" },
+      { id: 7, name: "Score Distribution (Percent)" },
+      { id: 8, name: "Students Present" }
+    ],
+
+    assessmentStatistics: [
+      { id: 1, name: "Total Correct" },
+      { id: 2, name: "Percentage Correct" },
+      { id: 3, name: "Total Possible" },
+      { id: 4, name: "Total Goal" },
+      { id: 6, name: "Score Distribution (Total)" },
+      { id: 7, name: "Score Distribution (Percent)" },
+    ],
+
+    criterionStatistics: [
+      { id: 6, name: "Score Distribution (Total)" },
+      { id: 7, name: "Score Distribution (Percent)" },
+    ],
+
+    termId: null,
+    sectionId: null,
+    assessmentTypeId: null,
+    assessmentId: null,
+    criterionId:  null,
+    statisticId: null,
+    sections: [],
+    assessmentTypes: [],
+    assessments: [],
+    criterions: [],
+    assessmentLabel: null,
+    criterionLabel: null,
+    statistics: null,
+
+    /*
+     * Update sections when term changes
+     */
+    setTerm: function() {
+      var self = this;
+      self.sectionId = null;
+      self.assessmentTypeId = null;
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessmentTypes = [];
+      self.assessments = [];
+      self.criterion = [];
+
+
+      Restangular.one('terms', 1).getList('sections').then(function(sections) {
+        self.sections = sections;
+      });
+    },
+
+    /*
+     * Update assessment types when section changes
+     */
+    updateSection: function() {
+      var self = this;
+
+      if (self.sectionId !== undefined) {
+        Restangular.one('sections', self.sectionId).getList('assessment_types')
+        .then(function(assessmenttypes) {
+          self.assessmentTypes = assessmenttypes;
+        });
+      }
+
+      self.statistics = self.sectionStatistics;
+      self.statisticId = null;
+      self.assessmentTypeId = null;
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessmentTypes = [];
+      self.assessments = [];
+      self.criterion = [];
+    },
+
+    /*
+     * Update assessments when assessment type changes
+     */
+    updateAssessmentType: function() {
+      var self = this;
+
+      if (self.assessmentTypeId !== undefined) {
+        Restangular.one('assessment_types', self.assessmentTypeId).getList('assessments').then(function(assessments) {
+          self.assessments = assessments;
+        });
+
+        self.statisticId = null;
+        self.statistics = self.assessmentTypeStatistics;
+
+        var atype = _.findWhere(assessmentTypes, {id: assessmentTypeId});
+        if (atype.view == 3) {
+          self.assessmentLabel = 'Unit';
+          self.criterionLabel = 'Standard';
+        }
+        else {
+          self.assessmentLabel = 'Assessment';
+          self.criterionLabel = 'Criterion';
+        }
+      } else {
+        self.statisticId = null;
+        self.statistics = self.sectionStatistics;
+      }
+
+      self.assessmentId = null;
+      self.criterionId = null;
+      self.assessments = [];
+      self.criterion = [];
+    },
+
+    /*
+     * Update criteria when assessment changes
+     */
+    updateAssessment: function() {
+      var self = this;
+
+      if (self.assessmentId !== undefined) {
+        Restangular.one('assessments', self.assessmentId).getList('criterions').then(function(criterions) {
+          self.criterions = criterions;
+        });
+
+        self.statisticId = null;
+        self.statistics = self.assessmentStatistics;
+      } else {
+        self.statisticId = null;
+        self.statistics = self.assessmentTypeStatistics;
+      }
+
+      self.criterionId = null;
+      self.criterion = [];
+    },
+
+    /*
+     * Change available statistics when criterion changes
+     */
+    updateCriterion: function() {
+      var self = this;
+
+      if (self.criterionId !== undefined) {
+        self.statisticId = null;
+        self.statistics = self.criterionStatistics;
+      } else {
+        self.statisticId = null;
+        self.statistics = self.assessmentStatistics;
+      }
+    }
+  };
+});
+
 /*
  * Directives
  */
