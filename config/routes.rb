@@ -9,6 +9,7 @@ Pwtest::Application.routes.draw do
   get '/p/sections/:sid/assessment/:aid' => 'performance#sectionAssessment', :defaults => { :format => 'json' }
   get '/p/students/:sid/assesstype/:aid' => 'performance#studentAssessType', :defaults => { :format => 'json' }
   get '/p/students/:sid/assessment/:aid' => 'performance#studentAssessment', :defaults => { :format => 'json' }
+  get '/p/cohorts/:cid/students' => 'performance#getStudentsInCohort', :defaults => { :format => 'json' }
 
   resources :studentassessments
 

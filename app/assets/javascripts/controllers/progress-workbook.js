@@ -90,19 +90,7 @@ app.factory('cache', function(Restangular) {
 
 /* Bulk performance service */
 app.factory('graphConfig', function(Restangular) {
-
-  var termId,
-  sectionId,
-  assessmentTypeId,
-  assessmentId,
-  criterionId,
-  statisticId;
-  var sections = [];
-  var assessmentTypes = [];
-  var assessments = [];
-  var criterions = [];
-
-  return {
+  var publicScope = {
     sectionStatistics: [
       { id: 1, name: "Total Correct" },
       { id: 2, name: "Percentage Correct" }
@@ -150,20 +138,8 @@ app.factory('graphConfig', function(Restangular) {
     /*
      * Update sections when term changes
      */
-    setTerm: function() {
-      var self = this;
-      self.sectionId = null;
-      self.assessmentTypeId = null;
-      self.assessmentId = null;
-      self.criterionId = null;
-      self.assessmentTypes = [];
-      self.assessments = [];
-      self.criterion = [];
-
-
-      Restangular.one('terms', 1).getList('sections').then(function(sections) {
-        self.sections = sections;
-      });
+    updateTerm: function(termId) {
+      setTerm(termId);
     },
 
     /*
@@ -260,6 +236,26 @@ app.factory('graphConfig', function(Restangular) {
       }
     }
   };
+
+  function setTerm(termId) {
+    publicScope.sectionId = null;
+    publicScope.assessmentTypeId = null;
+    publicScope.assessmentId = null;
+    publicScope.criterionId = null;
+    publicScope.assessmentTypes = [];
+    publicScope.assessments = [];
+    publicScope.criterion = [];
+
+    Restangular.one('terms', termId).getList('sections').then(function(sections) {
+      publicScope.sections = sections;
+    });
+  }
+
+  Restangular.all('terms').getList().then(function(theterms) {
+    setTerm(theterms.length);
+  });
+
+  return publicScope;
 });
 
 /*

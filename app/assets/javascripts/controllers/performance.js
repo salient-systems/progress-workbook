@@ -662,7 +662,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     // total possible and total goal
     if (dataset.statisticId == 3 || dataset.statisticId == 4) {
       _.each(assessments, function(assessment) {
-        var max = $scope.sum(_.pluck(assessment.criteria, 'max'))
+        var max = $scope.sum(_.pluck(assessment.criteria, 'max'));
         if (dataset.statisticId == 3) {
           // total possible
           var studentsPresent = $scope.getStudentsPresent(assessment);

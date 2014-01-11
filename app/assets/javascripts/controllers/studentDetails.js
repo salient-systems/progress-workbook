@@ -1,5 +1,7 @@
 // student details page
-app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $location) {
+app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $location, graphConfig) {
+  $scope.graphConfig = graphConfig;
+
   var student = Restangular.one('students', $routeParams.id);
   student.get().then(function(thestudent) {
     $scope.student = thestudent;
@@ -20,6 +22,7 @@ app.controller('StudentCtrl', function($scope, $routeParams, Restangular, $locat
   	student.all('sections').getList({term_id: $scope.termId}).then(function(sections) {
       $scope.sections = sections;
     });
+    graphConfig.updateTerm($scope.termId);
   };
 
   $scope.save = function() {

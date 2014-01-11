@@ -83,8 +83,9 @@ class PerformanceController < ApplicationController
   ##### cohort statistics  #####
   ##############################
 
-
-
+  def getStudentsInCohort
+    @students = Cohort.find(params[:cid]).students
+  end
 end
 
 
