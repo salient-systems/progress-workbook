@@ -109,23 +109,4 @@ app.controller('UserCtrl', function($scope, $routeParams, Restangular, $location
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
-  $scope.compare = function() {
-    var datasets = [];
-
-    _.each($scope.selections, function(section, i) {
-      datasets[i] = {
-        filterType: 'users',
-        filterDatum: {id: $scope.user.id, value: $scope.user.fname + ' ' + $scope.user.lname},
-        termId: section.term.id,
-        sectionId: section.id,
-        assessmentTypeId: undefined,
-        assessmentId: undefined,
-        criterionId: undefined,
-        statisticId: 2
-      };
-    });
-
-    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-  };
-
 });

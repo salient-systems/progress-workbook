@@ -65,24 +65,6 @@ app.controller('SectionListCtrl', function($scope, $rootScope, Restangular, $loc
     $scope.gridOptions.$gridScope.toggleSelectAll(null, false);
   };
 
-  $scope.compare = function() {
-    var datasets = [];
-
-    _.each($scope.selections, function(section, i) {
-      datasets[i] = {
-        filterType: null,
-        filterDatum: null,
-        termId: $scope.termId,
-        sectionId: section.id,
-        assessmentTypeId: undefined,
-        assessmentId: undefined,
-        criterionId: undefined,
-        statisticId: 2
-      };
-    });
-
-    $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
-  };
 
   $scope.updateTerm = function(){
   	Restangular.one('terms', $scope.termId).getList('sections').then(function(sections) {

@@ -1,6 +1,8 @@
 // section details
 app.controller('SectionCtrl',
-function($scope, $routeParams, Restangular, $location, $http) {
+function($scope, $routeParams, Restangular, $location, $http, graphConfig) {
+  $scope.graphConfig = graphConfig;
+  $scope.graphConfig.setSection($routeParams.id);
   var section = Restangular.one('sections', $routeParams.id);
   $scope.assessmentTypeToDelete = null;
 
@@ -273,14 +275,23 @@ function($scope, $routeParams, Restangular, $location, $http) {
         filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
         termId: $scope.section.term.id,
         sectionId: $scope.section.id,
-        assessmentTypeId: undefined,
-        assessmentId: undefined,
-        criterionId: undefined,
-        statisticId: 2
+        assessmentTypeId: graphConfig.assessmentTypeId,
+        assessmentId: graphConfig.assessmentId,
+        criterionId: graphConfig.criterionId,
+        statisticId: graphConfig.statisticId
       };
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+  };
+
+  $scope.resetCompareValidation = function() {
+    $scope.validateStatistic = false;
+    graphConfig.sectionId = null;
+    graphConfig.assessmentTypeId = null;
+    graphConfig.assessmentId = null;
+    graphConfig.criterionId = null;
+    graphConfig.statisticId = null;
   };
 
   // add student typeahead

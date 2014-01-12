@@ -19,7 +19,7 @@
               Actions <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="" ng-click="compare()">Compare</a></li>
+              <li><a data-toggle="modal" href="#graphConfigModal">Compare</a></li>
               <li><a data-toggle="modal" href="#confirmRemovalModal">Remove from Cohort</a></li>
             </ul>
           </div>
@@ -100,6 +100,75 @@
         <div class="modal-footer">
           <button class="btn btn-default" data-dismiss="modal">Cancel</button>
           <a data-dismiss="modal" href="" ng-click="removeFromCohort()" class="btn btn-warning">Remove</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal: Configure Graph -->
+  <div class="modal fade" id="graphConfigModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" ng-click="resetCompareValidation()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Comparison Options</h4>
+        </div>
+        <div class="modal-body">
+
+          <form name="dataSetForm" class="form-horizontal" role="form">
+            <div class="row">
+                <div class="form-group" >
+                  <!-- Class selector -->
+                  <label for="inputDataType" class="col-md-4 control-label">Class</label>
+                  <div class="col-md-7">
+                    <select class="form-control row-sm-2" ng-model="graphConfig.sectionId" ng-change="graphConfig.updateSection()" ng-options="section.id as section.name for section in graphConfig.sections" name="section" ng-disabled="dataSetForm.term.$invalid" required>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <!-- Assessment type selector -->
+                  <label for="inputDataType" class="col-md-4 control-label">Assessment Type</label>
+                  <div class="col-md-7">
+                    <select class="form-control row-sm-2" ng-model="graphConfig.assessmentTypeId" ng-change="graphConfig.updateAssessmentType()" ng-options="assessmentType.id as assessmentType.name for assessmentType in graphConfig.assessmentTypes" name="assessment_type" ng-disabled="dataSetForm.section.$invalid" required>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <!-- Assessment selector -->
+                  <label for="inputDataType" class="col-md-4 control-label">{{graphConfig.assessmentLabel}}</label>
+                  <div class="col-md-7">
+                    <select class="form-control row-sm-2" ng-model="graphConfig.assessmentId" ng-change="graphConfig.updateAssessment()" ng-options="assessment.id as assessment.name for assessment in graphConfig.assessments" name="assessment" ng-disabled="dataSetForm.assessment_type.$invalid" required>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <!-- Criterion selector -->
+                  <label for="inputDataType" class="col-md-4 control-label">{{graphConfig.criterionLabel}}</label>
+                  <div class="col-md-7">
+                    <select class="form-control row-sm-2" ng-model="graphConfig.criterionId" ng-change="graphConfig.updateCriterion()" ng-options="criterion.id as criterion.name for criterion in graphConfig.criterions" name="criterion" ng-disabled="dataSetForm.assessment.$invalid" required>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" ng-class="validateStatistic && {'has-error': dataSetForm.statistic.$invalid}">
+                  <!-- Statistic selector -->
+                  <label for="inputDataType" class="col-md-4 control-label">Statistic</label>
+                  <div class="col-md-7">
+                    <select class="form-control row-sm-2" name="statistic" ng-model="graphConfig.statisticId" ng-blur="validateStatistic=true" ng-options="statistic.id as statistic.name for statistic in graphConfig.statistics" name="statistic" ng-disabled="dataSetForm.assessment_type.$invalid" required>
+                      <option value=""></option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button ng-click="resetCompareValidation()" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a data-dismiss="modal" href="" ng-click="compare()" class="btn btn-primary" ng-disabled="dataSetForm.statistic.$invalid">Compare</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

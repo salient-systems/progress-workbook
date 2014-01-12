@@ -1,11 +1,12 @@
 // cohort list
-app.controller('CohortListCtrl', function($scope, Restangular, $location) {
+app.controller('CohortListCtrl', function($scope, Restangular, $location, graphConfig) {
+  $scope.graphConfig = graphConfig;
   Restangular.all('cohorts').getList().then(function(cohorts) {
     $scope.cohorts = cohorts;
   });
-  	$scope.selections = [];
-  	var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
-  	var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/cohorts/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
+  $scope.selections = [];
+  var editTemplate = '<input type="number" ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-blur="save()" />';
+  var nameTemplate = '<div class="ngCellText" ng-class="col.colIndex()"><a href="#/cohorts/{{row.getProperty(\'id\')}}">{{COL_FIELD}}</a></div>';
 
 	$scope.gridOptions = {
     data: 'cohorts',
@@ -45,17 +46,26 @@ app.controller('CohortListCtrl', function($scope, Restangular, $location) {
       datasets[i] = {
         filterType: 'cohorts',
         filterDatum: {id: cohort.id, value: cohort.name},
-        termId: undefined,
-        sectionId: undefined,
-        assessmentTypeId: undefined,
-        assessmentId: undefined,
-        criterionId: undefined,
-        statisticId: undefined
+        termId: graphConfig.termId,
+        sectionId: graphConfig.sectionId,
+        assessmentTypeId: graphConfig.assessmentTypeId,
+        assessmentId: graphConfig.assessmentId,
+        criterionId: graphConfig.criterionId,
+        statisticId: graphConfig.statisticId
       };
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
     console.log(datasets);
+  };
+
+  $scope.resetCompareValidation = function() {
+    $scope.validateStatistic = false;
+    graphConfig.sectionId = null;
+    graphConfig.assessmentTypeId = null;
+    graphConfig.assessmentId = null;
+    graphConfig.criterionId = null;
+    graphConfig.statisticId = null;
   };
 
 });
