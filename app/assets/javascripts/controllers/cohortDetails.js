@@ -1,6 +1,7 @@
 // cohort details page
 app.controller('CohortCtrl',
-function($scope, $routeParams, Restangular, $location) {
+function($scope, $routeParams, Restangular, $location, graphConfig) {
+  $scope.graphConfig = graphConfig;
   var cohort = Restangular.one('cohorts', $routeParams.id);
   cohort.get().then(function(cohort) {
     $scope.cohort = cohort;
@@ -91,16 +92,25 @@ function($scope, $routeParams, Restangular, $location) {
       datasets[i] = {
         filterType: 'students',
         filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
-        termId: undefined,
-        sectionId: undefined,
-        assessmentTypeId: undefined,
-        assessmentId: undefined,
-        criterionId: undefined,
-        statisticId: undefined
+        termId: graphConfig.termId,
+        sectionId: graphConfig.sectionId,
+        assessmentTypeId: graphConfig.assessmentTypeId,
+        assessmentId: graphConfig.assessmentId,
+        criterionId: graphConfig.criterionId,
+        statisticId: graphConfig.statisticId
       };
     });
 
     $location.path('/performance').search({datasets: encodeURIComponent(JSON.stringify(datasets))});
+  };
+
+  $scope.resetCompareValidation = function() {
+    $scope.validateStatistic = false;
+    graphConfig.sectionId = null;
+    graphConfig.assessmentTypeId = null;
+    graphConfig.assessmentId = null;
+    graphConfig.criterionId = null;
+    graphConfig.statisticId = null;
   };
 
     // add student typeahead

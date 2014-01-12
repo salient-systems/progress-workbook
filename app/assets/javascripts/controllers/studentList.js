@@ -1,6 +1,5 @@
 // student list
 app.controller('StudentListCtrl', function($scope, $rootScope, Restangular, $location) {
-
   $scope.active = true;
   Restangular.all('students').getList({"is_active":$scope.active}).then(function(students) {
     $scope.students = students;

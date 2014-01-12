@@ -134,12 +134,15 @@ app.factory('graphConfig', function(Restangular) {
     assessmentLabel: null,
     criterionLabel: null,
     statistics: null,
+    assessmentLabel: 'Assessment',
+    criterionLabel: 'Criterion',
 
     /*
-     * Update sections when term changes
+     * Set the section
      */
-    updateTerm: function(termId) {
-      setTerm(termId);
+    setSection: function(sectionId) {
+      this.sectionId = sectionId;
+      this.updateSection();
     },
 
     /*
