@@ -8,6 +8,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.panels = [];
   $scope.panelIndex = -1;
   $scope.noDelete = true;
+  $scope.cohortStudents = [];
 
   /*
    * Default configuration for the graph
@@ -138,6 +139,12 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
         self.updateTerm(self.filterType == 'cohorts');
+
+        if (self.filterType == 'cohorts') {
+          Restangular.one('cohorts', datum.id).getList('students').then(function(students) {
+            $scope.cohortStudents = students;
+          });
+        }
       });
 
       // reset the dataset if the search box is emptied
@@ -441,7 +448,8 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     };
     dataset.id = panel.id;
 
-    $http.get(url).success(function(data) {
+    var callback = function(data) {
+      console.log(data);
       if (dataset.criterionId) {
         $scope.graphCriterion(dataset, data[0], series);
       } else if (dataset.assessmentId) {
@@ -453,13 +461,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       } else if (dataset.assessmentTypeId) {
         if (dataset.filterType == 'students') {
           $scope.graphAssessmentTypeStudent(dataset, data, series);
-        } else if (dataset.filterType == 'cohort') {
-          $scope.graphAssessmentTypeCohort(dataset, data, series);
         } else {
           $scope.graphAssessmentTypeOverall(dataset, data, series);
         }
-      } else {
-        // plot overall data for a section
       }
 
       if (panel.graphPointsIndex != null) {
@@ -470,7 +474,14 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       // draw the graph
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
-    });
+    };
+
+    if (dataset.filterType == 'cohorts') {
+      var ids = { studentIds: _.pluck($scope.cohortStudents, 'id') };
+      $http.post(url, ids).success(callback);
+    } else {
+      $http.get(url).success(callback);
+    }
   };
 
   /*
@@ -644,7 +655,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         var grades = $scope.sum(_.pluck(assessment.grades, 'score'));
 
         if (dataset.statisticId == 2) {
-          grades = grades / thisMax * numStudents;
+          grades = (grades / (thisMax * numStudents)) * 100;
         }
 
         series.data.push([assessment.name, grades]);

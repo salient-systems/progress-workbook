@@ -4,25 +4,6 @@ class PerformanceController < ApplicationController
   ##### section statistics #####
   ##############################
 
-  # get all assessments of all assessment types
-  def sectionAll
-=begin
-    @assessmentTypes = AssessmentType
-      .where(section_id: params[:sid])
-      .includes(:criterion_grade)
-      .all
-    render :template => 'performance/assessmentTypes'
-=end
-
-    @criterion_grades = CriterionGrade
-      .where(section_id: params[:sid])
-      .includes(:criterion, :assessment_type)
-      .order(assessment_type_id: :asc)
-      .all
-    render :template => 'performance/assessmentTypes'
-
-  end
-
   # get all assessments that belong to an assessment type
   def sectionAssessType
     @numStudents = Section.find(params[:sid]).students.count
@@ -59,7 +40,6 @@ class PerformanceController < ApplicationController
 
   # get all of a student's grades for one assessment type
   def studentAssessType
-
       @criterion_grades = CriterionGrade
         .where(student_id: params[:sid], assessment_type_id: params[:aid])
         .includes(:criterion, :assessment)
@@ -83,9 +63,16 @@ class PerformanceController < ApplicationController
   ##### cohort statistics  #####
   ##############################
 
-  def getStudentsInCohort
-    @students = Cohort.find(params[:cid]).students
+  def cohortAssessType
+    @numStudents = params[:studentIds].size
+    puts params
+    @assessments = Assessment
+      .where(assessment_type_id: params[:aid])
+      .includes(:criterions, :criterion_grade).where('criterion_grades.student_id' => params[:studentIds]).references(:criterion_grade)
+      .all
+    render :template => 'performance/assessment'
   end
+
 end
 
 
