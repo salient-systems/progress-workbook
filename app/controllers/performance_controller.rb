@@ -64,11 +64,11 @@ class PerformanceController < ApplicationController
   ##############################
 
   def cohortAssessType
-    @numStudents = params[:studentIds].size
-    puts params
+    @studentIds = Cohort.find(params[:cid]).students.map(&:id)
+    @numStudents = @studentIds.size
     @assessments = Assessment
       .where(assessment_type_id: params[:aid])
-      .includes(:criterions, :criterion_grade).where('criterion_grades.student_id' => params[:studentIds]).references(:criterion_grade)
+      .includes(:criterions, :criterion_grade).where('criterion_grades.student_id' => @studentIds).references(:criterion_grade)
       .all
     render :template => 'performance/assessment'
   end

@@ -8,7 +8,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
   $scope.panels = [];
   $scope.panelIndex = -1;
   $scope.noDelete = true;
-  $scope.cohortStudents = [];
 
   /*
    * Default configuration for the graph
@@ -139,12 +138,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         self.filterType = name; // search type is user, student, or cohort
         self.filterDatum = datum; // the id of the user, student, or cohort
         self.updateTerm(self.filterType == 'cohorts');
-
-        if (self.filterType == 'cohorts') {
-          Restangular.one('cohorts', datum.id).getList('students').then(function(students) {
-            $scope.cohortStudents = students;
-          });
-        }
       });
 
       // reset the dataset if the search box is emptied
@@ -448,7 +441,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     };
     dataset.id = panel.id;
 
-    var callback = function(data) {
+    $http.get(url).success(function(data) {
       console.log(data);
       if (dataset.criterionId) {
         $scope.graphCriterion(dataset, data[0], series);
@@ -474,14 +467,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
 
       // draw the graph
       $.plot("#graph", $scope.allGraphPoints, $scope.graphOptions);
-    };
-
-    if (dataset.filterType == 'cohorts') {
-      var ids = { studentIds: _.pluck($scope.cohortStudents, 'id') };
-      $http.post(url, ids).success(callback);
-    } else {
-      $http.get(url).success(callback);
-    }
+    });
   };
 
   /*
