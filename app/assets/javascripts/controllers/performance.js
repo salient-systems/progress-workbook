@@ -446,17 +446,9 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
       if (dataset.criterionId) {
         $scope.graphCriterion(dataset, data[0], series);
       } else if (dataset.assessmentId) {
-        if (dataset.filterType == 'students') {
-          $scope.graphAssessmentStudent(dataset, data, series);
-        } else {
-          $scope.graphAssessment(dataset, data[0], series);
-        }
+        $scope.graphAssessment(dataset, data[0], series);
       } else if (dataset.assessmentTypeId) {
-        if (dataset.filterType == 'students') {
-          $scope.graphAssessmentTypeStudent(dataset, data, series);
-        } else {
-          $scope.graphAssessmentTypeOverall(dataset, data, series);
-        }
+        $scope.graphAssessmentTypeOverall(dataset, data, series);
       }
 
       if (panel.graphPointsIndex != null) {
@@ -576,50 +568,6 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
         $scope.graphOptions.yaxis.max = 100;
       }
     }
-  };
-
-  /*
-   * Statistics for an individual student's assessment
-   */
-  $scope.graphAssessmentStudent = function(dataset, criteria, series) {
-    $scope.graphOptions = angular.copy($scope.defaultBarGraphOptions);
-
-    // total and percentage correct
-    if (dataset.statisticId == 1 || dataset.statisticId == 2) {
-      _.each(criteria, function(criterion) {
-        if (dataset.statisticId == 1) {
-          // total correct
-          series.data.push([criterion.criterionName, criterion.score]);
-        } else if (dataset.statisticId == 2) {
-          // percentage correct
-          series.data.push([criterion.criterionName, (criterion.score / criterion.criterionMax) * 100]);
-
-          $scope.graphOptions.yaxis.tickSize = 10;
-          $scope.graphOptions.yaxis.max = 100;
-        }
-      });
-    }
-  };
-
-  /*
-   * Caclulate student progress for an assessment type
-   */
-  $scope.graphAssessmentTypeStudent = function(dataset, criteria, series) {
-    $scope.graphOptions = angular.copy($scope.defaultLineGraphOptions);
-
-    assessments = _.groupBy(criteria, 'assessment_id');
-    _.each(assessments, function(assessment) {
-      var grade = $scope.sum(_.pluck(assessment, 'score'));
-      var max = $scope.sum(_.pluck(assessment, 'criterionMax'));
-      series.data.push([assessment[0].assessmentName, (grade / max) * 100]);
-    });
-
-    $scope.graphOptions.yaxis.tickSize = 10;
-    $scope.graphOptions.yaxis.max = 100;
-  };
-
-  $scope.graphAssessmentTypeCohort = function(dataset, data, series) {
-    // TODO graph cohorts
   };
 
   /*
