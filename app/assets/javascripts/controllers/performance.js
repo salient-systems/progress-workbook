@@ -3,7 +3,6 @@
  *
  */
 app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $http, $timeout, $location, $q) {
-
   $scope.allGraphPoints = [];
   $scope.panels = [];
   $scope.panelIndex = -1;
@@ -409,7 +408,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     * Chooses the url for fetching graph data
     */
    $scope.buildRequestUrl = function(dataset) {
-    var url = '/p/';
+    var url = '';
 
     if (dataset.filterType == 'students') {
       url += 'students/' + dataset.filterDatum.id;
@@ -441,8 +440,7 @@ app.controller('PerformanceCtrl', function($scope, $routeParams, Restangular, $h
     };
     dataset.id = panel.id;
 
-    $http.get(url).success(function(data) {
-      console.log(data);
+    Restangular.all('p').customGETLIST(url).then(function(data) {
       if (dataset.criterionId) {
         $scope.graphCriterion(dataset, data[0], series);
       } else if (dataset.assessmentId) {
