@@ -1,11 +1,19 @@
-app = angular.module('pw', ['restangular','ngGrid']);
+app = angular.module('pw', ['restangular', 'ngGrid']);
 
 /*
  * Maps routes to controllers. Notice that the controller
  * module gets passed as an argument into the app constructor.
  */
 app.config(function($routeProvider, RestangularProvider) {
-  RestangularProvider.setDefaultHeaders({authToken: 'testTokenValue'});
+  //RestangularProvider.setDefaultHeaders({authToken: 'testTokenValue'});
+
+  RestangularProvider.setFullRequestInterceptor(function(element, operation, route, url, headers, params) {
+    return {
+      element: element,
+      params: params,
+      headers: _.extend(headers, {authToken: 'testTokenValue'})
+    };
+  });
 
   $routeProvider.
     when('/classes', {
@@ -72,7 +80,6 @@ app.config(function($routeProvider, RestangularProvider) {
     }).
     otherwise({redirectTo: '/classes'}); //change to /login after adding authentication
 });
-
 
 
 /* Bulk performance service */
