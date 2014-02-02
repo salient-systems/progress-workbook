@@ -500,14 +500,14 @@ assessment_type.getList('assessments').then(function(thereturn){
     if(criterion.score != null){
     if(criterion.score.length != 0){
       criterion.score = Number(criterion.score);
-    }}
+    // }}c
   	if ($scope.oldValue !== criterion.score){
   	  if(criterion.score.length == 0){
   	  	criterion.score = null;
   	  }else{
   	  	criterion.score = Number(criterion.score);
   	  }
-  	  var editable = Restangular.copy(criterion);
+  	  // var editable = Restangular.copy(criterion);
   	  editable.route = "criterion_grades";
   	  editable.put();
   	  recalc();
