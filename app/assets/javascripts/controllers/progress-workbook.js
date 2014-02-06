@@ -25,31 +25,28 @@ app.factory('Token', function () {
 app.factory('UserService', function () {
   var sdo = {
     isLogged: false,
-    userName: '',
-    userRole: 'admin'
+    username: '',
+    userRole: ''
   };
 
   return sdo;
 });
 
-/*
+
 app.run(['$rootScope','$location', 'UserService',
   function ($rootScope, $location, UserService) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
-      if (next.clientLevel === UserService.userRole){
-        console.log('Access granted: role matches');
-      } else if (UserService.userRole != '') {
-        if(next.clientLevel != UserService.userRole){
-          console.log('current routelevel = ' + next.clientLevel + ' userService role = ' + UserService.userRole);
-          $location.path('/classes');
-        }
-      } else if (UserService.userRole === '') {
+      if (next.clientLevel === UserService.userRole || (typeof next.clientLevel === 'undefined' && UserService.userRole !== '')) {
+        console.log('Access granted');
+      } else if (next.clientLevel !== UserService.userRole && UserService.userRole !== '') {
+        $location.path('/classes');
+      } else {
         $location.path('/login');
       }
     });
   }
-]);*/
+]);
 
 
 /**** Configuration ****/
