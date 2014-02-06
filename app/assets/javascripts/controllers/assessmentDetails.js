@@ -72,11 +72,11 @@ app.controller('AssessmentCtrl', function($scope, $routeParams, Restangular) {
   $scope.setStudent = function (student) {
   };
 
-  $scope.plotitv2 = function(index,studentindex){
-    var idnum = '#student'+index;
-    var idnumpop = '#studentplot'+index;
-    var legendcontainer = '#legend'+index;
-    var options = {
+$scope.plotitv2 = function(index,studentindex){
+   var idnum = '#student'+index;
+   var idnumpop = '#studentplot'+index;
+   var legendcontainer = '#legend'+index;
+   var options = {
     series: {
         lines: { show: true },
         points: { show: true }

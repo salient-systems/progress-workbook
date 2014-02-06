@@ -13,6 +13,8 @@ Pwtest::Application.routes.draw do
   get '/p/students/:sid/assesstype/:aid' => 'performance#studentAssessType', :defaults => { :format => 'json' }
   get '/p/students/:sid/assessment/:aid' => 'performance#studentAssessment', :defaults => { :format => 'json' }
 
+  post '/login' => 'login#login', :defaults => { :format => 'json' }
+
   # REST endpoints
   resources :studentassessments
 
