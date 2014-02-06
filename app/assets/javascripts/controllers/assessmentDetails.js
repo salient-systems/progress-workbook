@@ -104,7 +104,7 @@ $scope.plotitv2 = function(index,studentindex){
   $scope.createTemplate = function(index) {
     var testTemplate;
     var student = $scope.students[index];
-    
+
       var datasets = [{
         filterType: 'students',
         filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
@@ -127,7 +127,7 @@ $scope.plotitv2 = function(index,studentindex){
 
       var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
       testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
-    
+
     return testTemplate;
   };
 
@@ -136,7 +136,7 @@ $scope.plotitv2 = function(index,studentindex){
     console.log("studentindex: " + studentindex);
     var testTemplate;
     var student = $scope.students[studentindex];
-    
+
       var datasets = [{
         filterType: 'students',
         filterDatum: {id: student.id, value: student.fname + ' ' + student.lname},
@@ -159,7 +159,7 @@ $scope.plotitv2 = function(index,studentindex){
 
       var graphUrl = '#/performance?datasets=' + encodeURIComponent(JSON.stringify(datasets));
       testTemplate = '<div style="height: 90px; width: 210px;"><a href="' + graphUrl + '"><div id="studentplot' + index +'" style="height: 90px; width: 150px;"></div></a><div id="legend' + index +'" style="position:absolute;top: 50px; left: 165px;"></div></div>';
-    
+
     return testTemplate;
   };
 
@@ -220,7 +220,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 			$scope.numOfCrit[z] = 1;
 		}
 	}
-	
+
 	z = 0;
 	currentassessment = thereturn[0].assessment_id;
 	for(var i = 1; i < thereturn.length; i++){
@@ -232,7 +232,7 @@ assessment_type.getList('assessments').then(function(thereturn){
       $scope.showAssessment[i] = true;
     }
   }
-	
+
 
 	$scope.sizeAssessment = [];
 	z = 0;
@@ -303,7 +303,7 @@ assessment_type.getList('assessments').then(function(thereturn){
        }
 
        //console.log($scope.criterions);
-       
+
        //Calculating Assessment Totals
        var counter = 0;
        for(var j = 0; j < $scope.assessments.length; j++){
@@ -319,7 +319,7 @@ assessment_type.getList('assessments').then(function(thereturn){
       	   counter++;
          }
        }
-       
+
        for(var i = 0; i < $scope.assessments.length; i++){
     	   $scope.assessments[i].percent = Math.floor($scope.assessments[i].total / $scope.assessments[i].present / $scope.assessments[i].max * 100);
     	   if(isNaN($scope.assessments[i].percent)){
@@ -334,9 +334,9 @@ assessment_type.getList('assessments').then(function(thereturn){
          for(var j = 0; j < $scope.criterions.length; j++){
           $scope.students[i].total = $scope.students[i].total + thereturn[i].scores[j].score;
           if($scope.criterions.present[j] != 0){
-            $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;  
+            $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
           }
-          
+
          }
        }
 
@@ -359,10 +359,10 @@ assessment_type.getList('assessments').then(function(thereturn){
              if($scope.section.present < $scope.assessments[i].present){
                $scope.section.present = $scope.assessments[i].present;
              }
-           }   
+           }
          }
-       }   
-       
+       }
+
        $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore / $scope.section.present * 100);
        if(isNaN($scope.section.totalpercent)){
          $scope.section.totalpercent = 0;
@@ -430,7 +430,7 @@ assessment_type.getList('assessments').then(function(thereturn){
         placement : 'right',
         trigger: 'click',
       });
-      
+
       $("[rel=popover-down]").popover({
         html: true,
         placement : 'bottom',
@@ -498,16 +498,16 @@ assessment_type.getList('assessments').then(function(thereturn){
 
   $scope.saveGrade = function(criterion) {
     if(criterion.score != null){
-    if(criterion.score != null && criterion.score.length != 0){
+    if(criterion.score.length != 0){
       criterion.score = Number(criterion.score);
-    }}
-  	if ($scope.oldValue != criterion.score){
+    // }}c
+  	if ($scope.oldValue !== criterion.score){
   	  if(criterion.score.length == 0){
   	  	criterion.score = null;
   	  }else{
   	  	criterion.score = Number(criterion.score);
   	  }
-  	  var editable = Restangular.copy(criterion);
+  	  // var editable = Restangular.copy(criterion);
   	  editable.route = "criterion_grades";
   	  editable.put();
   	  recalc();
@@ -569,9 +569,9 @@ assessment_type.getList('assessments').then(function(thereturn){
           $scope.students[i].total = $scope.students[i].total + $scope.students[i].scores[j].score;
         }
         if($scope.criterions.present[j] != 0){
-          $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;  
+          $scope.students[i].max = $scope.students[i].max + $scope.criterions[j].max;
         }
-       	
+
       }
     }
 
@@ -653,10 +653,10 @@ assessment_type.getList('assessments').then(function(thereturn){
              if($scope.section.present < $scope.assessments[i].present){
                $scope.section.present = $scope.assessments[i].present;
              }
-           }   
+           }
          }
-       }   
-       
+       }
+
        $scope.section.totalpercent = Math.floor($scope.section.totalscore / $scope.section.maxscore / $scope.section.present * 100);
        if(isNaN($scope.section.totalpercent)){
          $scope.section.totalpercent = 0;
@@ -671,7 +671,7 @@ assessment_type.getList('assessments').then(function(thereturn){
 
   $scope.checkVal = function(criterion) {
   	//criterion.score = Number(criterion.score);
-  	$scope.oldValue = Number(criterion.score);
+  	$scope.oldValue = criterion.score == null ? null : Number(criterion.score);
   };
 
   $scope.nochange = function(criterion){
@@ -827,7 +827,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
           newCrit.id = thereturn.id;
           newCrit.route = "criterions";
           console.log(newCrit);
-          $scope.criterions.push(newCrit);            
+          $scope.criterions.push(newCrit);
         });
       });
       console.log(newAssessRestCopy);
@@ -849,7 +849,7 @@ app.controller('EditCriteriaBasedCtrl', function($scope, $routeParams, Restangul
     for(var i = 0; i < $scope.editView2Assessments.length; i++){
       console.log(indexToRemoveEdit + (i * $scope.editView2Criterions.length));
       $scope.criterions.splice((indexToRemoveEdit + (i * $scope.editView2Criterions.length) - i), 1);
-    }    
+    }
     $scope.editView2Criterions.splice(indexToRemoveEdit, 1);
     console.log($scope.criterions);
   };

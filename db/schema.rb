@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120164809) do
+ActiveRecord::Schema.define(version: 20140201232906) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "assessment_grades", force: true do |t|
     t.float    "total"
@@ -147,6 +150,7 @@ ActiveRecord::Schema.define(version: 20131120164809) do
     t.string   "password",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "salt"
   end
 
 end
