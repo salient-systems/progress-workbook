@@ -1,9 +1,59 @@
 app = angular.module('pw', ['restangular', 'ngGrid']);
 
+/**** Authentication ****/
+
+app.factory('Token', function () {
+  var token = '';
+  var filter = '';
+
+  return {
+    returnToken: function () {
+     return this.token;
+    },
+    returnFilter: function () {
+      return this.filter;
+    },
+    setToken: function(token) {
+      this.token = token;
+    },
+    setFilter: function(filter) {
+      this.filter = filter;
+    }
+  };
+});
+
+app.factory('UserService', function () {
+  var sdo = {
+    isLogged: false,
+    userName: '',
+    userRole: 'admin'
+  };
+
+  return sdo;
+});
+
 /*
- * Maps routes to controllers. Notice that the controller
- * module gets passed as an argument into the app constructor.
- */
+app.run(['$rootScope','$location', 'UserService',
+  function ($rootScope, $location, UserService) {
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+
+      if (next.clientLevel === UserService.userRole){
+        console.log('Access granted: role matches');
+      } else if (UserService.userRole != '') {
+        if(next.clientLevel != UserService.userRole){
+          console.log('current routelevel = ' + next.clientLevel + ' userService role = ' + UserService.userRole);
+          $location.path('/classes');
+        }
+      } else if (UserService.userRole === '') {
+        $location.path('/login');
+      }
+    });
+  }
+]);*/
+
+
+/**** Configuration ****/
+
 app.config(function($routeProvider, RestangularProvider) {
   //RestangularProvider.setDefaultHeaders({authToken: 'testTokenValue'});
 
@@ -51,11 +101,13 @@ app.config(function($routeProvider, RestangularProvider) {
     }).
     when('/users', {
       templateUrl: 'templates/users.html',
-      controller: 'UserListCtrl'
+      controller: 'UserListCtrl',
+      clientLevel: 'admin'
     }).
       when('/users/:id', {
       templateUrl: 'templates/user.html',
-      controller: 'UserCtrl'
+      controller: 'UserCtrl',
+      clientLevel: 'admin'
     }).
     when('/cohorts', {
       templateUrl: 'templates/cohorts.html',
@@ -76,13 +128,15 @@ app.config(function($routeProvider, RestangularProvider) {
       templateUrl: 'templates/about.html'
     }).
       when('/login', {
-      templateUrl: 'templates/login.html'
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
     }).
     otherwise({redirectTo: '/classes'}); //change to /login after adding authentication
 });
 
+/**** Services ****/
 
-/* Bulk performance service */
+// Bulk performance service
 app.factory('graphConfig', function(Restangular) {
   var publicScope = {
     sectionStatistics: [
@@ -255,9 +309,9 @@ app.factory('graphConfig', function(Restangular) {
   return publicScope;
 });
 
-/*
- * Directives
- */
+/**** Directives ****/
+
+
 app.directive('ngBlur', function () {
   // AngularJS does not support the onBlur event (as well as the onFocus).
   // However, this can be overcome by adding a "simple" directive.
@@ -313,32 +367,32 @@ app.directive('checkList', function() {
 
 
 app.directive('resize', function ($window) {
-	return function (scope, element) {
-		var w = angular.element($window);
-		scope.$watch(function () {
-			return { 'h': w.height(), 'w': w.width() };
-		}, function (newValue, oldValue) {
-			scope.windowHeight = newValue.h;
-			if(newValue.h < 500) {
-			  newValue.h = 700;
-			}
+  return function (scope, element) {
+    var w = angular.element($window);
+    scope.$watch(function () {
+      return { 'h': w.height(), 'w': w.width() };
+    }, function (newValue, oldValue) {
+      scope.windowHeight = newValue.h;
+      if(newValue.h < 500) {
+        newValue.h = 700;
+      }
             //scope.windowWidth = newValue.w;
             var offset = 260;
             var gridHeight = (newValue.h - offset) + 'px';
             document.getElementById("var-height-grid").style.height=gridHeight;
             scope.style = function () {
-				return {
+        return {
                     'height': (newValue.h - offset) + 'px',
                     //'width': (newValue.w - 100) + 'px'
                 };
-			};
+      };
 
-		}, true);
+    }, true);
 
-		w.bind('resize', function () {
-			scope.$apply();
-		});
-	};
+    w.bind('resize', function () {
+      scope.$apply();
+    });
+  };
 });
 
 app.directive('resize2', function ($window) {
@@ -387,35 +441,3 @@ app.controller('NavCtrl', function($scope, $location, $route) {
   });
 });
 
-//framework setup for the flot graph
-app.directive('chart', function(){
-  return{
-  restrict: 'EA',
-  link: function(scope, elem, attrs){
-    var chart = null,
-      options = {
-        xaxis: {
-          ticks:[[0,'Daft'],[1,'Punk']]
-        },
-        grid: {
-          labelMargin: 10,
-          backgroundColor: '#e2e6e9',
-          color: '#ffffff',
-          borderColor: null
-        }
-      };
-
-      var data = scope[attrs.ngModel];
-      // If the data changes somehow, update it in the chart
-      scope.$watch(attrs.ngModel, function(v){
-        if(!chart){
-          chart = $.plot(elem, v , options);
-          elem.show();
-      }else{
-        chart.setData(v);
-        chart.setupGrid();
-        chart.draw();
-      }
-    });
-  }};
-});
