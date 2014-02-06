@@ -440,4 +440,3 @@ app.controller('NavCtrl', function($scope, $location, $route) {
     $scope[path] = "active";
   });
 });
-

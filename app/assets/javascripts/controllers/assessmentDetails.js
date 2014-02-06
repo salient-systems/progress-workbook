@@ -500,7 +500,7 @@ assessment_type.getList('assessments').then(function(thereturn){
     if(criterion.score != null){
     if(criterion.score.length != 0){
       criterion.score = Number(criterion.score);
-    }
+    }}
   	if ($scope.oldValue !== criterion.score){
   	  if(criterion.score.length == 0){
   	  	criterion.score = null;
